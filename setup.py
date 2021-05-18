@@ -13,7 +13,7 @@ ver_file = os.path.join("imbalanced_ensemble", "_version.py")
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = "imbalanced_ensemble"
+DISTNAME = "imbalanced-ensemble"
 DESCRIPTION = "Toolbox for ensemble learning on class-imbalanced dataset."
 
 # with codecs.open("README.rst", encoding="utf-8-sig") as f:
@@ -57,7 +57,6 @@ INSTALL_REQUIRES = [
     "pandas>=1.1.3"
     "joblib>=0.11",
     "scikit-learn>=0.24",
-    "imbalanced-learn>=0.7.0",
     "matplotlib>=3.3.2",
     "seaborn>=0.11.0",
     "tqdm>=4.50.2",
@@ -91,6 +90,7 @@ setup(
     version=VERSION,
     download_url=DOWNLOAD_URL,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
     zip_safe=False,  # the package can run out of an .egg file
     classifiers=CLASSIFIERS,
     packages=find_packages(),
