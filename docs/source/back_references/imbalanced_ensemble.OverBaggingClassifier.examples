@@ -1,0 +1,23 @@
+
+
+Examples using ``imbalanced_ensemble.OverBaggingClassifier``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of the ensemble estimators  (:class:`imbalanced_ensemble.ens...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/basic/images/thumb/sphx_glr_plot_basic_example_thumb.png
+     :alt: Basic usage example of ``imbalanced_ensemble``
+
+     :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`

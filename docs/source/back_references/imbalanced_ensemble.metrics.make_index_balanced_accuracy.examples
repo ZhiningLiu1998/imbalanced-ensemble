@@ -1,0 +1,23 @@
+
+
+Examples using ``imbalanced_ensemble.metrics.make_index_balanced_accuracy``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Specific metrics have been developed to evaluate classifier which has been trained using imbala...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/evaluation/images/thumb/sphx_glr_plot_metrics_thumb.png
+     :alt: Metrics specific to imbalanced learning
+
+     :ref:`sphx_glr_auto_examples_evaluation_plot_metrics.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_evaluation_plot_metrics.py`
