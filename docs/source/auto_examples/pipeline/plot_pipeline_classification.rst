@@ -34,10 +34,10 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 .. code-block:: default
 
 
+    # Adapted from imbalanced-learn
     # Authors: Christos Aridas
     #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
-    # Adapted from imbalanced-learn
 
 
 
@@ -164,7 +164,6 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
  .. code-block:: none
 
-    {}
                   precision    recall  f1-score   support
 
                0       0.99      0.99      0.99       375
@@ -181,7 +180,7 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  56.280 seconds)
+   **Total running time of the script:** ( 0 minutes  43.458 seconds)
 
 **Estimated memory usage:**  13 MB
 

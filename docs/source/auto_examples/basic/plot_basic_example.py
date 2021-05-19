@@ -20,6 +20,14 @@ to visualize and compare different ensemble classifiers.
 # Authors: Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+
+# %%
+print(__doc__)
+
+import imbalanced_ensemble as imbens
+
+RANDOM_STATE = 0
+
 # %% [markdown]
 # Import imbalanced_ensemble
 # ----------------------------
@@ -27,20 +35,17 @@ to visualize and compare different ensemble classifiers.
 # First, we will import necessary packages and implement 
 # some utilities for data visualization
 
-import imbalanced_ensemble as imbens
-from imbalanced_ensemble.ensemble.under_sampling import (
-    SelfPacedEnsembleClassifier,
-    RUSBoostClassifier,
-    EasyEnsembleClassifier,
-    BalancedRandomForestClassifier,
-)
-from imbalanced_ensemble.ensemble.over_sampling import (
-    SMOTEBoostClassifier,
-    OverBaggingClassifier,
-)
 
-import pandas as pd
+from imbalanced_ensemble.ensemble.under_sampling import SelfPacedEnsembleClassifier
+from imbalanced_ensemble.ensemble.under_sampling import RUSBoostClassifier
+from imbalanced_ensemble.ensemble.under_sampling import EasyEnsembleClassifier
+from imbalanced_ensemble.ensemble.under_sampling import BalancedRandomForestClassifier
+
+from imbalanced_ensemble.ensemble.over_sampling import SMOTEBoostClassifier
+from imbalanced_ensemble.ensemble.over_sampling import OverBaggingClassifier
+
 import time
+import pandas as pd
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -127,7 +132,7 @@ def plot_2Dprojection_and_cardinality(X, y, figsize=(10, 4), vis_params=vis_para
 
 X, y = make_classification(n_classes=3, class_sep=2, # 3-class
     weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-    n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
 
 X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
 
@@ -142,11 +147,12 @@ plt.show()
 # %% [markdown]
 # Train some imbalanced_ensemble classifiers
 # --------------------------------------------------
+# (with `train_verbose` enabled)
 
 # Set training parameters
 init_kwargs = {
     'n_estimators': 50,
-    'random_state': 10,
+    'random_state': RANDOM_STATE,
 }
 fit_kwargs = {
     'X': X_train,
@@ -221,42 +227,30 @@ from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 # Fit visualizer
 visualizer = ImbalancedEnsembleVisualizer().fit(
     ensembles = ensembles,
-    granularity = 5,
+    granularity = 10,
 )
 
 # %% [markdown]
-# plot performance curves w.r.t. number of base estimators
+# Plot performance curves w.r.t. number of base estimators
 
 fig, axes = visualizer.performance_lineplot(
     n_samples_as_x_axis=False,
-    alpha=0.6,
+    alpha=0.7,
 )
 plt.show()
 
 # %% [markdown]
-# plot performance curves w.r.t. number of training samples
-# split subfigures by datasets
+# Plot performance curves w.r.t. number of training samples (split subfigures by datasets)
 
 fig, axes = visualizer.performance_lineplot(
     split_by=['dataset'],
     n_samples_as_x_axis=True,
-    alpha=0.6,
+    alpha=0.7,
 )
 plt.show()
 
 # %% [markdown]
-# plot performance curves w.r.t. number of training samples
-# split subfigures by datasets
-
-fig, axes = visualizer.performance_lineplot(
-    split_by=['dataset'],
-    n_samples_as_x_axis=False,
-    alpha=0.6,
-)
-plt.show()
-
-# %% [markdown]
-# plot confusion matrices for selected methods/datasets
+# Plot confusion matrices for selected methods/datasets
 
 fig, axes = visualizer.confusion_matrix_heatmap(
     on_ensembles=['spe', 'smoteboost'],
@@ -266,7 +260,7 @@ fig, axes = visualizer.confusion_matrix_heatmap(
 plt.show()
 
 # %% [markdown]
-# plot confusion matrices for all methods/datasets
+# Plot confusion matrices for all methods/datasets
 
 fig, axes = visualizer.confusion_matrix_heatmap(
     sub_figsize=(4, 3.3),

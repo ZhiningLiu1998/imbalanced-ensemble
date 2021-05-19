@@ -10,9 +10,9 @@ similar to :mod:`sklearn`, with additional metrics specific to imbalanced
 learning problem.
 """
 
+# Adapted from imbalanced-learn
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
-# Adapted from imbalanced-learn
 
 
 from sklearn import datasets

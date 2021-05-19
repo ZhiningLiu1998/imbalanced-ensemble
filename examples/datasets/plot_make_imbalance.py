@@ -8,11 +8,11 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 :func:`~imbalanced_ensemble.datasets.make_imbalance` of dealing with Pandas DataFrame.
 """
 
+# Adapted from imbalanced-learn
 # Authors: Dayvid Oliveira
 #          Christos Aridas
 #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
-# Adapted from imbalanced-learn
 
 # %%
 print(__doc__)

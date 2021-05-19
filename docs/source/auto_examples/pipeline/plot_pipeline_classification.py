@@ -11,10 +11,10 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 :class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`).
 """
 
+# Adapted from imbalanced-learn
 # Authors: Christos Aridas
 #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
-# Adapted from imbalanced-learn
 
 # %%
 print(__doc__)

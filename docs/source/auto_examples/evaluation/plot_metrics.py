@@ -10,9 +10,9 @@ geometric mean (:func:`imbalanced_ensemble.metrics.geometric_mean_score`)
 and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_balanced_accuracy`).
 """
 
+# Adapted from imbalanced-learn
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
-# Adapted from imbalanced-learn
 
 # %%
 print(__doc__)

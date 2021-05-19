@@ -33,9 +33,9 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 .. code-block:: default
 
 
+    # Adapted from imbalanced-learn
     # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
-    # Adapted from imbalanced-learn
 
 
 
@@ -158,7 +158,6 @@ in `y_test`.
 
  .. code-block:: none
 
-    {}
     C:\Softwares\Anaconda3\lib\site-packages\sklearn\svm\_base.py:985: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
       warnings.warn("Liblinear failed to converge, increase "
 
@@ -257,9 +256,9 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  24.751 seconds)
+   **Total running time of the script:** ( 1 minutes  5.239 seconds)
 
-**Estimated memory usage:**  14 MB
+**Estimated memory usage:**  13 MB
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:

@@ -31,11 +31,11 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 .. code-block:: default
 
 
+    # Adapted from imbalanced-learn
     # Authors: Dayvid Oliveira
     #          Christos Aridas
     #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
-    # Adapted from imbalanced-learn
 
 
 
@@ -182,7 +182,7 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  51.611 seconds)
+   **Total running time of the script:** ( 0 minutes  43.801 seconds)
 
 **Estimated memory usage:**  17 MB
 
