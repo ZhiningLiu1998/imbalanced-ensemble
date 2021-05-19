@@ -280,7 +280,6 @@ class Pipeline(pipeline.Pipeline):
                 fit_params_last_step = fit_params_steps[self.steps[-1][0]]
                 if sample_weight is not None:
                     fit_params_last_step['sample_weight'] = sample_weight
-                print (fit_params_last_step)
                 self.n_training_samples_ = Xt.shape[0]
                 self._final_estimator.fit(Xt, yt, **fit_params_last_step)
         return self
