@@ -1,5 +1,5 @@
-Install `imbalanced_ensemble`
-*******************************
+Install imbalanced-ensemble
+***************************
 
 Prerequisites
 =============
@@ -26,6 +26,12 @@ You can install imbalanced-ensemble from
 .. code-block:: bash
 
     > pip install imbalanced-ensemble
+
+Please make sure the latest version is installed to avoid potential problems:
+
+.. code-block:: bash
+
+    > pip install --upgrade imbalanced-ensemble
 
 Clone from GitHub
 ^^^^^^^^^^^^^^^^^

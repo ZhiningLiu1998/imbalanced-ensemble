@@ -22,7 +22,7 @@ Ensemble imbalanced learning (EIL) is known to effectively improve typical
 IL solutions by combining the outputs of multiple classifiers, thereby 
 reducing the variance introduce by resampling/reweighting. 
 
-About `imbalanced_ensemble`
+About ``imbalanced_ensemble``
 ====================================
 
 ``imbalanced_ensemble`` aims to provide users with easy-to-use EIL methods 

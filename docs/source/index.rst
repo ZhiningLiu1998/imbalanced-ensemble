@@ -42,13 +42,36 @@ Welcome to imbalanced-ensemble documentation!
       </a>
    </p>
 
+.. raw:: html
+
+   <h3>
+      [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
+      [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
+      [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
+      [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
+      [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
+   </h3>
+
 **Date**: |today| **Version**: |version|
 
-*Imbalanced-ensemble* (import as :mod:``imbalanced_ensemble``) 
-is an open source, MIT-licensed Python toolbox for ensemble 
-imbalanced learning. It was built on the basis of `scikit-learn <https://scikit-learn.org/stable/index.html>`__
+**imbalanced-ensemble** (IMBENS, imported as ``imbalanced_ensemble``) is a Python toolbox 
+for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
+It was built on the basis of `scikit-learn <https://scikit-learn.org/stable/index.html>`__
 and `imbalanced-learn <https://imbalanced-learn.org/stable/>`__.
+IMBENS includes more than 15 ensemble imbalanced learning (EIL) algorithms, from the 
+classical SMOTEBoost (2003) and RUSBoost (2010) to recent SPE (2020), from resampling-based 
+methods to cost-sensitive ensemble learning.
 
+**IMBENS is featured for:**
+
+- Unified, easy-to-use API design.
+- Capable for multi-class imbalanced learning out-of-box.
+- Optimized performance with parallelization when possible using 
+  `joblib <https://github.com/joblib/joblib>`__.
+- Powerful, customizable, interactive training logging and visualizer.
+- Full compatibility with other popular packages like 
+  `scikit-learn <https://scikit-learn.org/stable/>`__ and 
+  `imbalanced-learn <https://imbalanced-learn.org/stable/>`__.
 
 .. toctree::
    :maxdepth: 3
