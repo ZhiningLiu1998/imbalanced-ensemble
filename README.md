@@ -187,13 +187,15 @@ Read more details in the [**fit documentation**](https://imbalanced-ensemble.rea
 
 **Customize granularity and content of the training log**
 ```python
->>> clf.fit(X_train, y_train, 
-...         train_verbose={
-...             'granularity': 10,
-...             'print_distribution': False,
-...             'print_metrics': True,
-...         }
-...     )
+clf.fit(X_train, y_train, 
+        train_verbose={
+            'granularity': 10,
+            'print_distribution': False,
+            'print_metrics': True,
+        }
+    )
+```
+```
 ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃             ┃            Data: train             ┃
 ┃ #Estimators ┃               Metric               ┃
@@ -211,14 +213,16 @@ Read more details in the [**fit documentation**](https://imbalanced-ensemble.rea
 ```
 **Add evaluation dataset(s)**
 ```python
->>> clf.fit(X_train, y_train, 
-...         eval_datasets={'valid': (X_valid, y_valid)},
-...         train_verbose={
-...             'granularity': 10,
-...             'print_distribution': False,
-...             'print_metrics': True,
-...         }
-...     )
+clf.fit(X_train, y_train, 
+        eval_datasets={'valid': (X_valid, y_valid)},
+        train_verbose={
+            'granularity': 10,
+            'print_distribution': False,
+            'print_metrics': True,
+        }
+    )
+```
+```
 ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃             ┃            Data: train             ┃            Data: valid             ┃
 ┃ #Estimators ┃               Metric               ┃               Metric               ┃
@@ -236,19 +240,21 @@ Read more details in the [**fit documentation**](https://imbalanced-ensemble.rea
 ```
 **Customize evaluation metric(s)**
 ```python
->>> from sklearn.metrics import accuracy_score, f1_score
->>> clf.fit(X_train, y_train, 
-...         eval_datasets={'valid': (X_valid, y_valid)},
-...         eval_metrics={
-...             'acc': (accuracy_score, {}),
-...             'balanced_acc': (balanced_accuracy_score, {}),
-...         }
-...         train_verbose={
-...             'granularity': 10,
-...             'print_distribution': False,
-...             'print_metrics': True,
-...         }
-...     )
+from sklearn.metrics import accuracy_score, f1_score
+clf.fit(X_train, y_train, 
+        eval_datasets={'valid': (X_valid, y_valid)},
+        eval_metrics={
+            'acc': (accuracy_score, {}),
+            'balanced_acc': (balanced_accuracy_score, {}),
+        }
+        train_verbose={
+            'granularity': 10,
+            'print_distribution': False,
+            'print_metrics': True,
+        }
+    )
+```
+```
 ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃             ┃     Data: train      ┃     Data: valid      ┃
 ┃ #Estimators ┃        Metric        ┃        Metric        ┃
