@@ -226,7 +226,7 @@ class ImbalancedEnsembleVisualizer():
         }
         
         
-    def fit(self, ensembles:dict, granularity:int=5,):
+    def fit(self, ensembles:dict, granularity:int=None,):
         """Fit visualizer to the given ensemble models.
         Collect data for visualization with the given granularity.
 
@@ -242,11 +242,13 @@ class ImbalancedEnsembleVisualizer():
             estimators should be sampled from the same task/distribution for 
             comparable visualization.
 
-        granularity : int, default=5
+        granularity : int, default=None
             The granularity of performance evaluation.
             For each (ensemble, eval_dataset) pair, the performance evaluation 
             is conducted by starting with empty ensemble, and add ``granularity`` 
-            fitted base estimators per round.
+            fitted base estimators per round. If ``None``, it will be set to
+            ``max_n_estimators/10``, where ``max_n_estimators`` is the maximum
+            number of base estimators among all models given in ``ensembles``.
               
             .. warning::
                 Setting a small ``granularity`` value can be costly when the 
@@ -267,7 +269,13 @@ class ImbalancedEnsembleVisualizer():
             self._check_ensembles_stored_n_training_samples()
         
         # Check granularity
-        granularity_ = check_type(granularity, 'granularity', numbers.Integral)
+        if granularity is not None:
+            granularity_ = check_type(granularity, 'granularity', numbers.Integral)
+        else:
+            max_n_estimators = max(
+                [len(ens.estimators_) for ens in self.ensembles_.values()]
+                )
+            granularity_ = max(int(max_n_estimators/5), 1)
         self.granularity_ = granularity_
 
         # Collect data for visualization
