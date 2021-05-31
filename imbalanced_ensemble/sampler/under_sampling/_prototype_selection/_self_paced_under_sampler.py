@@ -260,8 +260,14 @@ class SelfPacedUnderSampler(BaseUnderSampler):
 
             # compute the expected number of samples to be sampled from each bin
             bin_weights = 1. / (contributions + alpha)
-            bin_weights[np.isnan(bin_weights)] = 0
+            bin_weights[np.isnan(bin_weights)|np.isinf(bin_weights)] = 0
             n_target_samples_bins = n_target_samples_c * bin_weights / bin_weights.sum()
+            # check whether exists empty bins
+            n_invalid_samples = sum(n_target_samples_bins[populations==0])
+            if n_invalid_samples > 0:
+                n_valid_samples = n_target_samples_c-n_invalid_samples
+                n_target_samples_bins *= n_target_samples_c / n_valid_samples
+                n_target_samples_bins[populations==0] = 0
             n_target_samples_bins = n_target_samples_bins.astype(int)+1
 
         if soft_resample_flag:

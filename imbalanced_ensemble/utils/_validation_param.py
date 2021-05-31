@@ -263,7 +263,9 @@ def _progressive_schedule(origin_distr, target_distr, i_estimator, total_estimat
             f" got 'i_estimator' = {i_estimator} >= 'total_estimator' = {total_estimator}."
         )
     result_distr = {}
-    progress_ = i_estimator / (total_estimator-1)
+    if total_estimator == 1:
+        progress_ = 1
+    else: progress_ = i_estimator / (total_estimator-1)
     for label in origin_distr.keys():
         result_distr[label] = ceil(
             origin_distr[label]*(1.-progress_) + \

@@ -313,7 +313,7 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
             self._update_cached_prediction_probabilities(i_iter, X)
             
             # compute alpha
-            alpha = np.tan(np.pi*0.5*(i_iter/(n_estimators-1)))
+            alpha = np.tan(np.pi*0.5*(i_iter/(max(n_estimators-1, 1))))
 
             # Perform self-paced under-sampling
             resample_out = sampler.fit_resample(X, y, 
