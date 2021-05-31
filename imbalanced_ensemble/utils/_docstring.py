@@ -235,13 +235,25 @@ _eval_metrics_docstring = """eval_metrics : dict, default=None
               metrics' names. The values should be tuples corresponding to the metric 
               function (``callable``) and additional kwargs (``dict``).
 
-                - The metric function should at least take 2 positional arguments 
-                  ``y_true``, ``y_pred``, and returns a ``float`` as its score. 
-                - The metric additional kwargs should specify the additional arguments
-                  that need to be passed into the metric function. 
+                - The metric function should at least take 2 named/keyword arguments, 
+                  ``y_true`` and one of [``y_pred``, ``y_score``], and returns a float
+                  as the evaluation score. Keyword arguments:
+
+                  - ``y_true``, 1d-array of shape (n_samples,), true labels or binary 
+                    label indicators corresponds to ground truth (correct) labels.
+                  - When using ``y_pred``, input will be 1d-array of shape (n_samples,) 
+                    corresponds to predicted labels, as returned by a classifier.
+                  - When using ``y_score``, input will be 2d-array of shape (n_samples, 
+                    n_classes,) corresponds to probability estimates provided by the 
+                    predict_proba method. In addition, the order of the class scores 
+                    must correspond to the order of ``labels``, if provided in the metric 
+                    function, or else to the numerical or lexicographical order of the 
+                    labels in ``y_true``.
+                
+                - The metric additional kwargs should be a dictionary that specifies 
+                  the additional arguments that need to be passed into the metric function. 
             
-            Example: 
-            ``{'weighted_f1': (sklearn.metrics.f1_score, {'average': 'weighted'})}``
+            Example: ``{'weighted_f1': (sklearn.metrics.f1_score, {'average': 'weighted'})}``
             """.rstrip()
 
 _train_verbose_iterative_docstring = """train_verbose : bool, int or dict, default=True
@@ -274,7 +286,7 @@ _train_verbose_iterative_docstring = """train_verbose : bool, int or dict, defau
                 Setting a small ``'granularity'`` value with ``'print_metrics'`` enabled 
                 can be costly when the training/evaluation data is large or the metric 
                 scores are hard to compute. Normally, one can set ``'granularity'`` to 
-                ``n_estimators/10``.
+                ``n_estimators/10`` (this is used by default).
             """.rstrip()
 
 _train_verbose_parallel_docstring = """train_verbose : bool, default=True
