@@ -256,7 +256,7 @@ _eval_metrics_docstring = """eval_metrics : dict, default=None
             Example: ``{'weighted_f1': (sklearn.metrics.f1_score, {'average': 'weighted'})}``
             """.rstrip()
 
-_train_verbose_iterative_docstring = """train_verbose : bool, int or dict, default=True
+_train_verbose_iterative_docstring = """train_verbose : bool, int or dict, default=False
             Controls the verbosity during ensemble training/fitting.
 
             - If ``bool``: ``False`` means disable training verbose. ``True`` means 
@@ -289,7 +289,7 @@ _train_verbose_iterative_docstring = """train_verbose : bool, int or dict, defau
                 ``n_estimators/10`` (this is used by default).
             """.rstrip()
 
-_train_verbose_parallel_docstring = """train_verbose : bool, default=True
+_train_verbose_parallel_docstring = """train_verbose : bool, default=False
             Controls the verbosity during ensemble training/fitting.
             
             - ``False``: disable training verbose. 

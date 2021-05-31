@@ -215,7 +215,7 @@ class AsymBoostClassifier(ReweightBoostClassifier):
             cost_matrix='inverse',
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool or int or dict=True,
+            train_verbose:bool or int or dict=False,
             ):
         """Build a AsymBoost classifier from the training set (X, y).
 

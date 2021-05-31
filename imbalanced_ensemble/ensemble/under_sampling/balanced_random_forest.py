@@ -424,7 +424,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
             sample_weight=None,
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool=True,
+            train_verbose:bool or int or dict=False,
             ):
         """Build a forest of trees from the training set (X, y).
 

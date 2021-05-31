@@ -225,7 +225,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             balancing_schedule:str or function='uniform',
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool or int or dict=True,
+            train_verbose:bool or int or dict=False,
             ):
         
         # X, y, sample_weight, base_estimators_ (default=DecisionTreeClassifier),

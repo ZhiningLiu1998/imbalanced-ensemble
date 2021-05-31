@@ -276,7 +276,7 @@ class AdaUBoostClassifier(ReweightBoostClassifier):
             beta=None,
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool or int or dict=True,
+            train_verbose:bool or int or dict=False,
             ):
         """Build a AdaUBoost classifier from the training set (X, y).
 

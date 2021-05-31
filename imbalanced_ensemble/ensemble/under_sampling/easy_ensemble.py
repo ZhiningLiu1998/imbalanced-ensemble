@@ -245,7 +245,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
             max_samples=None,
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool=True,
+            train_verbose:bool or int or dict=False,
             ):
         """Build an EasyEnsemble classifier from the training set (X, y).
 

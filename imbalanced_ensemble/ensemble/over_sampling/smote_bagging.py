@@ -235,7 +235,7 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
             max_samples=None,
             eval_datasets:dict=None,
             eval_metrics:dict=None,
-            train_verbose:bool=True,
+            train_verbose:bool or int or dict=False,
             ):
         """Build a SMOTEBagging ensemble of estimators from the training set (X, y).
 
