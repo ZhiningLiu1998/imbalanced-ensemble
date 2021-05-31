@@ -247,7 +247,7 @@ class ImbalancedEnsembleVisualizer():
             For each (ensemble, eval_dataset) pair, the performance evaluation 
             is conducted by starting with empty ensemble, and add ``granularity`` 
             fitted base estimators per round. If ``None``, it will be set to
-            ``max_n_estimators/10``, where ``max_n_estimators`` is the maximum
+            ``max_n_estimators/5``, where ``max_n_estimators`` is the maximum
             number of base estimators among all models given in ``ensembles``.
               
             .. warning::
