@@ -31,13 +31,19 @@ except FileNotFoundError:
 MAINTAINER = "Zhining Liu"
 MAINTAINER_EMAIL = "zhining.liu@outlook.com"
 URL = "https://github.com/ZhiningLiu1998/imbalanced-ensemble"
+PROJECT_URLS = {
+    'Documentation': 'https://imbalanced-ensemble.readthedocs.io/',
+    'Source': 'https://github.com/ZhiningLiu1998/imbalanced-ensemble',
+    'Tracker': 'https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues',
+    'Changelog': 'https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html',
+    'Download': 'https://pypi.org/project/imbalanced-ensemble/#files',
+}
 LICENSE = "MIT"
-DOWNLOAD_URL = "https://github.com/ZhiningLiu1998/imbalanced-ensemble"
 VERSION = __version__
 CLASSIFIERS = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    "License :: OSI Approved",
+    "License :: OSI Approved :: MIT License",
     "Programming Language :: C",
     "Programming Language :: Python",
     "Topic :: Software Development",
@@ -50,6 +56,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
 ]
 INSTALL_REQUIRES = [
     "numpy>=1.16.0",
@@ -88,7 +95,7 @@ setup(
     license=LICENSE,
     url=URL,
     version=VERSION,
-    download_url=DOWNLOAD_URL,
+    project_urls=PROJECT_URLS,
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     zip_safe=False,  # the package can run out of an .egg file
