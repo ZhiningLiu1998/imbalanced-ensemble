@@ -231,10 +231,6 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         self.classes_, y = np.unique(y, return_inverse=True)
         self.n_classes_ = len(self.classes_)
-        
-        # Store original class distribution
-        self.origin_distr_ = dict(Counter(y))
-        self.target_distr_ = dict(Counter(y))
 
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
@@ -285,20 +281,25 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
             
             # Early termination.
             if sample_weight is None:
+                print (f"Training early-stop at iteration"
+                       f" {iboost+1}/{self.n_estimators}"
+                       f" (sample_weight is None).")
                 break
             
             # Stop if error is zero.
             if estimator_error == 0:
-                print (
-                    f"Training early-stop at iteration {iboost+1}"
-                    f" (training error is 0)."
-                    )
+                print (f"Training early-stop at iteration"
+                       f" {iboost+1}/{self.n_estimators}"
+                       f" (training error is 0).")
                 break
 
             sample_weight_sum = np.sum(sample_weight)
 
             # Stop if the sum of sample weights has become non-positive.
             if sample_weight_sum <= 0:
+                print (f"Training early-stop at iteration"
+                       f" {iboost+1}/{self.n_estimators}"
+                       f" (sample_weight_sum <= 0).")
                 break
 
             if iboost < self.n_estimators - 1:
