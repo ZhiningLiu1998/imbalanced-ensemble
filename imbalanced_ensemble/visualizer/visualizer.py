@@ -805,7 +805,7 @@ class ImbalancedEnsembleVisualizer():
         heatmap_kwargs_.update(heatmap_kwargs)
         
         # Set figure size and layout
-        n_rows_fig, n_columns_fig = n_ensembles, n_datasets
+        n_rows_fig, n_columns_fig = n_datasets, n_ensembles
         total_width, total_height = \
             sub_fig_width*n_columns_fig, sub_fig_height*n_rows_fig
         # If has sup_title, add reserved space
@@ -816,8 +816,8 @@ class ImbalancedEnsembleVisualizer():
         
         # Set titles for each column and row
         pad = 10
-        col_titles = ['On dataset: <{}>'.format(col) for col in on_datasets]
-        row_titles = ['Method: <{}>'.format(row) for row in on_ensembles]
+        row_titles = ['On dataset: <{}>'.format(col) for col in on_datasets]
+        col_titles = ['Method: <{}>'.format(row) for row in on_ensembles]
         # Set column titles
         for ax, col_title in zip(axes[0], col_titles):
             ax.annotate(col_title, xy=(0.5, 1), xytext=(0, pad),
@@ -832,8 +832,8 @@ class ImbalancedEnsembleVisualizer():
 
         # Plot confusion matrix heatmap on each ax
         conf_matrices = self.conf_matrices_
-        for ensemble_name, i_row in zip(on_ensembles, range(n_rows_fig)):
-            for dataset_name, i_col in zip(on_datasets, range(n_columns_fig)):
+        for dataset_name, i_row in zip(on_datasets, range(n_rows_fig)):
+            for ensemble_name, i_col in zip(on_ensembles, range(n_columns_fig)):
                 ax = axes[i_row, i_col]
                 conf_matrix_df = conf_matrices[ensemble_name][dataset_name]
                 # Use seaborn.heatmap for visualization
