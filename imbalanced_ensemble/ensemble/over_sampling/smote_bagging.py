@@ -70,7 +70,7 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
         If None, then the base estimator is a
         ``Pipeline([SMOTE(), DecisionTreeClassifier()])``.
 
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         The number of base estimators in the ensemble.
 
     k_neighbors : int or object, default=5
@@ -181,7 +181,7 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
     @_deprecate_positional_args
     def __init__(self,
                  base_estimator=None,
-                 n_estimators:int=10,
+                 n_estimators:int=50,
                  *,
                  k_neighbors:int=5,
                  max_samples=1.0,

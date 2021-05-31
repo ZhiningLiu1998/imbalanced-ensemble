@@ -64,7 +64,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     Parameters
     ----------
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         Number of AdaBoost learners in the ensemble.
 
     base_estimator : estimator object, default=AdaBoostClassifier(n_estimators=10)
@@ -178,7 +178,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     @_deprecate_positional_args
     def __init__(self,
-                 n_estimators:int=10,
+                 n_estimators:int=50,
                  *,
                  base_estimator=None,
                  max_samples=1.0,

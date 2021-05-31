@@ -81,7 +81,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         but need proper ``classes_`` and ``n_classes_`` attributes. 
         If ``None``, then the base estimator is ``DecisionTreeClassifier()``.
 
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         The number of base estimators in the ensemble.
 
     replacement : bool, default=True
@@ -145,7 +145,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
     
     def __init__(self, 
         base_estimator=None, 
-        n_estimators:int=10, 
+        n_estimators:int=50, 
         replacement:bool=True, 
         estimator_params=tuple(),
         n_jobs=None,

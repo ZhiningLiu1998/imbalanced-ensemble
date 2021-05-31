@@ -65,7 +65,7 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
         If None, then the base estimator is a
         ``Pipeline([RandomUnderSampler(), DecisionTreeClassifier()])``.
 
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         The number of base estimators in the ensemble.
 
     max_samples : int or float, default=1.0
@@ -179,7 +179,7 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     @_deprecate_positional_args
     def __init__(self,
                  base_estimator=None,
-                 n_estimators:int=10,
+                 n_estimators:int=50,
                  *,
                  max_samples=1.0,
                  max_features=1.0,

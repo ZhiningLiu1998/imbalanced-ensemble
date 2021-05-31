@@ -359,7 +359,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
     base_estimator : object
         The base estimator from which the ensemble is built.
 
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         The number of estimators in the ensemble.
 
     estimator_params : list of str, default=tuple()
@@ -384,7 +384,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
     
     def __init__(self, 
                  base_estimator, 
-                 n_estimators=10,
+                 n_estimators:int=50,
                  estimator_params=tuple(), 
                  random_state=None,
                  n_jobs=None, 

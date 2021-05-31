@@ -80,7 +80,7 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
         but need proper ``classes_`` and ``n_classes_`` attributes. 
         If ``None``, then the base estimator is ``DecisionTreeClassifier()``.
 
-    n_estimators : int, default=10
+    n_estimators : int, default=50
         The number of base estimators in the ensemble.
 
     k_bins : int, default=5

@@ -127,7 +127,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
     Parameters
     ----------
-    n_estimators : int, default=100
+    n_estimators : int, default=50
         The number of trees in the forest.
 
     criterion : {{"gini", "entropy"}}, default="gini"
@@ -324,7 +324,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
     @_deprecate_positional_args
     def __init__(
         self,
-        n_estimators=100,
+        n_estimators=50,
         *,
         criterion="gini",
         max_depth=None,
