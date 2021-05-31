@@ -7,6 +7,7 @@
 from copy import copy
 from warnings import warn
 from collections import Counter
+from inspect import signature
 
 import numbers
 import numpy as np
@@ -343,7 +344,22 @@ def _check_eval_metric_func(metric_func):
             f" please check your usage."
             + EVAL_METRICS_INFO
         )
-    return metric_func
+    if 'y_true' not in signature(metric_func).parameters:
+        raise RuntimeError(
+            f"The metric function must have the keyword argument 'y_true'"
+            f" (true labels or binary label indicators, 1d-array of shape (n_samples,))."
+        )
+    if 'y_pred' not in signature(metric_func).parameters and \
+        'y_score' not in signature(metric_func).parameters:
+        raise RuntimeError(
+            f"The metric function must have the keyword argument 'y_pred' or 'y_score'."
+            f" When use 'y_pred': it corresponds to predicted labels, 1d-array of shape (n_samples,)."
+            f" When use 'y_score': it corresponds to predicted labels, or an array of shape"
+            f" (n_samples, n_classes) of probability estimates provided by the predict_proba method.)"
+        )
+    accept_proba = 'y_score' in signature(metric_func).parameters
+    accept_labels = 'labels' in signature(metric_func).parameters
+    return metric_func, accept_proba, accept_labels
 
 
 def _check_eval_metric_args(metric_kwargs):
@@ -382,9 +398,13 @@ def _check_eval_metric_tuple(metric_tuple, metric_name):
             + EVAL_METRICS_INFO
         )
     else:
+        metric_func_, accept_proba, accept_labels = _check_eval_metric_func(metric_tuple[0])
+        metric_kwargs_ = _check_eval_metric_args(metric_tuple[1])
         return (
-            _check_eval_metric_func(metric_tuple[0]),
-            _check_eval_metric_args(metric_tuple[1]),
+            metric_func_,
+            metric_kwargs_,
+            accept_proba,
+            accept_labels,
         )
 
 
@@ -402,7 +422,7 @@ def _check_eval_metrics_dict(eval_metrics_dict):
 def check_eval_metrics(eval_metrics):
     """Check parameter `eval_metrics`."""
     if eval_metrics is None:
-        return EVAL_METRICS_DEFAULT
+        return _check_eval_metrics_dict(EVAL_METRICS_DEFAULT)
     elif isinstance(eval_metrics, dict):
         return _check_eval_metrics_dict(eval_metrics)
     else: 

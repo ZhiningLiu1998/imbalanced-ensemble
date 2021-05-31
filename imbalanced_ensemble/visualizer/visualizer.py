@@ -434,7 +434,7 @@ class ImbalancedEnsembleVisualizer():
         # Set local variables
         granularity = self.granularity_
         eval_metrics = self.eval_metrics_
-        classes = ensemble.classes_
+        classes_ = ensemble.classes_
         max_n_estimators = len(ensemble.estimators_)
         estimators_n_training_samples_ = self.ensembles_n_training_samples_[ensemble_name]
         has_n_training_samples_ = self.ensembles_has_n_training_samples_[ensemble_name]
@@ -454,15 +454,21 @@ class ImbalancedEnsembleVisualizer():
             # Collect performance data per ``granularity`` base estimators
             for i in iterations:
                 if (i+1) % granularity == 0 or i == 0 or (i+1) == max_n_estimators:
-                    curr_y_pred = classes.take(
-                        np.argmax(self._get_predict_proba(X_eval, ensemble, i), axis=1),axis=0)
+                    curr_y_pred_proba = self._get_predict_proba(X_eval, ensemble, i)
                     # Set number of training samples
                     if has_n_training_samples_:
                         n_samples = sum(estimators_n_training_samples_[:i+1])
                     # If cannot fetch n_training_samples_ array from the ensemble
                     else: n_samples = None
-                    for metric_name, (metric_func, kwargs) in eval_metrics.items():
-                        score = metric_func(y_eval, curr_y_pred, **kwargs)
+                    for metric_name, (metric_func, kwargs, ac_proba, ac_labels) \
+                                                        in eval_metrics.items():
+                        if ac_labels: kwargs['labels'] = classes_
+                        if ac_proba: # If the metric take predict probabilities
+                            score = metric_func(y_eval, curr_y_pred_proba, **kwargs)
+                        else: # If the metric do not take predict probabilities
+                            curr_y_pred = classes_.take(np.argmax(
+                                curr_y_pred_proba, axis=1), axis=0)
+                            score = metric_func(y_eval, curr_y_pred, **kwargs)
                         results.append([i+1, ensemble_name, dataset_name, 
                                         metric_name, score, n_samples])
                                         

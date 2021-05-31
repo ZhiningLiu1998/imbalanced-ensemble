@@ -12,6 +12,7 @@ from abc import ABCMeta, abstractmethod
 import numpy as np
 from collections import Counter
 from joblib import Parallel
+from inspect import signature
 
 import numpy as np
 from sklearn.base import ClassifierMixin, clone
@@ -107,11 +108,17 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         if return_value_dict == True:
             value_dict = {}
             for data_name, (X_eval, y_eval) in eval_datasets_.items():
-                y_predict = classes_.take(
-                    np.argmax(self.predict_proba(X_eval), axis=1),axis=0)
+                y_predict_proba = self.predict_proba(X_eval)
                 data_value_dict = {}
-                for metric_name, (metric_func, args) in eval_metrics.items():
-                    score = metric_func(y_eval, y_predict, **args)
+                for metric_name, (metric_func, kwargs, ac_proba, ac_labels) \
+                                                    in eval_metrics.items():
+                    if ac_labels: kwargs['labels'] = classes_
+                    if ac_proba: # If the metric take predict probabilities
+                        score = metric_func(y_eval, y_predict_proba, **kwargs)
+                    else: # If the metric do not take predict probabilities
+                        y_predict = classes_.take(np.argmax(
+                            y_predict_proba, axis=1), axis=0)
+                        score = metric_func(y_eval, y_predict, **kwargs)
                     data_value_dict[metric_name] = score
                 value_dict[data_name] = data_value_dict
             out = value_dict
@@ -126,10 +133,16 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                         verbose_format_['len_metrics'][metric_name], strip=False)
             else:
                 (X_eval, y_eval) = eval_datasets_[dataset_name]
-                y_predict = classes_.take(
-                    np.argmax(self.predict_proba(X_eval), axis=1),axis=0)
-                for metric_name, (metric_func, args) in eval_metrics.items():
-                    score = metric_func(y_eval, y_predict, **args)
+                y_predict_proba = self.predict_proba(X_eval)
+                for metric_name, (metric_func, kwargs, ac_proba, ac_labels) \
+                                                    in eval_metrics.items():
+                    if ac_labels: kwargs['labels'] = classes_
+                    if ac_proba: # If the metric take predict probabilities
+                        score = metric_func(y_eval, y_predict_proba, **kwargs)
+                    else: # If the metric do not take predict probabilities
+                        y_predict = classes_.take(np.argmax(
+                            y_predict_proba, axis=1), axis=0)
+                        score = metric_func(y_eval, y_predict, **kwargs)
                     eval_info = self._training_log_add_block(
                         eval_info, "{:.3f}".format(score), "", "", " ", 
                         verbose_format_['len_metrics'][metric_name], strip=False)
@@ -541,7 +554,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
             for i in range(n_jobs))
 
         # Reduce
-        proba = sum(all_proba) / self.n_estimators
+        proba = sum(all_proba) / len(self.estimators_)
 
         return proba
         
