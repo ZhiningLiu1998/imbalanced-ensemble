@@ -1,6 +1,4 @@
-<h1 align="center">
-Imbalanced Ensemble (IMBENS): <i>ensemble learning for class-imbalanced data in Python.</i>
-</h1>
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png)
 
 <p align="center">
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
@@ -35,17 +33,70 @@ Imbalanced Ensemble (IMBENS): <i>ensemble learning for class-imbalanced data in 
     <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
   </a>
 </p>
+<h3 align="center">
+  Imbalanced Ensemble: <i>ensemble learning for class-imbalanced data in Python.</i>
+  <br>
+  [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
+  [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
+  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
+  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
+  [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
+</h3>
 
+***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`) is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.**
+**The problem of learning from imbalanced data is also known as imbalanced learning or long-tail learning (under multi-class scenario).**
 
-***imbalanced-ensemble* (imported as `imbalanced_ensemble`) is a Python toolbox for quick implementing and deploying ensemble imbalanced learning algorithms.**
-This package aims to provide users with easy-to-use ensemble imbalanced learning (EIL) methods and related utilities, so that everyone can quickly deploy EIL algorithms to their tasks. The EIL methods implemented in this package have unified APIs and are compatible with other popular Python machine-learning packages such as [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).
+**IMBENS includes more than 15 ensemble imbalanced learning (EIL) algorithms, from the classical SMOTEBoost (2003) and RUSBoost (2010) to recent SPE (2020), from resampling-based methods to cost-sensitive ensemble learning.**
 
-**Installation documentation, API documentation, and examples can be found on the [documentation](https://imbalanced-ensemble.readthedocs.io/).**
+**IMBENS is featured for:**
+- &#x1F34E; **Unified, easy-to-use API design.**
+- &#x1F34E; **Capable for *multi-class* imbalanced learning out-of-box.**
+- &#x1F34E; **Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).**
+- &#x1F34E; **Powerful, customizable, interactive training logging and visualizer.**
+- &#x1F34E; **Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).**
 
-### Installation
+**API Demo:**
+```python
+# Train an SPE classifier
+from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier
+clf = SelfPacedEnsembleClassifier(random_state=42)
+clf.fit(X_train, y_train) 
+
+# Predict with an SPE classifier
+clf.predict(X)
+```
+
+### Table of Contents
+
+- [Installation](#installation)
+- [Highlights](#highlights)
+- [List of implemented methods](#list-of-implemented-methods)
+- [5-min Quick Start with IMBENS](#5-min-quick-start-with-imbens)
+  - [A minimal working example](#a-minimal-working-example)
+  - [Customizing training log](#customizing-training-log)
+  - [Visualize ensemble classifiers](#visualize-ensemble-classifiers)
+- [Acknowledgements](#acknowledgements)
+- [References](#references)
+
+## Installation
+
+It is recommended to use **pip** for installation.  
+Please make sure the **latest version** is installed to avoid potential problems:
+```shell
+$ pip install imbalanced-ensemble            # normal install
+$ pip install --upgrade imbalanced-ensemble  # update if needed
+```
+
+Or you can install imbalanced-ensemble by clone this repository:
+```shell
+$ git clone https://github.com/ZhiningLiu1998/imbalanced-ensemble.git
+$ cd imbalanced-ensemble
+$ pip install .
+```
 
 imbalanced-ensemble requires following dependencies:
 
+- [Python](https://www.python.org/) (>=3.6)
 - [numpy](https://numpy.org/) (>=1.16.0)
 - [pandas](https://pandas.pydata.org/) (>=1.1.3)
 - [scipy](https://www.scipy.org/) (>=0.19.1)
@@ -55,27 +106,6 @@ imbalanced-ensemble requires following dependencies:
 - [seaborn](https://seaborn.pydata.org/) (>=0.11.0)
 - [tqdm](https://tqdm.github.io/) (>=4.50.2)
 
-**You can install imbalanced-ensemble from [PyPI](https://pypi.org/project/imbalanced-ensemble/) by running:**
-```shell
-$ pip install imbalanced-ensemble
-```
-
-**Or you can install imbalanced-ensemble by clone this repository:**
-```shell
-$ git clone https://github.com/ZhiningLiu1998/imbalanced-ensemble.git
-$ cd imbalanced-ensemble
-$ python setup.py install
-```
-
-
-### Table of Contents
-
-- [Highlights](#highlights)
-- [Background](#background)
-- [List of implemented methods](#list-of-implemented-methods)
-- [Usage](#usage)
-- [Acknowledgements](#acknowledgements)
-- [References](#references)
 
 ## Highlights
 
@@ -87,70 +117,194 @@ Similar to sklearn, all methods have functions (e.g., `fit()`, `predict()`, `pre
 - &#x1F34E; ***Detailed training log, quick intuitive visualization.***   
 We provide additional parameters (e.g., `eval_datasets`, `eval_metrics`, `training_verbose`) in `fit()` for users to control the information they want to monitor during the ensemble training. We also implement an [`EnsembleVisualizer`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.html) to quickly visualize the ensemble estimator(s) for providing further information/conducting comparison. See an example [here](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/basic/plot_basic_example.html#sphx-glr-auto-examples-basic-plot-basic-example-py).
 - &#x1F34E; ***Wide compatiblilty.***   
-Imbalanced-ensemble (IMBENS) is designed to be compatible with [scikit-learn](https://scikit-learn.org/stable/) (sklearn) and also other compatible projects like [imbalanced-learn](https://imbalanced-learn.org/stable/). Therefore, users can take advantage of various utilities from the sklearn community for data processing/cross-validation/hyper-parameter tuning, etc.
+IMBENS is designed to be compatible with [scikit-learn](https://scikit-learn.org/stable/) (sklearn) and also other compatible projects like [imbalanced-learn](https://imbalanced-learn.org/stable/). Therefore, users can take advantage of various utilities from the sklearn community for data processing/cross-validation/hyper-parameter tuning, etc.
 
-## Background
+<!-- ## Background
 
 Class-imbalance (also known as the long-tail problem in multi-class) is the fact that the classes are not represented equally in a classification problem, which is quite common in practice. For instance, fraud detection, prediction of rare adverse drug reactions and prediction gene families. Failure to account for the class imbalance often causes inaccurate and decreased predictive performance of many classification algorithms.
 
 Imbalanced learning (IL) aims to tackle the class imbalance problem to learn an unbiased model from imbalanced data. This is usually achieved by changing the training data distribution by resampling or reweighting. However, naive resampling or reweighting may introduce bias/variance to the training data, especially when the data has class-overlapping or contains noise.
 
-Ensemble imbalanced learning (EIL) is known to effectively improve typical IL solutions by combining the outputs of multiple classifiers, thereby reducing the variance introduce by resampling/reweighting.
+Ensemble imbalanced learning (EIL) is known to effectively improve typical IL solutions by combining the outputs of multiple classifiers, thereby reducing the variance introduce by resampling/reweighting. -->
 
 ## List of implemented methods
 
 **Currently, *16* ensemble imbalanced learning methods were implemented:**
 
-- Resampling-based
-  - Under-sampling + Ensemble
-    1. [`SelfPacedEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.html) [1] ([in Github](https://github.com/ZhiningLiu1998/self-paced-ensemble))
-    2. [`BalanceCascadeClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.BalanceCascadeClassifier.html) [2] 
-    3. [`BalancedRandomForestClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.BalancedRandomForestClassifier.html) [3] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedRandomForestClassifier.html))
-    4. [`EasyEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.EasyEnsembleClassifier.html) [2] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.EasyEnsembleClassifier.html))
-    5. [`RUSBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.RUSBoostClassifier.html) [4] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.RUSBoostClassifier.html))
-    6. [`UnderBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.UnderBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))
-  - Over-sampling + Ensemble
-    1. [`OverBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.OverBoostClassifier.html)
-    2. [`SMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.SMOTEBoostClassifier.html) [6]
-    3. [`KmeansSMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.KmeansSMOTEBoostClassifier.html)
-    4. [`OverBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.OverBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))
-    5. [`SMOTEBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.SMOTEBaggingClassifier.html) [7] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))
-- Reweighting-based
-  - Cost-sensitive Learning
-    1. [`AdaCostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AdaCostClassifier.html) [8]
-    2. [`AdaUBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AdaUBoostClassifier.html) [9]
-    3. [`AsymBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AsymBoostClassifier.html) [10]
-- Compatible
-  - [`CompatibleAdaBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.compatible.CompatibleAdaBoostClassifier.html) [11]
-  - [`CompatibleBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.compatible.CompatibleBaggingClassifier.html) [12]
+- **Resampling-based**
+  - *Under-sampling + Ensemble*
+    1. **[`SelfPacedEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.html) [1] ([in Github](https://github.com/ZhiningLiu1998/self-paced-ensemble))**
+    2. **[`BalanceCascadeClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.BalanceCascadeClassifier.html) [2]**
+    3. **[`BalancedRandomForestClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.BalancedRandomForestClassifier.html) [3] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedRandomForestClassifier.html))**
+    4. **[`EasyEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.EasyEnsembleClassifier.html) [2] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.EasyEnsembleClassifier.html))**
+    5. **[`RUSBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.RUSBoostClassifier.html) [4] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.RUSBoostClassifier.html))**
+    6. **[`UnderBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.UnderBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
+  - *Over-sampling + Ensemble*
+    1. **[`OverBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.OverBoostClassifier.html)**
+    2. **[`SMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.SMOTEBoostClassifier.html) [6]**
+    3. **[`KmeansSMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.KmeansSMOTEBoostClassifier.html)**
+    4. **[`OverBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.OverBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
+    5. **[`SMOTEBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.over_sampling.SMOTEBaggingClassifier.html) [7] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
+- **Reweighting-based**
+  - *Cost-sensitive Learning*
+    1. **[`AdaCostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AdaCostClassifier.html) [8]**
+    2. **[`AdaUBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AdaUBoostClassifier.html) [9]**
+    3. **[`AsymBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.reweighting.AsymBoostClassifier.html) [10]**
+- **Compatible**
+  - **[`CompatibleAdaBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.compatible.CompatibleAdaBoostClassifier.html) [11]**
+  - **[`CompatibleBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.compatible.CompatibleBaggingClassifier.html) [12]**
 
+> **Note: `imbalanced-ensemble` is still under development, please see [API reference](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/api.html) for the latest list.**
 
-> **Note: `imbalanced-ensemble` is still under development.**
+## 5-min Quick Start with IMBENS
 
-## Usage
+### A minimal working example
 
-**Taking self-paced ensemble [1] as an example, it only requires less than 10 lines of code to deploy it:**
+Taking self-paced ensemble [1] as an example, it only requires less than 10 lines of code to deploy it:
 
 ```python
 >>> from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier
 >>> from sklearn.datasets import make_classification
+>>> from sklearn.model_selection import train_test_split
 >>> 
 >>> X, y = make_classification(n_samples=1000, n_classes=3,
 ...                            n_informative=4, weights=[0.2, 0.3, 0.5],
 ...                            random_state=0)
+>>> X_train, X_test, y_train, y_test = train_test_split(
+...                            X, y, test_size=0.2, random_state=42)
 >>> clf = SelfPacedEnsembleClassifier(random_state=0)
->>> clf.fit(X, y)  
+>>> clf.fit(X_train, y_train)
 SelfPacedEnsembleClassifier(...)
->>> clf.predict(X)  
+>>> clf.predict(X_test)  
 array([...])
 ```
 
-**For more examples, please refer to the [documentation](https://imbalanced-ensemble.readthedocs.io/).**
+### Customizing training log
 
+All ensemble classifiers in IMBENS support customizable training logging.
+The training log is controlled by 3 parameters `eval_datasets`, `eval_metrics`, and `training_verbose` of the `fit()` method.
+Read more details in the [**fit documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.html#imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.fit).
+
+**Customize granularity and content of the training log**
+```python
+>>> clf.fit(X_train, y_train, 
+...         train_verbose={
+...             'granularity': 10,
+...             'print_distribution': False,
+...             'print_metrics': True,
+...         }
+...     )
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃            Data: train             ┃
+┃ #Estimators ┃               Metric               ┃
+┃             ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.964      0.970          0.964    ┃
+┃     10      ┃ 1.000      1.000          1.000    ┃
+┃     20      ┃ 1.000      1.000          1.000    ┃
+┃     30      ┃ 1.000      1.000          1.000    ┃
+┃     40      ┃ 1.000      1.000          1.000    ┃
+┃     50      ┃ 1.000      1.000          1.000    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000          1.000    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+**Add evaluation dataset(s)**
+```python
+>>> clf.fit(X_train, y_train, 
+...         eval_datasets={'valid': (X_valid, y_valid)},
+...         train_verbose={
+...             'granularity': 10,
+...             'print_distribution': False,
+...             'print_metrics': True,
+...         }
+...     )
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃            Data: train             ┃            Data: valid             ┃
+┃ #Estimators ┃               Metric               ┃               Metric               ┃
+┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.939      0.961          0.940    ┃ 0.935      0.933          0.936    ┃
+┃     10      ┃ 1.000      1.000          1.000    ┃ 0.971      0.974          0.971    ┃
+┃     20      ┃ 1.000      1.000          1.000    ┃ 0.982      0.981          0.982    ┃
+┃     30      ┃ 1.000      1.000          1.000    ┃ 0.983      0.983          0.983    ┃
+┃     40      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┃     50      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+**Customize evaluation metric(s)**
+```python
+>>> from sklearn.metrics import accuracy_score, f1_score
+>>> clf.fit(X_train, y_train, 
+...         eval_datasets={'valid': (X_valid, y_valid)},
+...         eval_metrics={
+...             'acc': (accuracy_score, {}),
+...             'balanced_acc': (balanced_accuracy_score, {}),
+...         }
+...         train_verbose={
+...             'granularity': 10,
+...             'print_distribution': False,
+...             'print_metrics': True,
+...         }
+...     )
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃     Data: train      ┃     Data: valid      ┃
+┃ #Estimators ┃        Metric        ┃        Metric        ┃
+┃             ┃  acc    balanced_acc ┃  acc    balanced_acc ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.942      0.961     ┃ 0.919      0.936     ┃
+┃     10      ┃ 1.000      1.000     ┃ 0.976      0.976     ┃
+┃     20      ┃ 1.000      1.000     ┃ 0.977      0.977     ┃
+┃     30      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┃     40      ┃ 1.000      1.000     ┃ 0.980      0.979     ┃
+┃     50      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+### Visualize ensemble classifiers
+
+The `imbalanced_ensemble.visualizer` sub-module provide an `ImbalancedEnsembleVisualizer`.
+It can be used to visualize the ensemble estimator(s) for further information or comparison.
+Read more details in the [**visualizer documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.html).
+
+**Fit an ImbalancedEnsembleVisualizer**
+```python
+from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier
+from imbalanced_ensemble.ensemble import RUSBoostClassifier
+from imbalanced_ensemble.ensemble import EasyEnsembleClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+# Fit ensemble classifiers
+init_kwargs = {'base_estimator': DecisionTreeClassifier()}
+ensembles = {
+    'spe': SelfPacedEnsembleClassifier(**init_kwargs).fit(X_train, y_train),
+    'rusboost': RUSBoostClassifier(**init_kwargs).fit(X_train, y_train),
+    'easyens': EasyEnsembleClassifier(**init_kwargs).fit(X_train, y_train),
+}
+
+# Fit visualizer
+from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
+visualizer = ImbalancedEnsembleVisualizer().fit(ensembles=ensembles)
+```
+**Plot performance curves**
+```python
+fig, axes = visualizer.performance_lineplot()
+```
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/examples/visualize_performance_example.png)
+
+**Plot confusion matrices**
+```python
+fig, axes = visualizer.confusion_matrix_heatmap()
+```
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/examples/visualize_confusion_matrix_example.png)
 
 ## Acknowledgements
 
-***many samplers and utilities are adapted from* [imbalanced-learn](https://imbalanced-learn.org/), *which is an amazing project!***
+***Many samplers and utilities are adapted from* [imbalanced-learn](https://imbalanced-learn.org/), *which is an amazing project!***
 
 
 ## References
