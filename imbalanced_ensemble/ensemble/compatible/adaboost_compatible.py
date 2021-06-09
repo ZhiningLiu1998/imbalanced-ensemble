@@ -5,6 +5,7 @@
 # License: MIT
 
 import numpy as np
+from copy import copy
 
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble._forest import BaseForest

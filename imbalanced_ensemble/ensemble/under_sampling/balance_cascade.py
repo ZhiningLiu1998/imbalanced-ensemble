@@ -301,7 +301,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             # compute keep_populations
             keep_populations = {
                 label: int(
-                    origin_distr[label]*np.power(keep_ratios[label], i_iter+1) + 1e-5
+                    origin_distr_[label]*np.power(keep_ratios[label], i_iter+1) + 1e-5
                     )
                 for label in classes_
             }

@@ -1,6 +1,14 @@
 Release History
 ***************
 
+Version 0.1.3 (2021.06)
+=========================
+
+Fix:
+
+- Fixed a typo bug in ``BalanceCascadeClassifier``
+- Fixed an import Error in ``CompatibleAdaBoostClassifier``
+
 Version 0.1.2 (2021.05)
 =========================
 
