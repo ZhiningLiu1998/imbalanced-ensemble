@@ -9,6 +9,7 @@ import numpy as np
 from copy import copy
 from collections import Counter
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import seaborn as sns
 
 from sklearn.decomposition import KernelPCA
@@ -95,3 +96,11 @@ def plot_2Dprojection_and_cardinality(X, y, figsize=(10, 4), vis_params=None,
     plt.tight_layout()
 
     return fig
+
+def plot_online_figure(url:str=None):
+    '''Plot an online figure'''
+    figure = mpimg.imread(url)
+    plt.axis('off')
+    plt.imshow(figure)
+    plt.tight_layout()
+    plt.show()
