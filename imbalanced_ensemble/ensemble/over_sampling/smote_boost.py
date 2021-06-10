@@ -136,10 +136,6 @@ class SMOTEBoostClassifier(ResampleBoostClassifier):
 
     SMOTEBaggingClassifier : Bagging with intergrated SMOTE over-sampling.
 
-    Notes
-    -----
-    See :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` for an example.
-
     References
     ----------
     .. [1] Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W. 
@@ -179,6 +175,7 @@ class SMOTEBoostClassifier(ResampleBoostClassifier):
         self._sampler_class = _sampler_class
         self._properties = _properties
         
+        self.k_neighbors = k_neighbors
         self.k_neighbors_ = check_type(k_neighbors, 'k_neighbors', numbers.Integral)
 
 
@@ -322,7 +319,7 @@ if __name__ == '__main__':
 
     
     # %%
-    from visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,

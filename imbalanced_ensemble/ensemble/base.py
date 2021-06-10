@@ -12,7 +12,6 @@ from abc import ABCMeta, abstractmethod
 import numpy as np
 from collections import Counter
 from joblib import Parallel
-from inspect import signature
 
 import numpy as np
 from sklearn.base import ClassifierMixin, clone

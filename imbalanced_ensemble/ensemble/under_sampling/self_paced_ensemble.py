@@ -142,10 +142,6 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
 
     RUSBoostClassifier : Random under-sampling integrated in AdaBoost.
 
-    Notes
-    -----
-    See :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` for an example.
-
     References
     ----------
     .. [1] Liu, Z., Cao, W., Gao, Z., Bian, J., Chen, H., Chang, Y., & Liu, T. Y. 
@@ -435,7 +431,7 @@ if __name__ == '__main__':
 
 
     # %%
-    from visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,

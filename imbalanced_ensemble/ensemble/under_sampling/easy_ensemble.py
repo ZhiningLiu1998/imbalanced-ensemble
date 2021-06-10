@@ -160,10 +160,6 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     UnderBaggingClassifier : Bagging with intergrated random under-sampling.
 
-    Notes
-    -----
-    See :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` for an example.
-
     References
     ----------
     .. [1] X. Y. Liu, J. Wu and Z. H. Zhou, "Exploratory Undersampling for
@@ -351,7 +347,7 @@ if __name__ == "__main__":
 
 
     # %%
-    from visualizer.visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,

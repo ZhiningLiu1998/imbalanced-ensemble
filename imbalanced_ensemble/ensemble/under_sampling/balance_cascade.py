@@ -411,7 +411,7 @@ if __name__ == '__main__':
 
     
     # %%
-    from visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,

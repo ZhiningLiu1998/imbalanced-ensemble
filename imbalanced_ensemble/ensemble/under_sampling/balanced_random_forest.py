@@ -306,10 +306,6 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
     SelfPacedEnsembleClassifier : Ensemble with self-paced dynamic under-sampling.
 
-    Notes
-    -----
-    See :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` for an example.
-
     References
     ----------
     .. [1] Chen, Chao, Andy Liaw, and Leo Breiman. "Using random forest to
@@ -774,7 +770,7 @@ if __name__ == "__main__":
 
 
     # %%
-    from visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,

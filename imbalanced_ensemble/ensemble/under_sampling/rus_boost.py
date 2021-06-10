@@ -128,10 +128,6 @@ class RUSBoostClassifier(ResampleBoostClassifier):
     OverBoostClassifier : Random over-sampling integrated AdaBoost.
 
     UnderBaggingClassifier : Bagging with intergrated random under-sampling.
-
-    Notes
-    -----
-    See :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` for an example.
     
     References
     ----------
@@ -307,7 +303,7 @@ if __name__ == '__main__':
 
 
     # %%
-    from visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
         eval_datasets = None,
