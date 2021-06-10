@@ -37,9 +37,9 @@ def all_estimators(
     type_filter : string, list of string, or None, default=None
         Which kind of estimators should be returned. If None, no
         filter is applied and all estimators are returned.  Possible
-        values are 'sampler' to get estimators only of these specific
-        types, or a list of these to get the estimators that fit at
-        least one of the types.
+        values are 'sampler' or 'ensemble' to get estimators only of 
+        these specific types, or a list of these to get the estimators 
+        that fit at least one of the types.
 
     Returns
     -------
@@ -48,7 +48,8 @@ def all_estimators(
         and ``class`` is the actual type of the class.
 
     """
-    from ..base import SamplerMixin
+    from ..sampler.base import SamplerMixin
+    from ..ensemble.base import ImbalancedEnsembleClassifierMixin
 
     def is_abstract(c):
         if not (hasattr(c, "__abstractmethods__")):
@@ -96,7 +97,10 @@ def all_estimators(
         else:
             type_filter = list(type_filter)  # copy
         filtered_estimators = []
-        filters = {"sampler": SamplerMixin}
+        filters = {
+            "sampler": SamplerMixin,
+            "ensemble": ImbalancedEnsembleClassifierMixin,
+            }
         for name, mixin in filters.items():
             if name in type_filter:
                 type_filter.remove(name)
@@ -106,7 +110,7 @@ def all_estimators(
         estimators = filtered_estimators
         if type_filter:
             raise ValueError(
-                "Parameter type_filter must be 'sampler' or "
+                "Parameter type_filter must be 'sampler', 'ensemble' or "
                 "None, got"
                 " %s." % repr(type_filter)
             )
