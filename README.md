@@ -43,13 +43,15 @@
   [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
 </h3>
 
-***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`) is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.**
-**The problem of learning from imbalanced data is also known as imbalanced learning or long-tail learning (under multi-class scenario).**
+***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
+The problem of learning from imbalanced data is known as [imbalanced learning](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning) or long-tail learning (under multi-class scenario).
 
-**IMBENS includes more than 15 ensemble imbalanced learning (EIL) algorithms, from the classical SMOTEBoost (2003) and RUSBoost (2010) to recent SPE (2020), from resampling-based methods to cost-sensitive ensemble learning.**
+Currently (v0.1.3, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical SMOTEBoost (2003), RUSBoost (2010) to recent SPE (2020), from resampling to cost-sensitive learning. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms.
+
+Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].
 
 **IMBENS is featured for:**
-- &#x1F34E; **Unified, easy-to-use API design.**
+- &#x1F34E; **Unified, easy-to-use APIs, detailed documentation and examples.**
 - &#x1F34E; **Capable for *multi-class* imbalanced learning out-of-box.**
 - &#x1F34E; **Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).**
 - &#x1F34E; **Powerful, customizable, interactive training logging and visualizer.**
@@ -60,10 +62,10 @@
 # Train an SPE classifier
 from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier
 clf = SelfPacedEnsembleClassifier(random_state=42)
-clf.fit(X_train, y_train) 
+clf.fit(X_train, y_train)
 
 # Predict with an SPE classifier
-clf.predict(X)
+y_pred = clf.predict(X_test)
 ```
 
 ### Table of Contents
@@ -73,8 +75,9 @@ clf.predict(X)
 - [List of implemented methods](#list-of-implemented-methods)
 - [5-min Quick Start with IMBENS](#5-min-quick-start-with-imbens)
   - [A minimal working example](#a-minimal-working-example)
-  - [Customizing training log](#customizing-training-log)
   - [Visualize ensemble classifiers](#visualize-ensemble-classifiers)
+  - [Customizing training log](#customizing-training-log)
+- [About imbalanced learning](#about-imbalanced-learning)
 - [Acknowledgements](#acknowledgements)
 - [References](#references)
 
@@ -129,7 +132,8 @@ Ensemble imbalanced learning (EIL) is known to effectively improve typical IL so
 
 ## List of implemented methods
 
-**Currently, *16* ensemble imbalanced learning methods were implemented:**
+**Currently (v0.1.3, 2021/06), *16* ensemble imbalanced learning methods were implemented:  
+(Click to jump to the document page)**
 
 - **Resampling-based**
   - *Under-sampling + Ensemble*
@@ -179,103 +183,11 @@ SelfPacedEnsembleClassifier(...)
 array([...])
 ```
 
-### Customizing training log
-
-All ensemble classifiers in IMBENS support customizable training logging.
-The training log is controlled by 3 parameters `eval_datasets`, `eval_metrics`, and `training_verbose` of the `fit()` method.
-Read more details in the [**fit documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.html#imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.fit).
-
-**Customize granularity and content of the training log**
-```python
-clf.fit(X_train, y_train, 
-        train_verbose={
-            'granularity': 10,
-            'print_distribution': False,
-            'print_metrics': True,
-        }
-    )
-```
-```
-┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃             ┃            Data: train             ┃
-┃ #Estimators ┃               Metric               ┃
-┃             ┃  acc    balanced_acc   weighted_f1 ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃      1      ┃ 0.964      0.970          0.964    ┃
-┃     10      ┃ 1.000      1.000          1.000    ┃
-┃     20      ┃ 1.000      1.000          1.000    ┃
-┃     30      ┃ 1.000      1.000          1.000    ┃
-┃     40      ┃ 1.000      1.000          1.000    ┃
-┃     50      ┃ 1.000      1.000          1.000    ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃    final    ┃ 1.000      1.000          1.000    ┃
-┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-```
-**Add evaluation dataset(s)**
-```python
-clf.fit(X_train, y_train, 
-        eval_datasets={'valid': (X_valid, y_valid)},
-        train_verbose={
-            'granularity': 10,
-            'print_distribution': False,
-            'print_metrics': True,
-        }
-    )
-```
-```
-┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃             ┃            Data: train             ┃            Data: valid             ┃
-┃ #Estimators ┃               Metric               ┃               Metric               ┃
-┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃      1      ┃ 0.939      0.961          0.940    ┃ 0.935      0.933          0.936    ┃
-┃     10      ┃ 1.000      1.000          1.000    ┃ 0.971      0.974          0.971    ┃
-┃     20      ┃ 1.000      1.000          1.000    ┃ 0.982      0.981          0.982    ┃
-┃     30      ┃ 1.000      1.000          1.000    ┃ 0.983      0.983          0.983    ┃
-┃     40      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
-┃     50      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃    final    ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
-┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-```
-**Customize evaluation metric(s)**
-```python
-from sklearn.metrics import accuracy_score, f1_score
-clf.fit(X_train, y_train, 
-        eval_datasets={'valid': (X_valid, y_valid)},
-        eval_metrics={
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-        }
-        train_verbose={
-            'granularity': 10,
-            'print_distribution': False,
-            'print_metrics': True,
-        }
-    )
-```
-```
-┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃             ┃     Data: train      ┃     Data: valid      ┃
-┃ #Estimators ┃        Metric        ┃        Metric        ┃
-┃             ┃  acc    balanced_acc ┃  acc    balanced_acc ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
-┃      1      ┃ 0.942      0.961     ┃ 0.919      0.936     ┃
-┃     10      ┃ 1.000      1.000     ┃ 0.976      0.976     ┃
-┃     20      ┃ 1.000      1.000     ┃ 0.977      0.977     ┃
-┃     30      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
-┃     40      ┃ 1.000      1.000     ┃ 0.980      0.979     ┃
-┃     50      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
-┃    final    ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
-┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┛
-```
-
 ### Visualize ensemble classifiers
 
-The `imbalanced_ensemble.visualizer` sub-module provide an `ImbalancedEnsembleVisualizer`.
+The [`imbalanced_ensemble.visualizer`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/api.html) sub-module provide an [`ImbalancedEnsembleVisualizer`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.html).
 It can be used to visualize the ensemble estimator(s) for further information or comparison.
-Read more details in the [**visualizer documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.html).
+Please refer to [**visualizer documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.html) and [**examples**](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html) for more details.
 
 **Fit an ImbalancedEnsembleVisualizer**
 ```python
@@ -307,6 +219,119 @@ fig, axes = visualizer.performance_lineplot()
 fig, axes = visualizer.confusion_matrix_heatmap()
 ```
 ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/examples/visualize_confusion_matrix_example.png)
+
+### Customizing training log
+
+All ensemble classifiers in IMBENS support customizable training logging.
+The training log is controlled by 3 parameters `eval_datasets`, `eval_metrics`, and `training_verbose` of the `fit()` method.
+Read more details in the [**fit documentation**](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.html#imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier.fit).
+
+**Enable auto training log**
+```python
+clf.fit(..., train_verbose=True)
+```
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃                          ┃            Data: train             ┃
+┃ #Estimators ┃    Class Distribution    ┃               Metric               ┃
+┃             ┃                          ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.838      0.877          0.839    ┃
+┃      5      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.924      0.949          0.924    ┃
+┃     10      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.954      0.970          0.954    ┃
+┃     15      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.979      0.986          0.979    ┃
+┃     20      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.990      0.993          0.990    ┃
+┃     25      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.994      0.996          0.994    ┃
+┃     30      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.988      0.992          0.988    ┃
+┃     35      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.999      0.999          0.999    ┃
+┃     40      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.995      0.997          0.995    ┃
+┃     45      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.995      0.997          0.995    ┃
+┃     50      ┃ {0: 150, 1: 150, 2: 150} ┃ 0.993      0.995          0.993    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ {0: 150, 1: 150, 2: 150} ┃ 0.993      0.995          0.993    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+
+**Customize granularity and content of the training log**
+```python
+clf.fit(..., 
+        train_verbose={
+            'granularity': 10,
+            'print_distribution': False,
+            'print_metrics': True,
+        })
+```
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃            Data: train             ┃
+┃ #Estimators ┃               Metric               ┃
+┃             ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.964      0.970          0.964    ┃
+┃     10      ┃ 1.000      1.000          1.000    ┃
+┃     20      ┃ 1.000      1.000          1.000    ┃
+┃     30      ┃ 1.000      1.000          1.000    ┃
+┃     40      ┃ 1.000      1.000          1.000    ┃
+┃     50      ┃ 1.000      1.000          1.000    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000          1.000    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+**Add evaluation dataset(s)**
+```python
+  clf.fit(..., 
+          eval_datasets={
+              'valid': (X_valid, y_valid)
+          })
+```
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃            Data: train             ┃            Data: valid             ┃
+┃ #Estimators ┃               Metric               ┃               Metric               ┃
+┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.939      0.961          0.940    ┃ 0.935      0.933          0.936    ┃
+┃     10      ┃ 1.000      1.000          1.000    ┃ 0.971      0.974          0.971    ┃
+┃     20      ┃ 1.000      1.000          1.000    ┃ 0.982      0.981          0.982    ┃
+┃     30      ┃ 1.000      1.000          1.000    ┃ 0.983      0.983          0.983    ┃
+┃     40      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┃     50      ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+**Customize evaluation metric(s)**
+```python
+from sklearn.metrics import accuracy_score, f1_score
+clf.fit(..., 
+        eval_metrics={
+            'acc': (accuracy_score, {}),
+            'weighted_f1': (f1_score, {'average':'weighted'}),
+        })
+```
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃     Data: train      ┃     Data: valid      ┃
+┃ #Estimators ┃        Metric        ┃        Metric        ┃
+┃             ┃  acc    weighted_f1  ┃  acc    weighted_f1  ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.942      0.961     ┃ 0.919      0.936     ┃
+┃     10      ┃ 1.000      1.000     ┃ 0.976      0.976     ┃
+┃     20      ┃ 1.000      1.000     ┃ 0.977      0.977     ┃
+┃     30      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┃     40      ┃ 1.000      1.000     ┃ 0.980      0.979     ┃
+┃     50      ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+## About imbalanced learning
+
+**Class-imbalance** (also known as the **long-tail problem**) is the fact that the classes are not represented equally in a classification problem, which is quite common in practice. For instance, fraud detection, prediction of rare adverse drug reactions and prediction gene families. Failure to account for the class imbalance often causes inaccurate and decreased predictive performance of many classification algorithms. **Imbalanced learning** aims to tackle the class imbalance problem to learn an unbiased model from imbalanced data.
+
+For more resources on imbalanced learning, please refer to [**awesome-imbalanced-learning**](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
 
 ## Acknowledgements
 
