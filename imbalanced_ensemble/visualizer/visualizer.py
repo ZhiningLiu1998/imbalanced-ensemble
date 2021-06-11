@@ -515,6 +515,7 @@ class ImbalancedEnsembleVisualizer():
     def performance_lineplot(self,
                              on_ensembles:list=None,
                              on_datasets:list=None,
+                             on_metrics:list=None,
                              split_by:list=[],
                              n_samples_as_x_axis:bool=False,
                              sub_figsize:tuple=(4.0, 3.3),
@@ -533,6 +534,11 @@ class ImbalancedEnsembleVisualizer():
             The names of evaluation datasets to include in the plot. It 
             should be a subset of ``self.eval_datasets_.keys()``. if ``None``, 
             all evaluation datasets will be included.
+
+        on_metrics : list of strings, default=None
+            The names of evaluation metrics to include in the plot. It 
+            should be a subset of ``self.eval_metrics_.keys()``. if ``None``, 
+            all evaluation metrics will be included.
 
         split_by : list of {'method', 'dataset'}, default=[]
             How to group the results for visualization. 
@@ -581,7 +587,9 @@ class ImbalancedEnsembleVisualizer():
             on_ensembles, 'on_ensembles', self.vis_format_['ensemble_names'])
         on_datasets = self._check_is_subset(
             on_datasets, 'on_datasets', self.vis_format_['dataset_names'])
-        n_ensembles, n_datasets = len(on_ensembles), len(on_datasets)
+        on_metrics = self._check_is_subset(
+            on_metrics, 'on_metrics', self.vis_format_['metric_names'])
+        n_ensembles, n_datasets, n_metrics = len(on_ensembles), len(on_datasets), len(on_metrics)
 
         if not isinstance(split_by, list):
             raise TypeError(
@@ -607,7 +615,10 @@ class ImbalancedEnsembleVisualizer():
             {k: k in on_ensembles for k in self.vis_format_['ensemble_names']})
         on_datasets_mask = vis_perf_dataframe['dataset'].map(
             {k: k in on_datasets for k in self.vis_format_['dataset_names']})
-        vis_perf_dataframe = vis_perf_dataframe.loc[on_ensembles_mask & on_datasets_mask]
+        on_metrics_mask = vis_perf_dataframe['metric'].map(
+            {k: k in on_metrics for k in self.vis_format_['metric_names']})
+        final_mask = on_ensembles_mask & on_datasets_mask & on_metrics_mask
+        vis_perf_dataframe = vis_perf_dataframe.loc[final_mask]
 
         # Set subfigure x-axis (# estimators or # training samples)
         if n_samples_as_x_axis_:
@@ -637,7 +648,7 @@ class ImbalancedEnsembleVisualizer():
             x_label = "# Base Estimators"
         
         # Set figure size and layout
-        n_rows_fig, n_columns_fig = 1, self.vis_format_['n_metrics']
+        n_rows_fig, n_columns_fig = 1, n_metrics
         if 'method' in split_by:
             n_rows_fig *= n_ensembles
         if 'dataset' in split_by:
@@ -653,7 +664,7 @@ class ImbalancedEnsembleVisualizer():
 
         # Set column titles
         pad = 10
-        col_titles = ['Metric: <{}>'.format(metric) for metric in self.vis_format_['metric_names']]
+        col_titles = ['Metric: <{}>'.format(metric) for metric in on_metrics]
         for ax, col_title in zip(axes[0], col_titles):
             ax.annotate(col_title, xy=(0.5, 1), xytext=(0, pad),
                         xycoords='axes fraction', textcoords='offset points',
