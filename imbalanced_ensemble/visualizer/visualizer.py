@@ -609,6 +609,12 @@ class ImbalancedEnsembleVisualizer():
 
         lineplot_kwargs_ = copy(LINEPLOT_KWARGS_DEFAULT)
         lineplot_kwargs_.update(lineplot_kwargs)
+        for kw in ['ax', 'data', 'x', 'y', 'hue', 'style']:
+            if kw in lineplot_kwargs_.keys():
+                raise ValueError(
+                    f"Cannot set parameter '{kw}' for"
+                    f" performance_lineplot function."
+                )
 
         # Select data for visualization
         on_ensembles_mask = vis_perf_dataframe['method'].map(
@@ -675,9 +681,16 @@ class ImbalancedEnsembleVisualizer():
         for (key, _), ax in zip(vis_df_grp.groups.items(), axes.flatten()):
             metric_name = key if len(split_by) == 0 else key[-1]
             # Use seaborn.lineplot for visualization
-            ax = sns.lineplot(data=vis_df_grp.get_group(key), 
-                x=x_column, y='score', hue='method', style='dataset', 
-                ax=ax, **lineplot_kwargs_)
+            kwargs = {
+                'data': vis_df_grp.get_group(key),
+                'x': x_column,
+                'y': 'score',
+                'hue': 'method', 
+                'style': 'dataset',
+                'ax': ax,
+            }
+            kwargs.update(lineplot_kwargs_)
+            ax = sns.lineplot(**kwargs)
             # Set legend, border, x_label, y_label, and grid properties
             ax.legend(columnspacing=0.3, 
                       borderaxespad=0.3, 
@@ -757,6 +770,7 @@ class ImbalancedEnsembleVisualizer():
     def confusion_matrix_heatmap(self,
                                  on_ensembles:list=None,
                                  on_datasets:list=None,
+                                 false_pred_only:bool=False,
                                  sub_figsize:tuple=(4.0, 3.3),
                                  sup_title:bool or str=True,
                                  **heatmap_kwargs):
@@ -773,6 +787,11 @@ class ImbalancedEnsembleVisualizer():
             The names of evaluation datasets to include in the plot. It 
             should be a subset of ``self.eval_datasets_.keys()``. if ``None``, 
             all evaluation datasets will be included.
+
+        false_pred_only : bool, default=False
+            Whether to plot only the false predictions in the confusion matrix. 
+            if ``True``, only the numbers of false predictions will be shown 
+            in the plot.
         
         sub_figsize: (float, float), default=(4.0, 3.3)
             The size of an subfigure (width, height in inches).
@@ -807,6 +826,8 @@ class ImbalancedEnsembleVisualizer():
         on_datasets = self._check_is_subset(
             on_datasets, 'on_datasets', self.vis_format_['dataset_names'])
         n_ensembles, n_datasets = len(on_ensembles), len(on_datasets)
+        
+        false_pred_only = check_type(false_pred_only, 'false_pred_only', bool)
 
         (sub_fig_width, sub_fig_height) = check_plot_figsize(sub_figsize)
 
@@ -814,6 +835,12 @@ class ImbalancedEnsembleVisualizer():
 
         heatmap_kwargs_ = copy(HEATMAP_KWARGS_DEFAULT)
         heatmap_kwargs_.update(heatmap_kwargs)
+        for kw in ['ax', 'data']:
+            if kw in heatmap_kwargs_.keys():
+                raise ValueError(
+                    f"Cannot set parameter '{kw}' for"
+                    f" confusion_matrix_heatmap function."
+                )
         
         # Set figure size and layout
         n_rows_fig, n_columns_fig = n_datasets, n_ensembles
@@ -848,8 +875,18 @@ class ImbalancedEnsembleVisualizer():
                 ax = axes[i_row, i_col]
                 conf_matrix_df = conf_matrices[ensemble_name][dataset_name]
                 # Use seaborn.heatmap for visualization
-                ax = sns.heatmap(conf_matrix_df, annot=True, fmt="d", linewidths=.5, 
-                            ax=ax, **heatmap_kwargs_)
+                kwargs = {
+                    'data': conf_matrix_df,
+                    'annot': True,
+                    'fmt': 'd',
+                    'linewidths': 0.5,
+                    'ax': ax,
+                }
+                kwargs.update(heatmap_kwargs_)
+                # if false_pred_only, set mask to the heatmap
+                if false_pred_only:
+                    kwargs['mask'] = np.identity(conf_matrix_df.shape[0])
+                ax = sns.heatmap(**kwargs)
                 # Set x_label and y_label properties
                 ax.set_xlabel("Predicted Label", **self.axis_title_style)
                 ax.set_ylabel("Ground Truth", **self.axis_title_style)
