@@ -36,12 +36,16 @@ def plot_scatter(X, y, ax=None, weights=None, title='',
         ax = plt.axes()
     if projection is None:
         projection = KernelPCA(n_components=2).fit(X, y)
+    if vis_params is None:
+        vis_params = copy(DEFAULT_VIS_KWARGS)
     
-    X_vis = projection.transform(X) if X.shape[1] > 2 else X
+    if X.shape[1] > 2:
+        X_vis = projection.transform(X)
+        title += ' (2D projection by {})'.format(
+            str(projection.__class__).split('.')[-1][:-2]
+        )
+    else: X_vis = X
 
-    title += ' (2D projection by {})'.format(
-        str(projection.__class__).split('.')[-1][:-2]
-    )
     size = 50 if weights is None else weights
     if np.unique(y).shape[0] > 2:
         vis_params['palette'] = plt.cm.rainbow
@@ -95,7 +99,7 @@ def plot_2Dprojection_and_cardinality(X, y, figsize=(10, 4), vis_params=None,
                     sort_values=True, plot_average=plot_average)
     plt.tight_layout()
 
-    return fig
+    return fig, (ax1, ax2)
 
 def plot_online_figure(url:str=None):
     '''Plot an online figure'''
