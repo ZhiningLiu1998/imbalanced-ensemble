@@ -28,16 +28,16 @@ SamplingKindError = NotImplementedError(
 )
 
 
-def _target_samples_int(y, n_target_samples, sampling_type):
+def _check_n_target_samples_int(y, n_target_samples, sampling_type):
     target_stats = dict(Counter(y))
     max_class_ = max(target_stats, key=target_stats.get)
     min_class_ = min(target_stats, key=target_stats.get)
     n_max_class_samples_ = target_stats[max_class_]
     n_min_class_samples_ = target_stats[min_class_]
     if sampling_type == 'under-sampling':
-        if n_target_samples >= n_max_class_samples_:
+        if n_target_samples > n_max_class_samples_:
             raise ValueError(
-                f"'n_target_samples' >= the number of samples"
+                f"'n_target_samples' > the number of samples"
                 f" of the largest class ({n_max_class_samples_})."
                 f" Set 'n_target_samples' < {n_max_class_samples_}"
                 f" to perform under-sampling properly."
@@ -48,9 +48,9 @@ def _target_samples_int(y, n_target_samples, sampling_type):
         ])
         return target_distr
     elif sampling_type == 'over-sampling':
-        if n_target_samples <= n_min_class_samples_:
+        if n_target_samples < n_min_class_samples_:
             raise ValueError(
-                f"'n_target_samples' <= the number of samples"
+                f"'n_target_samples' < the number of samples"
                 f" of the largest class ({n_min_class_samples_})."
                 f" Set 'n_target_samples' > {n_min_class_samples_}"
                 f" to perform over-sampling properly."
@@ -85,7 +85,7 @@ def _target_samples_int(y, n_target_samples, sampling_type):
     else: raise SamplingKindError
 
 
-def _target_samples_dict(y, n_target_samples, sampling_type):
+def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
     target_stats = dict(Counter(y))
     # check that all keys in n_target_samples are also in y
     set_diff_sampling_strategy_target = set(n_target_samples.keys()) - set(
@@ -155,9 +155,9 @@ def _target_samples_dict(y, n_target_samples, sampling_type):
 
 def check_n_target_samples(y, n_target_samples, sampling_type):
     if isinstance(n_target_samples, numbers.Integral):
-        return _target_samples_int(y, n_target_samples, sampling_type)
+        return _check_n_target_samples_int(y, n_target_samples, sampling_type)
     elif isinstance(n_target_samples, dict):
-        return _target_samples_dict(y, n_target_samples, sampling_type)
+        return _check_n_target_samples_dict(y, n_target_samples, sampling_type)
     else: raise ValueError(
         f"'n_target_samples' should be of type `int` or `dict`,"
         f" got {type(n_target_samples)}."
