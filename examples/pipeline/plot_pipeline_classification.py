@@ -11,13 +11,15 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 :class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`).
 """
 
-# Adapted from imbalanced-learn
+# Adapted from imbalanced-learn 
 # Authors: Christos Aridas
 #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
 
 # %%
 print(__doc__)
+
+# sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
 # %% [markdown]
 # Let's first create an imbalanced dataset and split in to two sets.
