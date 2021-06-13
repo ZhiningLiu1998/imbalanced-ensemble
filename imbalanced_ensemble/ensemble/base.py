@@ -317,7 +317,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         if (i_iter+1) == self.n_estimators:
             print(self._training_log_add_line(tabs=("┣", "╋", "┫", "━")))
             print(self._training_log_add_line(texts=(
-                    "final", f"{dict(Counter(y_resampled))}", 
+                    "final", f"{sort_dict_by_key(Counter(y_resampled))}", 
                     tuple(self._evaluate(data_name) for data_name in eval_data_names)
                 )))
             print(self._training_log_add_line(tabs=("┗", "┻", "┛", "━")))
