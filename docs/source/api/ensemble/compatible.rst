@@ -3,11 +3,11 @@
 Compatible ensembles
 ======================
 
-.. automodule:: imbalanced_ensemble.ensemble.compatible
+.. automodule:: imbalanced_ensemble.ensemble
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.ensemble.compatible
+.. currentmodule:: imbalanced_ensemble.ensemble
 
 .. autosummary::
    :toctree: _autosummary

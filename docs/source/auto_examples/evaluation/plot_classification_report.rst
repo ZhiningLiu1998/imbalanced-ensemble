@@ -28,7 +28,7 @@ trained using imbalanced data. "mod:`imbalanced_ensemble` provides a classificat
 similar to :mod:`sklearn`, with additional metrics specific to imbalanced
 learning problem.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-59
+.. GENERATED FROM PYTHON SOURCE LINES 12-60
 
 
 
@@ -60,10 +60,9 @@ learning problem.
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn
+    # Adapted from imbalanced-learn 
     # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
-
 
     from sklearn import datasets
     from sklearn.svm import LinearSVC
@@ -76,6 +75,8 @@ learning problem.
     print(__doc__)
 
     RANDOM_STATE = 42
+
+    # sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
     # Generate a dataset
     X, y = datasets.make_classification(
@@ -110,7 +111,7 @@ learning problem.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.562 seconds)
+   **Total running time of the script:** ( 0 minutes  8.242 seconds)
 
 **Estimated memory usage:**  17 MB
 

@@ -10,7 +10,7 @@ geometric mean (:func:`imbalanced_ensemble.metrics.geometric_mean_score`)
 and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_balanced_accuracy`).
 """
 
-# Adapted from imbalanced-learn
+# Adapted from imbalanced-learn 
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
 
@@ -18,6 +18,8 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 print(__doc__)
 
 RANDOM_STATE = 42
+
+# sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
 # %% [markdown]
 # First, we will generate some imbalanced dataset.

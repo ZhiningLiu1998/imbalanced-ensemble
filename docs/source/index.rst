@@ -6,6 +6,8 @@
 Welcome to imbalanced-ensemble documentation!
 ===============================================
 
+.. image:: https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png
+
 .. raw:: html
 
    <p>
@@ -45,7 +47,8 @@ Welcome to imbalanced-ensemble documentation!
 .. raw:: html
 
    <h3>
-      [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
+      [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">Github</a>]
+      [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
       [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
       [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
       [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
@@ -64,7 +67,7 @@ methods to cost-sensitive ensemble learning.
 
 **IMBENS is featured for:**
 
-- Unified, easy-to-use API design.
+- Unified, easy-to-use APIs, detailed documentation and examples.
 - Capable for multi-class imbalanced learning out-of-box.
 - Optimized performance with parallelization when possible using 
   `joblib <https://github.com/joblib/joblib>`__.

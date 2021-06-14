@@ -37,6 +37,7 @@
   Imbalanced Ensemble: <i>ensemble learning for class-imbalanced data in Python.</i>
   <br>
   [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
+  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Example Gallery</a>]
   [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
   [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
   [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
@@ -46,12 +47,12 @@
 ***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
 The problem of learning from imbalanced data is known as [imbalanced learning](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning) or long-tail learning (under multi-class scenario).
 
-Currently (v0.1.3, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical SMOTEBoost (2003), RUSBoost (2010) to recent SPE (2020), from resampling to cost-sensitive learning. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms.
+Currently (v0.1.4, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical SMOTEBoost (2003), RUSBoost (2010) to recent SPE (2020), from resampling to cost-sensitive learning. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms.
 
-Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].
+**Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].**
 
 **IMBENS is featured for:**
-- &#x1F34E; **Unified, easy-to-use APIs, detailed documentation and examples.**
+- &#x1F34E; **Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
 - &#x1F34E; **Capable for *multi-class* imbalanced learning out-of-box.**
 - &#x1F34E; **Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).**
 - &#x1F34E; **Powerful, customizable, interactive training logging and visualizer.**
@@ -161,6 +162,11 @@ Ensemble imbalanced learning (EIL) is known to effectively improve typical IL so
 > **Note: `imbalanced-ensemble` is still under development, please see [API reference](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/api.html) for the latest list.**
 
 ## 5-min Quick Start with IMBENS
+
+**Here, we provide some quick guides to help you get started with IMBENS.**  
+**We strongly encourage users to check out the [**example gallery**](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#) for more comprehensive usage examples, which demonstrate many advanced features of IMBENS.**
+
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot.png)
 
 ### A minimal working example
 

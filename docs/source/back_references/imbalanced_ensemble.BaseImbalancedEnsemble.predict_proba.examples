@@ -1,0 +1,42 @@
+
+
+Examples using ``imbalanced_ensemble.BaseImbalancedEnsemble.predict_proba``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbalanced_ensemble.ensemble classifier.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/basic/images/thumb/sphx_glr_plot_basic_example_thumb.png
+     :alt: Train and predict with an ensemble classifier
+
+     :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot the classification probability for ensemble models with different base classifiers. ">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_probability_thumb.png
+     :alt: Plot probabilities with different base classifiers
+
+     :ref:`sphx_glr_auto_examples_classification_plot_probability.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_probability.py`

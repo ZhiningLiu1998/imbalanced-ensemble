@@ -1,0 +1,23 @@
+
+
+Examples using ``imbalanced_ensemble.ensemble.AdaCostClassifier.fit``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the cost matrix of cost-sensitive ensemble methods.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_cost_matrix_thumb.png
+     :alt: Customize cost matrix
+
+     :ref:`sphx_glr_auto_examples_classification_plot_cost_matrix.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_cost_matrix.py`

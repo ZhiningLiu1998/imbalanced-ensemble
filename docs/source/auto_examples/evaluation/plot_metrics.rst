@@ -33,7 +33,7 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn
+    # Adapted from imbalanced-learn 
     # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
 
@@ -44,7 +44,7 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-22
+.. GENERATED FROM PYTHON SOURCE LINES 18-24
 
 .. code-block:: default
 
@@ -52,6 +52,7 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 
     RANDOM_STATE = 42
 
+    # sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
 
 
@@ -59,11 +60,12 @@ and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 First, we will generate some imbalanced dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-41
+.. GENERATED FROM PYTHON SOURCE LINES 28-43
 
 .. code-block:: default
 
@@ -89,11 +91,11 @@ First, we will generate some imbalanced dataset.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
 We will split the data into a training and testing set.
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-51
+.. GENERATED FROM PYTHON SOURCE LINES 47-53
 
 .. code-block:: default
 
@@ -110,12 +112,12 @@ We will split the data into a training and testing set.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-54
+.. GENERATED FROM PYTHON SOURCE LINES 54-56
 
 We will create a pipeline made of a :class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`
 over-sampler followed by a :class:`~sklearn.svm.LinearSVC` classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-64
+.. GENERATED FROM PYTHON SOURCE LINES 58-66
 
 .. code-block:: default
 
@@ -134,14 +136,14 @@ over-sampler followed by a :class:`~sklearn.svm.LinearSVC` classifier.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-69
+.. GENERATED FROM PYTHON SOURCE LINES 67-71
 
 Now, we will train the model on the training set and get the prediction
 associated with the testing set. Be aware that the resampling will happen
 only when calling `fit`: the number of samples in `y_pred` is the same than
 in `y_test`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-74
+.. GENERATED FROM PYTHON SOURCE LINES 73-76
 
 .. code-block:: default
 
@@ -164,13 +166,13 @@ in `y_test`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-78
+.. GENERATED FROM PYTHON SOURCE LINES 77-80
 
 The geometric mean corresponds to the square root of the product of the
 sensitivity and specificity. Combining the two metrics should account for
 the balancing of the dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-84
+.. GENERATED FROM PYTHON SOURCE LINES 82-86
 
 .. code-block:: default
 
@@ -193,12 +195,12 @@ the balancing of the dataset.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-87
+.. GENERATED FROM PYTHON SOURCE LINES 87-89
 
 The index balanced accuracy can transform any metric to be used in
 imbalanced learning problems.
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-99
+.. GENERATED FROM PYTHON SOURCE LINES 91-101
 
 .. code-block:: default
 
@@ -227,7 +229,7 @@ imbalanced learning problems.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-107
+.. GENERATED FROM PYTHON SOURCE LINES 102-109
 
 .. code-block:: default
 
@@ -256,9 +258,9 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  5.239 seconds)
+   **Total running time of the script:** ( 1 minutes  20.203 seconds)
 
-**Estimated memory usage:**  13 MB
+**Estimated memory usage:**  15 MB
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:

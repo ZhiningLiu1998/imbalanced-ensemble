@@ -19,22 +19,17 @@
 
 
 =========================================================
-Basic usage example of ``imbalanced_ensemble``
+Train and predict with an ensemble classifier
 =========================================================
 
-This example shows the basic usage of the ensemble estimators 
-(:class:`imbalanced_ensemble.ensemble.under_sampling.SelfPacedEnsembleClassifier`,
-:class:`imbalanced_ensemble.ensemble.under_sampling.RUSBoostClassifier`,
-:class:`imbalanced_ensemble.ensemble.under_sampling.EasyEnsembleClassifier`,
-:class:`imbalanced_ensemble.ensemble.under_sampling.BalancedRandomForestClassifier`,
-:class:`imbalanced_ensemble.ensemble.over_sampling.SMOTEBoostClassifier`,
-:class:`imbalanced_ensemble.ensemble.over_sampling.OverBaggingClassifier`,
-) in :mod:`imbalanced_ensemble.ensemble` module. 
+This example shows the basic usage of an 
+:mod:`imbalanced_ensemble.ensemble` classifier.
 
-We also show how to use the :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer` 
-to visualize and compare different ensemble classifiers.
+This example uses:
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-24
+    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-18
 
 .. code-block:: default
 
@@ -50,126 +45,27 @@ to visualize and compare different ensemble classifiers.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-31
+.. GENERATED FROM PYTHON SOURCE LINES 19-37
 
 .. code-block:: default
 
     print(__doc__)
 
+    # Import imbalanced_ensemble
     import imbalanced_ensemble as imbens
 
-    RANDOM_STATE = 0
-
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 32-37
-
-Import imbalanced_ensemble
-----------------------------
-
-First, we will import necessary packages and implement 
-some utilities for data visualization
-
-.. GENERATED FROM PYTHON SOURCE LINES 37-129
-
-.. code-block:: default
-
-
-
-    from imbalanced_ensemble.ensemble.under_sampling import SelfPacedEnsembleClassifier
-    from imbalanced_ensemble.ensemble.under_sampling import RUSBoostClassifier
-    from imbalanced_ensemble.ensemble.under_sampling import EasyEnsembleClassifier
-    from imbalanced_ensemble.ensemble.under_sampling import BalancedRandomForestClassifier
-
-    from imbalanced_ensemble.ensemble.over_sampling import SMOTEBoostClassifier
-    from imbalanced_ensemble.ensemble.over_sampling import OverBaggingClassifier
-
-    import time
-    import pandas as pd
+    # Import utilities
     from collections import Counter
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-
-    from sklearn.decomposition import KernelPCA
+    import sklearn
     from sklearn.datasets import make_classification
     from sklearn.model_selection import train_test_split
-    from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
+    from imbalanced_ensemble.ensemble.base import sort_dict_by_key
 
-    # implement some utilities for data visualization
+    # Import plot utilities
+    import matplotlib.pyplot as plt
+    from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
 
-    vis_params = {
-        'palette': plt.cm.rainbow,
-        'cmap': plt.cm.rainbow,
-        'edgecolor': 'black',
-        'alpha': 0.6,
-    }
-
-    def set_ax_border(ax, border_color='black', border_width=2):
-        for _, spine in ax.spines.items():
-            spine.set_color(border_color)
-            spine.set_linewidth(border_width)
-        
-        return ax
-
-    def plot_scatter(X, y, ax=None, weights=None, title='',
-                     projection=None, vis_params=vis_params):
-        if ax is None:
-            ax = plt.axes()
-        X_vis = projection.transform(X) if X.shape[1] > 2 else X
-        title += ' (2D projection by {})'.format(
-            str(projection.__class__).split('.')[-1][:-2]
-        )
-        size = 50 if weights is None else weights
-        sns.scatterplot(x=X_vis[:, 0], y=X_vis[:, 1], 
-            hue=y, style=y, s=size, **vis_params, legend='full', ax=ax)
-    
-        ax.set_title(title)
-        ax = set_ax_border(ax, border_color='black', border_width=2)
-        ax.grid(color='black', linestyle='-.', alpha=0.5)
-    
-        return ax
-
-    def plot_class_distribution(y, ax=None, title='', 
-                                sort_values=False, plot_average=True):
-        count = pd.DataFrame(list(Counter(y).items()), 
-                             columns=['Class', 'Frequency'])
-        if sort_values:
-            count = count.sort_values(by='Frequency', ascending=False)
-        if ax is None:
-            ax = plt.axes()
-        count.plot.bar(x='Class', y='Frequency', title=title, ax=ax)
-    
-        ax.set_title(title)
-        ax = set_ax_border(ax, border_color='black', border_width=2)
-        ax.grid(color='black', linestyle='-.', alpha=0.5, axis='y')
-
-        if plot_average:
-            ax.axhline(y=count['Frequency'].mean(),ls="dashdot",c="red")
-            xlim_min, xlim_max, ylim_min, ylim_max = ax.axis()
-            ax.text(
-                x=xlim_min+(xlim_max-xlim_min)*0.82,
-                y=count['Frequency'].mean()+(ylim_max-ylim_min)*0.03,
-                c="red",s='Average')
-    
-        return ax
-
-    def plot_2Dprojection_and_cardinality(X, y, figsize=(10, 4), vis_params=vis_params,
-                                         projection=None, weights=None, plot_average=True,
-                                         title1='Dataset', title2='Class Distribution'):
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
-        if projection == None:
-            projection = KernelPCA(n_components=2).fit(X, y)
-        ax1 = plot_scatter(X, y, ax=ax1, weights=weights, title=title1, 
-                        projection=projection, vis_params=vis_params)
-        ax2 = plot_class_distribution(y, ax=ax2, title=title2, 
-                        sort_values=True, plot_average=plot_average)
-        plt.tight_layout()
-        return fig
+    RANDOM_STATE = 42
 
 
 
@@ -178,29 +74,31 @@ some utilities for data visualization
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-132
+.. GENERATED FROM PYTHON SOURCE LINES 38-41
 
-Make a toy 3-class imbalanced classification task
---------------------------------------------------
+Prepare & visualize the data
+----------------------------
+Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-147
+.. GENERATED FROM PYTHON SOURCE LINES 41-57
 
 .. code-block:: default
 
 
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
+    # Generate and split a synthetic dataset
+    X, y = make_classification(n_classes=3, n_samples=2000, class_sep=2,
         weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+        n_features=20, n_clusters_per_class=2, random_state=RANDOM_STATE)
+    X_train, X_valid, y_train, y_valid = train_test_split(X, y, 
+        test_size=0.5, stratify=y, random_state=RANDOM_STATE)
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
-
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
-
-    # Visualize the dataset
-    projection = KernelPCA(n_components=2).fit(X, y)
-    fig = plot_2Dprojection_and_cardinality(X, y, projection=projection)
+    # Visualize the training dataset
+    fig = plot_2Dprojection_and_cardinality(X_train, y_train, figsize=(8, 4))
     plt.show()
+
+    # Print class distribution
+    print('Training dataset distribution    %s' % sort_dict_by_key(Counter(y_train)))
+    print('Validation dataset distribution  %s' % sort_dict_by_key(Counter(y_valid)))
 
 
 
@@ -216,89 +114,37 @@ Make a toy 3-class imbalanced classification task
 
  .. code-block:: none
 
-    Original training dataset shape {2: 615, 1: 296, 0: 89}
+    Training dataset distribution    {0: 100, 1: 300, 2: 600}
+    Validation dataset distribution  {0: 100, 1: 300, 2: 600}
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-151
+.. GENERATED FROM PYTHON SOURCE LINES 58-61
 
-Train some imbalanced_ensemble classifiers
---------------------------------------------------
-(with `train_verbose` enabled)
+Using ensemble classifiers in ``imbalanced_ensemble``
+-----------------------------------------------------
+Take ``SelfPacedEnsembleClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-221
+.. GENERATED FROM PYTHON SOURCE LINES 61-78
 
 .. code-block:: default
 
 
-    # Set training parameters
-    init_kwargs = {
-        'n_estimators': 50,
-        'random_state': RANDOM_STATE,
-    }
-    fit_kwargs = {
-        'X': X_train,
-        'y': y_train,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),
-        },
-        'train_verbose': True,
-    }
+    # Initialize an SelfPacedEnsembleClassifier
+    clf = imbens.ensemble.SelfPacedEnsembleClassifier(random_state=RANDOM_STATE)
 
-    # Train ensemble estimators
-    ensembles = {}
+    # Train an SelfPacedEnsembleClassifier
+    clf.fit(X_train, y_train)
 
-    ensembles['spe'] = spe = SelfPacedEnsembleClassifier(**init_kwargs)
-    print ('Training {} ...'.format(spe.__name__))
-    start_time = time.time()
-    spe.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        spe.__name__, time.time() - start_time,
-    ))
+    # Make predictions
+    y_pred_proba = clf.predict_proba(X_valid)
+    y_pred = clf.predict(X_valid)
 
-    ensembles['rusboost'] = rusboost = RUSBoostClassifier(**init_kwargs)
-    print ('Training {} ...'.format(rusboost.__name__))
-    start_time = time.time()
-    rusboost.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        rusboost.__name__, time.time() - start_time,
-    ))
-
-    ensembles['easyens'] = easyens = EasyEnsembleClassifier(**init_kwargs)
-    print ('Training {} ...'.format(easyens.__name__))
-    start_time = time.time()
-    easyens.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        easyens.__name__, time.time() - start_time,
-    ))
-
-    ensembles['balanced_rf'] = balanced_rf = BalancedRandomForestClassifier(**init_kwargs)
-    print ('Training {} ...'.format(balanced_rf.__name__))
-    start_time = time.time()
-    balanced_rf.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        balanced_rf.__name__, time.time() - start_time,
-    ))
-
-    ensembles['smoteboost'] = smoteboost = SMOTEBoostClassifier(**init_kwargs)
-    print ('Training {} ...'.format(smoteboost.__name__))
-    start_time = time.time()
-    smoteboost.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        smoteboost.__name__, time.time() - start_time,
-    ))
-
-    ensembles['overbagging'] = overbagging = OverBaggingClassifier(**init_kwargs)
-    print ('Training {} ...'.format(overbagging.__name__))
-    start_time = time.time()
-    overbagging.fit(**fit_kwargs)
-    print ('Running time of {}.fit(): {:.4f}s\n'.format(
-        overbagging.__name__, time.time() - start_time,
-    ))
+    # Evaluate
+    balanced_acc_score = sklearn.metrics.balanced_accuracy_score(y_valid, y_pred)
+    print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 
@@ -311,123 +157,36 @@ Train some imbalanced_ensemble classifiers
 
  .. code-block:: none
 
-    Training SelfPacedEnsembleClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃                         ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃   Class Distribution    ┃               Metric               ┃               Metric               ┃
-    ┃             ┃                         ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃      1      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.905      0.942          0.907    ┃ 0.893      0.920          0.895    ┃
-    ┃      5      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.991      0.995          0.991    ┃ 0.971      0.975          0.971    ┃
-    ┃     10      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.998      0.999          0.998    ┃ 0.973      0.975          0.973    ┃
-    ┃     15      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.979      0.977          0.979    ┃
-    ┃     20      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.982      0.980          0.982    ┃
-    ┃     25      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.982      0.980          0.982    ┃
-    ┃     30      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
-    ┃     35      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.984      0.982          0.984    ┃
-    ┃     40      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.984      0.982          0.984    ┃
-    ┃     45      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.984      0.982          0.984    ┃
-    ┃     50      ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.983      0.981          0.983    ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃    final    ┃  {0: 89, 1: 89, 2: 89}  ┃ 1.000      1.000          1.000    ┃ 0.983      0.981          0.983    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of SelfPacedEnsembleClassifier.fit(): 0.3142s
-
-    Training RUSBoostClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃                         ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃   Class Distribution    ┃               Metric               ┃               Metric               ┃
-    ┃             ┃                         ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃      1      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.372      0.618          0.225    ┃ 0.399      0.624          0.254    ┃
-    ┃      5      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.909      0.905          0.911    ┃ 0.903      0.905          0.905    ┃
-    ┃     10      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.882      0.860          0.882    ┃ 0.872      0.857          0.871    ┃
-    ┃     15      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.953      0.944          0.953    ┃ 0.953      0.951          0.953    ┃
-    ┃     20      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.869      0.901          0.873    ┃ 0.879      0.915          0.882    ┃
-    ┃     25      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.868      0.887          0.872    ┃ 0.873      0.893          0.876    ┃
-    ┃     30      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.920      0.907          0.921    ┃ 0.926      0.917          0.927    ┃
-    ┃     35      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.834      0.839          0.841    ┃ 0.832      0.841          0.838    ┃
-    ┃     40      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.812      0.831          0.820    ┃ 0.809      0.813          0.816    ┃
-    ┃     45      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.828      0.814          0.835    ┃ 0.819      0.815          0.826    ┃
-    ┃     50      ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.891      0.846          0.892    ┃ 0.878      0.840          0.880    ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃    final    ┃  {0: 89, 1: 89, 2: 89}  ┃ 0.891      0.846          0.892    ┃ 0.878      0.840          0.880    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of RUSBoostClassifier.fit(): 0.2673s
-
-    Training EasyEnsembleClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃               Metric               ┃               Metric               ┃
-    ┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃     50      ┃ 0.948      0.947          0.949    ┃ 0.949      0.952          0.950    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of EasyEnsembleClassifier.fit(): 0.8298s
-
-    Training BalancedRandomForestClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃               Metric               ┃               Metric               ┃
-    ┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃     50      ┃ 0.963      0.972          0.963    ┃ 0.961      0.964          0.961    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of BalancedRandomForestClassifier.fit(): 0.1037s
-
-    Training SMOTEBoostClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃                          ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃    Class Distribution    ┃               Metric               ┃               Metric               ┃
-    ┃             ┃                          ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃      1      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.665      0.646          0.623    ┃ 0.658      0.645          0.605    ┃
-    ┃      5      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.934      0.918          0.935    ┃ 0.934      0.928          0.935    ┃
-    ┃     10      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.937      0.937          0.938    ┃ 0.939      0.945          0.940    ┃
-    ┃     15      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.945      0.949          0.946    ┃ 0.942      0.952          0.943    ┃
-    ┃     20      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.927      0.948          0.928    ┃ 0.928      0.946          0.929    ┃
-    ┃     25      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.926      0.944          0.927    ┃ 0.929      0.949          0.930    ┃
-    ┃     30      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.929      0.937          0.931    ┃ 0.922      0.930          0.923    ┃
-    ┃     35      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.912      0.918          0.916    ┃ 0.906      0.912          0.908    ┃
-    ┃     40      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.924      0.929          0.926    ┃ 0.921      0.928          0.923    ┃
-    ┃     45      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.941      0.937          0.942    ┃ 0.929      0.927          0.930    ┃
-    ┃     50      ┃ {0: 615, 1: 615, 2: 615} ┃ 0.951      0.967          0.952    ┃ 0.938      0.951          0.939    ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃    final    ┃ {2: 615, 1: 615, 0: 615} ┃ 0.951      0.967          0.952    ┃ 0.938      0.951          0.939    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of SMOTEBoostClassifier.fit(): 0.3940s
-
-    Training OverBaggingClassifier ...
-    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃             ┃            Data: train             ┃            Data: valid             ┃
-    ┃ #Estimators ┃               Metric               ┃               Metric               ┃
-    ┃             ┃  acc    balanced_acc   weighted_f1 ┃  acc    balanced_acc   weighted_f1 ┃
-    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃     50      ┃ 1.000      1.000          1.000    ┃ 0.978      0.975          0.978    ┃
-    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    Running time of OverBaggingClassifier.fit(): 1.2559s
+    SPE: ensemble of 50 DecisionTreeClassifier()
+    Validation Balanced Accuracy: 0.986
 
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 79-82
 
-.. GENERATED FROM PYTHON SOURCE LINES 222-224
+Set the ensemble size
+---------------------
+(parameter ``n_estimators``: int)
 
-Visualize the results with ImbalancedEnsembleVisualizer
------------------------------------------------------------
-
-.. GENERATED FROM PYTHON SOURCE LINES 224-233
+.. GENERATED FROM PYTHON SOURCE LINES 82-97
 
 .. code-block:: default
 
 
-    from imbalanced_ensemble.visualizer import ImbalancedEnsembleVisualizer
+    from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier as SPE
+    from sklearn.metrics import balanced_accuracy_score
 
-    # Fit visualizer
-    visualizer = ImbalancedEnsembleVisualizer().fit(
-        ensembles = ensembles,
-        granularity = 10,
-    )
+    clf = SPE(
+        n_estimators=5, # Set ensemble size to 5
+        random_state=RANDOM_STATE,
+    ).fit(X_train, y_train)
+
+    # Evaluate
+    balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
+    print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+
 
 
 
@@ -439,124 +198,96 @@ Visualize the results with ImbalancedEnsembleVisualizer
 
  .. code-block:: none
 
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model     spe     on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model     spe     on dataset train :: 100%|####################| 50/50 [00:00<00:00, 1565.16it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model     spe     on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model     spe     on dataset valid :: 100%|####################| 50/50 [00:00<00:00, 1671.06it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model  rusboost   on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model  rusboost   on dataset train :: 100%|####################| 50/50 [00:00<00:00, 1319.29it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model  rusboost   on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model  rusboost   on dataset valid :: 100%|####################| 50/50 [00:00<00:00, 1354.56it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model   easyens   on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model   easyens   on dataset train ::  60%|############6        | 30/50 [00:00<00:00, 233.12it/s]    Visualizer evaluating model   easyens   on dataset train :: 100%|#####################| 50/50 [00:00<00:00, 173.75it/s]    Visualizer evaluating model   easyens   on dataset train :: 100%|#####################| 50/50 [00:00<00:00, 160.16it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model   easyens   on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model   easyens   on dataset valid ::  60%|############6        | 30/50 [00:00<00:00, 229.73it/s]    Visualizer evaluating model   easyens   on dataset valid :: 100%|#####################| 50/50 [00:00<00:00, 171.11it/s]    Visualizer evaluating model   easyens   on dataset valid :: 100%|#####################| 50/50 [00:00<00:00, 157.70it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model balanced_rf on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model balanced_rf on dataset train :: 100%|####################| 50/50 [00:00<00:00, 1788.72it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model balanced_rf on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model balanced_rf on dataset valid :: 100%|####################| 50/50 [00:00<00:00, 1790.65it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model smoteboost  on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model smoteboost  on dataset train :: 100%|####################| 50/50 [00:00<00:00, 1353.89it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model smoteboost  on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model smoteboost  on dataset valid :: 100%|####################| 50/50 [00:00<00:00, 1355.03it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model overbagging on dataset train ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model overbagging on dataset train :: 100%|####################| 50/50 [00:00<00:00, 1519.20it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model overbagging on dataset valid ::   0%|                               | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model overbagging on dataset valid :: 100%|####################| 50/50 [00:00<00:00, 1354.88it/s]
-    Visualizer computing confusion matrices............ Finished!
+    SPE: ensemble of 5 DecisionTreeClassifier()
+    Validation Balanced Accuracy: 0.979
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 234-235
+.. GENERATED FROM PYTHON SOURCE LINES 98-101
 
-Plot performance curves w.r.t. number of base estimators
+Use different base estimator
+----------------------------
+(parameter ``base_estimator``: estimator object)
 
-.. GENERATED FROM PYTHON SOURCE LINES 235-242
+.. GENERATED FROM PYTHON SOURCE LINES 101-116
 
 .. code-block:: default
 
 
-    fig, axes = visualizer.performance_lineplot(
-        n_samples_as_x_axis=False,
-        alpha=0.7,
-    )
-    plt.show()
+    from sklearn.svm import SVC
 
+    clf = SPE(
+        n_estimators=5,
+        base_estimator=SVC(probability=True), # Use SVM as the base estimator
+        random_state=RANDOM_STATE,
+    ).fit(X_train, y_train)
 
-
-
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_example_002.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 243-244
-
-Plot performance curves w.r.t. number of training samples (split subfigures by datasets)
-
-.. GENERATED FROM PYTHON SOURCE LINES 244-252
-
-.. code-block:: default
-
-
-    fig, axes = visualizer.performance_lineplot(
-        split_by=['dataset'],
-        n_samples_as_x_axis=True,
-        alpha=0.7,
-    )
-    plt.show()
-
-
-
-
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_example_003.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+    # Evaluate
+    balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
+    print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 253-254
 
-Plot confusion matrices for selected methods/datasets
+.. rst-class:: sphx-glr-script-out
 
-.. GENERATED FROM PYTHON SOURCE LINES 254-262
+ Out:
+
+ .. code-block:: none
+
+    SPE: ensemble of 5 SVC(probability=True)
+    Validation Balanced Accuracy: 0.968
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 117-120
+
+Enable training log
+-------------------
+(``fit()`` parameter ``train_verbose``: bool, int or dict)
+
+.. GENERATED FROM PYTHON SOURCE LINES 120-124
 
 .. code-block:: default
 
 
-    fig, axes = visualizer.confusion_matrix_heatmap(
-        on_ensembles=['spe', 'smoteboost'],
-        on_datasets=['valid'],
-        sub_figsize=(4, 3.3),
+    clf = SPE(random_state=RANDOM_STATE).fit(
+        X_train, y_train, 
+        train_verbose=True, # Enable training log
     )
-    plt.show()
 
 
 
+.. rst-class:: sphx-glr-script-out
 
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_example_004.png
-    :alt: Confusion Matrices
-    :class: sphx-glr-single-img
+ Out:
 
+ .. code-block:: none
 
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 263-264
-
-Plot confusion matrices for all methods/datasets
-
-.. GENERATED FROM PYTHON SOURCE LINES 264-270
-
-.. code-block:: default
-
-
-    fig, axes = visualizer.confusion_matrix_heatmap(
-        sub_figsize=(4, 3.3),
-    )
-    plt.show()
-
-    # %%
-
-
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_example_005.png
-    :alt: Confusion Matrices
-    :class: sphx-glr-single-img
-
+    ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃             ┃                          ┃            Data: train             ┃
+    ┃ #Estimators ┃    Class Distribution    ┃               Metric               ┃
+    ┃             ┃                          ┃  acc    balanced_acc   weighted_f1 ┃
+    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+    ┃      1      ┃ {0: 100, 1: 100, 2: 100} ┃ 0.989      0.991          0.989    ┃
+    ┃      5      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     10      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     15      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     20      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     25      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     30      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     35      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     40      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     45      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     50      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+    ┃    final    ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 
 
@@ -564,9 +295,9 @@ Plot confusion matrices for all methods/datasets
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  8.690 seconds)
+   **Total running time of the script:** ( 1 minutes  0.081 seconds)
 
-**Estimated memory usage:**  79 MB
+**Estimated memory usage:**  17 MB
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_example.py:

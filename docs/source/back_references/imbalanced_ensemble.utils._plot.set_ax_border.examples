@@ -1,0 +1,42 @@
+
+
+Examples using ``imbalanced_ensemble.utils._plot.set_ax_border``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the sampling schedule to achieve dynamic resampling....">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_sampling_schedule_thumb.png
+     :alt: Use dynamic resampling schedule
+
+     :ref:`sphx_glr_auto_examples_classification_plot_sampling_schedule.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_sampling_schedule.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the resampling target to achieve advanced resampling...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_resampling_target_thumb.png
+     :alt: Customize resampling target
+
+     :ref:`sphx_glr_auto_examples_classification_plot_resampling_target.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_resampling_target.py`

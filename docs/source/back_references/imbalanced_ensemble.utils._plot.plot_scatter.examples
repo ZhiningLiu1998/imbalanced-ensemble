@@ -1,0 +1,23 @@
+
+
+Examples using ``imbalanced_ensemble.utils._plot.plot_scatter``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of the make_imbalance  function to create an imbalanced version of the digits d...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/datasets/images/thumb/sphx_glr_plot_make_imbalance_digits_thumb.png
+     :alt: Make digits dataset class-imbalanced
+
+     :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`

@@ -3,11 +3,11 @@
 Reweighting-based ensembles
 ================================
 
-.. automodule:: imbalanced_ensemble.ensemble.reweighting
+.. automodule:: imbalanced_ensemble.ensemble
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.ensemble.reweighting
+.. currentmodule:: imbalanced_ensemble.ensemble
 
 .. autosummary::
    :toctree: _autosummary

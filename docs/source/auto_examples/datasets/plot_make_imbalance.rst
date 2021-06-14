@@ -26,7 +26,7 @@ An illustration of the :func:`~imbalanced_ensemble.datasets.make_imbalance` func
 create an imbalanced dataset from a balanced dataset. We show the ability of
 :func:`~imbalanced_ensemble.datasets.make_imbalance` of dealing with Pandas DataFrame.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-17
+.. GENERATED FROM PYTHON SOURCE LINES 10-18
 
 .. code-block:: default
 
@@ -35,6 +35,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
     # Authors: Dayvid Oliveira
     #          Christos Aridas
     #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+    #          Zhining Liu <zhining.liu@outlook.com>
     # License: MIT
 
 
@@ -44,14 +45,14 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-24
+.. GENERATED FROM PYTHON SOURCE LINES 19-25
 
 .. code-block:: default
 
     print(__doc__)
 
+    import matplotlib.pyplot as plt
     import seaborn as sns
-
     sns.set_context("poster")
 
 
@@ -61,7 +62,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-31
+.. GENERATED FROM PYTHON SOURCE LINES 26-32
 
 Generate the dataset
 --------------------
@@ -70,23 +71,24 @@ First, we will generate a dataset and convert it to a
 :class:`~pandas.DataFrame` with arbitrary column names. We will plot the
 original dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-47
+.. GENERATED FROM PYTHON SOURCE LINES 34-49
 
 .. code-block:: default
 
     import pandas as pd
     from sklearn.datasets import make_moons
 
-    X, y = make_moons(n_samples=200, shuffle=True, noise=0.5, random_state=10)
+    X, y = make_moons(n_samples=200, shuffle=True, noise=0.25, random_state=10)
     X = pd.DataFrame(X, columns=["feature 1", "feature 2"])
-    ax = X.plot.scatter(
+
+    fig = plt.figure(figsize=(6, 5))
+    ax = sns.scatterplot(
+        data=X, 
         x="feature 1",
         y="feature 2",
-        c=y,
-        colormap="viridis",
-        colorbar=False,
+        hue=y,
+        style=y,
     )
-    sns.despine(ax=ax, offset=10)
 
 
 
@@ -99,7 +101,7 @@ original dataset.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-54
+.. GENERATED FROM PYTHON SOURCE LINES 50-56
 
 Make a dataset imbalanced
 -------------------------
@@ -108,7 +110,7 @@ Now, we will show the helpers :func:`~imbalanced_ensemble.datasets.make_imbalanc
 that is useful to random select a subset of samples. It will impact the
 class distribution as specified by the parameters.
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-64
+.. GENERATED FROM PYTHON SOURCE LINES 58-66
 
 .. code-block:: default
 
@@ -127,25 +129,23 @@ class distribution as specified by the parameters.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-102
+.. GENERATED FROM PYTHON SOURCE LINES 67-102
 
 .. code-block:: default
 
-    import matplotlib.pyplot as plt
     from imbalanced_ensemble.datasets import make_imbalance
 
     fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
 
-    X.plot.scatter(
+    sns.scatterplot(
+        data=X, 
         x="feature 1",
         y="feature 2",
-        c=y,
+        hue=y,
+        style=y,
         ax=axs[0, 0],
-        colormap="viridis",
-        colorbar=False,
     )
     axs[0, 0].set_title("Original set")
-    sns.despine(ax=axs[0, 0], offset=10)
 
     multipliers = [0.9, 0.75, 0.5, 0.25, 0.1]
     for ax, multiplier in zip(axs.ravel()[1:], multipliers):
@@ -155,16 +155,16 @@ class distribution as specified by the parameters.
             sampling_strategy=ratio_func,
             **{"multiplier": multiplier, "minority_class": 1},
         )
-        X_resampled.plot.scatter(
+    
+        sns.scatterplot(
+            data=X_resampled, 
             x="feature 1",
             y="feature 2",
-            c=y_resampled,
+            hue=y_resampled,
+            style=y_resampled,
             ax=ax,
-            colormap="viridis",
-            colorbar=False,
         )
         ax.set_title(f"Sampling ratio = {multiplier}")
-        sns.despine(ax=ax, offset=10)
 
     plt.tight_layout()
     plt.show()
@@ -182,9 +182,9 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  43.801 seconds)
+   **Total running time of the script:** ( 0 minutes  43.568 seconds)
 
-**Estimated memory usage:**  17 MB
+**Estimated memory usage:**  16 MB
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:

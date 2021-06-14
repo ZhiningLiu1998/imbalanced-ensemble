@@ -34,7 +34,7 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn
+    # Adapted from imbalanced-learn 
     # Authors: Christos Aridas
     #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
     # License: MIT
@@ -46,12 +46,13 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-22
+.. GENERATED FROM PYTHON SOURCE LINES 20-24
 
 .. code-block:: default
 
     print(__doc__)
 
+    # sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
 
 
@@ -59,11 +60,12 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 Let's first create an imbalanced dataset and split in to two sets.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-44
+.. GENERATED FROM PYTHON SOURCE LINES 28-46
 
 .. code-block:: default
 
@@ -92,12 +94,12 @@ Let's first create an imbalanced dataset and split in to two sets.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-47
+.. GENERATED FROM PYTHON SOURCE LINES 47-49
 
 Now, we will create each individual steps 
 that we would like later to combine
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-61
 
 .. code-block:: default
 
@@ -118,13 +120,13 @@ that we would like later to combine
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-63
+.. GENERATED FROM PYTHON SOURCE LINES 62-65
 
 Now, we can finally create a pipeline to specify in which order the different
 transformers and samplers should be executed before to provide the data to
 the final classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-69
+.. GENERATED FROM PYTHON SOURCE LINES 67-71
 
 .. code-block:: default
 
@@ -139,13 +141,13 @@ the final classifier.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-73
+.. GENERATED FROM PYTHON SOURCE LINES 72-75
 
 We can now use the pipeline created as a normal classifier where resampling
 will happen when calling `fit` and disabled when calling `decision_function`,
 `predict_proba`, or `predict`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-80
+.. GENERATED FROM PYTHON SOURCE LINES 77-82
 
 .. code-block:: default
 
@@ -180,7 +182,7 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  43.458 seconds)
+   **Total running time of the script:** ( 0 minutes  55.730 seconds)
 
 **Estimated memory usage:**  13 MB
 

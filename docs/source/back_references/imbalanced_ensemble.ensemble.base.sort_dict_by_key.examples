@@ -1,0 +1,99 @@
+
+
+Examples using ``imbalanced_ensemble.ensemble.base.sort_dict_by_key``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbalanced_ensemble.ensemble classifier.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/basic/images/thumb/sphx_glr_plot_basic_example_thumb.png
+     :alt: Train and predict with an ensemble classifier
+
+     :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot the classification probability for ensemble models with different base classifiers. ">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_probability_thumb.png
+     :alt: Plot probabilities with different base classifiers
+
+     :ref:`sphx_glr_auto_examples_classification_plot_probability.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_probability.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the cost matrix of cost-sensitive ensemble methods.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_cost_matrix_thumb.png
+     :alt: Customize cost matrix
+
+     :ref:`sphx_glr_auto_examples_classification_plot_cost_matrix.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_cost_matrix.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the sampling schedule to achieve dynamic resampling....">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_sampling_schedule_thumb.png
+     :alt: Use dynamic resampling schedule
+
+     :ref:`sphx_glr_auto_examples_classification_plot_sampling_schedule.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_sampling_schedule.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the resampling target to achieve advanced resampling...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_resampling_target_thumb.png
+     :alt: Customize resampling target
+
+     :ref:`sphx_glr_auto_examples_classification_plot_resampling_target.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_resampling_target.py`

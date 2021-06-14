@@ -38,15 +38,17 @@
   </a>
 </p>
 
-#### 链接：[[Github](https://github.com/ZhiningLiu1998/imbalanced-ensemble)] [[API/文档/使用手册](https://imbalanced-ensemble.readthedocs.io/)] [[PyPI](https://pypi.org/project/imbalanced-ensemble/)] [[版本历史](https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html)] [[源代码](https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble)] [[下载](https://pypi.org/project/imbalanced-ensemble/#files)]
+#### 链接：[[Github](https://github.com/ZhiningLiu1998/imbalanced-ensemble)] [[API/文档/使用手册](https://imbalanced-ensemble.readthedocs.io/)] [[示例仓库](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#)] [[PyPI](https://pypi.org/project/imbalanced-ensemble/)] [[版本历史](https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html)] [[源代码](https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble)] [[下载](https://pypi.org/project/imbalanced-ensemble/#files)]
 
-**imbalanced-ensemble（IMBENS）是一个 Python 库/软件包。它主要用于在类别不平衡数据上快速实现和部署集成学习算法。截至目前（v0.1.3, 2021/06/08），IMBENS已实现了14种不同的不平衡集成学习算法，从经典的SMOTEBoost (2003) 到最近的 SPE (2020)，从欠采样、过采样到代价敏感学习，全部包括在内。IMBENS实现的大部分方法都具有详细的 [文档和使用手册](https://imbalanced-ensemble.readthedocs.io/)，并将在未来继续更新加入其他方法。**
+**imbalanced-ensemble（IMBENS）是一个 Python 库/软件包。它主要用于在类别不平衡数据上快速实现和部署集成学习算法。截至目前（2021/06），IMBENS已实现了14种不同的不平衡集成学习算法，从经典的SMOTEBoost (2003) 到最近的 SPE (2020)，从欠采样、过采样到代价敏感学习，全部包括在内。IMBENS实现的大部分方法都具有详细的 [文档和使用手册](https://imbalanced-ensemble.readthedocs.io/)，并将在未来继续更新加入其他方法。**
 
 **欢迎 star / issue / PR !**
 
+**更多相关: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[英文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble#readme)].**
+
 **IMBENS的主要特性有：**
 
-- &#x1F34E; **统一易用的API设计，便于使用和二次开发**
+- &#x1F34E; **统一易用的API设计，便于使用和二次开发，详细的 [文档](https://imbalanced-ensemble.readthedocs.io/) 和 [示例](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#)**
 - &#x1F34E; **所有实现的方法均原生支持多分类不平衡问题**
 - &#x1F34E; **在可能的情况下，使用 [joblib](https://github.com/joblib/joblib) 实现并行训练/预测以优化性能**
 - &#x1F34E; **强大的、可定制的、交互式的模型训练日志记录和可视化工具**
@@ -129,6 +131,11 @@ imbalanced-ensemble 具有以下依赖项:
   - **[`CompatibleBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbalanced_ensemble.ensemble.compatible.CompatibleBaggingClassifier.html) [12]**
 
 ## 5分钟快速上手IMBENS
+
+**本节中我们提供一些简单的指南来帮助您快速开始使用 IMBENS。**  
+**我们强烈希望您查看 [**示例仓库**](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#) 中的更全面的使用示例，其中演示了 IMBENS 的许多高级特性。**
+
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot.png)
 
 #### 基础示例
 

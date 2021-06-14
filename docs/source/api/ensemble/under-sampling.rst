@@ -3,11 +3,11 @@
 Under-sampling-based ensembles
 ================================
 
-.. automodule:: imbalanced_ensemble.ensemble.under_sampling
+.. automodule:: imbalanced_ensemble.ensemble
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.ensemble.under_sampling
+.. currentmodule:: imbalanced_ensemble.ensemble
 
 .. autosummary::
    :toctree: _autosummary

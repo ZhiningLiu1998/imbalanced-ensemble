@@ -10,10 +10,9 @@ similar to :mod:`sklearn`, with additional metrics specific to imbalanced
 learning problem.
 """
 
-# Adapted from imbalanced-learn
+# Adapted from imbalanced-learn 
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 # License: MIT
-
 
 from sklearn import datasets
 from sklearn.svm import LinearSVC
@@ -26,6 +25,8 @@ from imbalanced_ensemble.metrics import classification_report_imbalanced
 print(__doc__)
 
 RANDOM_STATE = 42
+
+# sphinx_gallery_thumbnail_path = '../../docs/source/_static/thumbnail.png'
 
 # Generate a dataset
 X, y = datasets.make_classification(

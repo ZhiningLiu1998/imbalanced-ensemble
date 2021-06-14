@@ -1,0 +1,23 @@
+
+
+Examples using ``imbalanced_ensemble.ensemble.BalanceCascadeClassifier``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbalanced_ensemble.ensemble  on synthetic datasets. T...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/classification/images/thumb/sphx_glr_plot_classifier_comparison_thumb.png
+     :alt: Classifier comparison
+
+     :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
