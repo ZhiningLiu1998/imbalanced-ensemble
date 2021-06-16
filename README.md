@@ -1,5 +1,7 @@
 ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png)
 
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png)
+
 <p align="center">
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
     <img src="https://img.shields.io/badge/Imbalanced-Ensemble-orange">
@@ -34,10 +36,10 @@
   </a>
 </p>
 <h3 align="center">
-  Imbalanced Ensemble: <i>ensemble learning for class-imbalanced data in Python.</i>
+  IMBENS: <i>class-imbalanced ensemble learning in Python.</i>
   <br>
   [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
-  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Example Gallery</a>]
+  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
   [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
   [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
   [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
