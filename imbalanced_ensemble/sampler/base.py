@@ -132,7 +132,7 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
         return (X_, y_) if len(output) == 2 else output
 
     @abstractmethod
-    def _fit_resample(self, X, y, sample_weight=None):
+    def _fit_resample(self, X, y, **kwargs):
         """Base method defined in each sampler to defined the sampling
         strategy.
 

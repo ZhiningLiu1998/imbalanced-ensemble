@@ -103,18 +103,48 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
         )
         return X, y, binarize_y
 
-    def _fit_resample(self, X, y, sample_weight=None):
+    def _fit_resample(self, X, y, sample_weight=None, sample_proba=None):
         random_state = check_random_state(self.random_state)
+
+        if sample_proba is None:
+            pass
+        elif not isinstance(sample_proba, (np.ndarray, list)):
+            raise TypeError(
+                f"`sample_proba` should be an array-like of shape (n_samples,),"
+                f" got {type(sample_proba)} instead."
+                )
+        else:
+            sample_proba = np.asarray(sample_proba)
+            if sample_proba.shape != y.shape:
+                raise ValueError(
+                    f"`sample_proba` should be of shape {y.shape}, got {sample_proba.shape}."
+                )
+            else:
+                try:
+                    sample_proba = sample_proba.astype(float)
+                except Exception as e:
+                    e_args = list(e.args)
+                    e_args[0] += \
+                        f"\n`sample_proba` should be an array-like with dtype == float," + \
+                        f" please check your usage."
+                    e.args = tuple(e_args)
+                    raise e
 
         idx_under = np.empty((0,), dtype=int)
 
         for target_class in np.unique(y):
+            class_idx = (y == target_class)
             if target_class in self.sampling_strategy_.keys():
+                if sample_proba is not None:
+                    probabilities = np.array(sample_proba[class_idx]).astype(float)
+                    probabilities /= probabilities.sum()
+                else: probabilities = None
                 n_samples = self.sampling_strategy_[target_class]
                 index_target_class = random_state.choice(
-                    range(np.count_nonzero(y == target_class)),
+                    range(np.count_nonzero(class_idx)),
                     size=n_samples,
                     replace=self.replacement,
+                    p=probabilities,
                 )
             else:
                 index_target_class = slice(None)
@@ -122,7 +152,7 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
             idx_under = np.concatenate(
                 (
                     idx_under,
-                    np.flatnonzero(y == target_class)[index_target_class],
+                    np.flatnonzero(class_idx)[index_target_class],
                 ),
                 axis=0,
             )
