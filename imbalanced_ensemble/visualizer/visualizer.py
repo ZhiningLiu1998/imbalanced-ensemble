@@ -682,7 +682,7 @@ class ImbalancedEnsembleVisualizer():
             metric_name = key if len(split_by) == 0 else key[-1]
             # Use seaborn.lineplot for visualization
             kwargs = {
-                'data': vis_df_grp.get_group(key),
+                'data': vis_df_grp.get_group(key).reset_index(drop=True),
                 'x': x_column,
                 'y': 'score',
                 'hue': 'method', 
