@@ -1,4 +1,8 @@
-![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png)
+<h1 align="center">
+  IMBENS: <i>class-imbalanced ensemble learning in Python.</i>
+</h1>
+
+<!-- ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png) -->
 
 ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png)
 
@@ -35,23 +39,22 @@
     <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
   </a>
 </p>
-<h3 align="center">
-  IMBENS: <i>class-imbalanced ensemble learning in Python.</i>
-  <br>
-  [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
+
+**Links: [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
   [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
   [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
   [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
   [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
   [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
-</h3>
+  [<a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>]
+  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a>]**
 
 ***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
-The problem of learning from imbalanced data is known as [imbalanced learning](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning) or long-tail learning (under multi-class scenario).
+The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See [related papers/libraries/resources here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
 
-Currently (v0.1.4, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical SMOTEBoost (2003), RUSBoost (2010) to recent SPE (2020), from resampling to cost-sensitive learning. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms.
+Currently (v0.1.4, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent *SPE* (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See [full list of implemented methods here](#list-of-implemented-methods).
 
-**Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].**
+<!-- **Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].** -->
 
 **IMBENS is featured for:**
 - &#x1F34E; **Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
@@ -270,29 +273,9 @@ clf.fit(...,
             'print_metrics': True,
         })
 ```
-```
-┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃             ┃            Data: train             ┃
-┃ #Estimators ┃               Metric               ┃
-┃             ┃  acc    balanced_acc   weighted_f1 ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃      1      ┃ 0.964      0.970          0.964    ┃
-┃     10      ┃ 1.000      1.000          1.000    ┃
-┃     20      ┃ 1.000      1.000          1.000    ┃
-┃     30      ┃ 1.000      1.000          1.000    ┃
-┃     40      ┃ 1.000      1.000          1.000    ┃
-┃     50      ┃ 1.000      1.000          1.000    ┃
-┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃    final    ┃ 1.000      1.000          1.000    ┃
-┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-```
-**Add evaluation dataset(s)**
-```python
-  clf.fit(..., 
-          eval_datasets={
-              'valid': (X_valid, y_valid)
-          })
-```
+
+<details><summary> Click to view example output </summary>
+
 ```
 ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃             ┃            Data: train             ┃            Data: valid             ┃
@@ -309,6 +292,38 @@ clf.fit(...,
 ┃    final    ┃ 1.000      1.000          1.000    ┃ 0.983      0.982          0.983    ┃
 ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
+
+</details>
+
+**Add evaluation dataset(s)**
+```python
+  clf.fit(..., 
+          eval_datasets={
+              'valid': (X_valid, y_valid)
+          })
+```
+
+<details><summary> Click to view example output </summary>
+
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             ┃            Data: train             ┃
+┃ #Estimators ┃               Metric               ┃
+┃             ┃  acc    balanced_acc   weighted_f1 ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃      1      ┃ 0.964      0.970          0.964    ┃
+┃     10      ┃ 1.000      1.000          1.000    ┃
+┃     20      ┃ 1.000      1.000          1.000    ┃
+┃     30      ┃ 1.000      1.000          1.000    ┃
+┃     40      ┃ 1.000      1.000          1.000    ┃
+┃     50      ┃ 1.000      1.000          1.000    ┃
+┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃    final    ┃ 1.000      1.000          1.000    ┃
+┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+</details>
+
 **Customize evaluation metric(s)**
 ```python
 from sklearn.metrics import accuracy_score, f1_score
@@ -318,6 +333,9 @@ clf.fit(...,
             'weighted_f1': (f1_score, {'average':'weighted'}),
         })
 ```
+
+<details><summary> Click to view example output </summary>
+
 ```
 ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃             ┃     Data: train      ┃     Data: valid      ┃
@@ -334,6 +352,8 @@ clf.fit(...,
 ┃    final    ┃ 1.000      1.000     ┃ 0.981      0.980     ┃
 ┗━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━┛
 ```
+
+</details>
 
 ## About imbalanced learning
 
