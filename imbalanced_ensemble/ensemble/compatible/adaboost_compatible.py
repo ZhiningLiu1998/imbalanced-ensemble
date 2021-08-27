@@ -230,7 +230,7 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
 
-        self.classes_, y = np.unique(y, return_inverse=True)
+        self.classes_, _ = np.unique(y, return_inverse=True)
         self.n_classes_ = len(self.classes_)
 
         self.eval_metrics_ = check_eval_metrics(eval_metrics)

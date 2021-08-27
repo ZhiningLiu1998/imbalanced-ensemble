@@ -648,11 +648,11 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
                             * xlogy(y_coding, y_predict_proba).sum(axis=1))
 
         # Compute additional weights for multiplication
-        mult_in_exp_weight = self._compute_mult_in_exp_weights_array(y_true=self._idx_y, 
-                                                       y_pred=y_predict)
+        mult_in_exp_weight = self._compute_mult_in_exp_weights_array(
+            y_true=self._y_encoded, y_pred=y_predict)
         mult_in_exp_weight /= mult_in_exp_weight.max()
-        mult_out_exp_weight = self._compute_mult_out_exp_weights_array(y_true=self._idx_y, 
-                                                       y_pred=y_predict)
+        mult_out_exp_weight = self._compute_mult_out_exp_weights_array(
+            y_true=self._y_encoded, y_pred=y_predict)
 
         # Only boost the weights if it will fit again
         if not iboost == self.n_estimators - 1:
@@ -664,7 +664,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
                              mult_out_exp_weight
 
         # print (f'y {np.unique(y)}')
-        # print (f'idx_y {np.unique(self._idx_y)}')
+        # print (f'idx_y {np.unique(self._y_encoded)}')
         # print (f'y_predict {np.unique(y_predict)}')
         # print (f'estimator_weight {estimator_weight.max()}')
         # print (f'mult_in_exp_weight {mult_in_exp_weight.max()}')
@@ -712,9 +712,9 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
             np.log(n_classes - 1.))
 
         # Compute additional weights for multiplication
-        mult_in_exp_weight = self._compute_mult_in_exp_weights_array(y_true=self._idx_y, 
+        mult_in_exp_weight = self._compute_mult_in_exp_weights_array(y_true=self._y_encoded, 
                                                        y_pred=y_predict)
-        mult_out_exp_weight = self._compute_mult_out_exp_weights_array(y_true=self._idx_y, 
+        mult_out_exp_weight = self._compute_mult_out_exp_weights_array(y_true=self._y_encoded, 
                                                        y_pred=y_predict)
 
         # Only boost the weights if I will fit again
@@ -769,13 +769,13 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
 
         raw_y = y.copy()
-        self.classes_, self._idx_y = np.unique(y, return_inverse=True)
+        self.classes_, self._y_encoded = np.unique(y, return_inverse=True)
         self._classes_map = {c: np.where(self.classes_==c)[0][0] for c in self.classes_}
         self.n_classes_ = len(self.classes_)
         
         # Store original class distribution
-        self.origin_distr_ = dict(Counter(self._idx_y))
-        self.target_distr_ = dict(Counter(self._idx_y))
+        self.origin_distr_ = dict(Counter(self._y_encoded))
+        self.target_distr_ = dict(Counter(self._y_encoded))
 
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
@@ -786,7 +786,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         # Check sample weight
         sample_weight = _check_sample_weight(sample_weight, X, np.float64)
-        sample_weight = self._preprocess_sample_weight(sample_weight, y)
+        sample_weight = self._preprocess_sample_weight(sample_weight, self._y_encoded)
         sample_weight /= sample_weight.sum()
         if np.any(sample_weight < 0):
             raise ValueError("sample_weight cannot contain negative weights")
