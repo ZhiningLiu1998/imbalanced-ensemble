@@ -316,6 +316,7 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
                     y_pred_proba=self.y_pred_proba_latest,
                     alpha=alpha,
                     classes_=classes_,
+                    encode_map=self._encode_map,
                     sample_weight=sample_weight)
 
             # Train a new base estimator on resampled data 

@@ -350,7 +350,7 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
 
-        self.classes_, y = np.unique(y, return_inverse=True)
+        self.classes_, self._y_encoded = np.unique(y, return_inverse=True)
         self.n_classes_ = len(self.classes_)
         
         # Store original class distribution
@@ -565,7 +565,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
     def _set_cost_matrix(self, how:str='inverse'):
         """Set the cost matrix according to the 'how' parameter."""
-        classes, origin_distr = self._classes_map.values(), self.origin_distr_
+        classes, origin_distr = self._encode_map.values(), self.origin_distr_
         cost_matrix = []
         for c_pred in classes:
             cost_c = [
@@ -610,7 +610,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         y_predict = self.classes_.take(np.argmax(y_predict_proba, axis=1),
                                        axis=0)
-        y_predict = np.array(list(map(lambda x: self._classes_map[x], 
+        y_predict = np.array(list(map(lambda x: self._encode_map[x], 
                                       y_predict)))
 
         # Instances incorrectly classified
@@ -664,7 +664,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
                              mult_out_exp_weight
 
         # print (f'y {np.unique(y)}')
-        # print (f'idx_y {np.unique(self._y_encoded)}')
+        # print (f'_y_encoded {np.unique(self._y_encoded)}')
         # print (f'y_predict {np.unique(y_predict)}')
         # print (f'estimator_weight {estimator_weight.max()}')
         # print (f'mult_in_exp_weight {mult_in_exp_weight.max()}')
@@ -685,7 +685,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
         # Instances incorrectly classified
         incorrect = y_predict != y
 
-        y_predict = np.array(list(map(lambda x: self._classes_map[x], y_predict)))
+        y_predict = np.array(list(map(lambda x: self._encode_map[x], y_predict)))
 
         # Error fraction
         estimator_error = np.mean(
@@ -770,7 +770,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         raw_y = y.copy()
         self.classes_, self._y_encoded = np.unique(y, return_inverse=True)
-        self._classes_map = {c: np.where(self.classes_==c)[0][0] for c in self.classes_}
+        self._encode_map = {c: np.where(self.classes_==c)[0][0] for c in self.classes_}
         self.n_classes_ = len(self.classes_)
         
         # Store original class distribution

@@ -185,7 +185,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
     @_deprecate_positional_args
     def _fit_resample(self, X, y, *, y_pred_proba, 
                       dropped_index, keep_populations:dict, 
-                      classes_, sample_weight=None):
+                      classes_, encode_map, sample_weight=None):
         
         n_samples, n_classes = X.shape[0], classes_.shape[0]
 
@@ -243,7 +243,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
                 # collect new dropped index of the class C
                 error_kept_c=np.abs(
                     np.ones(n_samples_c) - \
-                    y_pred_proba_kept[class_index_mask_kept, target_class])
+                    y_pred_proba_kept[class_index_mask_kept, encode_map[target_class]])
                 new_dropped_index_c = self._get_new_dropped_index_single_class(
                     error_kept_c=error_kept_c,
                     n_samples=n_samples,

@@ -315,6 +315,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
                     dropped_index=dropped_index,
                     keep_populations=keep_populations,
                     classes_=classes_,
+                    encode_map=self._encode_map,
                     sample_weight=sample_weight)
 
             # Train a new base estimator on resampled data 

@@ -411,7 +411,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         """Validate the label vector."""
         y = column_or_1d(y, warn=True)
         check_classification_targets(y)
-        self.classes_, y = np.unique(y, return_inverse=True)
+        self.classes_, y_encoded = np.unique(y, return_inverse=True)
         self.n_classes_ = len(self.classes_)
         return y
 
@@ -483,6 +483,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         self.features_ = np.arange(self.n_features_)
         self._n_samples = n_samples
         y = self._validate_y(y)
+        self._encode_map = {c: np.where(self.classes_==c)[0][0] for c in self.classes_}
 
         # Check parameters
         self._validate_estimator(default=DecisionTreeClassifier())

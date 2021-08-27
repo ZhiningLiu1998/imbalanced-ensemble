@@ -163,7 +163,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
     @_deprecate_positional_args
     def _fit_resample(self, X, y, *, 
                       y_pred_proba, alpha:float, 
-                      classes_, sample_weight=None):
+                      classes_, encode_map, sample_weight=None):
         
         n_samples, n_classes = X.shape[0], classes_.shape[0]
 
@@ -192,7 +192,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
                 # Compute the hardness array
                 hardness_c=np.abs(
                     np.ones(n_samples_c) - \
-                    y_pred_proba[class_index_mask, target_class])
+                    y_pred_proba[class_index_mask, encode_map[target_class]])
 
                 # index_c: absolute indexes of class C samples
                 index_c = indexes[class_index_mask]
