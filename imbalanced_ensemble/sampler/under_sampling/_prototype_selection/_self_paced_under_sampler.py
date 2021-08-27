@@ -180,7 +180,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         index_list = []
 
         # For each class C
-        for target_class in classes_:
+        for target_class in np.unique(y):
             if target_class in self.sampling_strategy_.keys():
 
                 # Get the desired & actual number of samples of class C
