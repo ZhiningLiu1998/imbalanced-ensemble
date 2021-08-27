@@ -1,6 +1,18 @@
 Release History
 ***************
 
+Version 0.1.5 (2021.08)
+=========================
+
+Enhancement: 
+
+- :class:`imbalanced_ensemble.sampler.under_sampling.RandomUnderSampler` now support ``sample_proba`` (the probability of each instance being sampled, not ``sample_weight``).
+
+Bug Fixes:
+
+- Fixed ValueError when using :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer` with ``seaborn`` v0.11.2.
+- Fixed all ensemble algorithms (error or performance issue) when the classification targets do not begin with 0.
+
 Version 0.1.4 (2021.06)
 =========================
 

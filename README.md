@@ -52,7 +52,7 @@
 ***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
 The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See [related papers/libraries/resources here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
 
-Currently (v0.1.4, 2021/06), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent *SPE* (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See [full list of implemented methods here](#list-of-implemented-methods).
+Currently (v0.1.), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent *SPE* (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See [full list of implemented methods here](#list-of-implemented-methods).
 
 <!-- **Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].** -->
 
