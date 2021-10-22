@@ -21,6 +21,7 @@ from joblib import Parallel
 from sklearn.base import clone
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble._base import _partition_estimators
+from sklearn.pipeline import Pipeline as skPipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
@@ -94,8 +95,12 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
     max_samples = ensemble._max_samples
     bootstrap = ensemble.bootstrap
     bootstrap_features = ensemble.bootstrap_features
-    support_sample_weight = has_fit_parameter(ensemble.base_estimator_,
-                                              "sample_weight")
+    
+    # Check if the base_estimator supports sample_weight
+    base_estimator_ = ensemble.base_estimator_
+    while (isinstance(base_estimator_, skPipeline)): # for Pipelines
+        base_estimator_ = base_estimator_._final_estimator
+    support_sample_weight = has_fit_parameter(base_estimator_, "sample_weight")
     if not support_sample_weight and sample_weight is not None:
         raise ValueError("The base estimator doesn't support sample weight")
 
