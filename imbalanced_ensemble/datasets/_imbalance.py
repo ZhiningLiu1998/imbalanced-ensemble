@@ -8,6 +8,8 @@
 # License: MIT
 
 from collections import Counter
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
 
 from ..sampler.under_sampling import RandomUnderSampler
 from ..utils import check_sampling_strategy
@@ -64,7 +66,7 @@ def make_imbalance(
         The array containing the imbalanced data.
 
     y_resampled : ndarray of shape (n_samples_new)
-        The corresponding label of `X_resampled`
+        The corresponding label of `X_resampled`.
 
     Notes
     -----
@@ -111,3 +113,64 @@ def make_imbalance(
         print(f"Make the dataset imbalanced: {Counter(y_resampled)}")
 
     return X_resampled, y_resampled
+
+ 
+def generate_imbalance_data(n_samples=200, weights=[.9,.1], 
+                            test_size=.5, random_state=None, kwargs={}):
+    """Generate a random n-classes imbalanced classification problem.
+
+    Returns the training and test data and labels.
+
+    Parameters
+    ----------
+    n_samples : int, default=100
+        The number of samples.
+
+    weights : array-like of shape (n_classes,), default=[.9,.1]
+        The proportions of samples assigned to each class, i.e., 
+        it determines the imbalance ratio between classes.
+        If None, then classes are balanced.
+        Note that the number of class will be automatically set
+        to the length of weights.
+
+    test_size : float or int, default=None
+        If float, should be between 0.0 and 1.0 and represent the 
+        proportion of the dataset to include in the test split. 
+        If int, represents the absolute number of test samples. 
+
+    random_state : int, RandomState instance or None, default=None
+        If int, random_state is the seed used by the random number generator;
+        If RandomState instance, random_state is the random number generator;
+        If None, the random number generator is the RandomState instance used
+        by np.random.
+
+    kwargs : dict
+        Dictionary of additional keyword arguments to pass to
+        ``sklearn.datasets.make_classification``. 
+        Please see details `here <https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html#sklearn.datasets.make_classification>`_.
+
+    Returns
+    -------
+    X_train : {ndarray, dataframe} of shape (n_samples*(1-test_size), n_features)
+        The array containing the imbalanced training data.
+
+    X_test : {ndarray, dataframe} of shape (n_samples*test_size, n_features)
+        The array containing the imbalanced test data.
+
+    y_train : ndarray of shape (n_samples*(1-test_size))
+        The corresponding label of `X_train`.
+
+    y_test : ndarray of shape (n_samples*test_size)
+        The corresponding label of `X_test`.
+
+    """
+    X, y = make_classification(
+        n_classes=len(weights), 
+        n_samples=n_samples, 
+        weights=weights,
+        random_state=random_state,
+        **kwargs
+    )
+    return train_test_split(
+        X, y, test_size=test_size, stratify=y,
+        random_state=random_state)
