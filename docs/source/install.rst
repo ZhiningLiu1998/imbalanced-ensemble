@@ -17,7 +17,7 @@ The following packages are requirements:
 Installation
 ============
 
-Install from PyPi
+Install from PyPI
 ^^^^^^^^^^^^^^^^^
 
 You can install imbalanced-ensemble from 

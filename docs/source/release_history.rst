@@ -1,6 +1,19 @@
 Release History
 ***************
 
+Version 0.1.6 (2021.11)
+=========================
+
+Enhancement: 
+
+- All boosting-based methods now support ``early_termination``, which can be used to enable/disable strict early termination for Adaboost training.
+- Add utility functions :func:`imbalanced_ensemble.datasets.generate_imbalance_data` and :func:`imbalanced_ensemble.utils.evaluate_print` to ease the test and evaluation.
+
+Bug Fixes:
+
+- Fixed Resampling + Bagging models (e.g., `OverBagging`) raise error when used with base estimators that do not support `sample_weight` (e.g., `sklearn.KNeighborsClassifier`). 
+- Fixed AttributeError occurs when initializing bagging-based models.
+
 Version 0.1.5 (2021.08)
 =========================
 

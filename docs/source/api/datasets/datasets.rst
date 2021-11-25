@@ -14,4 +14,5 @@ Datasets
    :template: function.rst
 
    make_imbalance
+   generate_imbalance_data
    fetch_datasets

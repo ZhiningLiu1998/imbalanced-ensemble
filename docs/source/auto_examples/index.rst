@@ -252,12 +252,33 @@ Examples concerning the :mod:`imbalanced_ensemble.datasets` module.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of using the  generate_imbalance_data  function to create an imbalanced dataset...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/datasets/images/thumb/sphx_glr_plot_generate_imbalance_thumb.png
+     :alt: Generate an imbalanced dataset
+
+     :ref:`sphx_glr_auto_examples_datasets_plot_generate_imbalance.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/datasets/plot_generate_imbalance
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="An illustration of the make_imbalance function to create an imbalanced dataset from a balanced ...">
 
 .. only:: html
 
  .. figure:: /auto_examples/datasets/images/thumb/sphx_glr_plot_make_imbalance_thumb.png
-     :alt: Create an imbalanced dataset
+     :alt: Make a dataset class-imbalanced
 
      :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance.py`
 

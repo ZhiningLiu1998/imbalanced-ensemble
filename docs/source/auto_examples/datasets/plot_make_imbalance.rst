@@ -18,9 +18,9 @@
 .. _sphx_glr_auto_examples_datasets_plot_make_imbalance.py:
 
 
-============================
-Create an imbalanced dataset
-============================
+===============================
+Make a dataset class-imbalanced
+===============================
 
 An illustration of the :func:`~imbalanced_ensemble.datasets.make_imbalance` function to
 create an imbalanced dataset from a balanced dataset. We show the ability of
@@ -182,9 +182,9 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  43.568 seconds)
+   **Total running time of the script:** ( 0 minutes  43.831 seconds)
 
-**Estimated memory usage:**  16 MB
+**Estimated memory usage:**  19 MB
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:

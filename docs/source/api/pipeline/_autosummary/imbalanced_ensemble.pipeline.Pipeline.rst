@@ -29,7 +29,13 @@
         ~Pipeline.fit_transform
       
       
+        ~Pipeline.get_feature_names_out
+      
+      
         ~Pipeline.get_params
+      
+      
+        ~Pipeline.inverse_transform
       
       
         ~Pipeline.predict
@@ -48,6 +54,9 @@
       
       
         ~Pipeline.set_params
+      
+      
+        ~Pipeline.transform
       
    
    

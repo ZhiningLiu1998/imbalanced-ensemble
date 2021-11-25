@@ -1,7 +1,7 @@
 
 
-Examples using ``imbalanced_ensemble.utils._plot.plot_2Dprojection_and_cardinality``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Examples using ``imbalanced_ensemble.datasets.generate_imbalance_data``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
