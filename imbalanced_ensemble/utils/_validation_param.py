@@ -577,7 +577,7 @@ def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics
             names_imbalanced_ensemble.append(name)
     names_sklearn_ensemble = list(set(ensembles.keys()) - set(names_imbalanced_ensemble))
 
-    # Raise error if not all ensembles have the same n_features_
+    # Raise error if not all ensembles have the same n_features_/n_features_in_
     n_features_fitted = _check_all_estimators_have_same_attribute(ensembles,
         attr_alias = ('n_features_', 'n_features_in_'))
     

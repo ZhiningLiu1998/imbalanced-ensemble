@@ -479,8 +479,8 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
                 raise ValueError("sample_weight cannot contain negative weights")
 
         # Remap output
-        n_samples, self.n_features_ = X.shape
-        self.features_ = np.arange(self.n_features_)
+        n_samples, self.n_features_in_ = X.shape
+        self.features_ = np.arange(self.n_features_in_)
         self._n_samples = n_samples
         y = self._validate_y(y)
         self._encode_map = {c: np.where(self.classes_==c)[0][0] for c in self.classes_}
@@ -534,11 +534,11 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
             X, accept_sparse=['csr', 'csc'], dtype=None,
             force_all_finite=False
         )
-        if self.n_features_ != X.shape[1]:
+        if self.n_features_in_ != X.shape[1]:
             raise ValueError("Number of features of the model must "
                              "match the input. Model n_features is {0} and "
                              "input n_features is {1}."
-                             "".format(self.n_features_, X.shape[1]))
+                             "".format(self.n_features_in_, X.shape[1]))
         
         # Parallel loop
         n_jobs, _, starts = _partition_estimators(self.n_estimators,

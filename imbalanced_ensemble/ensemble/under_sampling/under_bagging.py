@@ -114,7 +114,7 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     estimators_ : list of classifiers
         The collection of fitted sub-estimators.
 
-    n_features_ : int
+    n_features_in_ : int
         The number of features when :meth:`fit` is performed.
 
     estimators_ : list of estimators

@@ -361,7 +361,7 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             sample_weight = _check_sample_weight(sample_weight, X, dtype=None)
 
         # Remap output
-        n_samples, self.n_features_ = X.shape
+        n_samples, self.n_features_in_ = X.shape
         self._n_samples = n_samples
         y = self._validate_y(y)
 
@@ -384,11 +384,11 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         if isinstance(self.max_features, numbers.Integral):
             max_features = self.max_features
         elif isinstance(self.max_features, float):
-            max_features = self.max_features * self.n_features_
+            max_features = self.max_features * self.n_features_in_
         else:
             raise ValueError("max_features must be int or float")
 
-        if not (0 < max_features <= self.n_features_):
+        if not (0 < max_features <= self.n_features_in_):
             raise ValueError("max_features must be in (0, n_features]")
 
         max_features = max(1, int(max_features))

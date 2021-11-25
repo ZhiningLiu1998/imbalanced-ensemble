@@ -280,7 +280,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         The number of classes (single output problem), or a list containing the
         number of classes for each output (multi-output problem).
 
-    n_features_ : int
+    n_features_in_ : int
         The number of features when ``fit`` is performed.
 
     n_outputs_ : int
@@ -485,7 +485,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
             X.sort_indices()
 
         # Remap output
-        _, self.n_features_ = X.shape
+        _, self.n_features_in_ = X.shape
 
         y = np.atleast_1d(y)
         if y.ndim == 2 and y.shape[1] == 1:
