@@ -1,7 +1,7 @@
 """
-============================
-Create an imbalanced dataset
-============================
+===============================
+Make a dataset class-imbalanced
+===============================
 
 An illustration of the :func:`~imbalanced_ensemble.datasets.make_imbalance` function to
 create an imbalanced dataset from a balanced dataset. We show the ability of
