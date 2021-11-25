@@ -113,7 +113,7 @@ imbalanced-ensemble requires following dependencies:
 - [pandas](https://pandas.pydata.org/) (>=1.1.3)
 - [scipy](https://www.scipy.org/) (>=0.19.1)
 - [joblib](https://pypi.org/project/joblib/) (>=0.11)
-- [scikit-learn](https://scikit-learn.org/stable/) (>=0.24)
+- [scikit-learn](https://scikit-learn.org/stable/) (>=1.0.0)
 - [matplotlib](https://matplotlib.org/) (>=3.3.2)
 - [seaborn](https://seaborn.pydata.org/) (>=0.11.0)
 - [tqdm](https://tqdm.github.io/) (>=4.50.2)

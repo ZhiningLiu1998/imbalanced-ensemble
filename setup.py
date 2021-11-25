@@ -65,7 +65,7 @@ INSTALL_REQUIRES = [
     "scipy>=0.19.1",
     "pandas>=1.1.3"
     "joblib>=0.11",
-    "scikit-learn>=0.24",
+    "scikit-learn>=1.0",
     "matplotlib>=3.3.2",
     "seaborn>=0.11.0",
     "tqdm>=4.50.2",
@@ -84,6 +84,7 @@ EXTRAS_REQUIRE = {
         "sphinx-gallery",
         "numpydoc",
         "pydata-sphinx-theme",
+        "sphinx_rtd_theme",
         "sphinxcontrib-bibtex",
     ],
 }
