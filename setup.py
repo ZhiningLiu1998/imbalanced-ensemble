@@ -28,6 +28,8 @@ try:
 except FileNotFoundError:
     LONG_DESCRIPTION = DESCRIPTION
 
+AUTHOR = "Zhining Liu"
+AUTHOR_EMAIL = "zhining.liu@outlook.com"
 MAINTAINER = "Zhining Liu"
 MAINTAINER_EMAIL = "zhining.liu@outlook.com"
 URL = "https://github.com/ZhiningLiu1998/imbalanced-ensemble"
@@ -69,15 +71,15 @@ INSTALL_REQUIRES = [
     "tqdm>=4.50.2",
 ]
 EXTRAS_REQUIRE = {
-    # "dev": [
-    #     "black",
-    #     "flake8",
-    # ],
-    "tests": [
+    "dev": [
+        "black",
+        "flake8",
+    ],
+    "test": [
         "pytest",
         "pytest-cov",
     ],
-    "docs": [
+    "doc": [
         "sphinx",
         "sphinx-gallery",
         "numpydoc",
@@ -86,9 +88,10 @@ EXTRAS_REQUIRE = {
     ],
 }
 
-
 setup(
     name=DISTNAME,
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     maintainer=MAINTAINER,
     maintainer_email=MAINTAINER_EMAIL,
     description=DESCRIPTION,
