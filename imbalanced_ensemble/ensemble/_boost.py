@@ -76,10 +76,12 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
                 sampling_type:str,
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
 
         self._sampling_type = sampling_type
         self.base_sampler = base_sampler
+        self.early_termination = early_termination
 
         super(ResampleBoostClassifier, self).__init__(
             base_estimator=base_estimator,
@@ -319,6 +321,9 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         self.sampler_kwargs_ = check_type(
             sampler_kwargs, 'sampler_kwargs', dict)
+        
+        early_termination_ = check_type(
+            self.early_termination, 'early_termination', bool)
 
         # Check that algorithm is supported.
         if self.algorithm not in ('SAMME', 'SAMME.R'):
@@ -435,14 +440,14 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
             self._training_log_to_console(iboost, y_resampled)
 
             # Early termination.
-            if sample_weight is None:
+            if sample_weight is None and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight is None).")
                 break
             
             # Stop if error is zero.
-            if estimator_error == 0:
+            if estimator_error == 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (training error is 0).")
@@ -451,7 +456,7 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
             sample_weight_sum = np.sum(sample_weight)
 
             # Stop if the sum of sample weights has become non-positive.
-            if sample_weight_sum <= 0:
+            if sample_weight_sum <= 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight_sum <= 0).")
@@ -521,7 +526,10 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
                 n_estimators:int,
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
+
+        self.early_termination = early_termination
 
         super(ReweightBoostClassifier, self).__init__(
             base_estimator=base_estimator,
@@ -737,6 +745,9 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
             eval_metrics:dict,
             train_verbose:bool or int or dict,
             ):
+        
+        early_termination_ = check_type(
+            self.early_termination, 'early_termination', bool)
 
         # Check that algorithm is supported.
         if self.algorithm not in ('SAMME', 'SAMME.R'):
@@ -834,14 +845,14 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
             self._training_log_to_console(iboost, y)
 
             # Early termination.
-            if sample_weight is None:
+            if sample_weight is None and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight is None).")
                 break
             
             # Stop if error is zero.
-            if estimator_error == 0:
+            if estimator_error == 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (training error is 0).")
@@ -850,7 +861,7 @@ class ReweightBoostClassifier(ImbalancedEnsembleClassifierMixin,
             sample_weight_sum = np.sum(sample_weight)
 
             # Stop if the sum of sample weights has become non-positive.
-            if sample_weight_sum <= 0:
+            if sample_weight_sum <= 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight_sum <= 0).")

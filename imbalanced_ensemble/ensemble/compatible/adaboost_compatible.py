@@ -17,7 +17,8 @@ from sklearn.utils.validation import _check_sample_weight
 from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
 from ...utils._validation_data import check_eval_datasets
 from ...utils._validation_param import (check_train_verbose, 
-                                        check_eval_metrics)
+                                        check_eval_metrics, 
+                                        check_type)
 from ...utils._validation import _deprecate_positional_args
 from ...utils._docstring import (Substitution, FuncSubstitution, 
                                  FuncGlossarySubstitution,
@@ -49,6 +50,7 @@ _super = AdaBoostClassifier
 
 
 @Substitution(
+    early_termination=_get_parameter_docstring('early_termination', **_properties),
     example=_get_example_docstring(_method_name)
 )
 class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin, 
@@ -70,7 +72,6 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
         Support for sample weighting is required, as well as proper
         ``classes_`` and ``n_classes_`` attributes. If ``None``, then
         the base estimator is :class:`~sklearn.tree.DecisionTreeClassifier`
-        initialized with `max_depth=1`.
 
     n_estimators : int, default=50
         The maximum number of estimators at which boosting is terminated.
@@ -87,6 +88,8 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
+    
+    {early_termination}
 
     random_state : int, RandomState instance or None, default=None
         Controls the random seed given at each `base_estimator` at each
@@ -148,7 +151,10 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
                 n_estimators:int=50,
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
+
+        self.early_termination = early_termination
 
         super(CompatibleAdaBoostClassifier, self).__init__(
             base_estimator=base_estimator,
@@ -199,6 +205,9 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
         -------
         self : object
         """
+
+        early_termination_ = check_type(
+            self.early_termination, 'early_termination', bool)
 
         # Check that algorithm is supported.
         if self.algorithm not in ('SAMME', 'SAMME.R'):
@@ -281,14 +290,14 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
             self._training_log_to_console(iboost, y)
             
             # Early termination.
-            if sample_weight is None:
+            if sample_weight is None and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight is None).")
                 break
             
             # Stop if error is zero.
-            if estimator_error == 0:
+            if estimator_error == 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (training error is 0).")
@@ -297,7 +306,7 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
             sample_weight_sum = np.sum(sample_weight)
 
             # Stop if the sum of sample weights has become non-positive.
-            if sample_weight_sum <= 0:
+            if sample_weight_sum <= 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight_sum <= 0).")

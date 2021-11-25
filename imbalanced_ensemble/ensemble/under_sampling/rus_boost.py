@@ -46,6 +46,7 @@ _properties = {
 
 
 @Substitution(
+    early_termination=_get_parameter_docstring('early_termination', **_properties),
     random_state=_get_parameter_docstring('random_state', **_properties),
     example=_get_example_docstring(_method_name)
 )
@@ -84,6 +85,8 @@ class RUSBoostClassifier(ResampleBoostClassifier):
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
+    
+    {early_termination}
 
     {random_state}
 
@@ -149,6 +152,7 @@ class RUSBoostClassifier(ResampleBoostClassifier):
                 replacement:bool=True,
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
         
         base_sampler = _sampler_class()
@@ -161,6 +165,7 @@ class RUSBoostClassifier(ResampleBoostClassifier):
             sampling_type=sampling_type,
             learning_rate=learning_rate,
             algorithm=algorithm,
+            early_termination=early_termination,
             random_state=random_state)
         
         self.__name__ = _method_name

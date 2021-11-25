@@ -108,6 +108,12 @@ class FuncGlossarySubstitution:
         return obj
 
 
+_early_termination_docstring = """early_termination : bool, default=False
+        Whether to enable early termination for AdaBoost training.
+        If True, AdaBoost training can be terminated early when the error 
+        is zero or the sum of the sample weights is non-positive.
+    """.rstrip()
+
 _random_state_docstring = """random_state : int, RandomState instance, default=None
         Control the randomization of the algorithm.
 
@@ -423,7 +429,7 @@ def _get_n_target_samples_docstring(sampling_type:str, **ignored_kwargs) -> str:
 PARAM_DOCSTRING_TYPE = (
     'n_jobs_sampler', 'balancing_schedule', 'eval_datasets', 'eval_metrics', 
     'random_state', 'n_jobs', 'warm_start', 'train_verbose', 'target_label', 
-    'n_target_samples',
+    'n_target_samples', 'early_termination',
 )
 
 def _get_parameter_docstring(param:str, **properties):
@@ -438,6 +444,8 @@ def _get_parameter_docstring(param:str, **properties):
         return _eval_metrics_docstring
     elif param == 'warm_start':
         return _warm_start_docstring
+    elif param == 'early_termination':
+        return _early_termination_docstring
     elif param == 'random_state':
         return _get_random_state_docstring(**properties)
     elif param == 'n_jobs':

@@ -50,6 +50,7 @@ _properties = {
 
 @Substitution(
     n_jobs_sampler=_get_parameter_docstring('n_jobs_sampler', **_properties),
+    early_termination=_get_parameter_docstring('early_termination', **_properties),
     random_state=_get_parameter_docstring('random_state', **_properties),
     example=_get_example_docstring(_method_name)
 )
@@ -108,6 +109,8 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
+    
+    {early_termination}
 
     {random_state}
 
@@ -177,6 +180,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
                 density_exponent="auto",
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
         
         base_sampler = _sampler_class()
@@ -189,6 +193,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
             sampling_type=sampling_type,
             learning_rate=learning_rate,
             algorithm=algorithm,
+            early_termination=early_termination,
             random_state=random_state)
         
         self.__name__ = _method_name

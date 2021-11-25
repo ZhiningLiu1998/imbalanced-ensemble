@@ -46,6 +46,7 @@ SET_BETA_HOW = ('uniform', 'inverse', 'log1p-inverse')
 
 
 @Substitution(
+    early_termination=_get_parameter_docstring('early_termination', **_properties),
     random_state=_get_parameter_docstring('random_state', **_properties),
     example=_get_example_docstring(_method_name)
 )
@@ -82,6 +83,8 @@ class AdaUBoostClassifier(ReweightBoostClassifier):
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
+    
+    {early_termination}
     
     {random_state}
     
@@ -147,6 +150,7 @@ class AdaUBoostClassifier(ReweightBoostClassifier):
                 *,
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
+                early_termination:bool=False,
                 random_state=None):
 
         self.__name__ = 'AdaUBoostClassifier'
@@ -156,6 +160,7 @@ class AdaUBoostClassifier(ReweightBoostClassifier):
             n_estimators=n_estimators,
             learning_rate=learning_rate,
             algorithm=algorithm,
+            early_termination=early_termination,
             random_state=random_state)
 
 
