@@ -50,18 +50,35 @@
   [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
   [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
   [<a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>]
-  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a>]**
+  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a>]
+  [<a href="https://arxiv.org/abs/2111.12776">arXiv</a>]**
 
-***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementing and deploying ensemble learning algorithms on class-imbalanced data.
-The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See [related papers/libraries/resources here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
+**Paper: [IMBENS: Ensemble Class-imbalanced Learning in Python](https://arxiv.org/abs/2111.12776)**
 
-Currently (v0.1), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent *SPE* (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See [full list of implemented methods here](#list-of-implemented-methods).
+***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementation, modification, evaluation, and visualization of ensemble learning algorithms for class-imbalanced data.
+The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
+
+Currently (v0.1), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent *SPE* (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).
 
 <!-- **Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].** -->
 
+
+<!-- ## Citing us -->
+
+**If you find IMBENS helpful in your work or research, we would greatly appreciate citations to the following [paper](https://arxiv.org/pdf/2111.12776.pdf):**
+
+```bib
+@article{liu2021imbens,
+  title={IMBENS: Ensemble Class-imbalanced Learning in Python},
+  author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
+  journal={arXiv preprint arXiv:2111.12776},
+  year={2021}
+}
+```
+
 **IMBENS is featured for:**
 - &#x1F34E; **Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
-- &#x1F34E; **Capable for *multi-class* imbalanced learning out-of-box.**
+- &#x1F34E; **Capable for out-of-the-box *multi-class* imbalanced (long-tailed) learning.**
 - &#x1F34E; **Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).**
 - &#x1F34E; **Powerful, customizable, interactive training logging and visualizer.**
 - &#x1F34E; **Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).**
@@ -77,6 +94,7 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
+
 ### Table of Contents
 
 - [Installation](#installation)
@@ -89,6 +107,7 @@ y_pred = clf.predict(X_test)
 - [About imbalanced learning](#about-imbalanced-learning)
 - [Acknowledgements](#acknowledgements)
 - [References](#references)
+
 
 ## Installation
 
