@@ -1,10 +1,13 @@
-<h1 align="center">
-  IMBENS: <i>class-imbalanced ensemble learning in Python.</i>
-</h1>
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbens-logo.png)
+
 
 <!-- ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png) -->
 
-![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png)
+<!-- ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png) -->
+
+<h1 align="center">
+  IMBENS: Class-imbalanced Ensemble Learning in Python
+</h1>
 
 <p align="center">
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
@@ -28,7 +31,6 @@
   <a href="https://pypi.org/project/imbalanced-ensemble/">
     <img src="https://badge.fury.io/py/imbalanced-ensemble.svg">
   </a>
-  <br>
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/pypi/pyversions/imbalanced-ensemble.svg">
   </a>
@@ -43,15 +45,16 @@
   </a>
 </p>
 
-**Links: [<a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a>]
-  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
-  [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
-  [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
-  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a>]
-  [<a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a>]
-  [<a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>]
-  [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a>]
-  [<a href="https://arxiv.org/abs/2111.12776">arXiv</a>]**
+**Links: 
+  <a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a> |
+  <a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a> |
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a> |
+  <a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a> |
+  <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a> |
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a> |
+  <a href="https://arxiv.org/abs/2111.12776">arXiv</a>**
 
 **Paper: [IMBENS: Ensemble Class-imbalanced Learning in Python](https://arxiv.org/abs/2111.12776)**
 
