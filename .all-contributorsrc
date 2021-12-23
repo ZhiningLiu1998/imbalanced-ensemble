@@ -17,6 +17,15 @@
         "maintenance",
         "bug"
       ]
+    },
+    {
+      "login": "leaphan",
+      "name": "leaphan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35593707?v=4",
+      "profile": "https://github.com/leaphan",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
