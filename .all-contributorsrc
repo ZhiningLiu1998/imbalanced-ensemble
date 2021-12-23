@@ -4,7 +4,7 @@
   ],
   "imageSize": 100,
   "commit": false,
-  "badgeTemplate": "<img src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg\">",
+  "badgeTemplate": "<a href=\"https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-\"><img src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg\"></a>",
   "contributors": [
     {
       "login": "ZhiningLiu1998",
