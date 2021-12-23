@@ -37,9 +37,7 @@
     <img src="https://visitor-badge.glitch.me/badge?page_id=ZhiningLiu1998.imbalanced-ensemble">
   </a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-">
-  <img src="https://img.shields.io/badge/all_contributors-3-orange.svg">
-  </a>
+<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-"><img src="https://img.shields.io/badge/all_contributors-4-orange.svg"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://pepy.tech/project/imbalanced-ensemble">
     <img src="https://pepy.tech/badge/imbalanced-ensemble">
@@ -425,6 +423,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://zhiningliu.com"><img src="https://avatars.githubusercontent.com/u/26108487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhining Liu</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/commits?author=ZhiningLiu1998" title="Code">💻</a> <a href="#ideas-ZhiningLiu1998" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-ZhiningLiu1998" title="Maintenance">🚧</a> <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3AZhiningLiu1998" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/leaphan"><img src="https://avatars.githubusercontent.com/u/35593707?v=4?s=100" width="100px;" alt=""/><br /><sub><b>leaphan</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Aleaphan" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/hannanhtang"><img src="https://avatars.githubusercontent.com/u/23587399?v=4?s=100" width="100px;" alt=""/><br /><sub><b>hannanhtang</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Ahannanhtang" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/huajuanren"><img src="https://avatars.githubusercontent.com/u/37321841?v=4?s=100" width="100px;" alt=""/><br /><sub><b>H.J.Ren</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Ahuajuanren" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
