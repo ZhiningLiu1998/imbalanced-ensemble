@@ -37,7 +37,7 @@
     <img src="https://visitor-badge.glitch.me/badge?page_id=ZhiningLiu1998.imbalanced-ensemble">
   </a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-  <img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square">
+  <img src="https://img.shields.io/badge/all_contributors-1-orange.svg">
   <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://pepy.tech/project/imbalanced-ensemble">
     <img src="https://pepy.tech/badge/imbalanced-ensemble">
@@ -112,6 +112,7 @@ y_pred = clf.predict(X_test)
 - [About imbalanced learning](#about-imbalanced-learning)
 - [Acknowledgements](#acknowledgements)
 - [References](#references)
+- [Contributors ✨](#contributors-)
 
 
 ## Installation
