@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "ZhiningLiu1998",
+      "name": "Zhining Liu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26108487?v=4",
+      "profile": "http://zhiningliu.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "imbalanced-ensemble",
+  "projectOwner": "ZhiningLiu1998",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
