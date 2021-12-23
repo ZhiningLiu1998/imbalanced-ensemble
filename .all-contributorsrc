@@ -35,6 +35,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "huajuanren",
+      "name": "H.J.Ren",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37321841?v=4",
+      "profile": "https://github.com/huajuanren",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
