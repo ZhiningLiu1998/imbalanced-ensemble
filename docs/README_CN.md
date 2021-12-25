@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png)
+![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbens-logo.png)
 
 <h2 align="center">
   Imbalanced Ensemble: 在多类别不平衡(长尾)数据上部署集成学习算法
@@ -38,13 +38,25 @@
   </a>
 </p>
 
-#### 链接：[[Github](https://github.com/ZhiningLiu1998/imbalanced-ensemble)] [[API/文档/使用手册](https://imbalanced-ensemble.readthedocs.io/)] [[示例仓库](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#)] [[PyPI](https://pypi.org/project/imbalanced-ensemble/)] [[版本历史](https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html)] [[源代码](https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble)] [[下载](https://pypi.org/project/imbalanced-ensemble/#files)]
+**语言: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>**
+
+**链接: 
+  <a href="https://imbalanced-ensemble.readthedocs.io/">API文档</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">示例</a> |
+  <a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">发布日志</a> |
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">源代码</a> |
+  <a href="https://pypi.org/project/imbalanced-ensemble/#files">下载</a> |
+  <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a> |
+  <a href="https://arxiv.org/abs/2111.12776">arXiv</a>**
+
+**论文: [IMBENS: Ensemble Class-imbalanced Learning in Python](https://arxiv.org/abs/2111.12776)**
 
 **imbalanced-ensemble（IMBENS）是一个 Python 库/软件包。它主要用于在类别不平衡数据上快速实现和部署集成学习算法。截至目前（2021/06），IMBENS已实现了14种不同的不平衡集成学习算法，从经典的SMOTEBoost (2003) 到最近的 SPE (2020)，从欠采样、过采样到代价敏感学习，全部包括在内。IMBENS实现的大部分方法都具有详细的 [文档和使用手册](https://imbalanced-ensemble.readthedocs.io/)，并将在未来继续更新加入其他方法。**
 
-**欢迎 star / issue / PR !**
-
-**更多相关: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[英文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble#readme)].**
+- ⭐ **如果此项目对您有帮助，请点一个STAR~** ⭐
+- **如果您发现了bug或者有其他建议，请open issue/PR。**
+- **我们非常感谢任何可能的帮助，[Contributors✨](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning#contributors-)一节会记录所有的贡献者！**
 
 **IMBENS的主要特性有：**
 
@@ -65,6 +77,17 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
+**如果IMBENS帮助了您的工作或研究, 我们将非常感谢对以下 [论文](https://arxiv.org/pdf/2111.12776.pdf) 的引用:**
+
+```bib
+@article{liu2021imbens,
+  title={IMBENS: Ensemble Class-imbalanced Learning in Python},
+  author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
+  journal={arXiv preprint arXiv:2111.12776},
+  year={2021}
+}
+```
+
 ## 目录
 
 - [目录](#目录)
@@ -76,6 +99,8 @@ y_pred = clf.predict(X_test)
     - [自定义训练日志](#自定义训练日志)
 - [有关类别不平衡学习](#有关类别不平衡学习)
 - [参考文献](#参考文献)
+- [相关项目](#相关项目)
+- [贡献者✨](#贡献者)
 
 ## 安装IMBENS
 
@@ -266,3 +291,55 @@ clf.fit(...,
 | [11] | Freund, Y., & Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of computer and system sciences, 55(1), 119-139. |
 | [12] | Breiman, L. (1996). Bagging predictors. Machine learning, 24(2), 123-140. |
 | [13] | Guillaume Lemaître, Fernando Nogueira, and Christos K. Aridas. Imbalanced-learn: A python toolbox to tackle the curse of imbalanced datasets in machine learning. Journal of Machine Learning Research, 18(17):1–5, 2017. |
+
+## 相关项目
+
+**查看 [我](https://zhiningliu.com) 的其他开源机器学习项目！**  
+<table style="font-size:15px;">
+  <tr>
+    <!-- <td align="center"><a href="http://zhiningliu.com"><img src="https://avatars.githubusercontent.com/u/26108487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhining Liu</b></sub></a></td> -->
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/self-paced-ensemble"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/spe-thumb-1.png" height="80px" alt=""/><br /><sub><b>Self-paced Ensemble [ICDE]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/self-paced-ensemble/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/self-paced-ensemble?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/mesa"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/mesa-thumb.png" height="80px" alt=""/><br /><sub><b>Meta-Sampler [NeurIPS]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/mesa/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/mesa?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeil-thumb.png" height="80px" alt=""/><br /><sub><b>Imbalanced Learning [Awesome]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-imbalanced-learning?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeml-thumb.png" height="80px" alt=""/><br /><sub><b>Machine Learning [Awesome]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-awesome-machine-learning?style=social">
+      </a>
+    </td>
+  </tr>
+</table>
+
+## 贡献者✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://zhiningliu.com"><img src="https://avatars.githubusercontent.com/u/26108487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhining Liu</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/commits?author=ZhiningLiu1998" title="Code">💻</a> <a href="#ideas-ZhiningLiu1998" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-ZhiningLiu1998" title="Maintenance">🚧</a> <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3AZhiningLiu1998" title="Bug reports">🐛</a> <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/commits?author=ZhiningLiu1998" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/leaphan"><img src="https://avatars.githubusercontent.com/u/35593707?v=4?s=100" width="100px;" alt=""/><br /><sub><b>leaphan</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Aleaphan" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/hannanhtang"><img src="https://avatars.githubusercontent.com/u/23587399?v=4?s=100" width="100px;" alt=""/><br /><sub><b>hannanhtang</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Ahannanhtang" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/huajuanren"><img src="https://avatars.githubusercontent.com/u/37321841?v=4?s=100" width="100px;" alt=""/><br /><sub><b>H.J.Ren</b></sub></a><br /><a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues?q=author%3Ahuajuanren" title="Bug reports">🐛</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

@@ -47,6 +47,8 @@
   </a>
 </p>
 
+**Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>**
+
 **Links: 
   <a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a> |
   <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a> |
@@ -55,31 +57,19 @@
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a> |
   <a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a> |
   <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a> |
-  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a> |
   <a href="https://arxiv.org/abs/2111.12776">arXiv</a>**
 
 **Paper: [IMBENS: Ensemble Class-imbalanced Learning in Python](https://arxiv.org/abs/2111.12776)**
 
-***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`)** is a Python toolbox for quick implementation, modification, evaluation, and visualization of ensemble learning algorithms for class-imbalanced data.
-The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).
+***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`) is a Python toolbox for quick implementation, modification, evaluation, and visualization of ensemble learning algorithms for class-imbalanced data.
+The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).**
 
-Currently (v0.1), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).
+**Currently (v0.1), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).**
 
-<!-- **Read more at: [[知乎/Zhihu](https://zhuanlan.zhihu.com/p/376572330)] [[中文README](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md)].** -->
+- ⭐ **Please leave a <font color='orange'>STAR</font> if you like this project!** ⭐
+- **If you find any bugs or have any suggestions, please consider opening an issue or a PR.** 
+- **We would greatly appreciate your contribution, and you will appear in the [Contributors✨](#contributors-)!**
 
-
-<!-- ## Citing us -->
-
-**If you find IMBENS helpful in your work or research, we would greatly appreciate citations to the following [paper](https://arxiv.org/pdf/2111.12776.pdf):**
-
-```bib
-@article{liu2021imbens,
-  title={IMBENS: Ensemble Class-imbalanced Learning in Python},
-  author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
-  journal={arXiv preprint arXiv:2111.12776},
-  year={2021}
-}
-```
 
 **IMBENS is featured for:**
 - &#x1F34E; **Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
@@ -98,10 +88,23 @@ clf.fit(X_train, y_train)
 # Predict with an SPE classifier
 y_pred = clf.predict(X_test)
 ```
+<!-- ## Citing us -->
+
+**If you find IMBENS helpful in your work or research, we would greatly appreciate citations to the following [paper](https://arxiv.org/pdf/2111.12776.pdf):**
+
+```bib
+@article{liu2021imbens,
+  title={IMBENS: Ensemble Class-imbalanced Learning in Python},
+  author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
+  journal={arXiv preprint arXiv:2111.12776},
+  year={2021}
+}
+```
 
 
-### Table of Contents
+## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Highlights](#highlights)
 - [List of implemented methods](#list-of-implemented-methods)
@@ -112,6 +115,7 @@ y_pred = clf.predict(X_test)
 - [About imbalanced learning](#about-imbalanced-learning)
 - [Acknowledgements](#acknowledgements)
 - [References](#references)
+- [Related Projects](#related-projects)
 - [Contributors ✨](#contributors-)
 
 
@@ -411,6 +415,37 @@ For more resources on imbalanced learning, please refer to [**awesome-imbalanced
 | [11] | Freund, Y., & Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of computer and system sciences, 55(1), 119-139. |
 | [12] | Breiman, L. (1996). Bagging predictors. Machine learning, 24(2), 123-140. |
 | [13] | Guillaume Lemaître, Fernando Nogueira, and Christos K. Aridas. Imbalanced-learn: A python toolbox to tackle the curse of imbalanced datasets in machine learning. Journal of Machine Learning Research, 18(17):1–5, 2017. |
+
+## Related Projects
+
+**Check out [Zhining](https://zhiningliu.com/)'s other open-source projects!**  
+<table style="font-size:15px;">
+  <tr>
+    <!-- <td align="center"><a href="http://zhiningliu.com"><img src="https://avatars.githubusercontent.com/u/26108487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhining Liu</b></sub></a></td> -->
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/self-paced-ensemble"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/spe-thumb-1.png" height="80px" alt=""/><br /><sub><b>Self-paced Ensemble [ICDE]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/self-paced-ensemble/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/self-paced-ensemble?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/mesa"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/mesa-thumb.png" height="80px" alt=""/><br /><sub><b>Meta-Sampler [NeurIPS]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/mesa/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/mesa?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeil-thumb.png" height="80px" alt=""/><br /><sub><b>Imbalanced Learning [Awesome]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-imbalanced-learning?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeml-thumb.png" height="80px" alt=""/><br /><sub><b>Machine Learning [Awesome]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-awesome-machine-learning?style=social">
+      </a>
+    </td>
+  </tr>
+</table>
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
