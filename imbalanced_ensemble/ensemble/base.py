@@ -583,5 +583,51 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
                                   axis=0)
 
 
+    @property
+    def feature_importances_(self):
+        """The impurity-based feature importances.
+        The higher, the more important the feature.
+        The importance of a feature is computed as the (normalized)
+        total reduction of the criterion brought by that feature.  It is also
+        known as the Gini importance.
+        Warning: impurity-based feature importances can be misleading for
+        high cardinality features (many unique values). See
+        :func:`sklearn.inspection.permutation_importance` as an alternative.
+        Returns
+        -------
+        feature_importances_ : ndarray of shape (n_features,)
+            The feature importances.
+        """
+        if self.estimators_ is None or len(self.estimators_) == 0:
+            raise ValueError(
+                "Estimator not fitted, call `fit` before `feature_importances_`."
+            )
+
+        try:
+            if hasattr(self, 'estimator_weights_'):
+                norm = self.estimator_weights_.sum()
+                return (
+                    sum(
+                        weight * clf.feature_importances_
+                        for weight, clf in zip(self.estimator_weights_, self.estimators_)
+                    )
+                    / norm
+                )
+            else:
+                return (
+                    sum(
+                        clf.feature_importances_ for clf in self.estimators_
+                    )
+                    / len(self.estimators_)
+                )
+
+        except AttributeError as e:
+            raise AttributeError(
+                "Unable to compute feature importances "
+                "since base_estimator does not have a "
+                "feature_importances_ attribute"
+            ) from e
+
+
     def _parallel_args(self):
         return {}
