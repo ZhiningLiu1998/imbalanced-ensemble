@@ -6,7 +6,7 @@
 Welcome to imbalanced-ensemble documentation!
 ===============================================
 
-.. image:: https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbalanced_ensemble_header.png
+.. image:: https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbens-logo.png
 
 .. raw:: html
 

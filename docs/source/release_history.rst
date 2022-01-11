@@ -1,6 +1,29 @@
 Release History
 ***************
 
+Version 0.1.7 (2022.01)
+=========================
+
+Enhancement: 
+
+- Add ``feature_importances_`` attribute for supported methods:
+
+  - :class:`imbalanced_ensemble.ensemble.AdaCostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.AdaUBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.AsymBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`
+  - :class:`imbalanced_ensemble.ensemble.BalancedRandomForestClassifier`
+  - :class:`imbalanced_ensemble.ensemble.CompatibleAdaBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.KmeansSMOTEBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.OverBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.RUSBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
+  - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+
+Documentation:
+
+- Paper describing this package "`IMBENS: Ensemble Class-imbalanced Learning in Python <https://arxiv.org/abs/2111.12776>`_".
+
 Version 0.1.6 (2021.11)
 =========================
 
