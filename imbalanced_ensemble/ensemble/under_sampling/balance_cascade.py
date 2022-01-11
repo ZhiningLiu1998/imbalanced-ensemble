@@ -120,6 +120,9 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
     n_classes_ : int
         The number of classes.
     
+    feature_importances_ : ndarray of shape (n_features,)
+        The feature importances if supported by the ``base_estimator``.
+    
     estimators_n_training_samples_ : list of ints
         The number of training samples for each fitted 
         base estimators.
