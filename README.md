@@ -47,19 +47,23 @@
   </a>
 </p>
 
-**Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>**
+<h3 align="center">
+Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>
+</h3>
 
-**Links: 
-  <a href="https://imbalanced-ensemble.readthedocs.io/">Documentation</a> |
-  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a> |
+**Release: 
   <a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a> |
-  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a> |
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/tree/main/imbalanced_ensemble">Source</a> |
   <a href="https://pypi.org/project/imbalanced-ensemble/#files">Download</a> |
-  <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a> |
-  <a href="https://arxiv.org/abs/2111.12776">arXiv</a>**
-
-**Paper: [IMBENS: Ensemble Class-imbalanced Learning in Python](https://arxiv.org/abs/2111.12776)**
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>  
+  Links: 
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#5-min-quick-start-with-imbens">Getting Started</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/">API Reference</a> |
+  <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Examples</a> |
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#related-projects">Related Projects</a> |
+  <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>  
+  Paper:
+  <a href="https://arxiv.org/abs/2111.12776">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>**
 
 ***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`) is a Python toolbox for quick implementation, modification, evaluation, and visualization of ensemble learning algorithms for class-imbalanced data.
 The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).**
@@ -100,7 +104,6 @@ y_pred = clf.predict(X_test)
   year={2021}
 }
 ```
-
 
 ## Table of Contents
 
@@ -421,17 +424,6 @@ For more resources on imbalanced learning, please refer to [**awesome-imbalanced
 **Check out [Zhining](https://zhiningliu.com/)'s other open-source projects!**  
 <table style="font-size:15px;">
   <tr>
-    <!-- <td align="center"><a href="http://zhiningliu.com"><img src="https://avatars.githubusercontent.com/u/26108487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhining Liu</b></sub></a></td> -->
-    <td align="center"><a href="https://github.com/ZhiningLiu1998/self-paced-ensemble"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/spe-thumb-1.png" height="80px" alt=""/><br /><sub><b>Self-paced Ensemble [ICDE]</b></sub></a><br />
-      <a href="https://github.com/ZhiningLiu1998/self-paced-ensemble/stargazers">
-      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/self-paced-ensemble?style=social">
-      </a>
-    </td>
-    <td align="center"><a href="https://github.com/ZhiningLiu1998/mesa"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/mesa-thumb.png" height="80px" alt=""/><br /><sub><b>Meta-Sampler [NeurIPS]</b></sub></a><br />
-      <a href="https://github.com/ZhiningLiu1998/mesa/stargazers">
-      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/mesa?style=social">
-      </a>
-    </td>
     <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeil-thumb.png" height="80px" alt=""/><br /><sub><b>Imbalanced Learning [Awesome]</b></sub></a><br />
       <a href="https://github.com/ZhiningLiu1998/awesome-imbalanced-learning/stargazers">
       <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-imbalanced-learning?style=social">
@@ -440,6 +432,16 @@ For more resources on imbalanced learning, please refer to [**awesome-imbalanced
     <td align="center"><a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/awesomeml-thumb.png" height="80px" alt=""/><br /><sub><b>Machine Learning [Awesome]</b></sub></a><br />
       <a href="https://github.com/ZhiningLiu1998/awesome-awesome-machine-learning/stargazers">
       <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/awesome-awesome-machine-learning?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/self-paced-ensemble"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/spe-thumb-1.png" height="80px" alt=""/><br /><sub><b>Self-paced Ensemble [ICDE]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/self-paced-ensemble/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/self-paced-ensemble?style=social">
+      </a>
+    </td>
+    <td align="center"><a href="https://github.com/ZhiningLiu1998/mesa"><img src="https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/thumbnails/mesa-thumb.png" height="80px" alt=""/><br /><sub><b>Meta-Sampler [NeurIPS]</b></sub></a><br />
+      <a href="https://github.com/ZhiningLiu1998/mesa/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/ZhiningLiu1998/mesa?style=social">
       </a>
     </td>
   </tr>
