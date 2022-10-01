@@ -65,24 +65,26 @@ Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">Englis
   Paper:
   <a href="https://arxiv.org/abs/2111.12776">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>**
 
-***imbalanced-ensemble* (IMBENS, imported as `imbalanced_ensemble`) is a Python toolbox for quick implementation, modification, evaluation, and visualization of ensemble learning algorithms for class-imbalanced data.
-The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning).**
+***IMBENS*** (imported as `imbalanced_ensemble`) is a Python library for quick implementation, modification, evaluation, and visualization of **ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
+Currently, IMBENS includes more than **[15 ensemble imbalanced learning algorithms](#list-of-implemented-methods)**, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*.
 
-**Currently (v0.1), IMBENS includes more than 15 ensemble imbalanced learning algorithms, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*. More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).**
+***IMBENS*** is developed on top of [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn) (imblearn) and follows the API design of [scikit-learn](https://github.com/scikit-learn/scikit-learn). Compared to imblearn, IMBENS provides more powerful ensemble learning algorithms with ***multi-class learning*** support and many other **advanced features**:
 
-- ⭐ **Please leave a <font color='orange'>STAR</font> if you like this project!** ⭐
+<!-- The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning). -->
+<!-- More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).** -->
+
+<!-- - ⭐ **Please leave a <font color='orange'>STAR</font> if you like this project!** ⭐
 - **If you find any bugs or have any suggestions, please consider opening an issue or a PR.** 
-- **We would greatly appreciate your contribution, and you will appear in the [Contributors✨](#contributors-)!**
+- **We would greatly appreciate your contribution, and you will appear in the [Contributors✨](#contributors-)!** -->
 
+<!-- **IMBENS is featured for:** -->
+- &#x1F34E; Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).
+- &#x1F34E; Capable for out-of-the-box ***multi-class*** imbalanced (long-tailed) learning.
+- &#x1F34E; Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).
+- &#x1F34E; Powerful, customizable, interactive training logging and visualizer.
+- &#x1F34E; Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).
 
-**IMBENS is featured for:**
-- &#x1F34E; **Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
-- &#x1F34E; **Capable for out-of-the-box *multi-class* imbalanced (long-tailed) learning.**
-- &#x1F34E; **Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).**
-- &#x1F34E; **Powerful, customizable, interactive training logging and visualizer.**
-- &#x1F34E; **Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).**
-
-**API Demo:**
+**Ensemble Imbalanced Learning with 4 Lines of Code:**
 ```python
 # Train an SPE classifier
 from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier
@@ -92,9 +94,10 @@ clf.fit(X_train, y_train)
 # Predict with an SPE classifier
 y_pred = clf.predict(X_test)
 ```
-<!-- ## Citing us -->
+**Citing IMBENS**
 
-**If you find IMBENS helpful in your work or research, we would greatly appreciate citations to the following [paper](https://arxiv.org/pdf/2111.12776.pdf):**
+The [IMBENS paper](https://arxiv.org/pdf/2111.12776.pdf) is available on arxiv.
+If you use IMBENS in a scientific publication, we would appreciate citations to the following paper:
 
 ```bib
 @article{liu2021imbens,
