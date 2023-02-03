@@ -45,6 +45,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "MarcSkovMadsen",
+      "name": "Marc Skov Madsen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42288570?v=4",
+      "profile": "http://datamodelsanalytics.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -52,5 +61,6 @@
   "projectOwner": "ZhiningLiu1998",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
