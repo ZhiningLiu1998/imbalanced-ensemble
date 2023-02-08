@@ -7,22 +7,29 @@
 # License: MIT
 
 # %%
-LOCAL_DEBUG = False
+# LOCAL_DEBUG = False
 
-if not LOCAL_DEBUG:
-    from ..base import (ENSEMBLE_TYPES, 
-                        TRAINING_TYPES, 
-                        SOLUTION_TYPES, 
-                        SAMPLING_TYPES)
-else:
-    # For local test
-    import sys
-    sys.path.append("..")
-    from base import (ENSEMBLE_TYPES, 
-                      TRAINING_TYPES, 
-                      SOLUTION_TYPES, 
-                      SAMPLING_TYPES)
+# if not LOCAL_DEBUG:
+#     from ..base import (ENSEMBLE_TYPES, 
+#                         TRAINING_TYPES, 
+#                         SOLUTION_TYPES, 
+#                         SAMPLING_TYPES)
+# else:
+#     # For local test
+#     import sys
+#     sys.path.append("..")
+#     from base import (ENSEMBLE_TYPES, 
+#                       TRAINING_TYPES, 
+#                       SOLUTION_TYPES, 
+#                       SAMPLING_TYPES)
 
+ENSEMBLE_TYPES = ('boosting', 'bagging', 'random-forest', 'general')
+
+TRAINING_TYPES = ('iterative', 'parallel')
+
+SOLUTION_TYPES = ('resampling', 'reweighting')
+
+SAMPLING_TYPES = ('under-sampling', 'over-sampling')
 
 class Substitution:
     """Decorate a class' docstring to perform string substitution on it.

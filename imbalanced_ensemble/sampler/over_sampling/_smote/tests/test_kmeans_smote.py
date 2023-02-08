@@ -98,7 +98,7 @@ def test_sample_kmeans_not_enough_clusters():
 
 
 @pytest.mark.parametrize("density_exponent", ["auto", 2])
-@pytest.mark.parametrize("cluster_balance_threshold", ["auto", 0.8])
+@pytest.mark.parametrize("cluster_balance_threshold", ["auto", 0.6])
 def test_sample_kmeans_density_estimation(
     data, density_exponent, cluster_balance_threshold
 ):
