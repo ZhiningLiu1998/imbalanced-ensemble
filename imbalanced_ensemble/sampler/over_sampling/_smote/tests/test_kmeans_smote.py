@@ -68,8 +68,8 @@ def test_kmeans_smote(data):
     "kmeans_estimator",
     [
         3,
-        KMeans(n_clusters=3, random_state=42),
-        MiniBatchKMeans(n_clusters=3, random_state=42),
+        KMeans(n_clusters=3, n_init='auto', random_state=42),
+        MiniBatchKMeans(n_clusters=3, n_init='auto', random_state=42),
     ],
 )
 def test_sample_kmeans_custom(data, k_neighbors, kmeans_estimator):

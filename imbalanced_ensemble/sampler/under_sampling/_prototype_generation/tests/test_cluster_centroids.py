@@ -68,7 +68,7 @@ def test_multiclass_fit_resample():
 
 def test_fit_resample_object():
     sampling_strategy = "auto"
-    cluster = KMeans(random_state=RND_SEED)
+    cluster = KMeans(n_init='auto', random_state=RND_SEED)
     cc = ClusterCentroids(
         sampling_strategy=sampling_strategy, random_state=RND_SEED, estimator=cluster,
     )
@@ -81,7 +81,7 @@ def test_fit_resample_object():
 def test_fit_hard_voting():
     sampling_strategy = "auto"
     voting = "hard"
-    cluster = KMeans(random_state=RND_SEED)
+    cluster = KMeans(n_init='auto', random_state=RND_SEED)
     cc = ClusterCentroids(
         sampling_strategy=sampling_strategy,
         random_state=RND_SEED,

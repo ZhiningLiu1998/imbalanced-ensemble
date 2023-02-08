@@ -76,7 +76,7 @@ def test_iht_fit_resample_class_obj():
 def test_iht_fit_resample_wrong_class_obj():
     from sklearn.cluster import KMeans
 
-    est = KMeans()
+    est = KMeans(n_init='auto')
     iht = InstanceHardnessThreshold(estimator=est, random_state=RND_SEED)
     with pytest.raises(ValueError, match="Invalid parameter `estimator`"):
         iht.fit_resample(X, Y)

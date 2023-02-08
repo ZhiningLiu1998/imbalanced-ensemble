@@ -166,11 +166,13 @@ class KMeansSMOTE(BaseSMOTE):
         if self.kmeans_estimator is None:
             self.kmeans_estimator_ = MiniBatchKMeans(
                 batch_size=4096, 
+                n_init='auto', 
                 random_state=self.random_state,
             )
         elif isinstance(self.kmeans_estimator, int):
             self.kmeans_estimator_ = MiniBatchKMeans(
                 batch_size=4096, 
+                n_init='auto', 
                 n_clusters=self.kmeans_estimator,
                 random_state=self.random_state,
             )

@@ -122,7 +122,7 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
     def _validate_estimator(self):
         """Private function to create the KMeans estimator"""
         if self.estimator is None:
-            self.estimator_ = KMeans(random_state=self.random_state)
+            self.estimator_ = KMeans(n_init='auto', random_state=self.random_state)
         elif isinstance(self.estimator, KMeans):
             self.estimator_ = clone(self.estimator)
         else:
