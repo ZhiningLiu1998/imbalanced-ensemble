@@ -14,7 +14,7 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..base import BaseUnderSampler
-    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import Substitution
     from ....utils._docstring import _random_state_docstring
     from ....utils._validation import _deprecate_positional_args
 else:
@@ -22,7 +22,7 @@ else:
     import sys
     sys.path.append("../../..")
     from sampler.under_sampling.base import BaseUnderSampler
-    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import Substitution
     from utils._docstring import _random_state_docstring
     from utils._validation import _deprecate_positional_args
 
@@ -42,7 +42,6 @@ VOTING_KIND = ("auto", "hard", "soft")
 
 @Substitution(
     sampling_strategy=BaseUnderSampler._sampling_strategy_docstring,
-    n_jobs=_n_jobs_docstring,
     random_state=_random_state_docstring,
 )
 class ClusterCentroids(BaseUnderSampler):
@@ -76,11 +75,6 @@ class ClusterCentroids(BaseUnderSampler):
           be used.
         - If ``'auto'``, if the input is sparse, it will default on ``'hard'``
           otherwise, ``'soft'`` will be used.
-
-    {n_jobs}
-
-      .. deprecated:: 0.7
-         `n_jobs` was deprecated in 0.7 and will be removed in 0.9.
 
     See Also
     --------
@@ -119,21 +113,14 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
         random_state=None,
         estimator=None,
         voting="auto",
-        n_jobs="deprecated",
     ):
         super().__init__(sampling_strategy=sampling_strategy)
         self.random_state = random_state
         self.estimator = estimator
         self.voting = voting
-        self.n_jobs = n_jobs
 
     def _validate_estimator(self):
         """Private function to create the KMeans estimator"""
-        if self.n_jobs != "deprecated":
-            warnings.warn(
-                "'n_jobs' was deprecated in 0.7 and will be removed in 0.9",
-                FutureWarning,
-            )
         if self.estimator is None:
             self.estimator_ = KMeans(random_state=self.random_state)
         elif isinstance(self.estimator, KMeans):
