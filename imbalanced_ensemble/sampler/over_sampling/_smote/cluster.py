@@ -230,6 +230,10 @@ class KMeansSMOTE(BaseSMOTE):
                 cluster_mask = np.flatnonzero(X_clusters == cluster_idx)
                 X_cluster = _safe_indexing(X, cluster_mask)
                 y_cluster = _safe_indexing(y, cluster_mask)
+                
+                # empty cluster
+                if cluster_mask.sum() == 0:
+                    continue
 
                 cluster_class_mean = (y_cluster == class_sample).mean()
 
@@ -250,9 +254,6 @@ class KMeansSMOTE(BaseSMOTE):
                 X_cluster_class = _safe_indexing(
                     X_cluster, np.flatnonzero(y_cluster == class_sample)
                 )
-
-                if cluster_mask.sum() == 0:
-                    continue
 
                 valid_clusters.append(cluster_mask)
                 cluster_sparsities.append(self._find_cluster_sparsity(X_cluster_class))
