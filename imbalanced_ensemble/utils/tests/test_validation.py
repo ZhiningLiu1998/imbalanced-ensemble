@@ -13,7 +13,6 @@ from sklearn.neighbors._base import KNeighborsMixin
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils._testing import assert_array_equal
 
-from imbalanced_ensemble.utils.testing import warns
 from imbalanced_ensemble.utils import check_neighbors_object
 from imbalanced_ensemble.utils import check_sampling_strategy
 from imbalanced_ensemble.utils import check_target_type
@@ -260,7 +259,7 @@ def test_sampling_strategy_dict_over_sampling():
         r" class 2 will be larger than the number of samples in"
         r" the majority class \(class #2 -> 100\)"
     )
-    with warns(UserWarning, expected_msg):
+    with pytest.warns(UserWarning, match=expected_msg):
         check_sampling_strategy(sampling_strategy, y, "over-sampling")
 
 

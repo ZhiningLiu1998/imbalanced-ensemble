@@ -8,14 +8,10 @@
 
 import inspect
 import pkgutil
-import warnings
-from contextlib import contextmanager
 from importlib import import_module
-from re import compile
 from pathlib import Path
 
 from operator import itemgetter
-from pytest import warns as _warns
 
 from sklearn.base import BaseEstimator
 from sklearn.utils._testing import ignore_warnings
@@ -119,55 +115,3 @@ def all_estimators(
     # itemgetter is used to ensure the sort does not extend to the 2nd item of
     # the tuple
     return sorted(set(estimators), key=itemgetter(0))
-
-
-@contextmanager
-def warns(expected_warning, match=None):
-    r"""Assert that a warning is raised with an optional matching pattern
-
-    Assert that a code block/function call warns ``expected_warning``
-    and raise a failure exception otherwise. It can be used within a context
-    manager ``with``.
-
-    .. deprecated:: 0.8
-       This function is deprecated in 0.8 and will be removed in 0.10.
-       Use `pytest.warns()` instead.
-
-    Parameters
-    ----------
-    expected_warning : Warning
-        Warning type.
-
-    match : regex str or None, optional
-        The pattern to be matched. By default, no check is done.
-
-    Returns
-    -------
-    None
-
-    Examples
-    --------
-    >>> import warnings
-    >>> from imbalanced_ensemble.utils.testing import warns
-    >>> with warns(UserWarning, match=r'must be \d+$'):
-    ...     warnings.warn("value must be 42", UserWarning)
-    """
-    warnings.warn(
-        "The warns function is deprecated in 0.8 and will be removed in 0.10. "
-        "Use pytest.warns() instead."
-    )
-
-    with _warns(expected_warning) as record:
-        yield
-
-    if match is not None:
-        for each in record:
-            if compile(match).search(str(each.message)) is not None:
-                break
-        else:
-            msg = "'{}' pattern not found in {}".format(
-                match, "{}".format([str(r.message) for r in record])
-            )
-            assert False, msg
-    else:
-        pass
