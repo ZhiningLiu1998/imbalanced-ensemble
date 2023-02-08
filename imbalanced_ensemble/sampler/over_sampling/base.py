@@ -5,14 +5,18 @@ Base class for the over-sampling method.
 
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 #          Christos Aridas
+#          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
-from ..base import BaseSampler
+LOCAL_DEBUG = False
 
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from sampler.base import BaseSampler
+if not LOCAL_DEBUG:
+  from ..base import BaseSampler
+else:
+  # For local test
+  import sys
+  sys.path.append("../..")
+  from sampler.base import BaseSampler
 
 
 class BaseOverSampler(BaseSampler):

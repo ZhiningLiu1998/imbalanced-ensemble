@@ -6,28 +6,28 @@ also known as EasyEnsemble.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from .._bagging import ResampleBaggingClassifier
+    from ...sampler.under_sampling import RandomUnderSampler
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble._bagging import ResampleBaggingClassifier
+    from sampler.under_sampling import RandomUnderSampler
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 from warnings import warn
 from sklearn.ensemble import AdaBoostClassifier
-
-
-from .._bagging import ResampleBaggingClassifier
-from ...sampler.under_sampling import RandomUnderSampler
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble._bagging import ResampleBaggingClassifier
-# from sampler.under_sampling import RandomUnderSampler
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

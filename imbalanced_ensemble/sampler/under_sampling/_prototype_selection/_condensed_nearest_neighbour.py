@@ -8,30 +8,29 @@ method."""
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
-from collections import Counter
+if not LOCAL_DEBUG:
+    from ..base import BaseCleaningSampler
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import _random_state_docstring
+    from ....utils._validation import _deprecate_positional_args
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.under_sampling.base import BaseCleaningSampler
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import _deprecate_positional_args
 
 import numpy as np
-
 from scipy.sparse import issparse
+from collections import Counter
 
 from sklearn.base import clone
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import check_random_state, _safe_indexing
-
-
-from ..base import BaseCleaningSampler
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._docstring import _random_state_docstring
-from ....utils._validation import _deprecate_positional_args
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.under_sampling.base import BaseCleaningSampler
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import _deprecate_positional_args
 
 
 @Substitution(

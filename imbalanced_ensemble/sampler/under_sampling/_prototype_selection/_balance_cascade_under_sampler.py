@@ -5,26 +5,26 @@
 
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..base import BaseUnderSampler
+    from ....utils._validation_param import check_pred_proba, check_type
+    from ....utils._validation import _deprecate_positional_args, check_target_type
+    from ....utils._docstring import _random_state_docstring, Substitution
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.under_sampling.base import BaseUnderSampler
+    from utils._docstring import _random_state_docstring, Substitution
+    from utils._validation_param import check_pred_proba, check_type
+    from utils._validation import _deprecate_positional_args, check_target_type
 
 import numpy as np
 
 from sklearn.utils import check_random_state
 from sklearn.utils import _safe_indexing
-
-
-from ..base import BaseUnderSampler
-from ....utils._validation_param import check_pred_proba, check_type
-from ....utils._validation import _deprecate_positional_args, check_target_type
-from ....utils._docstring import _random_state_docstring, Substitution
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.under_sampling.base import BaseUnderSampler
-# from utils._docstring import _random_state_docstring, Substitution
-# from utils._validation_param import check_pred_proba, check_type
-# from utils._validation import _deprecate_positional_args, check_target_type
 
 
 @Substitution(

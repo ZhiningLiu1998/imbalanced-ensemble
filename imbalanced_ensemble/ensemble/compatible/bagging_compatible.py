@@ -4,6 +4,37 @@
 # Authors: Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from .._bagging import _parallel_build_estimators
+    from ...utils._validation_data import check_eval_datasets
+    from ...utils._validation_param import (check_train_verbose, 
+                                            check_eval_metrics)
+    from ...utils._validation import (_deprecate_positional_args, 
+                                      check_target_type)
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     FuncGlossarySubstitution,
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from ensemble._bagging import _parallel_build_estimators
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_train_verbose, 
+                                         check_eval_metrics)
+    from utils._validation import (_deprecate_positional_args, 
+                                   check_target_type)
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  FuncGlossarySubstitution,
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
+
 import itertools
 import numbers
 from warnings import warn
@@ -18,31 +49,7 @@ from sklearn.utils.fixes import delayed
 from sklearn.utils.validation import _check_sample_weight
 
 
-from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
-from .._bagging import _parallel_build_estimators
-from ...utils._validation_data import check_eval_datasets
-from ...utils._validation_param import (check_train_verbose, 
-                                        check_eval_metrics)
-from ...utils._validation import (_deprecate_positional_args, 
-                                  check_target_type)
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 FuncGlossarySubstitution,
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
 
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
-# from ensemble._bagging import _parallel_build_estimators
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_train_verbose, 
-#                                      check_eval_metrics)
-# from utils._validation import (_deprecate_positional_args, 
-#                                check_target_type)
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

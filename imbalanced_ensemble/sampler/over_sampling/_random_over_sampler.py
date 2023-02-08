@@ -6,6 +6,25 @@
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from .base import BaseOverSampler
+    from ...utils._docstring import Substitution
+    from ...utils._docstring import _random_state_docstring
+    from ...utils._validation import (_deprecate_positional_args, 
+                                      check_target_type)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from sampler.over_sampling.base import BaseOverSampler
+    from utils._docstring import Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import (_deprecate_positional_args, 
+                                   check_target_type)
+
 from collections.abc import Mapping
 from numbers import Real
 
@@ -15,22 +34,6 @@ from sklearn.utils import check_array, check_random_state
 from sklearn.utils import _safe_indexing
 from sklearn.utils.sparsefuncs import mean_variance_axis
 from sklearn.preprocessing import normalize
-
-
-from .base import BaseOverSampler
-from ...utils._docstring import Substitution
-from ...utils._docstring import _random_state_docstring
-from ...utils._validation import (_deprecate_positional_args, 
-                                  check_target_type)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from sampler.over_sampling.base import BaseOverSampler
-# from utils._docstring import Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import (_deprecate_positional_args, 
-#                                check_target_type)
 
 
 @Substitution(

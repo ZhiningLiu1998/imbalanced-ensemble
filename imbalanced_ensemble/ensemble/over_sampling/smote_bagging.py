@@ -6,29 +6,29 @@ intergrated SMOTE over-sampling.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from .._bagging import ResampleBaggingClassifier
+    from ...sampler.over_sampling import SMOTE
+    from ...utils._validation_param import check_type
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble._bagging import ResampleBaggingClassifier
+    from sampler.over_sampling import SMOTE
+    from utils._validation_param import check_type
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 import numbers
-
-
-from .._bagging import ResampleBaggingClassifier
-from ...sampler.over_sampling import SMOTE
-from ...utils._validation_param import check_type
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble._bagging import ResampleBaggingClassifier
-# from sampler.over_sampling import SMOTE
-# from utils._validation_param import check_type
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

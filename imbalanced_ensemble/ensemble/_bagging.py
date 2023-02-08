@@ -8,7 +8,37 @@ bagging imbalanced ensemble classifier.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from .base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from ..pipeline import Pipeline
+    from ..utils._validation_data import check_eval_datasets
+    from ..utils._validation_param import (check_train_verbose, 
+                                           check_eval_metrics, 
+                                           check_type)
+    from ..utils._validation import (_deprecate_positional_args, 
+                                     check_sampling_strategy, 
+                                     check_target_type)
+    from ..utils._docstring import (FuncSubstitution, 
+                                    FuncGlossarySubstitution,
+                                    _get_parameter_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from pipeline import Pipeline
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_train_verbose, 
+                                         check_eval_metrics, 
+                                         check_type)
+    from utils._validation import (_deprecate_positional_args, 
+                                   check_sampling_strategy, 
+                                   check_target_type)
+    from utils._docstring import (FuncSubstitution, 
+                                  FuncGlossarySubstitution,
+                                  _get_parameter_docstring)
 
 from abc import ABCMeta, abstractmethod
 
@@ -27,35 +57,6 @@ from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
 from sklearn.utils.fixes import delayed
 from sklearn.utils.random import sample_without_replacement
-
-
-from .base import ImbalancedEnsembleClassifierMixin, MAX_INT
-from ..pipeline import Pipeline
-from ..utils._validation_data import check_eval_datasets
-from ..utils._validation_param import (check_train_verbose, 
-                                       check_eval_metrics, 
-                                       check_type)
-from ..utils._validation import (_deprecate_positional_args, 
-                                 check_sampling_strategy, 
-                                 check_target_type)
-from ..utils._docstring import (FuncSubstitution, 
-                                FuncGlossarySubstitution,
-                                _get_parameter_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
-# from pipeline import Pipeline
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_train_verbose, 
-#                                      check_eval_metrics, 
-#                                      check_type)
-# from utils._validation import (_deprecate_positional_args, 
-#                                check_sampling_strategy, 
-#                                check_target_type)
-# from utils._docstring import (FuncSubstitution, 
-#                               _get_parameter_docstring)
 
 
 def _generate_indices(random_state, bootstrap, n_population, n_samples):

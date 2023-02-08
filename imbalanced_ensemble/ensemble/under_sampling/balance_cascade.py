@@ -6,38 +6,38 @@ class-imbalanced learning.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..base import BaseImbalancedEnsemble, MAX_INT
+    from ...sampler.under_sampling import BalanceCascadeUnderSampler
+    from ...utils._validation_data import check_eval_datasets
+    from ...utils._validation_param import (check_target_label_and_n_target_samples, 
+                                            check_balancing_schedule, 
+                                            check_train_verbose, 
+                                            check_eval_metrics,)
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble.base import BaseImbalancedEnsemble, MAX_INT
+    from sampler.under_sampling import BalanceCascadeUnderSampler
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_target_label_and_n_target_samples, 
+                                         check_balancing_schedule, 
+                                         check_train_verbose, 
+                                         check_eval_metrics,)
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 from collections import Counter
 import numpy as np
-
-
-from ..base import BaseImbalancedEnsemble, MAX_INT
-from ...sampler.under_sampling import BalanceCascadeUnderSampler
-from ...utils._validation_data import check_eval_datasets
-from ...utils._validation_param import (check_target_label_and_n_target_samples, 
-                                        check_balancing_schedule, 
-                                        check_train_verbose, 
-                                        check_eval_metrics,)
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble.base import BaseImbalancedEnsemble, MAX_INT
-# from sampler.under_sampling import BalanceCascadeUnderSampler
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_target_label_and_n_target_samples, 
-#                                      check_balancing_schedule, 
-#                                      check_train_verbose, 
-#                                      check_eval_metrics,)
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

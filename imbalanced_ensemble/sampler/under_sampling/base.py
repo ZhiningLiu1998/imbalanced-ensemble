@@ -7,15 +7,16 @@ Base class for the under-sampling method.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
-from ..base import BaseSampler
+if not LOCAL_DEBUG:
+  from ..base import BaseSampler
+else:
+  # For local test
+  import sys
+  sys.path.append("../..")
+  from sampler.base import BaseSampler
 
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from sampler.base import BaseSampler
-
-# print ('Successfully imported')
 
 class BaseUnderSampler(BaseSampler):
     """Base class for under-sampling algorithms.

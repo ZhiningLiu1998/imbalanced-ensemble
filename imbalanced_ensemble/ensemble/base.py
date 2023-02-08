@@ -7,6 +7,21 @@ BaseImbalancedEnsemble: a general base class for imbalanced ensemble.
 # License: MIT
 
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..base import TRAINING_TYPES
+    from ..utils._validation import _deprecate_positional_args
+    from ..utils._docstring import Substitution, _get_parameter_docstring
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from base import TRAINING_TYPES
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import Substitution, _get_parameter_docstring
+
 from abc import ABCMeta, abstractmethod
 
 import numpy as np
@@ -30,18 +45,6 @@ from sklearn.utils.validation import (_check_sample_weight,
                                       column_or_1d, 
                                       check_array,
                                       has_fit_parameter,)
-
-
-from ..base import TRAINING_TYPES
-from ..utils._validation import _deprecate_positional_args
-from ..utils._docstring import Substitution, _get_parameter_docstring
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from base import TRAINING_TYPES
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import Substitution, _get_parameter_docstring
 
 
 TRAINING_LOG_HEAD_TITLES = {

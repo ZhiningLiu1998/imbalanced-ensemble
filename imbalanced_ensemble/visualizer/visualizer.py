@@ -6,18 +6,36 @@ ensemble estimators.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..utils._validation_data import check_eval_datasets
+    from ..utils._validation_param import (check_eval_metrics,
+                                        check_visualizer_ensembles,
+                                        check_has_diff_elements,
+                                        check_plot_figsize,
+                                        check_type,)
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_eval_metrics,
+                                         check_visualizer_ensembles,
+                                         check_has_diff_elements,
+                                         check_plot_figsize,
+                                         check_type,)
 
-import matplotlib.pyplot as plt
-from matplotlib import rcParams, font_manager
-import seaborn as sns
-
-from tqdm import tqdm
-from copy import copy
 import numpy as np
 import pandas as pd
 import numbers
 from warnings import warn
+from tqdm import tqdm
+from copy import copy
+
+import matplotlib.pyplot as plt
+from matplotlib import rcParams, font_manager
+import seaborn as sns
 
 from sklearn.ensemble import (BaseEnsemble,
                               AdaBoostClassifier,
@@ -25,25 +43,6 @@ from sklearn.ensemble import (BaseEnsemble,
                               RandomForestClassifier,)
 from sklearn.exceptions import NotFittedError
 from sklearn.metrics import confusion_matrix
-
-
-from ..utils._validation_data import check_eval_datasets
-from ..utils._validation_param import (check_eval_metrics,
-                                       check_visualizer_ensembles,
-                                       check_has_diff_elements,
-                                       check_plot_figsize,
-                                       check_type,)
-
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_eval_metrics,
-#                                      check_visualizer_ensembles,
-#                                      check_has_diff_elements,
-#                                      check_plot_figsize,
-#                                      check_type,)
 
 
 DATAFRAME_COLUMNS = ['n_estimators', 'method', 'dataset', 'metric', 'score', 'n_samples']

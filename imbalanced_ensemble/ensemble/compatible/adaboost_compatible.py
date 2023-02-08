@@ -4,6 +4,34 @@
 # Authors: Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from ...utils._validation_data import check_eval_datasets
+    from ...utils._validation_param import (check_train_verbose, 
+                                            check_eval_metrics, 
+                                            check_type)
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     FuncGlossarySubstitution,
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_train_verbose, 
+                                         check_eval_metrics)
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  FuncGlossarySubstitution,
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
+
 import numpy as np
 from copy import copy
 
@@ -12,30 +40,6 @@ from sklearn.ensemble._forest import BaseForest
 from sklearn.tree import BaseDecisionTree
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight
-
-
-from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
-from ...utils._validation_data import check_eval_datasets
-from ...utils._validation_param import (check_train_verbose, 
-                                        check_eval_metrics, 
-                                        check_type)
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 FuncGlossarySubstitution,
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_train_verbose, 
-#                                      check_eval_metrics)
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

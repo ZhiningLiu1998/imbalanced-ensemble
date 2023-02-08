@@ -10,6 +10,32 @@ imbalanced ensemble classifier.
 # Authors: Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from .base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from ..utils._docstring import FuncGlossarySubstitution
+    from ..utils._validation import _deprecate_positional_args
+    from ..utils._validation_data import check_eval_datasets
+    from ..utils._validation_param import (check_target_label_and_n_target_samples, 
+                                           check_balancing_schedule, 
+                                           check_train_verbose, 
+                                           check_eval_metrics,
+                                           check_type,)
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from utils._docstring import FuncGlossarySubstitution
+    from utils._validation import _deprecate_positional_args
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_target_label_and_n_target_samples, 
+                                         check_balancing_schedule, 
+                                         check_train_verbose, 
+                                         check_eval_metrics,
+                                         check_type,)
 
 from abc import ABCMeta, abstractmethod
 
@@ -26,28 +52,6 @@ from sklearn.tree import BaseDecisionTree
 from sklearn.utils import check_random_state, check_array
 from sklearn.utils.validation import _check_sample_weight
 
-
-from .base import ImbalancedEnsembleClassifierMixin, MAX_INT
-from ..utils._docstring import FuncGlossarySubstitution
-from ..utils._validation import _deprecate_positional_args
-from ..utils._validation_data import check_eval_datasets
-from ..utils._validation_param import (check_target_label_and_n_target_samples, 
-                                       check_balancing_schedule, 
-                                       check_train_verbose, 
-                                       check_eval_metrics,
-                                       check_type,)
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
-# from utils._validation import _deprecate_positional_args
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_target_label_and_n_target_samples, 
-#                                      check_balancing_schedule, 
-#                                      check_train_verbose, 
-#                                      check_eval_metrics,
-#                                      check_type,)
 
 _super = AdaBoostClassifier
 

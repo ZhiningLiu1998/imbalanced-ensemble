@@ -7,27 +7,27 @@
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..base import BaseUnderSampler
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._validation import (_deprecate_positional_args, 
+                                       check_neighbors_object)
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.under_sampling.base import BaseUnderSampler
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._validation import (_deprecate_positional_args, 
+                                   check_neighbors_object)
+
+import numpy as np
 import warnings
 from collections import Counter
 
-import numpy as np
-
 from sklearn.utils import _safe_indexing
-
-
-from ..base import BaseUnderSampler
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._validation import (_deprecate_positional_args, 
-                                   check_neighbors_object)
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.under_sampling.base import BaseUnderSampler
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._validation import (_deprecate_positional_args, 
-#                                check_neighbors_object)
 
 
 @Substitution(

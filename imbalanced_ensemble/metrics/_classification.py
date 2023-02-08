@@ -15,6 +15,16 @@ the lower the better
 #          Dariusz Brzezinski
 # License: MIT
 
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..utils._validation import _deprecate_positional_args
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from utils._validation import _deprecate_positional_args
+
 import functools
 import warnings
 
@@ -36,14 +46,6 @@ try:
     from inspect import signature
 except ImportError:
     from sklearn.externals.funcsigs import signature
-
-
-from ..utils._validation import _deprecate_positional_args
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from utils._validation import _deprecate_positional_args
 
 
 @_deprecate_positional_args

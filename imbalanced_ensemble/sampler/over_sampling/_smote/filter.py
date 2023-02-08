@@ -8,6 +8,29 @@
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from .base import BaseSMOTE
+    from ..base import BaseOverSampler
+    from ....exceptions import raise_isinstance_error
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import _random_state_docstring
+    from ....utils._validation import (_deprecate_positional_args, 
+                                       check_neighbors_object)
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.over_sampling._smote.base import BaseSMOTE
+    from sampler.over_sampling.base import BaseOverSampler
+    from exceptions import raise_isinstance_error
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import (_deprecate_positional_args, 
+                                   check_neighbors_object)
+
 import numpy as np
 from scipy import sparse
 
@@ -15,26 +38,6 @@ from sklearn.base import clone
 from sklearn.svm import SVC
 from sklearn.utils import check_random_state
 from sklearn.utils import _safe_indexing
-
-
-from .base import BaseSMOTE
-from ..base import BaseOverSampler
-from ....exceptions import raise_isinstance_error
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._docstring import _random_state_docstring
-from ....utils._validation import (_deprecate_positional_args, 
-                                   check_neighbors_object)
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.over_sampling._smote.base import BaseSMOTE
-# from sampler.over_sampling.base import BaseOverSampler
-# from exceptions import raise_isinstance_error
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import (_deprecate_positional_args, 
-#                                check_neighbors_object)
 
 
 @Substitution(

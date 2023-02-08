@@ -5,26 +5,26 @@
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from .._boost import ReweightBoostClassifier
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble._boost import ReweightBoostClassifier
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 import numpy as np
 import pandas as pd
-
-
-from .._boost import ReweightBoostClassifier
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble._boost import ReweightBoostClassifier
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

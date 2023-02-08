@@ -10,7 +10,21 @@ clustering.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..base import BaseUnderSampler
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import _random_state_docstring
+    from ....utils._validation import _deprecate_positional_args
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.under_sampling.base import BaseUnderSampler
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import _deprecate_positional_args
 
 import warnings
 
@@ -21,20 +35,6 @@ from sklearn.base import clone
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import _safe_indexing
-
-
-from ..base import BaseUnderSampler
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._docstring import _random_state_docstring
-from ....utils._validation import _deprecate_positional_args
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.under_sampling.base import BaseUnderSampler
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import _deprecate_positional_args
 
 
 VOTING_KIND = ("auto", "hard", "soft")

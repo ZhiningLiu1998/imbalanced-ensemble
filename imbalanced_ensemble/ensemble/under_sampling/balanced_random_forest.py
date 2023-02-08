@@ -6,7 +6,37 @@ on balanced boostrasp samples."""
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
+if not LOCAL_DEBUG:
+    from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from ...sampler.under_sampling import RandomUnderSampler
+    from ...pipeline import make_pipeline
+    from ...utils._validation_data import check_eval_datasets
+    from ...utils._validation_param import (check_train_verbose, 
+                                            check_eval_metrics)
+    from ...utils._validation import (_deprecate_positional_args,
+                                    check_sampling_strategy)
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     FuncGlossarySubstitution,
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
+    from sampler.under_sampling import RandomUnderSampler
+    from pipeline import make_pipeline
+    from utils._validation_data import check_eval_datasets
+    from utils._validation_param import (check_train_verbose, 
+                                         check_eval_metrics)
+    from utils._validation import (_deprecate_positional_args,
+                                   check_sampling_strategy)
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  FuncGlossarySubstitution,
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 import numbers
 from warnings import warn
@@ -30,35 +60,6 @@ from sklearn.exceptions import DataConversionWarning
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_array, check_random_state, _safe_indexing
 from sklearn.utils.validation import _check_sample_weight
-
-
-from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
-from ...sampler.under_sampling import RandomUnderSampler
-from ...pipeline import make_pipeline
-from ...utils._validation_data import check_eval_datasets
-from ...utils._validation_param import (check_train_verbose, 
-                                        check_eval_metrics)
-from ...utils._validation import (_deprecate_positional_args,
-                                  check_sampling_strategy)
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 FuncGlossarySubstitution,
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
-# from sampler.under_sampling import RandomUnderSampler
-# from pipeline import make_pipeline
-# from utils._validation_data import check_eval_datasets
-# from utils._validation_param import (check_train_verbose, 
-#                                      check_eval_metrics)
-# from utils._validation import (_deprecate_positional_args,
-#                                check_sampling_strategy)
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
 
 
 # Properties

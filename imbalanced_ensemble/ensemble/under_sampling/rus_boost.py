@@ -6,26 +6,27 @@ in the learning of AdaBoost.
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
-
-from .._boost import ResampleBoostClassifier
-from ...sampler.under_sampling import RandomUnderSampler
-from ...utils._validation_param import check_type
-from ...utils._validation import _deprecate_positional_args
-from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                 _get_parameter_docstring, 
-                                 _get_example_docstring)
-
-# # For local test
-# import sys
-# sys.path.append("../..")
-# from ensemble._boost import ResampleBoostClassifier
-# from sampler.under_sampling import RandomUnderSampler
-# from utils._validation_param import check_type
-# from utils._validation import _deprecate_positional_args
-# from utils._docstring import (Substitution, FuncSubstitution, 
-#                               _get_parameter_docstring, 
-#                               _get_example_docstring)
+if not LOCAL_DEBUG:
+    from .._boost import ResampleBoostClassifier
+    from ...sampler.under_sampling import RandomUnderSampler
+    from ...utils._validation_param import check_type
+    from ...utils._validation import _deprecate_positional_args
+    from ...utils._docstring import (Substitution, FuncSubstitution, 
+                                     _get_parameter_docstring, 
+                                     _get_example_docstring)
+else:
+    # For local test
+    import sys
+    sys.path.append("../..")
+    from ensemble._boost import ResampleBoostClassifier
+    from sampler.under_sampling import RandomUnderSampler
+    from utils._validation_param import check_type
+    from utils._validation import _deprecate_positional_args
+    from utils._docstring import (Substitution, FuncSubstitution, 
+                                  _get_parameter_docstring, 
+                                  _get_example_docstring)
 
 
 # Properties

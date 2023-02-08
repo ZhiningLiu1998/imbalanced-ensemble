@@ -7,32 +7,39 @@
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from .base import BaseSMOTE
+    from ..base import BaseOverSampler
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import _random_state_docstring
+    from ....utils._validation import _deprecate_positional_args
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.over_sampling._smote.base import BaseSMOTE
+    from sampler.over_sampling.base import BaseOverSampler
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import _deprecate_positional_args
+
 import math
 
 import numpy as np
 from scipy import sparse
+
+import warnings
+warnings.filterwarnings('ignore')
 
 from sklearn.base import clone
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import pairwise_distances
 from sklearn.utils import _safe_indexing
 from sklearn.preprocessing import normalize
-
-
-from .base import BaseSMOTE
-from ..base import BaseOverSampler
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._docstring import _random_state_docstring
-from ....utils._validation import _deprecate_positional_args
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.over_sampling._smote.base import BaseSMOTE
-# from sampler.over_sampling.base import BaseOverSampler
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import _deprecate_positional_args
 
 
 @Substitution(
@@ -214,9 +221,6 @@ class KMeansSMOTE(BaseSMOTE):
             if n_samples == 0:
                 continue
 
-            # target_class_indices = np.flatnonzero(y == class_sample)
-            # X_class = _safe_indexing(X, target_class_indices)
-
             X_clusters = self.kmeans_estimator_.fit_predict(X)
             valid_clusters = []
             cluster_sparsities = []
@@ -248,20 +252,15 @@ class KMeansSMOTE(BaseSMOTE):
                     X_cluster, np.flatnonzero(y_cluster == class_sample)
                 )
 
+                # if cluster_mask.sum() == 0:
+                #     continue
+
                 valid_clusters.append(cluster_mask)
                 cluster_sparsities.append(self._find_cluster_sparsity(X_cluster_class))
 
             cluster_sparsities = np.array(cluster_sparsities)
             cluster_weights = cluster_sparsities / cluster_sparsities.sum()
             cluster_n_samples_list = np.zeros_like(cluster_weights)
-            
-            # if class_sample == 1:
-            #     print (n_samples)
-            #     print (cluster_weights)
-            #     print ([math.ceil(
-            #         n_samples * cluster_weights[valid_cluster_idx] - 1e-3
-            #         ) for valid_cluster_idx, _ in enumerate(valid_clusters)])
-            #     print (cluster_n_samples)
 
             if not valid_clusters:
                 raise RuntimeError(
@@ -317,3 +316,15 @@ class KMeansSMOTE(BaseSMOTE):
                 np.squeeze(normalize(sample_weight_resampled, axis=0, norm='l1'))
             return X_resampled, y_resampled, sample_weight_resampled
         else: return X_resampled, y_resampled
+
+
+# %%
+
+if __name__ == '__main__':
+    rng = np.random.RandomState(42)
+    X = rng.randn(30, 2)
+    y = np.array([1] * 20 + [0] * 10)
+    smote = KMeansSMOTE(random_state=42, kmeans_estimator=30, k_neighbors=2)
+    smote.fit_resample(X, y)
+
+# %%

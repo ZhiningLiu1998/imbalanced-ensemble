@@ -3,29 +3,32 @@
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..exceptions import raise_isinstance_error
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from exceptions import raise_isinstance_error
+
+import numpy as np
 import warnings
 from collections import OrderedDict
 from functools import wraps
 from inspect import signature, Parameter
 from numbers import Integral, Real
 
-import numpy as np
-
 from sklearn.base import clone
 from sklearn.neighbors._base import KNeighborsMixin
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import column_or_1d
 from sklearn.utils.multiclass import type_of_target
-
-
-from ..exceptions import raise_isinstance_error
-
-# For local test
-# import sys
-# sys.path.append("..")
-# from exceptions import raise_isinstance_error
 
 
 SAMPLING_KIND = (

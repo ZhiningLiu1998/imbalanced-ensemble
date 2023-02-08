@@ -8,6 +8,21 @@
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..utils._validation import (ArraysTransformer, 
+                                     _deprecate_positional_args, 
+                                     check_sampling_strategy, 
+                                     check_target_type)
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from utils._validation import (ArraysTransformer, 
+                                   _deprecate_positional_args, 
+                                   check_sampling_strategy, 
+                                   check_target_type)
 
 from abc import ABCMeta, abstractmethod
 
@@ -17,20 +32,6 @@ from sklearn.base import BaseEstimator
 from sklearn.utils.validation import _check_sample_weight
 from sklearn.preprocessing import label_binarize
 from sklearn.utils.multiclass import check_classification_targets
-
-
-from ..utils._validation import (ArraysTransformer, 
-                                 _deprecate_positional_args, 
-                                 check_sampling_strategy, 
-                                 check_target_type)
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from utils._validation import (ArraysTransformer, 
-#                                _deprecate_positional_args, 
-#                                check_sampling_strategy, 
-#                                check_target_type)
 
 
 class SamplerMixin(BaseEstimator, metaclass=ABCMeta):

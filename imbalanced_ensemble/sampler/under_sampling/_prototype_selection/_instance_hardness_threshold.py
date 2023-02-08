@@ -9,10 +9,24 @@ threshold."""
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
-from collections import Counter
+if not LOCAL_DEBUG:
+    from ..base import BaseUnderSampler
+    from ....utils._docstring import _n_jobs_docstring, Substitution
+    from ....utils._docstring import _random_state_docstring
+    from ....utils._validation import _deprecate_positional_args
+else:
+    # For local test
+    import sys
+    sys.path.append("../../..")
+    from sampler.under_sampling.base import BaseUnderSampler
+    from utils._docstring import _n_jobs_docstring, Substitution
+    from utils._docstring import _random_state_docstring
+    from utils._validation import _deprecate_positional_args
 
 import numpy as np
+from collections import Counter
 
 from sklearn.base import ClassifierMixin, clone
 from sklearn.ensemble import RandomForestClassifier
@@ -21,20 +35,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import cross_val_predict
 from sklearn.utils import check_random_state
 from sklearn.utils import _safe_indexing
-
-
-from ..base import BaseUnderSampler
-from ....utils._docstring import _n_jobs_docstring, Substitution
-from ....utils._docstring import _random_state_docstring
-from ....utils._validation import _deprecate_positional_args
-
-# # For local test
-# import sys
-# sys.path.append("../../..")
-# from sampler.under_sampling.base import BaseUnderSampler
-# from utils._docstring import _n_jobs_docstring, Substitution
-# from utils._docstring import _random_state_docstring
-# from utils._validation import _deprecate_positional_args
 
 
 @Substitution(

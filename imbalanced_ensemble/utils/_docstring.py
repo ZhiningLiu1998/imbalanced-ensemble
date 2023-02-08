@@ -7,19 +7,21 @@
 # License: MIT
 
 # %%
+LOCAL_DEBUG = False
 
-from ..base import (ENSEMBLE_TYPES,
-                    TRAINING_TYPES,
-                    SOLUTION_TYPES,
-                    SAMPLING_TYPES,)
-
-# # For local test
-# import sys
-# sys.path.append("..")
-# from base import (ENSEMBLE_TYPES,
-#                   TRAINING_TYPES,
-#                   SOLUTION_TYPES,
-#                   SAMPLING_TYPES,)
+if not LOCAL_DEBUG:
+    from ..base import (ENSEMBLE_TYPES, 
+                        TRAINING_TYPES, 
+                        SOLUTION_TYPES, 
+                        SAMPLING_TYPES)
+else:
+    # For local test
+    import sys
+    sys.path.append("..")
+    from base import (ENSEMBLE_TYPES, 
+                      TRAINING_TYPES, 
+                      SOLUTION_TYPES, 
+                      SAMPLING_TYPES)
 
 
 class Substitution:

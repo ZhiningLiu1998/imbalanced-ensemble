@@ -3,9 +3,8 @@
 #          Christos Aridas
 # License: MIT
 
-from collections import Counter
-
 import numpy as np
+from collections import Counter
 import pytest
 
 from sklearn.utils._testing import assert_allclose
