@@ -38,7 +38,10 @@
   </a>
 </p>
 
-**语言: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>**
+<h3 align="center">
+使用文档: <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/">ReadTheDocs</a> |
+语言: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> / <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文</a> 
+</h3>
 
 **链接: 
   <a href="https://imbalanced-ensemble.readthedocs.io/">API文档</a> |

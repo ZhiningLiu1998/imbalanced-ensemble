@@ -48,7 +48,8 @@
 </p>
 
 <h3 align="center">
-Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> | <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">Chinese/中文</a>
+Documentation: <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/">ReadTheDocs</a> |
+Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">English</a> / <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文</a> 
 </h3>
 
 **Release: 

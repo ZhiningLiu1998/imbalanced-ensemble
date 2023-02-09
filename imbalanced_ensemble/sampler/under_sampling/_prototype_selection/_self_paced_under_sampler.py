@@ -117,7 +117,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         return X, y, binarize_y
 
 
-    def fit_resample(self, X, y, *, sample_weight, **kwargs):
+    def fit_resample(self, X, y, *, sample_weight=None, **kwargs):
         """Resample the dataset.
 
         Parameters
@@ -323,6 +323,13 @@ class SelfPacedUnderSampler(BaseUnderSampler):
 
 if __name__ == "__main__":
 
+    def print_X_y(X, y, rd=5):
+        X_rd = X.round(rd)
+        for i in X.shape[0]:
+            for j in X.shape[1]:
+                print(X_rd[i][j])
+            print()
+
     import sys
     sys.path.append("../../..")
     import numpy as np
@@ -345,6 +352,9 @@ if __name__ == "__main__":
         n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
     print('Original dataset shape %s' % Counter(y))
 
+    classes_, y_encoded = np.unique(y, return_inverse=True)
+    encode_map = {c: np.where(classes_==c)[0][0] for c in classes_}
+
     sampling_strategy_ = {2: 200, 1: 100, 0: 90}
     print('Target dataset shape %s' % sampling_strategy_)
 
@@ -364,6 +374,10 @@ if __name__ == "__main__":
         replacement=False, 
         random_state=0,
     )
-    X_res, y_res, weights_res = spu.fit_resample(X, y, y_pred_proba=y_pred_proba, alpha=0, sample_weight=sample_weight)
+    X_res, y_res, weights_res = spu.fit_resample(
+        X, y, y_pred_proba=y_pred_proba, 
+        alpha=0, sample_weight=sample_weight,
+        classes_=classes_, encode_map=encode_map
+    )
     print('Resampled dataset shape %s' % Counter(y_res))
 # %%
