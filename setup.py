@@ -62,10 +62,10 @@ CLASSIFIERS = [
 ]
 INSTALL_REQUIRES = [
     "numpy>=1.16.0",
-    "scipy>=0.19.1",
+    "scipy>=1.9.1",
     "pandas>=1.1.3",
     "joblib>=0.11",
-    "scikit-learn>=1.0",
+    "scikit-learn>=1.2.0",
     "matplotlib>=3.3.2",
     "seaborn>=0.11.0",
     "tqdm>=4.50.2",
