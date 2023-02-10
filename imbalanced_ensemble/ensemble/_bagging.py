@@ -259,12 +259,21 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             self.base_sampler_.set_params(sampling_strategy=self._sampling_strategy)
             self.base_sampler_.set_params(**self.sampler_kwargs_)
 
-        self.base_estimator_ = Pipeline(
-            [
-                ("sampler", self.base_sampler_),
-                ("classifier", base_estimator),
-            ]
+        # self.base_estimator_ = Pipeline(
+        #     [
+        #         ("sampler", self.base_sampler_),
+        #         ("classifier", base_estimator),
+        #     ]
+        # )
+        
+        self._estimator = Pipeline(
+            [("sampler", self.base_sampler_), ("classifier", base_estimator)]
         )
+        try:
+            # scikit-learn < 1.2
+            self.base_estimator_ = self._estimator
+        except AttributeError:
+            pass
 
 
     def _more_tags(self):   # pragma: no cover
