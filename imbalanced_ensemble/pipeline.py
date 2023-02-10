@@ -476,7 +476,7 @@ def make_pipeline(*steps, memory=None, verbose=False):
 
 # %%
 
-if __name__ == '__main__':
+if __name__ == "__main__":  # pragma: no cover
     from sklearn import datasets
     from sklearn.svm import LinearSVC
     from sklearn.model_selection import train_test_split

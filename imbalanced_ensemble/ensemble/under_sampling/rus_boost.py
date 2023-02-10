@@ -244,7 +244,7 @@ class RUSBoostClassifier(ResampleBoostClassifier):
 
 # %%
 
-if __name__ == '__main__':
+if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from copy import copy
     from sklearn.datasets import make_classification

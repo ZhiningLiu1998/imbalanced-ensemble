@@ -320,7 +320,7 @@ class KMeansSMOTE(BaseSMOTE):
 
 
 # %%
-# if __name__ == '__main__':
+# if __name__ == "__main__":  # pragma: no cover
 #     # rng = np.random.RandomState(42)
 #     # X = rng.randn(30, 2)
 #     # y = np.array([1] * 20 + [0] * 10)

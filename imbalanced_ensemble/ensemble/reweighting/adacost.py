@@ -269,7 +269,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
 
 # %%
 
-if __name__ == '__main__':
+if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from copy import copy
     from sklearn.tree import DecisionTreeClassifier

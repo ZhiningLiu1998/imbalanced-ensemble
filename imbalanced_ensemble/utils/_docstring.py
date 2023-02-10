@@ -458,7 +458,7 @@ def _get_parameter_docstring(param:str, **properties):
 
 # %%
 
-if __name__ == '__main__':
+if __name__ == "__main__":  # pragma: no cover
 
     for param in PARAM_DOCSTRING_TYPE:
         if param == 'random_state':

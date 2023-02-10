@@ -283,7 +283,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
 
 # %%
 
-if __name__ == '__main__':
+if __name__ == "__main__":  # pragma: no cover
     import warnings
     warnings.filterwarnings('ignore')
     from collections import Counter
