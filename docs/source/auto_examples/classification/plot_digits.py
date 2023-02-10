@@ -85,7 +85,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Create a classifier: a SPE with support vector base classifier
 base_clf = sklearn.svm.SVC(gamma=0.001, probability=True)
 clf = imbens.ensemble.SelfPacedEnsembleClassifier(
-    n_estimators=5, base_estimator=base_clf,
+    n_estimators=5, estimator=base_clf,
 )
 
 # Learn the digits on the train subset

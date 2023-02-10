@@ -60,7 +60,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
 
     Parameters
     ----------
-    base_estimator : estimator object, default=None
+    estimator : estimator object, default=None
         The base estimator from which the boosted ensemble is built.
         Support for sample weighting is required, as well as proper
         ``classes_`` and ``n_classes_`` attributes. If ``None``, then
@@ -77,7 +77,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
 
     algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME.R'
         If 'SAMME.R' then use the SAMME.R real boosting algorithm.
-        ``base_estimator`` must support calculation of class probabilities.
+        ``estimator`` must support calculation of class probabilities.
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
@@ -117,7 +117,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
         base estimators.
     
     feature_importances_ : array of shape = [n_features]
-        The feature importances if supported by the ``base_estimator``.
+        The feature importances if supported by the ``estimator``.
 
     See also
     --------
@@ -140,7 +140,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
 
     @_deprecate_positional_args
     def __init__(self,
-                base_estimator=None,
+                estimator=None,
                 n_estimators:int=50,
                 *,
                 learning_rate:float=1.,
@@ -149,7 +149,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
                 random_state=None):
 
         super(AdaCostClassifier, self).__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
             learning_rate=learning_rate,
             algorithm=algorithm,
@@ -290,8 +290,8 @@ if __name__ == '__main__':
     print('Original training dataset shape %s' % origin_distr)
 
     init_kwargs_default = {
-        'base_estimator': None,
-        # 'base_estimator': DecisionTreeClassifier(max_depth=3),
+        'estimator': None,
+        # 'estimator': DecisionTreeClassifier(max_depth=3),
         'n_estimators': 100,
         'learning_rate': 1.,
         'algorithm': 'SAMME.R',

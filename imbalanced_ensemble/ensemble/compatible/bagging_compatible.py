@@ -91,7 +91,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
     Parameters
     ----------
-    base_estimator : object, default=None
+    estimator : object, default=None
         The base estimator to fit on random subsets of the dataset.
         If None, then the base estimator is a
         :class:`~sklearn.tree.DecisionTreeClassifier`.
@@ -136,7 +136,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
     Attributes
     ----------
-    base_estimator_ : estimator
+    estimator_ : estimator
         The base estimator from which the ensemble is grown.
 
     n_features_in_ : int
@@ -200,7 +200,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
     @_deprecate_positional_args
     def __init__(self,
-                base_estimator=None,
+                estimator=None,
                 n_estimators:int=50,
                 *,
                 max_samples=1.0,
@@ -214,7 +214,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
                 verbose=0,):
 
         super().__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
             max_samples=max_samples,
             max_features=max_features,
@@ -428,7 +428,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
 # %%
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
 
     from collections import Counter
     from copy import copy
@@ -451,7 +451,7 @@ if __name__ == "__main__":
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'base_estimator': None,
+        'estimator': None,
         'n_estimators': 100,
         'max_samples': 1.0,
         'max_features': 1.0,

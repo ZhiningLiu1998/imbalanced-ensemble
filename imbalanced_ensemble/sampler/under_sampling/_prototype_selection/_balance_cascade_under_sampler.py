@@ -270,7 +270,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
 
 # # %%
 
-# if __name__ == "__main__":
+# if __name__ == "__main__":  # pragma: no cover
 
 #     import pandas as pd
 #     from collections import Counter

@@ -96,11 +96,11 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
     bootstrap = ensemble.bootstrap
     bootstrap_features = ensemble.bootstrap_features
     
-    # Check if the base_estimator supports sample_weight
-    base_estimator_ = ensemble.base_estimator_
-    while (isinstance(base_estimator_, skPipeline)): # for Pipelines
-        base_estimator_ = base_estimator_._final_estimator
-    support_sample_weight = has_fit_parameter(base_estimator_, "sample_weight")
+    # Check if the estimator supports sample_weight
+    estimator_ = ensemble.estimator_
+    while (isinstance(estimator_, skPipeline)): # for Pipelines
+        estimator_ = estimator_._final_estimator
+    support_sample_weight = has_fit_parameter(estimator_, "sample_weight")
     if not support_sample_weight and sample_weight is not None:
         raise ValueError("The base estimator doesn't support sample weight")
 
@@ -171,10 +171,10 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
     @_deprecate_positional_args
     def __init__(self,
-                base_estimator=None,
+                estimator=None,
                 n_estimators=10,
                 *,
-                base_sampler,
+                sampler,
                 sampling_type,
                 sampling_strategy="auto",
                 max_samples=1.0,
@@ -189,10 +189,10 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
         self.sampling_strategy = sampling_strategy
         self._sampling_type = sampling_type
-        self.base_sampler = base_sampler
+        self.sampler = sampler
 
         super().__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
             max_samples=max_samples,
             max_features=max_features,
@@ -211,14 +211,14 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         y_encoded = super()._validate_y(y)
         if (
             isinstance(self.sampling_strategy, dict)
-            and self.base_sampler_._sampling_type != "bypass"
+            and self.sampler_._sampling_type != "bypass"
         ):
             self._sampling_strategy = {
                 np.where(self.classes_ == key)[0][0]: value
                 for key, value in check_sampling_strategy(
                     self.sampling_strategy,
                     y,
-                    self.base_sampler_._sampling_type,
+                    self.sampler_._sampling_type,
                 ).items()
             }
         else:
@@ -228,7 +228,7 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
     def _validate_estimator(self, default=DecisionTreeClassifier()):
         """Check the estimator and the n_estimator attribute, set the
-        `base_estimator_` attribute."""
+        `estimator_` attribute."""
         if not isinstance(self.n_estimators, (numbers.Integral, np.integer)):
             raise ValueError(
                 f"n_estimators must be an integer, " f"got {type(self.n_estimators)}."
@@ -239,39 +239,39 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
                 f"n_estimators must be greater than zero, " f"got {self.n_estimators}."
             )
 
-        if self.base_estimator is not None:
-            base_estimator = clone(self.base_estimator)
+        if self.estimator is not None:
+            estimator = clone(self.estimator)
         else:
-            base_estimator = clone(default)
+            estimator = clone(default)
         
         # validate sampler and sampler_kwargs
-        # validated sampler stored in self.base_sampler_
+        # validated sampler stored in self.sampler_
         try:
-            self.base_sampler_ = clone(self.base_sampler)
+            self.sampler_ = clone(self.sampler)
         except Exception as e:
             e_args = list(e.args)
             e_args[0] = "Exception occurs when trying to validate" + \
-                        " base_sampler: " + e_args[0]
+                        " sampler: " + e_args[0]
             e.args = tuple(e_args)
             raise e
 
-        if self.base_sampler_._sampling_type != "bypass":
-            self.base_sampler_.set_params(sampling_strategy=self._sampling_strategy)
-            self.base_sampler_.set_params(**self.sampler_kwargs_)
+        if self.sampler_._sampling_type != "bypass":
+            self.sampler_.set_params(sampling_strategy=self._sampling_strategy)
+            self.sampler_.set_params(**self.sampler_kwargs_)
 
-        # self.base_estimator_ = Pipeline(
+        # self.estimator_ = Pipeline(
         #     [
-        #         ("sampler", self.base_sampler_),
-        #         ("classifier", base_estimator),
+        #         ("sampler", self.sampler_),
+        #         ("classifier", estimator),
         #     ]
         # )
         
         self._estimator = Pipeline(
-            [("sampler", self.base_sampler_), ("classifier", base_estimator)]
+            [("sampler", self.sampler_), ("classifier", estimator)]
         )
         try:
             # scikit-learn < 1.2
-            self.base_estimator_ = self._estimator
+            self.estimator_ = self._estimator
         except AttributeError:
             pass
 

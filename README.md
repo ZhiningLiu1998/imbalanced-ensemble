@@ -247,7 +247,7 @@ from imbalanced_ensemble.ensemble import EasyEnsembleClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 # Fit ensemble classifiers
-init_kwargs = {'base_estimator': DecisionTreeClassifier()}
+init_kwargs = {'estimator': DecisionTreeClassifier()}
 ensembles = {
     'spe': SelfPacedEnsembleClassifier(**init_kwargs).fit(X_train, y_train),
     'rusboost': RUSBoostClassifier(**init_kwargs).fit(X_train, y_train),

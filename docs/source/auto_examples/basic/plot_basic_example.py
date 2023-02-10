@@ -71,7 +71,7 @@ y_pred = clf.predict(X_valid)
 
 # Evaluate
 balanced_acc_score = sklearn.metrics.balanced_accuracy_score(y_valid, y_pred)
-print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
 print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
@@ -90,26 +90,26 @@ clf = SPE(
 
 # Evaluate
 balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
 print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 # %% [markdown]
 # Use different base estimator
 # ----------------------------
-# (parameter ``base_estimator``: estimator object)
+# (parameter ``estimator``: estimator object)
 
 from sklearn.svm import SVC
 
 clf = SPE(
     n_estimators=5,
-    base_estimator=SVC(probability=True), # Use SVM as the base estimator
+    estimator=SVC(probability=True), # Use SVM as the base estimator
     random_state=RANDOM_STATE,
 ).fit(X_train, y_train)
 
 # Evaluate
 balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-print (f'SPE: ensemble of {clf.n_estimators} {clf.base_estimator_}')
+print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
 print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 

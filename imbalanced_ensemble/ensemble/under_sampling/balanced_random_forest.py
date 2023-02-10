@@ -373,7 +373,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
     def _validate_estimator(self, default=DecisionTreeClassifier()):
         """Check the estimator and the n_estimator attribute, set the
-        `base_estimator_` attribute."""
+        `estimator_` attribute."""
         if not isinstance(self.n_estimators, (numbers.Integral, np.integer)):
             raise ValueError(
                 f"n_estimators must be an integer, " f"got {type(self.n_estimators)}."
@@ -384,24 +384,24 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
                 f"n_estimators must be greater than zero, " f"got {self.n_estimators}."
             )
 
-        if self.base_estimator is not None:
-            self.base_estimator_ = clone(self.base_estimator)
+        if self.estimator is not None:
+            self.estimator_ = clone(self.estimator)
         else:
-            self.base_estimator_ = clone(default)
+            self.estimator_ = clone(default)
 
-        self.base_sampler_ = RandomUnderSampler(
+        self.sampler_ = RandomUnderSampler(
             sampling_strategy=self._sampling_strategy,
             replacement=self.replacement,
         )
 
     def _make_sampler_estimator(self, random_state=None):
-        """Make and configure a copy of the `base_estimator_` attribute.
+        """Make and configure a copy of the `estimator_` attribute.
         Warning: This method should be used to properly instantiate new
         sub-estimators.
         """
-        estimator = clone(self.base_estimator_)
+        estimator = clone(self.estimator_)
         estimator.set_params(**{p: getattr(self, p) for p in self.estimator_params})
-        sampler = clone(self.base_sampler_)
+        sampler = clone(self.sampler_)
 
         if random_state is not None:
             _set_random_states(estimator, random_state)
@@ -706,7 +706,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
 # %%
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from copy import copy
     from sklearn.datasets import make_classification
@@ -728,7 +728,7 @@ if __name__ == "__main__":
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        # 'base_estimator': None,
+        # 'estimator': None,
         'n_estimators': 100,
         'criterion': "gini",
         'max_depth': None,

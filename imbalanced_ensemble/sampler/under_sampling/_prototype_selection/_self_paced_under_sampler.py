@@ -335,7 +335,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
 
 # %%
 
-# if __name__ == "__main__":
+# if __name__ == "__main__":  # pragma: no cover
 
 #     from collections import Counter
 #     from sklearn.datasets import make_classification

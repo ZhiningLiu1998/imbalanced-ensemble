@@ -74,7 +74,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
 
     Parameters
     ----------
-    base_estimator : estimator object, default=None
+    estimator : estimator object, default=None
         The base estimator to fit on self-paced under-sampled subsets 
         of the dataset. Support for sample weighting is NOT required, 
         but need proper ``classes_`` and ``n_classes_`` attributes. 
@@ -101,10 +101,10 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
 
     Attributes
     ----------
-    base_estimator : estimator
+    estimator : estimator
         The base estimator from which the ensemble is grown.
 
-    base_sampler_ : BalanceCascadeUnderSampler
+    sampler_ : BalanceCascadeUnderSampler
         The base sampler.
 
     estimators_ : list of estimator
@@ -120,7 +120,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         The number of classes.
     
     feature_importances_ : ndarray of shape (n_features,)
-        The feature importances if supported by the ``base_estimator``.
+        The feature importances if supported by the ``estimator``.
     
     estimators_n_training_samples_ : list of ints
         The number of training samples for each fitted 
@@ -146,7 +146,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
     """
     
     def __init__(self, 
-        base_estimator=None, 
+        estimator=None, 
         n_estimators:int=50, 
         replacement:bool=True, 
         estimator_params=tuple(),
@@ -155,7 +155,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         verbose=0,):
     
         super(BalanceCascadeClassifier, self).__init__( 
-            base_estimator=base_estimator, 
+            estimator=estimator, 
             n_estimators=n_estimators,
             estimator_params=estimator_params,
             random_state=random_state,
@@ -163,7 +163,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             verbose=verbose)
 
         self.__name__ = _method_name
-        self.base_sampler = _sampler_class()
+        self.sampler = _sampler_class()
         self._sampling_type = _sampling_type
         self._sampler_class = _sampler_class
         self._properties = _properties
@@ -342,7 +342,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
     def _update_cached_prediction_probabilities(self, i_iter, X):
         """Private function that maintains a latest prediction probabilities of the training
          data during ensemble training. Must be called in each iteration before fit the 
-         base_estimator."""
+         estimator."""
 
         if i_iter == 0:
             self.y_pred_proba_latest = np.zeros((self._n_samples, self.n_classes_), 
@@ -377,7 +377,7 @@ if __name__ == '__main__':
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'base_estimator': None,
+        'estimator': None,
         'n_estimators': 100,
         'replacement': False,
         'estimator_params': tuple(),

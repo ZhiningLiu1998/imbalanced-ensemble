@@ -63,7 +63,7 @@ class OverBaggingClassifier(ResampleBaggingClassifier):
 
     Parameters
     ----------
-    base_estimator : object, default=None
+    estimator : object, default=None
         The base estimator to fit on oversampled dataset.
         If None, then the base estimator is a
         ``Pipeline([RandomOverSampler(), DecisionTreeClassifier()])``.
@@ -108,10 +108,10 @@ class OverBaggingClassifier(ResampleBaggingClassifier):
 
     Attributes
     ----------
-    base_estimator_ : pipeline estimator
+    estimator_ : pipeline estimator
         The base estimator from which the ensemble is grown.
 
-    base_sampler_ : RandomOverSampler
+    sampler_ : RandomOverSampler
         The base sampler.
 
     estimators_ : list of classifiers
@@ -171,7 +171,7 @@ class OverBaggingClassifier(ResampleBaggingClassifier):
 
     @_deprecate_positional_args
     def __init__(self,
-                 base_estimator=None,
+                 estimator=None,
                  n_estimators:int=50,
                  *,
                  max_samples=1.0,
@@ -185,13 +185,13 @@ class OverBaggingClassifier(ResampleBaggingClassifier):
                  verbose=0,):
 
         sampling_strategy = 'auto'
-        base_sampler = _sampler_class()
+        sampler = _sampler_class()
         sampling_type = _sampling_type
 
         super().__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
-            base_sampler=base_sampler,
+            sampler=sampler,
             sampling_type=sampling_type,
             sampling_strategy=sampling_strategy,
             max_samples=max_samples,
@@ -277,7 +277,7 @@ class OverBaggingClassifier(ResampleBaggingClassifier):
 
 # %%
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover  
     from collections import Counter
     from copy import copy
     from sklearn.datasets import make_classification
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'base_estimator': None,
+        'estimator': None,
         'n_estimators': 100,
         'max_samples': 1.0,
         'max_features': 1.0,

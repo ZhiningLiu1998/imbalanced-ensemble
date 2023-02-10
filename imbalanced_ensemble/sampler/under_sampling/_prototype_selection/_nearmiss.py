@@ -305,7 +305,7 @@ NearMiss # doctest: +NORMALIZE_WHITESPACE
 
 # # %%
 
-# if __name__ == "__main__":
+# if __name__ == "__main__":  # pragma: no cover
 #     from collections import Counter
 #     from sklearn.datasets import make_classification
 #     X, y = make_classification(n_classes=3, class_sep=2,

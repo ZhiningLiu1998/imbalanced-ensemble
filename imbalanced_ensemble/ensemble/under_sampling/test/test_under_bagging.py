@@ -67,7 +67,7 @@ def test_balanced_bagging_classifier(estimator, params):
     )
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
-    bag = UnderBaggingClassifier(base_estimator=estimator, random_state=0, **params).fit(
+    bag = UnderBaggingClassifier(estimator=estimator, random_state=0, **params).fit(
         X_train, y_train
     )
     bag.predict(X_test)
@@ -91,7 +91,7 @@ def test_bootstrap_samples():
 
     # with bootstrap, trees are no longer perfect on the training set
     ensemble = UnderBaggingClassifier(
-        base_estimator=DecisionTreeClassifier(),
+        estimator=DecisionTreeClassifier(),
         max_samples=1.0,
         bootstrap=True,
         random_state=0,
@@ -111,7 +111,7 @@ def test_bootstrap_features():
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
     ensemble = UnderBaggingClassifier(
-        base_estimator=DecisionTreeClassifier(),
+        estimator=DecisionTreeClassifier(),
         max_features=1.0,
         bootstrap_features=False,
         random_state=0,
@@ -121,7 +121,7 @@ def test_bootstrap_features():
         assert np.unique(features).shape[0] == X.shape[1]
 
     ensemble = UnderBaggingClassifier(
-        base_estimator=DecisionTreeClassifier(),
+        estimator=DecisionTreeClassifier(),
         max_features=1.0,
         bootstrap_features=True,
         random_state=0,
@@ -146,7 +146,7 @@ def test_probability():
     with np.errstate(divide="ignore", invalid="ignore"):
         # Normal case
         ensemble = UnderBaggingClassifier(
-            base_estimator=DecisionTreeClassifier(), random_state=0
+            estimator=DecisionTreeClassifier(), random_state=0
         ).fit(X_train, y_train)
 
         assert_array_almost_equal(
@@ -173,7 +173,7 @@ def test_oob_score_classification():
 
     for estimator in [DecisionTreeClassifier(), SVC(gamma="scale")]:
         clf = UnderBaggingClassifier(
-            base_estimator=estimator,
+            estimator=estimator,
             n_estimators=100,
             bootstrap=True,
             oob_score=True,
@@ -187,7 +187,7 @@ def test_oob_score_classification():
         # Test with few estimators
         with pytest.warns(UserWarning):
             UnderBaggingClassifier(
-                base_estimator=estimator,
+                estimator=estimator,
                 n_estimators=1,
                 bootstrap=True,
                 oob_score=True,
@@ -206,7 +206,7 @@ def test_single_estimator():
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
     clf1 = UnderBaggingClassifier(
-        base_estimator=KNeighborsClassifier(),
+        estimator=KNeighborsClassifier(),
         n_estimators=1,
         bootstrap=False,
         bootstrap_features=False,
@@ -451,14 +451,3 @@ def test_max_samples_consistency():
     )
     bagging.fit(X, y)
     assert bagging._max_samples == max_samples
-
-
-@pytest.mark.skipif(
-    sklearn_version < parse_version("1.2"), reason="requires scikit-learn>=1.2"
-)
-def test_balanced_bagging_classifier_base_estimator():
-    """Check that we raise a FutureWarning when accessing `base_estimator_`."""
-    X, y = load_iris(return_X_y=True)
-    estimator = UnderBaggingClassifier().fit(X, y)
-    with pytest.warns(FutureWarning, match="`base_estimator_` was deprecated"):
-        estimator.base_estimator_

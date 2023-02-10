@@ -357,7 +357,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
 
     Parameters
     ----------
-    base_estimator : object
+    estimator : object
         The base estimator from which the ensemble is built.
 
     n_estimators : int, default=50
@@ -376,7 +376,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
 
     Attributes
     ----------
-    base_estimator_ : estimator
+    estimator_ : estimator
         The base estimator from which the ensemble is grown.
         
     estimators_ : list of estimators
@@ -384,7 +384,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
     """
     
     def __init__(self, 
-                 base_estimator, 
+                 estimator, 
                  n_estimators:int=50,
                  estimator_params=tuple(), 
                  random_state=None,
@@ -401,7 +401,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         }
 
         super(BaseImbalancedEnsemble, self).__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
             estimator_params=estimator_params,
         )
@@ -421,34 +421,34 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
     def _validate_estimator(self, default):
         """Check the estimator, sampler and the n_estimator attribute.
 
-        Sets the base_estimator_` and base_sampler_` attributes.
+        Sets the estimator_` and sampler_` attributes.
         """
 
         # validate estimator using 
         # sklearn.ensemble.BaseEnsemble._validate_estimator
         super()._validate_estimator(default=default)
 
-        if hasattr(self, 'base_sampler'):
+        if hasattr(self, 'sampler'):
             # validate sampler and sampler_kwargs
-            # validated sampler stored in self.base_sampler_
+            # validated sampler stored in self.sampler_
             try:
-                self.base_sampler_ = clone(self.base_sampler)
+                self.sampler_ = clone(self.sampler)
             except Exception as e:
                 e_args = list(e.args)
                 e_args[0] = "Exception occurs when trying to validate" + \
-                            " base_sampler: " + e_args[0]
+                            " sampler: " + e_args[0]
                 e.args = tuple(e_args)
                 raise e
     
 
     def _make_sampler(self, append=True, random_state=None, **overwrite_kwargs):
-        """Make and configure a copy of the `base_sampler_` attribute.
+        """Make and configure a copy of the `sampler_` attribute.
 
         Warning: This method should be used to properly instantiate new
         sub-samplers.
         """
 
-        sampler = clone(self.base_sampler_)
+        sampler = clone(self.sampler_)
         if hasattr(self, 'sampler_kwargs_'):
             sampler.set_params(**self.sampler_kwargs_)
 
@@ -492,7 +492,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         
         # If the base estimator do not support sample weight and sample weight
         # is not None, raise an ValueError
-        support_sample_weight = has_fit_parameter(self.base_estimator_,
+        support_sample_weight = has_fit_parameter(self.estimator_,
                                                 "sample_weight")
         if not support_sample_weight and sample_weight is not None:
             raise ValueError("The base estimator doesn't support sample weight")
@@ -595,6 +595,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         Warning: impurity-based feature importances can be misleading for
         high cardinality features (many unique values). See
         :func:`sklearn.inspection.permutation_importance` as an alternative.
+        
         Returns
         -------
         feature_importances_ : ndarray of shape (n_features,)
@@ -626,7 +627,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         except AttributeError as e:
             raise AttributeError(
                 "Unable to compute feature importances "
-                "since base_estimator does not have a "
+                "since estimator does not have a "
                 "feature_importances_ attribute"
             ) from e
 

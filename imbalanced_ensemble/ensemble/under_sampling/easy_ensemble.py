@@ -66,7 +66,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
     n_estimators : int, default=50
         Number of AdaBoost learners in the ensemble.
 
-    base_estimator : estimator object, default=AdaBoostClassifier(n_estimators=10)
+    estimator : estimator object, default=AdaBoostClassifier(n_estimators=10)
         The base AdaBoost classifier used in the inner ensemble. Note that you
         can use another classifier as the base estimator, but this will degrades 
         EasyEnsemble to ``UnderBaggingClassifier`` and raise a Warning.
@@ -108,10 +108,10 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     Attributes
     ----------
-    base_estimator_ : pipeline estimator
+    estimator_ : pipeline estimator
         The base estimator from which the ensemble is grown.
 
-    base_sampler_ : RandomUnderSampler
+    sampler_ : RandomUnderSampler
         The base sampler.
 
     estimators_ : list of classifiers
@@ -175,7 +175,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
     def __init__(self,
                  n_estimators:int=50,
                  *,
-                 base_estimator=None,
+                 estimator=None,
                  max_samples=1.0,
                  max_features=1.0,
                  bootstrap=True,
@@ -187,28 +187,28 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
                  verbose=0,):
 
         sampling_strategy = 'auto'
-        base_sampler = _sampler_class()
+        sampler = _sampler_class()
         sampling_type = _sampling_type
         
-        # Check if the base_estimator is AdaBoostClassifier
-        if base_estimator is None:
-            base_estimator = AdaBoostClassifier(n_estimators=10)
-        elif type(base_estimator) == AdaBoostClassifier:
-            base_estimator = base_estimator
+        # Check if the estimator is AdaBoostClassifier
+        if estimator is None:
+            estimator = AdaBoostClassifier(n_estimators=10)
+        elif type(estimator) == AdaBoostClassifier:
+            estimator = estimator
         else:
             # if not, raise a Warning
             warn(
-                f"\nYou are trying to set {type(base_estimator)} as the"
+                f"\nYou are trying to set {type(estimator)} as the"
                 f" base estimator. A typical EasyEnsembleClassifier uses"
                 f" Adaboost as its base estimator, using other base"
                 f" estimators will degrades it to UnderBaggingClassifier."
             )
-            base_estimator = base_estimator
+            estimator = estimator
 
         super().__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
-            base_sampler=base_sampler,
+            sampler=sampler,
             sampling_type=sampling_type,
             sampling_strategy=sampling_strategy,
             max_samples=max_samples,
@@ -281,7 +281,7 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
 # %%
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from copy import copy
     from sklearn.tree import DecisionTreeClassifier
@@ -304,8 +304,8 @@ if __name__ == "__main__":
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'base_estimator': None,
-        # 'base_estimator': DecisionTreeClassifier(),
+        'estimator': None,
+        # 'estimator': DecisionTreeClassifier(),
         'n_estimators': 100,
         'max_samples': 1.0,
         'max_features': 1.0,
@@ -339,7 +339,7 @@ if __name__ == "__main__":
     
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     init_kwargs.update({
-        'base_estimator': DecisionTreeClassifier(),
+        'estimator': DecisionTreeClassifier(),
     })
     easyens_fallback = EasyEnsembleClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['easyens_fallback'] = easyens_fallback

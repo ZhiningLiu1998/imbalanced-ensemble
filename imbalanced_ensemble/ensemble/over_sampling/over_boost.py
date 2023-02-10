@@ -60,7 +60,7 @@ class OverBoostClassifier(ResampleBoostClassifier):
 
     Parameters
     ----------
-    base_estimator : estimator object, default=None
+    estimator : estimator object, default=None
         The base estimator from which the boosted ensemble is built.
         Support for sample weighting is required, as well as proper
         ``classes_`` and ``n_classes_`` attributes. If ``None``, then
@@ -77,7 +77,7 @@ class OverBoostClassifier(ResampleBoostClassifier):
 
     algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME.R'
         If 'SAMME.R' then use the SAMME.R real boosting algorithm.
-        ``base_estimator`` must support calculation of class probabilities.
+        ``estimator`` must support calculation of class probabilities.
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
@@ -88,10 +88,10 @@ class OverBoostClassifier(ResampleBoostClassifier):
 
     Attributes
     ----------
-    base_estimator_ : estimator
+    estimator_ : estimator
         The base estimator from which the ensemble is grown.
 
-    base_sampler_ : SMOTE
+    sampler_ : SMOTE
         The base sampler.
 
     estimators_ : list of classifiers
@@ -118,7 +118,7 @@ class OverBoostClassifier(ResampleBoostClassifier):
         base estimators.
 
     feature_importances_ : ndarray of shape (n_features,)
-        The feature importances if supported by the ``base_estimator``.
+        The feature importances if supported by the ``estimator``.
 
     See Also
     --------
@@ -142,7 +142,7 @@ class OverBoostClassifier(ResampleBoostClassifier):
 
     @_deprecate_positional_args
     def __init__(self,
-                base_estimator=None,
+                estimator=None,
                 n_estimators:int=50,
                 *,
                 learning_rate:float=1.,
@@ -150,13 +150,13 @@ class OverBoostClassifier(ResampleBoostClassifier):
                 early_termination:bool=False,
                 random_state=None):
         
-        base_sampler = _sampler_class()
+        sampler = _sampler_class()
         sampling_type = _sampling_type
 
         super(OverBoostClassifier, self).__init__(
-            base_estimator=base_estimator,
+            estimator=estimator,
             n_estimators=n_estimators,
-            base_sampler=base_sampler,
+            sampler=sampler,
             sampling_type=sampling_type,
             learning_rate=learning_rate,
             algorithm=algorithm,
@@ -259,8 +259,8 @@ if __name__ == '__main__':
     print('Original training dataset shape %s' % origin_distr)
 
     init_kwargs_default = {
-        'base_estimator': None,
-        # 'base_estimator': DecisionTreeClassifier(max_depth=2),
+        'estimator': None,
+        # 'estimator': DecisionTreeClassifier(max_depth=2),
         'n_estimators': 100,
         'learning_rate': 1.,
         'algorithm': 'SAMME.R',

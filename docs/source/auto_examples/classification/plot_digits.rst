@@ -183,7 +183,7 @@ The fitted classifier can subsequently be used to predict the value of the digit
     # Create a classifier: a SPE with support vector base classifier
     base_clf = sklearn.svm.SVC(gamma=0.001, probability=True)
     clf = imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, base_estimator=base_clf,
+        n_estimators=5, estimator=base_clf,
     )
 
     # Learn the digits on the train subset
@@ -224,7 +224,7 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
  .. code-block:: none
 
-    Classification report for classifier SelfPacedEnsembleClassifier(base_estimator=SVC(gamma=0.001, probability=True),
+    Classification report for classifier SelfPacedEnsembleClassifier(estimator=SVC(gamma=0.001, probability=True),
                                 n_estimators=5,
                                 random_state=RandomState(MT19937) at 0x2324CCE0140):
                   precision    recall  f1-score   support
@@ -311,7 +311,11 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
  .. code-block:: none
 
-      0%|                                                                                            | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                         | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|#################################| 5/5 [00:00<00:00, 38.70it/s]    Visualizer evaluating model SPE on dataset test :: 100%|#################################| 5/5 [00:00<00:00, 38.70it/s]
+
+      0%|                                                                                            | 0/5 [00:00<?, ?it/s]
+    Visualizer evaluating model SPE on dataset test ::   0%|                                         | 0/5 [00:00<?, ?it/s]
+    Visualizer evaluating model SPE on dataset test :: 100%|#################################| 5/5 [00:00<00:00, 38.70it/s]
+    Visualizer evaluating model SPE on dataset test :: 100%|#################################| 5/5 [00:00<00:00, 38.70it/s]
     Visualizer computing confusion matrices. Finished!
 
 

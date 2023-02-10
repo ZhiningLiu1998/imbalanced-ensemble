@@ -59,13 +59,13 @@ from sklearn.gaussian_process.kernels import RBF
 
 classifiers = {
     'SPE-DT': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, base_estimator=DecisionTreeClassifier(),
+        n_estimators=5, estimator=DecisionTreeClassifier(),
     ),
     'SPE-SVM-rbf': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, base_estimator=SVC(kernel='rbf', probability=True),
+        n_estimators=5, estimator=SVC(kernel='rbf', probability=True),
     ),
     'SPE-GPC': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, base_estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
+        n_estimators=5, estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
     ),
 }
 
