@@ -15,9 +15,8 @@ if not LOCAL_DEBUG:
                                         check_has_diff_elements,
                                         check_plot_figsize,
                                         check_type,)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from utils._validation_data import check_eval_datasets
     from utils._validation_param import (check_eval_metrics,

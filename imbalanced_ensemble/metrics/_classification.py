@@ -19,9 +19,8 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..utils._validation import _deprecate_positional_args
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from utils._validation import _deprecate_positional_args
 

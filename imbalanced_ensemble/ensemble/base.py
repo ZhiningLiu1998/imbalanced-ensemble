@@ -14,9 +14,8 @@ if not LOCAL_DEBUG:
     from ..base import TRAINING_TYPES
     from ..utils._validation import _deprecate_positional_args
     from ..utils._docstring import Substitution, _get_parameter_docstring
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from base import TRAINING_TYPES
     from utils._validation import _deprecate_positional_args

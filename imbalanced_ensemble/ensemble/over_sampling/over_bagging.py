@@ -16,9 +16,8 @@ if not LOCAL_DEBUG:
                                      FuncGlossarySubstitution,
                                      _get_parameter_docstring, 
                                      _get_example_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from ensemble._bagging import ResampleBaggingClassifier
     from sampler.over_sampling import RandomOverSampler

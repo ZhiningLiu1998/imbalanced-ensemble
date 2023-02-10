@@ -10,12 +10,11 @@ Base class for the under-sampling method.
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-  from ..base import BaseSampler
-else:
-  # For local test
-  import sys
-  sys.path.append("../..")
-  from sampler.base import BaseSampler
+    from ..base import BaseSampler
+else:           # pragma: no cover
+    import sys  # For local test
+    sys.path.append("../..")
+    from sampler.base import BaseSampler
 
 
 class BaseUnderSampler(BaseSampler):

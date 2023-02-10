@@ -11,9 +11,8 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..exceptions import raise_isinstance_error
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from exceptions import raise_isinstance_error
 

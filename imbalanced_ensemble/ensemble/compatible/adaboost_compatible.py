@@ -18,9 +18,8 @@ if not LOCAL_DEBUG:
                                      FuncGlossarySubstitution,
                                      _get_parameter_docstring, 
                                      _get_example_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from utils._validation_data import check_eval_datasets

@@ -11,9 +11,8 @@ if not LOCAL_DEBUG:
     from ....utils._validation_param import check_pred_proba, check_type
     from ....utils._validation import _deprecate_positional_args, check_target_type
     from ....utils._docstring import _random_state_docstring, Substitution
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../../..")
     from sampler.under_sampling.base import BaseUnderSampler
     from utils._docstring import _random_state_docstring, Substitution
@@ -262,7 +261,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
                 new_dropped_index
         
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         return {
             "X_types": ["2darray", "string", "sparse", "dataframe"],
             "sample_indices": True,

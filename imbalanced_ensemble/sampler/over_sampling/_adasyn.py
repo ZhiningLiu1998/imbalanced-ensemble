@@ -15,9 +15,8 @@ if not LOCAL_DEBUG:
     from ...utils._docstring import _random_state_docstring
     from ...utils._validation import (_deprecate_positional_args,
                                       check_neighbors_object)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from sampler.over_sampling.base import BaseOverSampler
     from utils._docstring import _n_jobs_docstring, Substitution
@@ -199,7 +198,7 @@ ADASYN # doctest: +NORMALIZE_WHITESPACE
             return X_resampled, y_resampled, sample_weight_resampled
         else: return X_resampled, y_resampled
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         return {
             "X_types": ["2darray"],
         }

@@ -19,9 +19,8 @@ if not LOCAL_DEBUG:
     from ....utils._docstring import _random_state_docstring
     from ....utils._validation import (_deprecate_positional_args, 
                                        check_neighbors_object)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../../..")
     from sampler.over_sampling._smote.base import BaseSMOTE
     from sampler.over_sampling.base import BaseOverSampler

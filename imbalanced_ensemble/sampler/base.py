@@ -15,9 +15,8 @@ if not LOCAL_DEBUG:
                                      _deprecate_positional_args, 
                                      check_sampling_strategy, 
                                      check_target_type)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from utils._validation import (ArraysTransformer, 
                                    _deprecate_positional_args, 
@@ -175,7 +174,7 @@ class BaseSampler(SamplerMixin):
         X, y = self._validate_data(X, y, reset=True, accept_sparse=accept_sparse)
         return X, y, binarize_y
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         return {"X_types": ["2darray", "sparse", "dataframe"]}
 
 

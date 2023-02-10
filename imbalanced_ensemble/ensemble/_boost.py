@@ -23,9 +23,8 @@ if not LOCAL_DEBUG:
                                            check_train_verbose, 
                                            check_eval_metrics,
                                            check_type,)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from utils._docstring import FuncGlossarySubstitution

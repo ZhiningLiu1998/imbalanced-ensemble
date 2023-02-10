@@ -15,9 +15,8 @@ if not LOCAL_DEBUG:
     from ....utils._docstring import _n_jobs_docstring, Substitution
     from ....utils._docstring import _random_state_docstring
     from ....utils._validation import _deprecate_positional_args
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../../..")
     from sampler.under_sampling.base import BaseCleaningSampler
     from sampler.under_sampling._prototype_selection._tomek_links \
@@ -195,7 +194,7 @@ class OneSidedSelection(BaseCleaningSampler):
         else: return X_cleaned, y_cleaned
 
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         return {"sample_indices": True}
 
 # # %%

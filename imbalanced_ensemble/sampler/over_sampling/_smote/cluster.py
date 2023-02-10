@@ -16,9 +16,8 @@ if not LOCAL_DEBUG:
     from ....utils._docstring import _n_jobs_docstring, Substitution
     from ....utils._docstring import _random_state_docstring
     from ....utils._validation import _deprecate_positional_args
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../../..")
     from sampler.over_sampling._smote.base import BaseSMOTE
     from sampler.over_sampling.base import BaseOverSampler

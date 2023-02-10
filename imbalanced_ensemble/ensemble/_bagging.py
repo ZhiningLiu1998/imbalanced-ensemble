@@ -23,9 +23,8 @@ if not LOCAL_DEBUG:
     from ..utils._docstring import (FuncSubstitution, 
                                     FuncGlossarySubstitution,
                                     _get_parameter_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from pipeline import Pipeline
@@ -268,7 +267,7 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         )
 
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         tags = super()._more_tags()
         tags_key = "_xfail_checks"
         failing_test = "check_estimators_nan_inf"

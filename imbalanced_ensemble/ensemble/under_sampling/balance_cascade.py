@@ -20,9 +20,8 @@ if not LOCAL_DEBUG:
     from ...utils._docstring import (Substitution, FuncSubstitution, 
                                      _get_parameter_docstring, 
                                      _get_example_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from ensemble.base import BaseImbalancedEnsemble, MAX_INT
     from sampler.under_sampling import BalanceCascadeUnderSampler

@@ -21,9 +21,8 @@ if not LOCAL_DEBUG:
                                      FuncGlossarySubstitution,
                                      _get_parameter_docstring, 
                                      _get_example_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from sampler.under_sampling import RandomUnderSampler
@@ -691,7 +690,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         self.oob_score_ = oob_score / self.n_outputs_
 
 
-    def _more_tags(self):
+    def _more_tags(self):   # pragma: no cover
         return {"multioutput": False}
 
 

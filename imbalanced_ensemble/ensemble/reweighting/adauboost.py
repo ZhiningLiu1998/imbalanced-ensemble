@@ -12,9 +12,8 @@ if not LOCAL_DEBUG:
     from ...utils._docstring import (Substitution, FuncSubstitution, 
                                      _get_parameter_docstring, 
                                      _get_example_docstring)
-else:
-    # For local test
-    import sys
+else:           # pragma: no cover
+    import sys  # For local test
     sys.path.append("../..")
     from ensemble._boost import ReweightBoostClassifier
     from utils._validation import _deprecate_positional_args
