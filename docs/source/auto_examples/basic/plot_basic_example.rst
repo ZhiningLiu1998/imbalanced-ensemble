@@ -103,14 +103,13 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_example_001.png
-    :alt: Dataset (2D projection by KernelPCA), Class Distribution
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/basic/images/sphx_glr_plot_basic_example_001.png
+   :alt: Dataset (2D projection by KernelPCA), Class Distribution
+   :srcset: /auto_examples/basic/images/sphx_glr_plot_basic_example_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -153,12 +152,108 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
+    soft_spu_bin_weights:  [0.2244898  0.         0.         0.         5.66666667]
+    soft_spu_bin_weights:  [0.11092437 0.         0.         0.         6.8       ]
+    soft_spu_bin_weights:  [0.22968198 0.         0.         0.         2.05882353]
+    soft_spu_bin_weights:  [0.11054422 0.         0.         0.         2.91666667]
+    soft_spu_bin_weights:  [0.22695035 0.         0.         0.         2.        ]
+    soft_spu_bin_weights:  [0.10958904 0.         0.         0.         2.25      ]
+    soft_spu_bin_weights:  [0.21985816 0.         0.         0.         2.11111111]
+    soft_spu_bin_weights:  [0.10652921 0.         0.         0.         2.11111111]
+    soft_spu_bin_weights:  [0.22101449 0.         0.         0.         1.625     ]
+    soft_spu_bin_weights:  [0.10739437 0.         0.         0.         1.21875   ]
+    soft_spu_bin_weights:  [0.21376812 0.         0.         0.         1.70833333]
+    soft_spu_bin_weights:  [0.10442478 0.         0.         0.         1.17142857]
+    soft_spu_bin_weights:  [0.21014493 0.         0.         0.         1.75      ]
+    soft_spu_bin_weights:  [ 0.07885305  0.          0.775       0.         12.5       ]
+    soft_spu_bin_weights:  [ 0.15384615  0.          1.23076923  0.         26.        ]
+    soft_spu_bin_weights:  [ 0.07553957  0.          0.76190476  0.         13.        ]
+    soft_spu_bin_weights:  [ 0.15185185  0.          1.13793103  0.         26.        ]
+    soft_spu_bin_weights:  [0.07387387 0.         0.78571429 0.         8.66666667]
+    soft_spu_bin_weights:  [ 0.14814815  0.          1.13793103  0.         27.        ]
+    soft_spu_bin_weights:  [0.07207207 0.         0.80487805 0.         6.75      ]
+    soft_spu_bin_weights:  [ 0.14498141  0.          1.1         0.         28.        ]
+    soft_spu_bin_weights:  [0.07027027 0.         0.80487805 0.         7.        ]
+    soft_spu_bin_weights:  [0.14552239 0.         1.13793103 0.         9.33333333]
+    soft_spu_bin_weights:  [0.07103825 0.         0.73333333 0.         4.66666667]
+    soft_spu_bin_weights:  [0.14393939 0.         1.06451613 0.         5.8       ]
+    soft_spu_bin_weights:  [0.06921676 0.         0.73333333 0.         4.83333333]
+    soft_spu_bin_weights:  [0.14393939 0.         1.06451613 0.         5.8       ]
+    soft_spu_bin_weights:  [0.06934307 0.         0.7173913  0.         4.83333333]
+    soft_spu_bin_weights:  [0.14015152 0.         1.1        0.         5.        ]
+    soft_spu_bin_weights:  [0.06839187 0.         0.67346939 0.         3.        ]
+    soft_spu_bin_weights:  [0.14015152 0.         1.1        0.         5.        ]
+    soft_spu_bin_weights:  [0.06839187 0.         0.6875     0.         2.72727273]
+    soft_spu_bin_weights:  [0.13688213 0.         1.17241379 0.         3.75      ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.64150943 0.         2.5       ]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.62264151 0.         2.58333333]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.62264151 0.         2.58333333]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.64705882 0.         2.21428571]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.66       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17241379 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06542056 0.         0.68       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17241379 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06542056 0.         0.68       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [0.06679389 0.         0.57894737 0.         1.68421053]
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [0.06679389 0.         0.57894737 0.         1.68421053]
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [ 0.05152672  0.45614035  0.          1.33333333 23.        ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [ 0.05152672  0.45614035  0.          1.41176471 11.5       ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [ 0.04961832  0.45614035  0.          1.41176471 12.        ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.21428571 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.21428571 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.25925926 0.         3.2       ]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.33333333 6.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.30769231 0.         2.90909091]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.33333333 6.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.05273834 0.34210526 0.         0.92307692 4.8       ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [0.05295316 0.35616438 0.         0.85714286 3.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.04294479  0.28767123  0.66666667  2.71428571 19.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.04294479  0.28767123  0.66666667  2.71428571 19.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.0408998   0.2739726   0.66666667  2.85714286 20.        ]
     SPE: ensemble of 50 DecisionTreeClassifier()
-    Validation Balanced Accuracy: 0.986
+    Validation Balanced Accuracy: 0.974
 
 
 
@@ -194,12 +289,18 @@ Set the ensemble size
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
+    soft_spu_bin_weights:  [0.20748299 0.         0.         0.         6.5       ]
+    soft_spu_bin_weights:  [0.10252101 0.         0.         0.         7.8       ]
+    soft_spu_bin_weights:  [0.19787986 0.         0.         0.         2.58823529]
+    soft_spu_bin_weights:  [0.0952381  0.         0.         0.         3.66666667]
+    soft_spu_bin_weights:  [0.1886121  0.         0.         0.         2.47368421]
+    soft_spu_bin_weights:  [0.09330986 0.         0.         0.         1.46875   ]
+    soft_spu_bin_weights:  [0.17857143 0.         0.         0.         2.5       ]
+    soft_spu_bin_weights:  [0.09398496 0.         0.         0.         0.73529412]
     SPE: ensemble of 5 DecisionTreeClassifier()
-    Validation Balanced Accuracy: 0.979
+    Validation Balanced Accuracy: 0.984
 
 
 
@@ -235,12 +336,18 @@ Use different base estimator
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
+    soft_spu_bin_weights:  [0.0929368  1.69230769 2.5        2.42857143 5.33333333]
+    soft_spu_bin_weights:  [0.04339964 0.88       2.375      1.63636364 5.66666667]
+    soft_spu_bin_weights:  [0.08955224 1.15789474 2.71428571 4.5        8.5       ]
+    soft_spu_bin_weights:  [ 0.04316547  0.64705882  2.71428571 18.          8.5       ]
+    soft_spu_bin_weights:  [0.08461538 0.75       2.85714286 6.33333333 9.        ]
+    soft_spu_bin_weights:  [ 0.04753521  1.          6.25        0.         11.        ]
+    soft_spu_bin_weights:  [ 0.07604563  0.8         2.85714286 10.          6.66666667]
+    soft_spu_bin_weights:  [ 0.04409171  0.89285714  8.33333333  0.         12.5       ]
     SPE: ensemble of 5 SVC(probability=True)
-    Validation Balanced Accuracy: 0.968
+    Validation Balanced Accuracy: 0.969
 
 
 
@@ -265,8 +372,6 @@ Enable training log
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -275,15 +380,113 @@ Enable training log
     ┃             ┃                          ┃  acc    balanced_acc   weighted_f1 ┃
     ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
     ┃      1      ┃ {0: 100, 1: 100, 2: 100} ┃ 0.989      0.991          0.989    ┃
+    soft_spu_bin_weights:  [0.2244898  0.         0.         0.         5.66666667]
+    soft_spu_bin_weights:  [0.11092437 0.         0.         0.         6.8       ]
+    soft_spu_bin_weights:  [0.22968198 0.         0.         0.         2.05882353]
+    soft_spu_bin_weights:  [0.11054422 0.         0.         0.         2.91666667]
+    soft_spu_bin_weights:  [0.22695035 0.         0.         0.         2.        ]
+    soft_spu_bin_weights:  [0.10958904 0.         0.         0.         2.25      ]
+    soft_spu_bin_weights:  [0.21985816 0.         0.         0.         2.11111111]
+    soft_spu_bin_weights:  [0.10652921 0.         0.         0.         2.11111111]
     ┃      5      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.22101449 0.         0.         0.         1.625     ]
+    soft_spu_bin_weights:  [0.10739437 0.         0.         0.         1.21875   ]
+    soft_spu_bin_weights:  [0.21376812 0.         0.         0.         1.70833333]
+    soft_spu_bin_weights:  [0.10442478 0.         0.         0.         1.17142857]
+    soft_spu_bin_weights:  [0.21014493 0.         0.         0.         1.75      ]
+    soft_spu_bin_weights:  [ 0.07885305  0.          0.775       0.         12.5       ]
+    soft_spu_bin_weights:  [ 0.15384615  0.          1.23076923  0.         26.        ]
+    soft_spu_bin_weights:  [ 0.07553957  0.          0.76190476  0.         13.        ]
+    soft_spu_bin_weights:  [ 0.15185185  0.          1.13793103  0.         26.        ]
+    soft_spu_bin_weights:  [0.07387387 0.         0.78571429 0.         8.66666667]
     ┃     10      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [ 0.14814815  0.          1.13793103  0.         27.        ]
+    soft_spu_bin_weights:  [0.07207207 0.         0.80487805 0.         6.75      ]
+    soft_spu_bin_weights:  [ 0.14498141  0.          1.1         0.         28.        ]
+    soft_spu_bin_weights:  [0.07027027 0.         0.80487805 0.         7.        ]
+    soft_spu_bin_weights:  [0.14552239 0.         1.13793103 0.         9.33333333]
+    soft_spu_bin_weights:  [0.07103825 0.         0.73333333 0.         4.66666667]
+    soft_spu_bin_weights:  [0.14393939 0.         1.06451613 0.         5.8       ]
+    soft_spu_bin_weights:  [0.06921676 0.         0.73333333 0.         4.83333333]
+    soft_spu_bin_weights:  [0.14393939 0.         1.06451613 0.         5.8       ]
+    soft_spu_bin_weights:  [0.06934307 0.         0.7173913  0.         4.83333333]
     ┃     15      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.14015152 0.         1.1        0.         5.        ]
+    soft_spu_bin_weights:  [0.06839187 0.         0.67346939 0.         3.        ]
+    soft_spu_bin_weights:  [0.14015152 0.         1.1        0.         5.        ]
+    soft_spu_bin_weights:  [0.06839187 0.         0.6875     0.         2.72727273]
+    soft_spu_bin_weights:  [0.13688213 0.         1.17241379 0.         3.75      ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.64150943 0.         2.5       ]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.62264151 0.         2.58333333]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.62264151 0.         2.58333333]
     ┃     20      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.64705882 0.         2.21428571]
+    soft_spu_bin_weights:  [0.13688213 0.         1.13793103 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06728972 0.         0.66       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17241379 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06542056 0.         0.68       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17241379 0.         3.875     ]
+    soft_spu_bin_weights:  [0.06542056 0.         0.68       0.         2.06666667]
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [0.06679389 0.         0.57894737 0.         1.68421053]
     ┃     25      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [0.06679389 0.         0.57894737 0.         1.68421053]
+    soft_spu_bin_weights:  [0.13307985 0.         1.13793103 0.         4.        ]
+    soft_spu_bin_weights:  [ 0.05152672  0.45614035  0.          1.33333333 23.        ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [ 0.05152672  0.45614035  0.          1.41176471 11.5       ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [ 0.04961832  0.45614035  0.          1.41176471 12.        ]
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
     ┃     30      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.13307985 0.         1.17857143 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.21428571 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.21428571 0.         3.55555556]
+    soft_spu_bin_weights:  [0.04961832 0.46428571 0.         1.41176471 8.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.25925926 0.         3.2       ]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.33333333 6.        ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.30769231 0.         2.90909091]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.33333333 6.        ]
     ┃     35      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.36       0.         2.66666667]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.04971319 0.47272727 0.         1.41176471 4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
     ┃     40      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.0513834  0.37681159 0.         1.2        4.8       ]
     ┃     45      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    soft_spu_bin_weights:  [0.12927757 0.         1.32       0.         2.75      ]
+    soft_spu_bin_weights:  [0.05273834 0.34210526 0.         0.92307692 4.8       ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [0.05295316 0.35616438 0.         0.85714286 3.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.04294479  0.28767123  0.66666667  2.71428571 19.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.04294479  0.28767123  0.66666667  2.71428571 19.        ]
+    soft_spu_bin_weights:  [0.1328125 0.        1.03125   0.        2.75     ]
+    soft_spu_bin_weights:  [ 0.0408998   0.2739726   0.66666667  2.85714286 20.        ]
     ┃     50      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
     ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
     ┃    final    ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
@@ -295,30 +498,23 @@ Enable training log
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  0.081 seconds)
-
-**Estimated memory usage:**  17 MB
+   **Total running time of the script:** ( 0 minutes  1.026 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_example.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_basic_example.py <plot_basic_example.py>`
 
-     :download:`Download Python source code: plot_basic_example.py <plot_basic_example.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_basic_example.ipynb <plot_basic_example.ipynb>`
+      :download:`Download Jupyter notebook: plot_basic_example.ipynb <plot_basic_example.ipynb>`
 
 
 .. only:: html

@@ -101,8 +101,6 @@ Preparation
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Class distribution of imbalanced iris dataset: 
@@ -199,19 +197,42 @@ Plot classification probabilities
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_probability_001.png
-    :alt: Class 0, Class 1, Class 2, Class 0, Class 1, Class 2, Class 0, Class 1, Class 2, Probability
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_probability_001.png
+   :alt: Class 0, Class 1, Class 2, Class 0, Class 1, Class 2, Class 0, Class 1, Class 2, Probability
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_probability_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
+    soft_spu_bin_weights:  [0.15217391 0.         0.         0.         0.75      ]
+    soft_spu_bin_weights:  [0.4375     0.         0.         0.         0.21428571]
+    soft_spu_bin_weights:  [0.15 0.   0.   0.   0.4 ]
+    soft_spu_bin_weights:  [0.28571429 0.         0.28571429 2.         0.25      ]
+    soft_spu_bin_weights:  [0.1        0.         0.33333333 0.         3.        ]
+    soft_spu_bin_weights:  [0.3        0.375      1.         0.2        0.33333333]
+    soft_spu_bin_weights:  [0.1   0.    0.375 0.    1.5  ]
+    soft_spu_bin_weights:  [0.22222222 0.28571429 0.66666667 0.25       0.66666667]
     Balanced Accuracy (train) for SPE-DT: 88.9% 
+    soft_spu_bin_weights:  [0.14285714 0.1875     0.33333333 1.         0.16666667]
+    soft_spu_bin_weights:  [0.33333333 0.33333333 0.2        0.5        0.4       ]
+    soft_spu_bin_weights:  [0.14285714 0.1875     0.33333333 1.         0.16666667]
+    soft_spu_bin_weights:  [0.25       0.33333333 0.5        0.5        0.4       ]
+    soft_spu_bin_weights:  [0.14285714 0.25       0.2        1.         0.16666667]
+    soft_spu_bin_weights:  [0.27272727 0.42857143 0.5        0.33333333 0.2       ]
+    soft_spu_bin_weights:  [0.0952381  0.16666667 0.2        2.         0.33333333]
+    soft_spu_bin_weights:  [0.16666667 0.28571429 0.4        2.         0.4       ]
     Balanced Accuracy (train) for SPE-SVM-rbf: 85.6% 
+    soft_spu_bin_weights:  [0.10344828 0.3        0.5        0.33333333 0.25      ]
+    soft_spu_bin_weights:  [0.25       0.4        0.33333333 0.5        0.4       ]
+    soft_spu_bin_weights:  [0.10714286 0.21428571 0.4        0.5        1.        ]
+    soft_spu_bin_weights:  [0.23076923 0.375      0.33333333 1.         0.4       ]
+    soft_spu_bin_weights:  [0.09677419 0.21428571 0.5        0.         2.        ]
+    soft_spu_bin_weights:  [0.23076923 0.375      0.25       1.         0.5       ]
+    soft_spu_bin_weights:  [0.07692308 0.125      0.5        0.66666667 2.        ]
+    soft_spu_bin_weights:  [0.15384615 0.25       0.5        2.         0.5       ]
     Balanced Accuracy (train) for SPE-GPC: 81.1% 
 
 
@@ -220,30 +241,23 @@ Plot classification probabilities
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  43.851 seconds)
-
-**Estimated memory usage:**  18 MB
+   **Total running time of the script:** ( 0 minutes  0.913 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_probability.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_probability.py <plot_probability.py>`
 
-     :download:`Download Python source code: plot_probability.py <plot_probability.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_probability.ipynb <plot_probability.ipynb>`
+      :download:`Download Jupyter notebook: plot_probability.ipynb <plot_probability.ipynb>`
 
 
 .. only:: html

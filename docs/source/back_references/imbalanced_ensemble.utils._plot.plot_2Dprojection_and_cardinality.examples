@@ -3,21 +3,58 @@
 Examples using ``imbalanced_ensemble.utils._plot.plot_2Dprojection_and_cardinality``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+.. start-sphx-glr-thumbnails
+
+
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of using the  generate_imbalance_data  function to create an imbalanced dataset...">
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbalanced_ensemble.ensemble classifier.">
 
 .. only:: html
 
- .. figure:: /auto_examples/datasets/images/thumb/sphx_glr_plot_generate_imbalance_thumb.png
-     :alt: Generate an imbalanced dataset
+  .. image:: /auto_examples/basic/images/thumb/sphx_glr_plot_basic_example_thumb.png
+    :alt: Train and predict with an ensemble classifier
 
-     :ref:`sphx_glr_auto_examples_datasets_plot_generate_imbalance.py`
+  :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Train and predict with an ensemble classifier</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how imbalanced-ensemble can be used to cooperate with  scikit-learn base cla...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_digits_thumb.png
+    :alt: Classify class-imbalanced hand-written digits
+
+  :ref:`sphx_glr_auto_examples_classification_plot_digits.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classify class-imbalanced hand-written digits</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_digits.py`
 
 .. raw:: html
 
     </div>
 
-.. only:: not html
-
- * :ref:`sphx_glr_auto_examples_datasets_plot_generate_imbalance.py`

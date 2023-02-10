@@ -53,6 +53,9 @@
         ~Pipeline.score_samples
       
       
+        ~Pipeline.set_output
+      
+      
         ~Pipeline.set_params
       
       
