@@ -119,20 +119,9 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
             absolute_index_kept_c,
             size=n_target_samples_c,
             replace=replacement)
-            
-        y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(
-            X,
-            y,
-            reset=True,
-            accept_sparse=["csr", "csc"],
-            dtype=None,
-            force_all_finite=False,
-        )
-        return X, y, binarize_y
 
 
-    def fit_resample(self, X, y, *, sample_weight, **kwargs):
+    def fit_resample(self, X, y, *, sample_weight=None, **kwargs):
         """Resample the dataset.
 
         Parameters
@@ -250,6 +239,10 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
                     absolute_index_kept_c=absolute_index_kept_c,
                 )
                 new_dropped_index = new_dropped_index | new_dropped_index_c
+            else:
+                class_index_mask_kept = y_kept == target_class
+                absolute_index_kept_c = absolute_index_kept[class_index_mask_kept]
+                absolute_index_resample_list.append(absolute_index_kept_c)
         
         # Concatenate the result
         index_bcu = np.hstack(absolute_index_resample_list)
@@ -280,6 +273,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
 
 # if __name__ == "__main__":
 
+#     import pandas as pd
 #     from collections import Counter
 #     from sklearn.datasets import make_classification
 
@@ -354,31 +348,38 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
 #     ])
 #     classes_, _ = np.unique(y, return_inverse=True)
 #     encode_map = {c: np.where(classes_==c)[0][0] for c in classes_}
+#     dropped_index = np.zeros_like(y).astype(bool)
+#     dropped_index_empty = np.ones_like(y).astype(bool)
 #     sample_weight = np.full_like(y, fill_value=1/y.shape[0], dtype=float)
-#     sampling_strategy_normal = {2: 6, 1: 4 , 0: 2}
+#     sampling_strategy_org = {2: 12, 1: 6, 0: 2}
+#     sampling_strategy_default = {2: 2, 1: 2, 0: 2}
+#     sampling_strategy_normal = {2: 6, 1: 4, 0: 2}
 #     sampling_strategy_error = {2: 200, 1: 100, 0: 90}
+
+#     X = pd.DataFrame(X)
 
 #     # X, y = make_classification(n_classes=3, class_sep=2,
 #     #     weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
 #     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
 #     print('Original dataset shape %s' % Counter(y))
 
-#     spu = SelfPacedUnderSampler(
-#         sampling_strategy=sampling_strategy_normal,
-#         k_bins=5,
-#         soft_resample_flag=False,
+#     bcus = BalanceCascadeUnderSampler(
+#         # sampling_strategy=sampling_strategy_org,
 #         replacement=False, 
 #         random_state=0,
 #     )
-#     # X_res, y_res, weights_res = spu.fit_resample(
-#     X_res, y_res = spu.fit_resample(
+#     X_res, y_res, new_dropped_index, weights_res = bcus.fit_resample(
+#     # X_res, y_res, new_dropped_index = bcus.fit_resample(
 #         X, y, 
-#         y_pred_proba=pred_proba_normal, 
-#         alpha=0, 
-#         # sample_weight=sample_weight,
+#         # y_pred_proba=pred_proba_normal, 
+#         y_pred_proba=pred_proba_det, 
+#         sample_weight=sample_weight,
 #         classes_=classes_, 
-#         encode_map=encode_map
+#         encode_map=encode_map,
+#         dropped_index=dropped_index,
+#         keep_populations=sampling_strategy_org,
 #     )
 #     print('Resampled dataset shape %s' % Counter(y_res))
+#     print('Kept dataset shape %s' % Counter(y[~new_dropped_index]))
 
 # # %%
