@@ -282,14 +282,17 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         n_classes = self.n_classes_
 
-        # Stop if the error is at least as bad as random guessing
-        if estimator_error >= 1. - (1. / n_classes):
-            self.estimators_.pop(-1)
-            if len(self.estimators_) == 0:
-                raise ValueError('BaseClassifier in AdaBoostClassifier '
-                                 'ensemble is worse than random, ensemble '
-                                 'can not be fit.')
-            return None, None, None
+        # # Stop if the error is at least as bad as random guessing
+        # if estimator_error >= 1. - (1. / n_classes):
+        #     self.estimators_.pop(-1)
+        #     self.samplers_.pop(-1)
+        #     if len(self.estimators_) == 0:
+        #         raise ValueError(
+        #             'BaseClassifier in AdaBoostClassifier '
+        #             'ensemble is worse than random, ensemble '
+        #             'can not be fit.'
+        #         )
+        #     return None, None, None
 
         # Boost weight using multi-class AdaBoost SAMME alg
         estimator_weight = self.learning_rate * (
@@ -403,6 +406,8 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
         seeds = random_state.randint(MAX_INT, size=self.n_estimators)
         self._seeds = seeds
 
+        epsilon = np.finfo(sample_weight.dtype).eps
+        zero_weight_mask = sample_weight == 0.0
         sampler_ = self.sampler_
 
         for iboost in range(self.n_estimators):
@@ -457,9 +462,9 @@ class ResampleBoostClassifier(ImbalancedEnsembleClassifierMixin,
                 break
 
             sample_weight_sum = np.sum(sample_weight)
-
+            
             # Stop if the sum of sample weights has become non-positive.
-            if sample_weight_sum <= 0 and early_termination_:
+            if sample_weight is not None and sample_weight_sum <= 0 and early_termination_:
                 print (f"Training early-stop at iteration"
                        f" {iboost+1}/{self.n_estimators}"
                        f" (sample_weight_sum <= 0).")
