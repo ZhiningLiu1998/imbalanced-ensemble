@@ -258,13 +258,6 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         if self.sampler_._sampling_type != "bypass":
             self.sampler_.set_params(sampling_strategy=self._sampling_strategy)
             self.sampler_.set_params(**self.sampler_kwargs_)
-
-        # self.estimator_ = Pipeline(
-        #     [
-        #         ("sampler", self.sampler_),
-        #         ("classifier", estimator),
-        #     ]
-        # )
         
         self._estimator = Pipeline(
             [("sampler", self.sampler_), ("classifier", estimator)]

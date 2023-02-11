@@ -539,35 +539,35 @@ AllKNN # doctest: +NORMALIZE_WHITESPACE
     def _more_tags(self):   # pragma: no cover
         return {"sample_indices": True}
 
-# # %%
+# %%
 
-# if __name__ == "__main__":  # pragma: no cover
-#     from collections import Counter
-#     from sklearn.datasets import make_classification
-#     X, y = make_classification(n_classes=3, class_sep=2,
-#         weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-#         n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-#     print('Original dataset shape %s' % Counter(y))
+if __name__ == "__main__":  # pragma: no cover
+    from collections import Counter
+    from sklearn.datasets import make_classification
+    X, y = make_classification(n_classes=3, class_sep=2,
+        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
+        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+    print('Original dataset shape %s' % Counter(y))
 
-#     origin_distr = Counter(y)
-#     target_distr = [1, 2]
+    origin_distr = Counter(y)
+    target_distr = [1, 2]
 
-#     undersampler = EditedNearestNeighbours(sampling_strategy=target_distr)
-#     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-#     print('ENN')
-#     print('Resampled dataset shape %s' % Counter(y_res))
-#     print('Test resampled weight shape %s' % Counter(weight_res))
+    undersampler = EditedNearestNeighbours(sampling_strategy=target_distr)
+    X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
+    print('ENN')
+    print('Resampled dataset shape %s' % Counter(y_res))
+    print('Test resampled weight shape %s' % Counter(weight_res))
 
-#     undersampler = RepeatedEditedNearestNeighbours(sampling_strategy=target_distr)
-#     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-#     print('RENN')
-#     print('Resampled dataset shape %s' % Counter(y_res))
-#     print('Test resampled weight shape %s' % Counter(weight_res))
+    undersampler = RepeatedEditedNearestNeighbours(sampling_strategy=target_distr)
+    X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
+    print('RENN')
+    print('Resampled dataset shape %s' % Counter(y_res))
+    print('Test resampled weight shape %s' % Counter(weight_res))
 
-#     undersampler = AllKNN(sampling_strategy=target_distr)
-#     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-#     print('AllKNN')
-#     print('Resampled dataset shape %s' % Counter(y_res))
-#     print('Test resampled weight shape %s' % Counter(weight_res))
+    undersampler = AllKNN(sampling_strategy=target_distr)
+    X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
+    print('AllKNN')
+    print('Resampled dataset shape %s' % Counter(y_res))
+    print('Test resampled weight shape %s' % Counter(weight_res))
 
-# # %%
+# %%

@@ -225,7 +225,7 @@ if __name__ == "__main__":  # pragma: no cover
         sampling_strategy=target_distr,
         voting="hard",
         )
-    X_res, y_res, _ = rus.fit_resample(X, y, sample_weight=y)
+    X_res, y_res = rus.fit_resample(X, y)
 
     print('Resampled dataset shape %s' % Counter(y_res))
 
