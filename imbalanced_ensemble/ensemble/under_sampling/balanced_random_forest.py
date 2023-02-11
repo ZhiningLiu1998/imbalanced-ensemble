@@ -47,14 +47,13 @@ from numpy import float64 as DOUBLE
 from scipy.sparse import issparse
 from collections import Counter
 
-from joblib import Parallel, delayed
-
 from sklearn.base import clone, is_classifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble._base import _set_random_states
 from sklearn.ensemble._forest import (_get_n_samples_bootstrap,
                                       _parallel_build_trees,
                                       _generate_unsampled_indices,)
+from sklearn.utils.parallel import delayed, Parallel
 from sklearn.exceptions import DataConversionWarning
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_array, check_random_state, _safe_indexing

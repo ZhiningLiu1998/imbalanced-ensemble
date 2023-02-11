@@ -39,12 +39,10 @@ import numbers
 from warnings import warn
 from collections import Counter
 
-from joblib import Parallel
-
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble._base import _partition_estimators
 from sklearn.utils import check_random_state
-from sklearn.utils.parallel import delayed
+from sklearn.utils.parallel import delayed, Parallel
 from sklearn.utils.validation import _check_sample_weight
 
 
