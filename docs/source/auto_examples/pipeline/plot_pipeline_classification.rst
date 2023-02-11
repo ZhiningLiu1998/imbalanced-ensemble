@@ -162,8 +162,6 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
                   precision    recall  f1-score   support
@@ -182,30 +180,23 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  55.730 seconds)
-
-**Estimated memory usage:**  13 MB
+   **Total running time of the script:** ( 0 minutes  0.038 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pipeline_plot_pipeline_classification.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_pipeline_classification.py <plot_pipeline_classification.py>`
 
-     :download:`Download Python source code: plot_pipeline_classification.py <plot_pipeline_classification.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_pipeline_classification.ipynb <plot_pipeline_classification.ipynb>`
+      :download:`Download Jupyter notebook: plot_pipeline_classification.ipynb <plot_pipeline_classification.ipynb>`
 
 
 .. only:: html

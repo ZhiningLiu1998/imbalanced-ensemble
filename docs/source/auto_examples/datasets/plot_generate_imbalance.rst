@@ -82,12 +82,10 @@ Generate the dataset
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    Train class distribution:  Counter({0: 348, 1: 101, 2: 51})
-    Test class distribution:   Counter({0: 348, 1: 101, 2: 51})
+    Train class distribution:  Counter({0: 349, 1: 100, 2: 51})
+    Test class distribution:   Counter({0: 349, 1: 100, 2: 51})
 
 
 
@@ -107,14 +105,13 @@ Plot the generated (training) data
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_generate_imbalance_001.png
-    :alt: Dataset (2D projection by KernelPCA), Class Distribution
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_generate_imbalance_001.png
+   :alt: Dataset (2D projection by KernelPCA), Class Distribution
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_generate_imbalance_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -126,30 +123,23 @@ Plot the generated (training) data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  40.896 seconds)
-
-**Estimated memory usage:**  21 MB
+   **Total running time of the script:** ( 0 minutes  0.123 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_generate_imbalance.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_generate_imbalance.py <plot_generate_imbalance.py>`
 
-     :download:`Download Python source code: plot_generate_imbalance.py <plot_generate_imbalance.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_generate_imbalance.ipynb <plot_generate_imbalance.ipynb>`
+      :download:`Download Jupyter notebook: plot_generate_imbalance.ipynb <plot_generate_imbalance.ipynb>`
 
 
 .. only:: html

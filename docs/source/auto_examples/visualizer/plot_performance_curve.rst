@@ -143,14 +143,12 @@ Train ensemble classifiers
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    Training  SelfPacedEnsembleClassifier   | Time used: 0.229s
-    Training     EasyEnsembleClassifier     | Time used: 0.798s
-    Training BalancedRandomForestClassifier | Time used: 0.110s
-    Training     SMOTEBaggingClassifier     | Time used: 0.828s
+    Training  SelfPacedEnsembleClassifier   | Time used: 0.185s
+    Training     EasyEnsembleClassifier     | Time used: 0.881s
+    Training BalancedRandomForestClassifier | Time used: 0.090s
+    Training     SMOTEBaggingClassifier     | Time used: 4.608s
 
 
 
@@ -191,21 +189,19 @@ The values should be fitted ``imbalance_ensemble.ensemble`` or ``sklearn.ensembl
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1353.36it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1351.28it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::  60%|########4     | 30/50 [00:00<00:00, 188.52it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|##############| 50/50 [00:00<00:00, 141.48it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|##############| 50/50 [00:00<00:00, 130.61it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::  60%|########4     | 30/50 [00:00<00:00, 183.45it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::  80%|###########2  | 40/50 [00:00<00:00, 142.69it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|##############| 50/50 [00:00<00:00, 115.94it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|##############| 50/50 [00:00<00:00, 126.60it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1460.42it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1432.41it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1114.16it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1180.80it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 1978.41it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2093.07it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::  80%|#########################################################################################################################################6                                  | 40/50 [00:00<00:00, 268.57it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|############################################################################################################################################################################| 50/50 [00:00<00:00, 227.01it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::  80%|#########################################################################################################################################6                                  | 40/50 [00:00<00:00, 261.50it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|############################################################################################################################################################################| 50/50 [00:00<00:00, 221.38it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2261.13it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2373.63it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2094.35it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2170.40it/s]
     Visualizer computing confusion matrices........ Finished!
 
-    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x000001E1A470AE20>
+    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x0000026252A1A190>
 
 
 
@@ -226,9 +222,10 @@ Plot performance curve
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_001.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_001.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -257,9 +254,10 @@ Set x-axis
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_002.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_002.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -291,9 +289,10 @@ Select results for visualization
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_003.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_003.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -330,9 +329,10 @@ Customize visual appearance
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_004.png
-    :alt: My Suptitle
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_004.png
+   :alt: My Suptitle
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_004.png
+   :class: sphx-glr-single-img
 
 
 
@@ -367,9 +367,10 @@ Group results
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_005.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_005.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_005.png
+   :class: sphx-glr-single-img
 
 
 
@@ -396,9 +397,10 @@ Group results
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_006.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_006.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_performance_curve_006.png
+   :class: sphx-glr-single-img
 
 
 
@@ -407,30 +409,23 @@ Group results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  49.964 seconds)
-
-**Estimated memory usage:**  24 MB
+   **Total running time of the script:** ( 0 minutes  8.026 seconds)
 
 
 .. _sphx_glr_download_auto_examples_visualizer_plot_performance_curve.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_performance_curve.py <plot_performance_curve.py>`
 
-     :download:`Download Python source code: plot_performance_curve.py <plot_performance_curve.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_performance_curve.ipynb <plot_performance_curve.ipynb>`
+      :download:`Download Jupyter notebook: plot_performance_curve.ipynb <plot_performance_curve.ipynb>`
 
 
 .. only:: html

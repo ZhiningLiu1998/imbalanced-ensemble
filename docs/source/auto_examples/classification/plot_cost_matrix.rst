@@ -112,8 +112,6 @@ Make a toy 3-class imbalanced classification task.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Training dataset distribution    {0: 100, 1: 300, 2: 600}
@@ -198,8 +196,6 @@ Take ``AdaCostClassifier`` as example
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -226,9 +222,10 @@ Take ``AdaCostClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_001.png
-    :alt: Misclassification Cost Matrix (by inverse class frequency)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_001.png
+   :alt: Misclassification Cost Matrix (by inverse class frequency)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -259,8 +256,6 @@ This usually leads to a "softer" cost matrix, that is, less penalty for misclass
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -287,9 +282,10 @@ This usually leads to a "softer" cost matrix, that is, less penalty for misclass
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_002.png
-    :alt: Misclassification Cost Matrix (by log inverse class frequency)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_002.png
+   :alt: Misclassification Cost Matrix (by log inverse class frequency)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -321,8 +317,6 @@ You can set misclassification cost by log inverse class frequency by set ``cost_
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -349,9 +343,10 @@ You can set misclassification cost by log inverse class frequency by set ``cost_
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_003.png
-    :alt: Uniform Cost Matrix
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_003.png
+   :alt: Uniform Cost Matrix
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -393,8 +388,6 @@ Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of cl
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
@@ -421,9 +414,10 @@ Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of cl
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_004.png
-    :alt: User-define Cost Matrix
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_004.png
+   :alt: User-define Cost Matrix
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_004.png
+   :class: sphx-glr-single-img
 
 
 
@@ -447,9 +441,10 @@ Visualize All Used Cost Matrices
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_005.png
-    :alt: Misclassification Cost Matrix (by inverse class frequency), Misclassification Cost Matrix (by log inverse class frequency), Uniform Cost Matrix, User-define Cost Matrix
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_005.png
+   :alt: Misclassification Cost Matrix (by inverse class frequency), Misclassification Cost Matrix (by log inverse class frequency), Uniform Cost Matrix, User-define Cost Matrix
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_cost_matrix_005.png
+   :class: sphx-glr-single-img
 
 
 
@@ -458,30 +453,23 @@ Visualize All Used Cost Matrices
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  38.410 seconds)
-
-**Estimated memory usage:**  19 MB
+   **Total running time of the script:** ( 0 minutes  0.776 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_cost_matrix.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_cost_matrix.py <plot_cost_matrix.py>`
 
-     :download:`Download Python source code: plot_cost_matrix.py <plot_cost_matrix.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_cost_matrix.ipynb <plot_cost_matrix.ipynb>`
+      :download:`Download Jupyter notebook: plot_cost_matrix.ipynb <plot_cost_matrix.ipynb>`
 
 
 .. only:: html

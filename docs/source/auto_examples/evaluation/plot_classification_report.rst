@@ -35,13 +35,9 @@ learning problem.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    C:\Softwares\Anaconda3\lib\site-packages\sklearn\svm\_base.py:985: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn("Liblinear failed to converge, increase "
                        pre       rec       spe        f1       geo       iba       sup
 
               0       0.41      0.84      0.87      0.55      0.85      0.73       123
@@ -111,30 +107,23 @@ learning problem.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.242 seconds)
-
-**Estimated memory usage:**  17 MB
+   **Total running time of the script:** ( 0 minutes  0.198 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_classification_report.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_classification_report.py <plot_classification_report.py>`
 
-     :download:`Download Python source code: plot_classification_report.py <plot_classification_report.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_classification_report.ipynb <plot_classification_report.ipynb>`
+      :download:`Download Jupyter notebook: plot_classification_report.ipynb <plot_classification_report.ipynb>`
 
 
 .. only:: html

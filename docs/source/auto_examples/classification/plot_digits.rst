@@ -201,35 +201,6 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    soft_spu_bin_weights:  [0.09433962 0.20833333 0.5        1.5        1.5       ]
-    soft_spu_bin_weights:  [0.13157895 0.45454545 0.66666667 0.75       3.        ]
-    soft_spu_bin_weights:  [0.16666667 1.         1.5        3.         2.        ]
-    soft_spu_bin_weights:  [0.24 2.5  4.   0.   2.5 ]
-    soft_spu_bin_weights:  [0.85714286 0.375      4.         0.         4.        ]
-    soft_spu_bin_weights:  [0.33333333 3.         4.         0.         4.        ]
-    soft_spu_bin_weights:  [0.12195122 0.17857143 0.30769231 0.6        1.5       ]
-    soft_spu_bin_weights:  [0.2        0.23809524 0.57142857 0.6        1.5       ]
-    soft_spu_bin_weights:  [0.38461538 0.38461538 1.         0.66666667 0.6       ]
-    soft_spu_bin_weights:  [0.3        0.85714286 4.         0.         2.        ]
-    soft_spu_bin_weights:  [0.8        0.55555556 0.83333333 1.         1.5       ]
-    soft_spu_bin_weights:  [0.75       0.66666667 1.         0.         4.        ]
-    soft_spu_bin_weights:  [0.125      0.15625    0.30769231 1.5        1.5       ]
-    soft_spu_bin_weights:  [0.3125     0.23809524 0.28571429 1.         0.5       ]
-    soft_spu_bin_weights:  [0.23809524 0.625      0.57142857 1.         3.        ]
-    soft_spu_bin_weights:  [0.4        0.41666667 5.         0.         2.        ]
-    soft_spu_bin_weights:  [1.         1.         0.83333333 0.5        1.        ]
-    soft_spu_bin_weights:  [0.71428571 0.55555556 1.33333333 1.5        3.        ]
-    soft_spu_bin_weights:  [0.11111111 0.14814815 0.25       0.5        2.        ]
-    soft_spu_bin_weights:  [0.25       0.17391304 0.30769231 0.8        1.33333333]
-    soft_spu_bin_weights:  [0.30769231 0.30769231 0.57142857 0.8        2.        ]
-    soft_spu_bin_weights:  [0.33333333 0.38461538 0.         5.         5.        ]
-    soft_spu_bin_weights:  [0.66666667 0.57142857 0.5        1.33333333 4.        ]
-    soft_spu_bin_weights:  [1.         0.36363636 2.         1.         4.        ]
-
 
 
 
@@ -256,15 +227,15 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
     Classification report for classifier SelfPacedEnsembleClassifier(estimator=SVC(gamma=0.001, probability=True),
                                 n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x19BDF315940):
+                                random_state=RandomState(MT19937) at 0x26239AA3840):
                   precision    recall  f1-score   support
 
-               0       1.00      0.99      0.99        89
+               0       1.00      1.00      1.00        89
                1       0.97      1.00      0.98        60
                2       1.00      0.95      0.97        40
                3       1.00      0.90      0.95        30
                4       1.00      0.96      0.98        25
-               5       0.95      0.95      0.95        22
+               5       1.00      0.95      0.98        22
                6       1.00      1.00      1.00        20
                7       0.90      0.95      0.93        20
                8       0.80      1.00      0.89        20
@@ -341,7 +312,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                                                                          | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                                                       | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|###############################################################################################################################################################################################| 5/5 [00:00<00:00, 53.83it/s]
+      0%|                                                                                                                                                                                                                                                          | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                                                       | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|###############################################################################################################################################################################################| 5/5 [00:00<00:00, 51.05it/s]
     Visualizer computing confusion matrices. Finished!
 
 
@@ -350,7 +321,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.451 seconds)
+   **Total running time of the script:** ( 0 minutes  1.279 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_digits.py:

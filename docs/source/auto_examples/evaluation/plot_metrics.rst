@@ -154,15 +154,6 @@ in `y_test`.
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    C:\Softwares\Anaconda3\lib\site-packages\sklearn\svm\_base.py:985: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
-      warnings.warn("Liblinear failed to converge, increase "
-
 
 
 
@@ -185,8 +176,6 @@ the balancing of the dataset.
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -220,8 +209,6 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     The IBA using alpha=0.1 and the geometric mean: 0.880
@@ -246,8 +233,6 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     The IBA using alpha=0.5 and the geometric mean: 0.880
@@ -258,30 +243,23 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  20.203 seconds)
-
-**Estimated memory usage:**  15 MB
+   **Total running time of the script:** ( 0 minutes  0.186 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_metrics.py <plot_metrics.py>`
 
-     :download:`Download Python source code: plot_metrics.py <plot_metrics.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_metrics.ipynb <plot_metrics.ipynb>`
+      :download:`Download Jupyter notebook: plot_metrics.ipynb <plot_metrics.ipynb>`
 
 
 .. only:: html

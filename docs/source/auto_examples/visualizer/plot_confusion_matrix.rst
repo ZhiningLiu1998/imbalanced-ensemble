@@ -142,14 +142,12 @@ Train ensemble classifiers
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    Training  SelfPacedEnsembleClassifier   | Time used: 0.219s
-    Training     EasyEnsembleClassifier     | Time used: 0.759s
-    Training BalancedRandomForestClassifier | Time used: 0.104s
-    Training     SMOTEBaggingClassifier     | Time used: 0.898s
+    Training  SelfPacedEnsembleClassifier   | Time used: 0.225s
+    Training     EasyEnsembleClassifier     | Time used: 0.987s
+    Training BalancedRandomForestClassifier | Time used: 0.096s
+    Training     SMOTEBaggingClassifier     | Time used: 4.603s
 
 
 
@@ -190,21 +188,19 @@ The values should be fitted ``imbalance_ensemble.ensemble`` or ``sklearn.ensembl
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1355.91it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1273.97it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::  60%|########4     | 30/50 [00:00<00:00, 195.99it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|##############| 50/50 [00:00<00:00, 146.43it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|##############| 50/50 [00:00<00:00, 134.68it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::  60%|########4     | 30/50 [00:00<00:00, 193.86it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|##############| 50/50 [00:00<00:00, 144.63it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|##############| 50/50 [00:00<00:00, 133.35it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1565.04it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1566.59it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  :: 100%|#############| 50/50 [00:00<00:00, 1222.78it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation ::   0%|                        | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation :: 100%|#############| 50/50 [00:00<00:00, 1258.26it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2285.82it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model      SPE      on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 1883.62it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset  training  ::  80%|#########################################################################################################################################6                                  | 40/50 [00:00<00:00, 264.09it/s]    Visualizer evaluating model    EasyEns    on dataset  training  :: 100%|############################################################################################################################################################################| 50/50 [00:00<00:00, 226.64it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model    EasyEns    on dataset validation ::  80%|#########################################################################################################################################6                                  | 40/50 [00:00<00:00, 256.69it/s]    Visualizer evaluating model    EasyEns    on dataset validation :: 100%|############################################################################################################################################################################| 50/50 [00:00<00:00, 218.63it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2451.95it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model BalanceForest on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2469.88it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset  training  :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2077.25it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation ::   0%|                                                                                                                                                                                      | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SMOTEBagging  on dataset validation :: 100%|###########################################################################################################################################################################| 50/50 [00:00<00:00, 2055.00it/s]
     Visualizer computing confusion matrices........ Finished!
 
-    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x000001E199A1D9D0>
+    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x0000026243474460>
 
 
 
@@ -225,9 +221,10 @@ Plot confusion matrices
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_001.png
-    :alt: Confusion Matrices
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_001.png
+   :alt: Confusion Matrices
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -253,9 +250,10 @@ False predictions only
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_002.png
-    :alt: Confusion Matrices
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_002.png
+   :alt: Confusion Matrices
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -285,9 +283,10 @@ Select results for visualization
 
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_003.png
-    :alt: Confusion Matrices
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_003.png
+   :alt: Confusion Matrices
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -320,9 +319,10 @@ Customize visual appearance
     )
 
 
-.. image:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_004.png
-    :alt: My Suptitle
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_004.png
+   :alt: My Suptitle
+   :srcset: /auto_examples/visualizer/images/sphx_glr_plot_confusion_matrix_004.png
+   :class: sphx-glr-single-img
 
 
 
@@ -331,30 +331,23 @@ Customize visual appearance
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  49.354 seconds)
-
-**Estimated memory usage:**  34 MB
+   **Total running time of the script:** ( 0 minutes  9.362 seconds)
 
 
 .. _sphx_glr_download_auto_examples_visualizer_plot_confusion_matrix.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_confusion_matrix.py <plot_confusion_matrix.py>`
 
-     :download:`Download Python source code: plot_confusion_matrix.py <plot_confusion_matrix.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_confusion_matrix.ipynb <plot_confusion_matrix.ipynb>`
+      :download:`Download Jupyter notebook: plot_confusion_matrix.ipynb <plot_confusion_matrix.ipynb>`
 
 
 .. only:: html

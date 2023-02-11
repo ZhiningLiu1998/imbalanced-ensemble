@@ -93,9 +93,10 @@ original dataset.
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_001.png
-    :alt: plot make imbalance
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_001.png
+   :alt: plot make imbalance
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -171,9 +172,10 @@ class distribution as specified by the parameters.
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_002.png
-    :alt: Original set, Sampling ratio = 0.9, Sampling ratio = 0.75, Sampling ratio = 0.5, Sampling ratio = 0.25, Sampling ratio = 0.1
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_002.png
+   :alt: Original set, Sampling ratio = 0.9, Sampling ratio = 0.75, Sampling ratio = 0.5, Sampling ratio = 0.25, Sampling ratio = 0.1
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -182,30 +184,23 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  43.831 seconds)
-
-**Estimated memory usage:**  19 MB
+   **Total running time of the script:** ( 0 minutes  0.387 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_make_imbalance.py <plot_make_imbalance.py>`
 
-     :download:`Download Python source code: plot_make_imbalance.py <plot_make_imbalance.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_make_imbalance.ipynb <plot_make_imbalance.ipynb>`
+      :download:`Download Jupyter notebook: plot_make_imbalance.ipynb <plot_make_imbalance.ipynb>`
 
 
 .. only:: html

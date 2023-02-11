@@ -117,8 +117,6 @@ Make a toy 3-class imbalanced classification task.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Training dataset distribution    {0: 100, 1: 300, 2: 600}
@@ -219,14 +217,13 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_001.png
-    :alt: Original imbalanced class distribution, After default under-sampling
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_001.png
+   :alt: Original imbalanced class distribution, After default under-sampling
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -269,14 +266,13 @@ The remaining minority classes (if any) will stay unchanged.
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_002.png
-    :alt: Original imbalanced class distribution, After under-sampling (target class 1)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_002.png
+   :alt: Original imbalanced class distribution, After under-sampling (target class 1)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_002.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -317,14 +313,13 @@ If int, all classes that have more than the n_target_samples samples will be und
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_003.png
-    :alt: Original imbalanced class distribution, After under-sampling (target number 200)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_003.png
+   :alt: Original imbalanced class distribution, After under-sampling (target number 200)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_003.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -369,14 +364,13 @@ If dict, the keys correspond to the targeted classes. The values correspond to t
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_004.png
-    :alt: Original imbalanced class distribution, After under-sampling  (target number {0: 80, 1: 200, 2: 400})
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_004.png
+   :alt: Original imbalanced class distribution, After under-sampling  (target number {0: 80, 1: 200, 2: 400})
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_004.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -443,14 +437,13 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_005.png
-    :alt: Original imbalanced class distribution, After default over-sampling
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_005.png
+   :alt: Original imbalanced class distribution, After default over-sampling
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_005.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -488,14 +481,13 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_006.png
-    :alt: Original imbalanced class distribution, After over-sampling (target class 1)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_006.png
+   :alt: Original imbalanced class distribution, After over-sampling (target class 1)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_006.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -533,14 +525,13 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_007.png
-    :alt: Original imbalanced class distribution, After over-sampling (target number 400)
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_007.png
+   :alt: Original imbalanced class distribution, After over-sampling (target number 400)
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_007.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -582,14 +573,13 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_008.png
-    :alt: Original imbalanced class distribution, After over-sampling  (target number {0: 200, 1: 400, 2: 600})
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_008.png
+   :alt: Original imbalanced class distribution, After over-sampling  (target number {0: 200, 1: 400, 2: 600})
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_008.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -625,9 +615,10 @@ Visualize different resampling target
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_009.png
-    :alt: Before under-sampling, After default under-sampling, After under-sampling (target class 1), After under-sampling (target number 200), After under-sampling  (target number {0: 80, 1: 200, 2: 400}), Before over-sampling, After default over-sampling, After over-sampling (target class 1), After over-sampling (target number 400), After over-sampling  (target number {0: 200, 1: 400, 2: 600})
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_resampling_target_009.png
+   :alt: Before under-sampling, After default under-sampling, After under-sampling (target class 1), After under-sampling (target number 200), After under-sampling  (target number {0: 80, 1: 200, 2: 400}), Before over-sampling, After default over-sampling, After over-sampling (target class 1), After over-sampling (target number 400), After over-sampling  (target number {0: 200, 1: 400, 2: 600})
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_resampling_target_009.png
+   :class: sphx-glr-single-img
 
 
 
@@ -636,30 +627,23 @@ Visualize different resampling target
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  53.371 seconds)
-
-**Estimated memory usage:**  36 MB
+   **Total running time of the script:** ( 0 minutes  1.443 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_resampling_target.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_resampling_target.py <plot_resampling_target.py>`
 
-     :download:`Download Python source code: plot_resampling_target.py <plot_resampling_target.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_resampling_target.ipynb <plot_resampling_target.ipynb>`
+      :download:`Download Jupyter notebook: plot_resampling_target.ipynb <plot_resampling_target.ipynb>`
 
 
 .. only:: html

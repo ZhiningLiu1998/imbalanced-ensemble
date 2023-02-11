@@ -1,7 +1,7 @@
 
 
-Examples using ``imbalanced_ensemble.pipeline.Pipeline``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Examples using ``imbalanced_ensemble.Pipeline.predict``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. start-sphx-glr-thumbnails

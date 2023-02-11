@@ -156,8 +156,6 @@ Preparation
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Method                         | Class 
@@ -293,9 +291,10 @@ Compare all under-sampling-based ensemble algorithms
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_001.png
-    :alt: Input data, SelfPacedEnsembleClassifier, BalanceCascadeClassifier, BalancedRandomForestClassifier, EasyEnsembleClassifier, RUSBoostClassifier, UnderBaggingClassifier
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_001.png
+   :alt: Input data, SelfPacedEnsembleClassifier, BalanceCascadeClassifier, BalancedRandomForestClassifier, EasyEnsembleClassifier, RUSBoostClassifier, UnderBaggingClassifier
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -320,9 +319,10 @@ Compare all over-sampling-based ensemble algorithms
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_002.png
-    :alt: Input data, OverBoostClassifier, SMOTEBoostClassifier, KmeansSMOTEBoostClassifier, OverBaggingClassifier, SMOTEBaggingClassifier
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_002.png
+   :alt: Input data, OverBoostClassifier, SMOTEBoostClassifier, KmeansSMOTEBoostClassifier, OverBaggingClassifier, SMOTEBaggingClassifier
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -345,9 +345,10 @@ Compare all reweighting-based ensemble algorithms
 
 
 
-.. image:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_003.png
-    :alt: Input data, AdaCostClassifier, AdaUBoostClassifier, AsymBoostClassifier
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_003.png
+   :alt: Input data, AdaCostClassifier, AdaUBoostClassifier, AsymBoostClassifier
+   :srcset: /auto_examples/classification/images/sphx_glr_plot_classifier_comparison_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -356,30 +357,23 @@ Compare all reweighting-based ensemble algorithms
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  3.941 seconds)
-
-**Estimated memory usage:**  37 MB
+   **Total running time of the script:** ( 0 minutes  6.825 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_classifier_comparison.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_classifier_comparison.py <plot_classifier_comparison.py>`
 
-     :download:`Download Python source code: plot_classifier_comparison.py <plot_classifier_comparison.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_classifier_comparison.ipynb <plot_classifier_comparison.ipynb>`
+      :download:`Download Jupyter notebook: plot_classifier_comparison.ipynb <plot_classifier_comparison.ipynb>`
 
 
 .. only:: html

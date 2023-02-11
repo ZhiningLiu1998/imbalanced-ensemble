@@ -94,9 +94,10 @@ The digits dataset consists of 8x8 pixel images of digits. The images attribute 
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_001.png
-    :alt: Training: 0, Training: 1, Training: 2, Training: 3, Training: 4, Training: 5, Training: 6, Training: 7, Training: 8, Training: 9, Training: 0, Training: 1
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_001.png
+   :alt: Training: 0, Training: 1, Training: 2, Training: 3, Training: 4, Training: 5, Training: 6, Training: 7, Training: 8, Training: 9, Training: 0, Training: 1
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -117,9 +118,10 @@ The digits dataset consists of 8x8 pixel images of digits. The images attribute 
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_002.png
-    :alt: Dataset (2D projection by KernelPCA), Class Distribution
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_002.png
+   :alt: Dataset (2D projection by KernelPCA), Class Distribution
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -144,9 +146,10 @@ The digits dataset consists of 8x8 pixel images of digits. The images attribute 
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_003.png
-    :alt: Dataset (2D projection by KernelPCA), Class Distribution
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_003.png
+   :alt: Dataset (2D projection by KernelPCA), Class Distribution
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -186,9 +189,10 @@ These tailed classes are not well represented, thus it is harder for a learning 
 
 
 
-.. image:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_004.png
-    :alt: Original Digits Data, Imbalanced Digits Data
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_004.png
+   :alt: Original Digits Data, Imbalanced Digits Data
+   :srcset: /auto_examples/datasets/images/sphx_glr_plot_make_imbalance_digits_004.png
+   :class: sphx-glr-single-img
 
 
 
@@ -197,30 +201,23 @@ These tailed classes are not well represented, thus it is harder for a learning 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  42.552 seconds)
-
-**Estimated memory usage:**  46 MB
+   **Total running time of the script:** ( 0 minutes  6.332 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance_digits.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_make_imbalance_digits.py <plot_make_imbalance_digits.py>`
 
-     :download:`Download Python source code: plot_make_imbalance_digits.py <plot_make_imbalance_digits.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_make_imbalance_digits.ipynb <plot_make_imbalance_digits.ipynb>`
+      :download:`Download Jupyter notebook: plot_make_imbalance_digits.ipynb <plot_make_imbalance_digits.ipynb>`
 
 
 .. only:: html

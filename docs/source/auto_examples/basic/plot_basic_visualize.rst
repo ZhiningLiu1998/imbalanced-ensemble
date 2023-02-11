@@ -155,15 +155,13 @@ Fit an ImbalancedEnsembleVisualizer
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                  | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|#######################| 50/50 [00:00<00:00, 1365.60it/s]
-      0%|                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                  | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|#######################| 50/50 [00:00<00:00, 1352.20it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                                                                                                                                                                                | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|#####################################################################################################################################################################################| 50/50 [00:00<00:00, 2040.98it/s]
+      0%|                                                                                                                                                                                                                                                         | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                                                                                                                                                                                | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|#####################################################################################################################################################################################| 50/50 [00:00<00:00, 2277.41it/s]
     Visualizer computing confusion matrices.. Finished!
 
-    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x000001E199168EE0>
+    <imbalanced_ensemble.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x0000026242A80070>
 
 
 
@@ -183,9 +181,10 @@ Plot performance curve
 
 
 
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_001.png
-    :alt: Performance Curves
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_001.png
+   :alt: Performance Curves
+   :srcset: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -207,9 +206,10 @@ Plot confusion matrix
     )
 
 
-.. image:: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_002.png
-    :alt: plot basic visualize
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_002.png
+   :alt: plot basic visualize
+   :srcset: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -218,30 +218,23 @@ Plot confusion matrix
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  44.535 seconds)
-
-**Estimated memory usage:**  23 MB
+   **Total running time of the script:** ( 0 minutes  0.535 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_visualize.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_basic_visualize.py <plot_basic_visualize.py>`
 
-     :download:`Download Python source code: plot_basic_visualize.py <plot_basic_visualize.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_basic_visualize.ipynb <plot_basic_visualize.ipynb>`
+      :download:`Download Jupyter notebook: plot_basic_visualize.ipynb <plot_basic_visualize.ipynb>`
 
 
 .. only:: html
