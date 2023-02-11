@@ -1,6 +1,22 @@
 Release History
 ***************
 
+Version 0.1.8 (2023.02)
+=========================
+
+Maintenance:
+
+- Add unit test for all ensemble classifiers and samplers with ``pytest``.
+- Following sklearn version >1.2, for all ensemble classifiers, 
+
+  - the parameter ``base_estimator`` is renamed to ``estimator``.
+  - the attribute ``base_estimator_`` is renamed to ``estimator_``.
+
+Bug Fixes:
+
+- Add missing comma in the INSTALL_REQUIRES list which breaks ``conda env export``.
+
+
 Version 0.1.7 (2022.01)
 =========================
 
@@ -24,6 +40,7 @@ Documentation:
 
 - Paper describing this package "`IMBENS: Ensemble Class-imbalanced Learning in Python <https://arxiv.org/abs/2111.12776>`_".
 
+
 Version 0.1.6 (2021.11)
 =========================
 
@@ -37,6 +54,7 @@ Bug Fixes:
 - Fixed Resampling + Bagging models (e.g., `OverBagging`) raise error when used with base estimators that do not support `sample_weight` (e.g., `sklearn.KNeighborsClassifier`). 
 - Fixed AttributeError occurs when initializing bagging-based models.
 
+
 Version 0.1.5 (2021.08)
 =========================
 
@@ -48,6 +66,7 @@ Bug Fixes:
 
 - Fixed ValueError when using :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer` with ``seaborn`` v0.11.2.
 - Fixed all ensemble algorithms (error or performance issue) when the classification targets do not begin with 0.
+
 
 Version 0.1.4 (2021.06)
 =========================
@@ -77,6 +96,7 @@ Bug Fixes:
   - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
   - :class:`imbalanced_ensemble.ensemble.SMOTEBaggingClassifier`
 
+
 Version 0.1.3 (2021.06)
 =========================
 
@@ -85,9 +105,9 @@ Bug Fixes:
 - Fixed a typo bug in :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`.
 - Fixed an import Error in :class:`imbalanced_ensemble.ensembleCompatibleAdaBoostClassifier`.
 
+
 Version 0.1.2 (2021.05)
 =========================
-
 
 Enhancement: 
 
@@ -114,6 +134,7 @@ Version 0.1.1 (2021.05)
 Bug Fixes:
 
 - Unexpected print messages when using the :mod:`imbalanced_ensemble.pipeline` module.
+
 
 Version 0.1.0 (2021.05)
 =========================
