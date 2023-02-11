@@ -271,7 +271,7 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
         self.estimators_ = []
         self.estimator_weights_ = np.zeros(self.n_estimators, dtype=np.float64)
         self.estimator_errors_ = np.ones(self.n_estimators, dtype=np.float64)
-        self.estimators_n_training_samples_ = np.zeros(self.n_estimators, dtype=np.int)
+        self.estimators_n_training_samples_ = np.zeros(self.n_estimators, dtype=int)
         
         # Genrate random seeds array
         seeds = random_state.randint(MAX_INT, size=self.n_estimators)

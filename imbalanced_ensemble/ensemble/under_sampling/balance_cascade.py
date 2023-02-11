@@ -266,7 +266,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         # Clear any previous fit results.
         self.estimators_ = []
         self.estimators_features_ = []
-        self.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=np.int)
+        self.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=int)
         self.samplers_ = []
         self.sample_weights_ = []
         

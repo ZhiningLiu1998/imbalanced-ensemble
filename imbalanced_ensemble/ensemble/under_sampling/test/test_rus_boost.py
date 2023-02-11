@@ -85,14 +85,14 @@ def test_rusboost_sample_weight(imbalanced_dataset, algorithm):
     rusboost = RUSBoostClassifier(algorithm=algorithm, random_state=0)
 
     # Predictions should be the same when sample_weight are all ones
-    y_pred_sample_weight = rusboost.fit(X, y, sample_weight).predict(X)
+    y_pred_sample_weight = rusboost.fit(X, y, sample_weight=sample_weight).predict(X)
     y_pred_no_sample_weight = rusboost.fit(X, y).predict(X)
 
     assert_array_equal(y_pred_sample_weight, y_pred_no_sample_weight)
 
     rng = np.random.RandomState(42)
     sample_weight = rng.rand(y.shape[0])
-    y_pred_sample_weight = rusboost.fit(X, y, sample_weight).predict(X)
+    y_pred_sample_weight = rusboost.fit(X, y, sample_weight=sample_weight).predict(X)
 
     with pytest.raises(AssertionError):
         assert_array_equal(y_pred_no_sample_weight, y_pred_sample_weight)
