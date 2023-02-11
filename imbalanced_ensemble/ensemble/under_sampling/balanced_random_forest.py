@@ -2,7 +2,7 @@
 on balanced boostrasp samples."""
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
-#          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Guillaume Lemaitre
 # License: MIT
 
 # %%

@@ -11,7 +11,7 @@ the lower the better
 """
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Dariusz Brzezinski
 # License: MIT
 

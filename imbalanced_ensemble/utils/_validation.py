@@ -2,7 +2,7 @@
 """
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 

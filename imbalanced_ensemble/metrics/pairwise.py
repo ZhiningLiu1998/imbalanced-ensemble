@@ -1,7 +1,7 @@
 """Metrics to perform pairwise computation."""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 # License: MIT
 
 import numpy as np

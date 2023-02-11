@@ -1,5 +1,5 @@
 """Test the module edited nearest neighbour."""
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Christos Aridas
 # License: MIT
 

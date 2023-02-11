@@ -3,7 +3,7 @@ Base class for the under-sampling method.
 """
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 # License: MIT
 
 # %%

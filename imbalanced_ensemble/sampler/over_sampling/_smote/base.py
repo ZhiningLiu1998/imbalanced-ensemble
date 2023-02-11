@@ -1,7 +1,7 @@
 """Base class and original SMOTE methods for over-sampling"""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Fernando Nogueira
 #          Christos Aridas
 #          Dzianis Dudnik

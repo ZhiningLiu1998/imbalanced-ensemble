@@ -34,7 +34,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
     # Adapted from imbalanced-learn
     # Authors: Dayvid Oliveira
     #          Christos Aridas
-    #          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+    #          Guillaume Lemaitre
     #          Zhining Liu <zhining.liu@outlook.com>
     # License: MIT
 

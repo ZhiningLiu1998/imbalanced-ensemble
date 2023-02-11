@@ -2,7 +2,7 @@
 # Adapted from imbalanced-learn
 
 # Authors: Dayvid Oliveira
-#          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT

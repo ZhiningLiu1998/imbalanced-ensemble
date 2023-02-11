@@ -13,7 +13,7 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 
 # Adapted from imbalanced-learn 
 # Authors: Christos Aridas
-#          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Guillaume Lemaitre
 # License: MIT
 
 # %%

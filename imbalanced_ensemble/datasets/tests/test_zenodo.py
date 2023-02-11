@@ -2,7 +2,7 @@
 
 Skipped if datasets is not already downloaded to data_home.
 """
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Christos Aridas
 # License: MIT
 

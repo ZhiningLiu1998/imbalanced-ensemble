@@ -1,7 +1,7 @@
 """Class to perform under-sampling based on nearmiss methods."""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT

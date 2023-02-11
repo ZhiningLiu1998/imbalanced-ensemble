@@ -2,7 +2,7 @@
 threshold."""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Dayvid Oliveira
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>

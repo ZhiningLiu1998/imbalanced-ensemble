@@ -3,7 +3,7 @@
 # Adapted from imbalanced-learn
 
 # Adapated from scikit-learn
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 # License: MIT
 
 import sys

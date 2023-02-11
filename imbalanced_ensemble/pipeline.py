@@ -10,7 +10,7 @@ composite estimator, as a chain of transforms, samples and estimators.
 #          Alexandre Gramfort
 #          Lars Buitinck
 #          Christos Aridas
-#          Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Guillaume Lemaitre
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: BSD
 

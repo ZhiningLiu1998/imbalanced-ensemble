@@ -1,7 +1,7 @@
 """SMOTE variant employing some clustering before the generation."""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Fernando Nogueira
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>

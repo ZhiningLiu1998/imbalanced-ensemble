@@ -1,7 +1,7 @@
 """Class to perform under-sampling by removing Tomek's links."""
 # Adapted from imbalanced-learn
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Fernando Nogueira
 #          Christos Aridas
 # License: MIT

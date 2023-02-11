@@ -1,5 +1,5 @@
 """Test the module random under sampler."""
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 #          Christos Aridas
 # License: MIT
 

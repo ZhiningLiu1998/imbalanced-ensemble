@@ -1,6 +1,6 @@
 """Test utilities for docstring."""
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 # License: MIT
 
 import pytest

@@ -1,6 +1,6 @@
 """Test for the metrics that perform pairwise distance computation."""
 
-# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+# Authors: Guillaume Lemaitre
 # License: MIT
 
 import numpy as np
