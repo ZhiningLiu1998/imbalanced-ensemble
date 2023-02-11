@@ -173,9 +173,9 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     @_deprecate_positional_args
     def __init__(self,
+                 estimator=None,
                  n_estimators:int=50,
                  *,
-                 estimator=None,
                  max_samples=1.0,
                  max_features=1.0,
                  bootstrap=True,

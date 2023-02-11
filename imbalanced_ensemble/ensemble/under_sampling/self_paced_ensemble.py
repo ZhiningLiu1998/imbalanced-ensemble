@@ -156,9 +156,11 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
     {example}
     """
     
+    @_deprecate_positional_args
     def __init__(self, 
         estimator=None, 
         n_estimators:int=50, 
+        *,
         k_bins:int=5, 
         soft_resample_flag:bool=False, 
         replacement:bool=True, 

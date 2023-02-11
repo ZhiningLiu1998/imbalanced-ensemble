@@ -145,9 +145,11 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
     {example}
     """
     
+    @_deprecate_positional_args
     def __init__(self, 
         estimator=None, 
         n_estimators:int=50, 
+        *,
         replacement:bool=True, 
         estimator_params=tuple(),
         n_jobs=None,
