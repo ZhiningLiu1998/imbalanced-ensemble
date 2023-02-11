@@ -385,9 +385,9 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
             )
 
         if self.estimator is not None:
-            self.estimator_ = clone(self.estimator)
+            self._estimator = clone(self.estimator)
         else:
-            self.estimator_ = clone(default)
+            self._estimator = clone(default)
 
         self.sampler_ = RandomUnderSampler(
             sampling_strategy=self._sampling_strategy,
@@ -794,4 +794,4 @@ if __name__ == "__main__":  # pragma: no cover
         sub_figsize=(4, 3.3),
     )
     
-    # %%
+# %%
