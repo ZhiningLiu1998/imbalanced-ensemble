@@ -36,7 +36,7 @@ from sklearn.ensemble._bagging import _parallel_predict_proba
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils import check_array
-from sklearn.utils.fixes import delayed
+from sklearn.utils.parallel import delayed
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import (_check_sample_weight, 
                                       check_random_state, 

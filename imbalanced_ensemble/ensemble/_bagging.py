@@ -54,7 +54,7 @@ from sklearn.pipeline import Pipeline as skPipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
-from sklearn.utils.fixes import delayed
+from sklearn.utils.parallel import delayed
 from sklearn.utils.random import sample_without_replacement
 
 
