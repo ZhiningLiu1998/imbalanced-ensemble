@@ -45,7 +45,6 @@ import numpy as np
 import numbers
 import itertools
 from warnings import warn
-from joblib import Parallel
 
 from sklearn.base import clone
 from sklearn.ensemble import BaggingClassifier
@@ -54,7 +53,7 @@ from sklearn.pipeline import Pipeline as skPipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
-from sklearn.utils.parallel import delayed
+from sklearn.utils.parallel import delayed, Parallel
 from sklearn.utils.random import sample_without_replacement
 
 
