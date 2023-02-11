@@ -1,5 +1,21 @@
+"""Evaluate print."""
+
+# Authors: Zhining Liu <zhining.liu@outlook.com>
+#          Guillaume Lemaitre
+# License: MIT
+
+# %%
+LOCAL_DEBUG = False
+
+if not LOCAL_DEBUG:
+    from ..metrics import geometric_mean_score
+else:           # pragma: no cover
+    import sys  # For local test
+    sys.path.append("..")
+    from metrics import geometric_mean_score
+
 from sklearn.metrics import balanced_accuracy_score, f1_score
-from imbalanced_ensemble.metrics import geometric_mean_score
+
 
 DEFAULT_METRICS = {
     'balanced Acc': (balanced_accuracy_score, {}),
