@@ -29,6 +29,13 @@ SamplingKindError = NotImplementedError(
 
 
 def _check_n_target_samples_int(y, n_target_samples, sampling_type):
+    if n_target_samples <= 0:
+        raise ValueError(
+            f"'n_target_samples' must be positive,"
+            f" get {n_target_samples}."
+            f" Set 'n_target_samples' > 0"
+            f" to perform under-sampling properly."
+        )
     target_stats = dict(Counter(y))
     max_class_ = max(target_stats, key=target_stats.get)
     min_class_ = min(target_stats, key=target_stats.get)
@@ -97,10 +104,10 @@ def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
             f"present in the data."
         )
     # check that there is no negative number
-    if any(n_samples < 0 for n_samples in n_target_samples.values()):
+    if any(n_samples <= 0 for n_samples in n_target_samples.values()):
         raise ValueError(
-            f"The number of samples in a class cannot be negative."
-            f"'n_target_samples' contains some negative value: {n_target_samples}"
+            f"The number of samples in a class must > 0. "
+            f"'n_target_samples' contains some negative/zero value: {n_target_samples}"
         )
 
     if sampling_type == 'under-sampling':
