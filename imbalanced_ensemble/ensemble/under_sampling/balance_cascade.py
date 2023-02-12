@@ -295,6 +295,14 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
                 total_estimator=n_estimators,
             )
 
+            if current_iter_distr != target_distr_:
+                raise ValueError(
+                    f"`BalanceCascadeClassifier` only support static target "
+                    f"sample distribution, please set `balancing_schedule='uniform'` "
+                    f"or pass your own callable `balancing_schedule` that returns a "
+                    f"same target across different iterations to avoid this issue."
+                )
+
             sampler = self._make_sampler(
                 append=True,
                 random_state=seeds[i_iter],
