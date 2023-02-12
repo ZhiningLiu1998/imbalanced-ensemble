@@ -733,7 +733,7 @@ def check_has_diff_elements(given_set:list or set,
 def check_type(param, param_name:str, typ, typ_name:str=None):
     if not isinstance(param, typ):
         typ_name = str(typ) if typ_name is None else typ_name
-        raise ValueError(
+        raise TypeError(
             f"'{param_name}' should be of type `{typ_name}`,"
             f" got {type(param)}."
         )
