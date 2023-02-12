@@ -125,15 +125,10 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
                                                       max_samples)
 
         # Draw samples, using sample weights, and then fit
-        if support_sample_weight:
-            if sample_weight is None:
-                curr_sample_weight = np.ones((n_samples,))
-            else:
-                curr_sample_weight = sample_weight.copy()
-
+        if support_sample_weight and sample_weight is not None:
+            curr_sample_weight = sample_weight.copy()
             estimator.fit((X[indices])[:, features], y[indices], 
                 sample_weight=curr_sample_weight[indices])
-
         else:
             estimator.fit((X[indices])[:, features], y[indices])
         
