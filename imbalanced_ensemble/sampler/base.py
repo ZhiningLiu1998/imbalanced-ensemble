@@ -42,6 +42,7 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
 
     _estimator_type = "sampler"
 
+
     def fit(self, X, y):
         """Check inputs and statistics of the sampler.
 
@@ -66,6 +67,7 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
             self.sampling_strategy, y, self._sampling_type
         )
         return self
+
 
     @_deprecate_positional_args
     def fit_resample(self, X, y, *, sample_weight=None, **kwargs):
@@ -129,10 +131,15 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
         y_ = label_binarize(output[1], classes=np.unique(y)) if binarize_y else output[1]
 
         X_, y_ = arrays_transformer.transform(output[0], y_)
-        return (X_, y_) if len(output) == 2 else output
+        if len(output) == 2:
+            output = (X_, y_)
+        else:   # with sample_weight
+            output = tuple([X_, y_] + [output[i] for i in range(2, len(output))])
+        return output
+
 
     @abstractmethod
-    def _fit_resample(self, X, y, **kwargs):
+    def _fit_resample(self, X, y, **kwargs):    # pragma: no cover
         """Base method defined in each sampler to defined the sampling
         strategy.
 
@@ -178,7 +185,7 @@ class BaseSampler(SamplerMixin):
         return {"X_types": ["2darray", "sparse", "dataframe"]}
 
 
-def _identity(X, y):
+def _identity(X, y):    # pragma: no cover
     return X, y
 
 
