@@ -263,7 +263,7 @@ class AsymBoostClassifier(ReweightBoostClassifier):
         # Note that AsymBoost requires the cost matrix to satisfy
         # C_{ij} * C_{ji} = 1, thus the 'log1p-inverse' option is not 
         # available in this situation.
-        if cost_matrix == 'log1p-inverse':
+        if type(cost_matrix) == str and cost_matrix == 'log1p-inverse':
             raise ValueError(
                 "'log1p-inverse' option is not available for "
                 "AsymBoostClassifier. Please use 'inverse' instead."
