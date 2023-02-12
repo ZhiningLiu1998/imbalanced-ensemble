@@ -180,6 +180,11 @@ class SMOTEBoostClassifier(ResampleBoostClassifier):
         
         self.k_neighbors = k_neighbors
         self.k_neighbors_ = check_type(k_neighbors, 'k_neighbors', numbers.Integral)
+        if self.k_neighbors_ < 1:
+            raise ValueError(
+                f"The 'k_neighbors' parameter of NearestNeighbors must be"
+                f" an int in the range [1, inf) or None. Got {self.k_neighbors_} instead."
+            )
 
 
     @_deprecate_positional_args
