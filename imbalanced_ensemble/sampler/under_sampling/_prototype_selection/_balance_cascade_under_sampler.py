@@ -78,7 +78,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
         self.random_state = random_state
 
         # Check parameters
-        self.replacement_ = check_type(replacement, 'replacement', bool)
+        self.replacement = check_type(replacement, 'replacement', bool)
 
 
     def _check_X_y(self, X, y):
@@ -112,7 +112,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
         """Return the absolute index of samples after balance-cascade 
         under-sampling of a single class"""
 
-        replacement = self.replacement_
+        replacement = self.replacement
 
         return random_state.choice(
             absolute_index_kept_c,
@@ -177,7 +177,7 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
         n_samples, n_classes = X.shape[0], classes_.shape[0]
 
         # Check random_state and predict probabilities
-        replacement = self.replacement_
+        replacement = self.replacement
         random_state = check_random_state(self.random_state)
         y_pred_proba = check_pred_proba(y_pred_proba, n_samples, n_classes, dtype=np.float64)
 

@@ -97,10 +97,14 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         self.random_state = random_state
 
         # Check parameters
-        self.k_bins_ = check_type(k_bins, 'k_bins', numbers.Integral)
-        self.replacement_ = check_type(replacement, 'replacement', bool)
-        self.soft_resample_flag_ = check_type(soft_resample_flag, 
+        self.k_bins = check_type(k_bins, 'k_bins', numbers.Integral)
+        self.replacement = check_type(replacement, 'replacement', bool)
+        self.soft_resample_flag = check_type(soft_resample_flag, 
             'soft_resample_flag', bool)
+        if self.k_bins <= 0:
+            raise ValueError(
+                f"'k_bins' should be > 0, got k_bins={self.k_bins}."
+            )
 
 
     def _check_X_y(self, X, y):
@@ -168,6 +172,10 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         # Check random_state and predict probabilities
         random_state = check_random_state(self.random_state)
         y_pred_proba = check_pred_proba(y_pred_proba, n_samples, n_classes, dtype=np.float64)
+        if self.k_bins <= 0:
+            raise ValueError(
+                f"'k_bins' should be > 0, got k_bins={self.k_bins}."
+            )
 
         # Check the self-paced factor alpha
         alpha = check_type(alpha, 'alpha', numbers.Number)
@@ -234,9 +242,9 @@ class SelfPacedUnderSampler(BaseUnderSampler):
     def _undersample_single_class(self, hardness_c, n_target_samples_c, 
                                   index_c, alpha, random_state):
         """Perform self-paced under-sampling in a single class"""
-        k_bins = self.k_bins_
-        soft_resample_flag = self.soft_resample_flag_
-        replacement = self.replacement_
+        k_bins = self.k_bins
+        soft_resample_flag = self.soft_resample_flag
+        replacement = self.replacement
         n_samples_c = hardness_c.shape[0]
 
         # if hardness is not distinguishable or no sample will be dropped
