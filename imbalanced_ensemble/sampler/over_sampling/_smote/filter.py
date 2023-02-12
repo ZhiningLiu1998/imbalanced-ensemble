@@ -37,6 +37,7 @@ from sklearn.base import clone
 from sklearn.svm import SVC
 from sklearn.utils import check_random_state
 from sklearn.utils import _safe_indexing
+from sklearn.preprocessing import normalize
 
 
 @Substitution(

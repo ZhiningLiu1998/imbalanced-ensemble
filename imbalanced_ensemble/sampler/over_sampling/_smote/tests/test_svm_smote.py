@@ -54,3 +54,22 @@ def test_svm_smote(data):
 
     assert_allclose(X_res_1, X_res_2)
     assert_array_equal(y_res_1, y_res_2)
+
+
+def test_svm_smote_sample_weight(data):
+    svm_smote = SVMSMOTE(random_state=42)
+    svm_smote_nn = SVMSMOTE(
+        random_state=42,
+        k_neighbors=NearestNeighbors(n_neighbors=6),
+        m_neighbors=NearestNeighbors(n_neighbors=11),
+        svm_estimator=SVC(gamma="scale", random_state=42),
+    )
+    X, y = data
+    sample_weight = np.ones_like(y)
+
+    X_res_1, y_res_1, w_res_1 = svm_smote.fit_resample(X, y, sample_weight=sample_weight)
+    X_res_2, y_res_2, w_res_2 = svm_smote_nn.fit_resample(X, y, sample_weight=sample_weight)
+
+    assert_allclose(X_res_1, X_res_2)
+    assert_array_equal(y_res_1, y_res_2)
+    assert_array_equal(w_res_1, w_res_2)
