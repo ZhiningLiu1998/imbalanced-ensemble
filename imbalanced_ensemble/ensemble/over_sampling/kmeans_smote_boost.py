@@ -87,7 +87,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         we used a :class:`~sklearn.cluster.MiniBatchKMeans` which tend to be
         better with large number of samples.
 
-    cluster_balance_threshold : "auto" or float, default="auto"
+    cluster_balance_threshold : "auto" or float, default=0.1
         The threshold at which a cluster is called balanced and where samples
         of the class selected for SMOTE will be oversampled. If "auto", this
         will be determined by the ratio for each class, or it can be set
@@ -175,7 +175,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
                 k_neighbors:int=2,
                 n_jobs_sampler=None,
                 kmeans_estimator=None,
-                cluster_balance_threshold="auto",
+                cluster_balance_threshold=0.1,
                 density_exponent="auto",
                 learning_rate:float=1.,
                 algorithm:str='SAMME.R',
@@ -206,6 +206,11 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         self.kmeans_estimator = kmeans_estimator
         self.cluster_balance_threshold = cluster_balance_threshold
         self.density_exponent = density_exponent
+        if self.k_neighbors_ < 1:
+            raise ValueError(
+                f"The 'k_neighbors' parameter of NearestNeighbors must be"
+                f" an int in the range [1, inf) or None. Got {self.k_neighbors_} instead."
+            )
 
 
     @_deprecate_positional_args
