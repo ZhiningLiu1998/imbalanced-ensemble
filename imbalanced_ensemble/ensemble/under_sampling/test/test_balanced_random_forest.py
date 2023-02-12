@@ -1,3 +1,8 @@
+"""Test BalancedRandomForestClassifier."""
+# Authors: Guillaume Lemaitre
+#          Zhining Liu <zhining.liu@outlook.com>
+# License: MIT
+
 import numpy as np
 import pytest
 import sklearn

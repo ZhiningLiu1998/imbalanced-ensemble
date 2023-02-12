@@ -1,4 +1,4 @@
-"""Test the module RUSBoost classifier."""
+"""Test RUSBoostClassifier."""
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
@@ -9,7 +9,6 @@ import pytest
 import sklearn
 from sklearn.datasets import load_iris, make_classification
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils._testing import assert_array_equal
 from sklearn.utils.fixes import parse_version
 

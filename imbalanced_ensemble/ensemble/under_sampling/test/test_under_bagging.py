@@ -1,16 +1,13 @@
-"""Test the module ensemble classifiers."""
+"""Test UnderBaggingClassifier."""
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
-from collections import Counter
-
 import numpy as np
 import pytest
 import sklearn
-from sklearn.cluster import KMeans
-from sklearn.datasets import load_iris, make_classification, make_hastie_10_2
+from sklearn.datasets import load_iris, make_hastie_10_2
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_selection import SelectKBest
 from sklearn.linear_model import LogisticRegression, Perceptron
@@ -25,12 +22,10 @@ from sklearn.utils._testing import (
 )
 from sklearn.utils.fixes import parse_version
 
-from imbalanced_ensemble import FunctionSampler
 from imbalanced_ensemble.datasets import make_imbalance
 from imbalanced_ensemble.ensemble import UnderBaggingClassifier
-from imbalanced_ensemble.sampler.over_sampling import SMOTE, RandomOverSampler
 from imbalanced_ensemble.pipeline import make_pipeline
-from imbalanced_ensemble.sampler.under_sampling import ClusterCentroids, RandomUnderSampler
+from imbalanced_ensemble.sampler.under_sampling import RandomUnderSampler
 
 sklearn_version = parse_version(sklearn.__version__)
 iris = load_iris()
