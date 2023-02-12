@@ -25,7 +25,6 @@ from abc import ABCMeta, abstractmethod
 
 import numpy as np
 from collections import Counter
-from joblib import Parallel
 
 import numpy as np
 from sklearn.base import ClassifierMixin, clone
@@ -36,6 +35,7 @@ from sklearn.ensemble._bagging import _parallel_predict_proba
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils import check_array
+from sklearn.utils.metaestimators import available_if
 from sklearn.utils.parallel import delayed, Parallel
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import (_check_sample_weight, 
@@ -342,6 +342,32 @@ _properties = {
     'ensemble_type': 'general',
 }
 
+
+def _estimator_has(attr):
+    """Check if we can delegate a method to the underlying estimator.
+    First, we check the first fitted estimator if available, otherwise we
+    check the estimator attribute.
+    """
+
+    def check(self):
+        if hasattr(self, "estimators_"):
+            return hasattr(self.estimators_[0], attr)
+        elif self.estimator is not None:
+            return hasattr(self.estimator, attr)
+        else:  # TODO(1.4): Remove when the base_estimator deprecation cycle ends
+            return hasattr(self.base_estimator, attr)
+
+    return check
+
+
+def _parallel_decision_function(estimators, estimators_features, X):
+    """Private function used to compute decisions within a job."""
+    return sum(
+        estimator.decision_function(X[:, features])
+        for estimator, features in zip(estimators, estimators_features)
+    )
+
+
 @Substitution(
     random_state=_get_parameter_docstring('random_state'),
     n_jobs=_get_parameter_docstring('n_jobs', **_properties),
@@ -583,6 +609,51 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
         predicted_probabilitiy = self.predict_proba(X)
         return self.classes_.take((np.argmax(predicted_probabilitiy, axis=1)),
                                   axis=0)
+
+
+    @available_if(_estimator_has("decision_function"))
+    def decision_function(self, X):
+        """Average of the decision functions of the base classifiers.
+        Parameters
+        ----------
+        X : {array-like, sparse matrix} of shape (n_samples, n_features)
+            The training input samples. Sparse matrices are accepted only if
+            they are supported by the base estimator.
+        Returns
+        -------
+        score : ndarray of shape (n_samples, k)
+            The decision function of the input samples. The columns correspond
+            to the classes in sorted order, as they appear in the attribute
+            ``classes_``. Regression and binary classification are special
+            cases with ``k == 1``, otherwise ``k==n_classes``.
+        """
+        check_is_fitted(self)
+
+        # Check data
+        X = self._validate_data(
+            X,
+            accept_sparse=["csr", "csc"],
+            dtype=None,
+            force_all_finite=False,
+            reset=False,
+        )
+
+        # Parallel loop
+        n_jobs, _, starts = _partition_estimators(self.n_estimators, self.n_jobs)
+
+        all_decisions = Parallel(n_jobs=n_jobs, verbose=self.verbose)(
+            delayed(_parallel_decision_function)(
+                self.estimators_[starts[i] : starts[i + 1]],
+                self.estimators_features_[starts[i] : starts[i + 1]],
+                X,
+            )
+            for i in range(n_jobs)
+        )
+
+        # Reduce
+        decisions = sum(all_decisions) / self.n_estimators
+
+        return decisions
 
 
     @property
