@@ -144,6 +144,16 @@ def test_spus_negative_alpha():
         )
 
 
+def test_spus_negative_k_bins():
+    with pytest.raises(ValueError, match="'k_bins' should be > 0"):
+        spus = SelfPacedUnderSampler(
+            k_bins=-5,
+            soft_resample_flag=True,
+            replacement=False, 
+            random_state=RND_SEED,
+            )
+
+
 @pytest.mark.parametrize("invalid_target", [True, False], ids=["invalid_target", "valid_target"])
 def test_spus_no_sufficient_data(invalid_target):
     if invalid_target:
