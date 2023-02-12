@@ -72,7 +72,7 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
     n_estimators : int, default=50
         The number of base estimators in the ensemble.
 
-    k_neighbors : int or object, default=5
+    k_neighbors : int or object, default=1
         If ``int``, number of nearest neighbours to used to construct synthetic
         samples in SMOTE.  If object, an estimator that inherits from
         :class:`~sklearn.neighbors.base.KNeighborsMixin` that will be used to
@@ -182,7 +182,7 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
                  estimator=None,
                  n_estimators:int=50,
                  *,
-                 k_neighbors:int=5,
+                 k_neighbors:int=1,
                  max_samples=1.0,
                  max_features=1.0,
                  bootstrap=True,
@@ -222,6 +222,11 @@ class SMOTEBaggingClassifier(ResampleBaggingClassifier):
         
         self.k_neighbors = k_neighbors
         self.k_neighbors_ = check_type(k_neighbors, 'k_neighbors', numbers.Integral)
+        if self.k_neighbors_ < 1:
+            raise ValueError(
+                f"The 'k_neighbors' parameter of NearestNeighbors must be"
+                f" an int in the range [1, inf) or None. Got {self.k_neighbors_} instead."
+            )
 
     
     @_deprecate_positional_args
