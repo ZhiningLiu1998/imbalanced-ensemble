@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.2.4
+
 jobs:
   build-and-test:
     docker:
@@ -15,11 +18,9 @@ jobs:
       - run:
           name: Run tests with coverage
           command: |
-            pytest --cov=my_project --cov-report=xml
-      # - run:
-      #     name: Upload to Codecov
-      #     command: |
-      #       bash <(curl -s https://codecov.io/bash)
+            pytest --cov=imbens --cov-report=xml
+      - codecov/upload:
+          file: coverage.xml
 
 workflows:
   version: 2
