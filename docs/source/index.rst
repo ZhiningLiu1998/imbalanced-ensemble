@@ -14,6 +14,9 @@ Welcome to imbalanced-ensemble documentation!
       <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
          <img src="https://img.shields.io/badge/Imbalanced-Ensemble-orange">
       </a>
+      <a href='https://dl.circleci.com/status-badge/redirect/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main'>
+         <img src='https://dl.circleci.com/status-badge/img/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main.svg?style=shield' alt='CircleCI Status' />
+      </a>
       <a href='https://imbalanced-ensemble.readthedocs.io/en/latest/?badge=latest'>
          <img src='https://readthedocs.org/projects/imbalanced-ensemble/badge/?version=latest' alt='Documentation Status' />
       </a>
