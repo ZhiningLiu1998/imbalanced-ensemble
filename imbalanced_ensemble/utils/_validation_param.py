@@ -58,7 +58,7 @@ def _check_n_target_samples_int(y, n_target_samples, sampling_type):
         if n_target_samples < n_min_class_samples_:
             raise ValueError(
                 f"'n_target_samples' < the number of samples"
-                f" of the largest class ({n_min_class_samples_})."
+                f" of the smallest class ({n_min_class_samples_})."
                 f" Set 'n_target_samples' > {n_min_class_samples_}"
                 f" to perform over-sampling properly."
             )
@@ -81,7 +81,7 @@ def _check_n_target_samples_int(y, n_target_samples, sampling_type):
         elif n_target_samples <= n_min_class_samples_:
             raise Warning(
                 f"'n_target_samples' <= the number of samples" + \
-                f" of the largest class ({n_min_class_samples_})." + \
+                f" of the smallest class ({n_min_class_samples_})." + \
                 f" ONLY under-sampling will be applied to all classes." + warning_info
             )
         target_distr = dict([
