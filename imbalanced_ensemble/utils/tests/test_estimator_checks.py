@@ -6,6 +6,7 @@ from sklearn.utils.multiclass import check_classification_targets
 
 from imbalanced_ensemble.sampler.base import BaseSampler
 from imbalanced_ensemble.sampler.over_sampling.base import BaseOverSampler
+from imbalanced_ensemble.utils.testing import all_estimators
 from imbalanced_ensemble.utils import check_target_type as target_check
 from imbalanced_ensemble.utils.estimator_checks import check_target_type
 from imbalanced_ensemble.utils.estimator_checks import check_samplers_one_label
@@ -14,6 +15,7 @@ from imbalanced_ensemble.utils.estimator_checks import check_samplers_sparse
 from imbalanced_ensemble.utils.estimator_checks import check_samplers_preserve_dtype
 from imbalanced_ensemble.utils.estimator_checks import check_samplers_string
 from imbalanced_ensemble.utils.estimator_checks import check_samplers_nan
+from imbalanced_ensemble.utils.estimator_checks import _yield_all_checks
 
 
 class BaseBadSampler(BaseEstimator):
@@ -117,3 +119,36 @@ def test_all_checks():
     _test_single_check(NotFittedSampler, check_samplers_fit)
     _test_single_check(NoAcceptingSparseSampler, check_samplers_sparse)
     _test_single_check(NotPreservingDtypeSampler, check_samplers_preserve_dtype)
+
+
+def test_all_samplers():
+    all_samplers = all_estimators(type_filter='sampler')
+    for name, SamplerClass in all_samplers:
+        print(name)
+        if name in [
+            'BalanceCascadeUnderSampler', 
+            'SelfPacedUnderSampler',
+            'CondensedNearestNeighbour',
+            'InstanceHardnessThreshold',
+            'ClusterCentroids',
+            'KMeansSMOTE',
+            ]:  # for speed up test
+            continue
+        try:
+            sampler = SamplerClass(random_state=0)
+        except:
+            sampler = SamplerClass()
+        for check in _yield_all_checks(sampler):
+            check(name, sampler)
+
+
+def test_all_classifiers():
+    all_ensembles = all_estimators(type_filter='ensemble')
+    for name, EnsembleClass in all_ensembles:
+        print(name)
+        try:
+            clf = EnsembleClass(random_state=0)
+        except:
+            clf = EnsembleClass()
+        for check in _yield_all_checks(clf):
+            check(name, clf)
