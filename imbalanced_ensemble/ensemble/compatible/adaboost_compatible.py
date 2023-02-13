@@ -33,6 +33,7 @@ else:           # pragma: no cover
 
 import numpy as np
 from copy import copy
+from collections import Counter
 
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble._forest import BaseForest
@@ -244,6 +245,9 @@ class CompatibleAdaBoostClassifier(ImbalancedEnsembleClassifierMixin,
 
         self.classes_, _ = np.unique(y, return_inverse=True)
         self.n_classes_ = len(self.classes_)
+
+        self.origin_distr_ = dict(Counter(y))
+        self.target_distr_ = dict(Counter(y))
 
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
