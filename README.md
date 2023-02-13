@@ -8,9 +8,14 @@
   IMBENS: Class-imbalanced Ensemble Learning in Python
 </h1>
 
+
+
 <p align="center">
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
     <img src="https://img.shields.io/badge/Imbalanced-Ensemble-orange">
+  </a>
+  <a href="https://github.com/psf/black">
+    <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
   </a>
   <a href='https://dl.circleci.com/status-badge/redirect/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main'>
     <img src='https://dl.circleci.com/status-badge/img/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main.svg?style=shield' alt='CircleCI Status' />
@@ -18,6 +23,16 @@
   <a href='https://imbalanced-ensemble.readthedocs.io/en/latest/?badge=latest'>
     <img src='https://readthedocs.org/projects/imbalanced-ensemble/badge/?version=latest' alt='Documentation Status' />
   </a>
+  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/ZhiningLiu1998/imbalanced-ensemble">
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/pypi/pyversions/imbalanced-ensemble.svg">
+  </a>
+  <a href="https://pypi.org/project/imbalanced-ensemble/">
+    <img src="https://badge.fury.io/py/imbalanced-ensemble.svg">
+  </a>
+  <br>
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/stargazers">
     <img src="https://img.shields.io/github/stars/ZhiningLiu1998/imbalanced-ensemble">
   </a>
@@ -27,14 +42,11 @@
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues">
     <img src="https://img.shields.io/github/issues/ZhiningLiu1998/imbalanced-ensemble">
   </a>
-  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/ZhiningLiu1998/imbalanced-ensemble">
+  <a href="https://pepy.tech/project/imbalanced-ensemble">
+    <img src="https://pepy.tech/badge/imbalanced-ensemble">
   </a>
-  <a href="https://pypi.org/project/imbalanced-ensemble/">
-    <img src="https://badge.fury.io/py/imbalanced-ensemble.svg">
-  </a>
-  <a href="https://www.python.org/">
-    <img src="https://img.shields.io/pypi/pyversions/imbalanced-ensemble.svg">
+  <a href="https://pepy.tech/project/imbalanced-ensemble">
+    <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
   </a>
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/graphs/traffic">
     <img src="https://visitor-badge.glitch.me/badge?page_id=ZhiningLiu1998.imbalanced-ensemble">
@@ -42,12 +54,6 @@
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-  <a href="https://pepy.tech/project/imbalanced-ensemble">
-    <img src="https://pepy.tech/badge/imbalanced-ensemble">
-  </a>
-  <a href="https://pepy.tech/project/imbalanced-ensemble">
-    <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
-  </a>
 </p>
 
 <h3 align="center">
@@ -67,7 +73,8 @@ Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">Englis
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#related-projects">Related Projects</a> |
   <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>  
   Paper:
-  <a href="https://arxiv.org/abs/2111.12776">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>**
+  <a href="https://arxiv.org/abs/2111.12776">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>
+  <br>**
 
 ***IMBENS*** (imported as `imbens`) is a Python library for quick implementation, modification, evaluation, and visualization of **ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
 Currently, IMBENS includes more than **[15 ensemble imbalanced learning algorithms](#list-of-implemented-methods)**, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*.
