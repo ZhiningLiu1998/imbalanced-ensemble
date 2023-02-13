@@ -4,9 +4,9 @@
 # License: MIT
 
 import numpy as np
-from scipy import sparse
 import pytest
 import sklearn
+from scipy import sparse
 from sklearn.datasets import load_iris
 from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import ParameterGrid, train_test_split
@@ -53,25 +53,19 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 )
 def test_estimator_init(estimator, params):
     """Check classification for various parameter settings."""
-    if params['k_bins'] == 5 and type(estimator) is not DummyClassifier and \
-        (not params['replacement'] and not params['soft_resample_flag']):
-        with pytest.raises(RuntimeError, 
-                           match="bin with insufficient number of data"):
+    if (
+        params['k_bins'] == 5
+        and type(estimator) is not DummyClassifier
+        and (not params['replacement'] and not params['soft_resample_flag'])
+    ):
+        with pytest.raises(RuntimeError, match="bin with insufficient number of data"):
             spe = SelfPacedEnsembleClassifier(
-                estimator=estimator, 
-                random_state=0, 
-                **params
-            ).fit(
-                X_train, y_train
-            )
+                estimator=estimator, random_state=0, **params
+            ).fit(X_train, y_train)
     else:
         spe = SelfPacedEnsembleClassifier(
-            estimator=estimator, 
-            random_state=0, 
-            **params
-        ).fit(
-            X_train, y_train
-        )
+            estimator=estimator, random_state=0, **params
+        ).fit(X_train, y_train)
         spe.predict(X_test)
         spe.predict_proba(X_test)
         spe.score(X_test, y_test)
@@ -128,9 +122,11 @@ def test_fit_target_samples_int(fit_params):
         10: {1: 10, 2: 10, 0: 10},
         20: {1: 19, 2: 20, 0: 14},
     }
-    
+
     if fit_params['n_target_samples'] > 38:
-        with pytest.raises(ValueError, match="'n_target_samples' > the number of samples"):
+        with pytest.raises(
+            ValueError, match="'n_target_samples' > the number of samples"
+        ):
             spe = SelfPacedEnsembleClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
@@ -173,9 +169,8 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
         0: {1: 5, 2: 10, 0: 14},
         1: {0: 5, 1: 5, 2: 10},
     }
-    fit_params['n_target_samples'] = \
-        input_n_target_samples_dict[n_target_samples_idx]
-    
+    fit_params['n_target_samples'] = input_n_target_samples_dict[n_target_samples_idx]
+
     if n_target_samples_idx in [0, 1]:
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train, y_train, **fit_params
@@ -186,7 +181,9 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
         spe.predict_proba(X_test)
         spe.score(X_test, y_test)
     elif n_target_samples_idx in [2, 3]:
-        with pytest.raises(ValueError, match="The number of samples in a class must > 0"):
+        with pytest.raises(
+            ValueError, match="The number of samples in a class must > 0"
+        ):
             spe = SelfPacedEnsembleClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
@@ -202,7 +199,8 @@ def test_fit_target_label_target_samples_error(n_target_samples):
     """Ensure we raise an error when set both target_label and n_target_samples"""
     with pytest.raises(ValueError, match='cannot be specified at the same time'):
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
-            X_train, y_train,
+            X_train,
+            y_train,
             target_label=0,
             n_target_samples=n_target_samples,
         )
@@ -213,4 +211,4 @@ def test_sparse_y_error():
     with pytest.raises(TypeError, match='A sparse matrix was passed'):
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train, sparse.csr_array(y_train)
-        ) 
+        )

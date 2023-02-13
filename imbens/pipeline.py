@@ -183,7 +183,7 @@ class Pipeline(pipeline.Pipeline):
     # Estimator interface
 
     def _fit(self, X, y=None, sample_weight=None, **fit_params_steps):
-        
+
         self.steps = list(self.steps)
         self._validate_steps()
         # Setup the memory
@@ -232,16 +232,17 @@ class Pipeline(pipeline.Pipeline):
                 )
                 if sample_weight is None:
                     (X, y, fitted_transformer) = out
-                else: (X, y, sample_weight, fitted_transformer) = out
+                else:
+                    (X, y, sample_weight, fitted_transformer) = out
             # Replace the transformer of the step with the fitted
             # transformer. This is necessary when loading the transformer
             # from the cache.
             self.steps[step_idx] = (name, fitted_transformer)
-        
+
         if sample_weight is None:
             return X, y
-        else: return X, y, sample_weight
-        
+        else:
+            return X, y, sample_weight
 
     def fit(self, X, y=None, sample_weight=None, **fit_params):
         """Fit the model.
@@ -274,7 +275,8 @@ class Pipeline(pipeline.Pipeline):
         out = self._fit(X, y, sample_weight, **fit_params_steps)
         if sample_weight is None:
             (Xt, yt) = out
-        else: (Xt, yt, sample_weight) = out
+        else:
+            (Xt, yt, sample_weight) = out
         with _print_elapsed_time("Pipeline", self._log_message(len(self.steps) - 1)):
             if self._final_estimator != "passthrough":
                 fit_params_last_step = fit_params_steps[self.steps[-1][0]]
@@ -355,12 +357,14 @@ class Pipeline(pipeline.Pipeline):
             Transformed target.
         """
         fit_params_steps = self._check_fit_params(**fit_params)
-        
+
         if sample_weight is None:
             Xt, yt = self._fit(X, y, **fit_params_steps)
-        else: 
-            Xt, yt, sample_weight = self._fit(X, y, sample_weight=sample_weight, **fit_params_steps)
-        
+        else:
+            Xt, yt, sample_weight = self._fit(
+                X, y, sample_weight=sample_weight, **fit_params_steps
+            )
+
         last_step = self._final_estimator
         with _print_elapsed_time("Pipeline", self._log_message(len(self.steps) - 1)):
             if last_step == "passthrough":
@@ -406,15 +410,17 @@ class Pipeline(pipeline.Pipeline):
         return y_pred
 
 
-def _fit_resample_one(sampler, X, y, sample_weight=None, message_clsname="", message=None, **fit_params):
+def _fit_resample_one(
+    sampler, X, y, sample_weight=None, message_clsname="", message=None, **fit_params
+):
     with _print_elapsed_time(message_clsname, message):
-        
+
         out = sampler.fit_resample(X, y, sample_weight=sample_weight, **fit_params)
 
         if sample_weight is None:
             (X_res, y_res) = out
             return X_res, y_res, sampler
-        else: 
+        else:
             (X_res, y_res, sample_weight_res) = out
             return X_res, y_res, sample_weight_res, sampler
 
@@ -424,7 +430,6 @@ def _fit_resample_one(sampler, X, y, sample_weight=None, message_clsname="", mes
         # print ("sample_weight after fit_resample", sample_weight_res.shape)
         # print ("sample_weight before fit_resample", sample_weight)
         # print ("sample_weight after fit_resample", sample_weight_res, "SUM:", sum(sample_weight_res))
-
 
 
 def make_pipeline(*steps, memory=None, verbose=False):

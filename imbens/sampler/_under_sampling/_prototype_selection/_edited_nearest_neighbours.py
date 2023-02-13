@@ -12,24 +12,22 @@ method."""
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
+    from ....utils._docstring import Substitution, _n_jobs_docstring
+    from ....utils._validation import _deprecate_positional_args, check_neighbors_object
     from ..base import BaseCleaningSampler
-    from ....utils._docstring import _n_jobs_docstring, Substitution
-    from ....utils._validation import (_deprecate_positional_args,
-                                       check_neighbors_object)
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../../..")
     from sampler._under_sampling.base import BaseCleaningSampler
     from utils._docstring import _n_jobs_docstring, Substitution
-    from utils._validation import (_deprecate_positional_args, 
-                                   check_neighbors_object)
+    from utils._validation import _deprecate_positional_args, check_neighbors_object
+
+from collections import Counter
 
 import numpy as np
 from scipy.stats import mode
-from collections import Counter
-
 from sklearn.utils import _safe_indexing
-
 
 SEL_KIND = ("all", "mode")
 
@@ -174,10 +172,15 @@ EditedNearestNeighbours # doctest: +NORMALIZE_WHITESPACE
         if sample_weight is not None:
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
-            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under), sample_weight_under
-        else: return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
+            return (
+                _safe_indexing(X, idx_under),
+                _safe_indexing(y, idx_under),
+                sample_weight_under,
+            )
+        else:
+            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
 
 
@@ -361,10 +364,10 @@ RepeatedEditedNearestNeighbours # doctest : +NORMALIZE_WHITESPACE
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
             return X_resampled, y_resampled, sample_weight_under
-        else: return X_resampled, y_resampled
+        else:
+            return X_resampled, y_resampled
 
-
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
 
 
@@ -534,19 +537,32 @@ AllKNN # doctest: +NORMALIZE_WHITESPACE
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
             return X_resampled, y_resampled, sample_weight_under
-        else: return X_resampled, y_resampled
+        else:
+            return X_resampled, y_resampled
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
+
 
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
+
     from sklearn.datasets import make_classification
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
     print('Original dataset shape %s' % Counter(y))
 
     origin_distr = Counter(y)

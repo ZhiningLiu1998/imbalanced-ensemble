@@ -4,17 +4,17 @@
 # License: MIT
 
 import pytest
-
 from sklearn.datasets import make_blobs
 from sklearn.metrics import make_scorer
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.svm import LinearSVC
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
 
-from imbens.metrics import sensitivity_score
-from imbens.metrics import specificity_score
-from imbens.metrics import geometric_mean_score
-from imbens.metrics import make_index_balanced_accuracy
+from imbens.metrics import (
+    geometric_mean_score,
+    make_index_balanced_accuracy,
+    sensitivity_score,
+    specificity_score,
+)
 
 R_TOL = 1e-2
 
@@ -41,7 +41,10 @@ def test_scorer_common_average(data, score, expected_score, average):
 
     scorer = make_scorer(score, pos_label=None, average=average)
     grid = GridSearchCV(
-        LinearSVC(random_state=0), param_grid={"C": [1, 10]}, scoring=scorer, cv=3,
+        LinearSVC(random_state=0),
+        param_grid={"C": [1, 10]},
+        scoring=scorer,
+        cv=3,
     )
     grid.fit(X_train, y_train).predict(X_test)
 
@@ -55,7 +58,11 @@ def test_scorer_common_average(data, score, expected_score, average):
         (sensitivity_score, "binary", 0.92),
         (specificity_score, "binary", 0.95),
         (geometric_mean_score, "multiclass", 0.92),
-        (make_index_balanced_accuracy()(geometric_mean_score), "multiclass", 0.84,),
+        (
+            make_index_balanced_accuracy()(geometric_mean_score),
+            "multiclass",
+            0.84,
+        ),
     ],
 )
 def test_scorer_default_average(data, score, average, expected_score):
@@ -63,7 +70,10 @@ def test_scorer_default_average(data, score, average, expected_score):
 
     scorer = make_scorer(score, pos_label=1, average=average)
     grid = GridSearchCV(
-        LinearSVC(random_state=0), param_grid={"C": [1, 10]}, scoring=scorer, cv=3,
+        LinearSVC(random_state=0),
+        param_grid={"C": [1, 10]},
+        scoring=scorer,
+        cv=3,
     )
     grid.fit(X_train, y_train).predict(X_test)
 

@@ -1,10 +1,14 @@
 """Test the module cluster centroids."""
+
+# Authors: Guillaume Lemaitre
+#          Zhining Liu <zhining.liu@outlook.com>
+# License: MIT
+
 from collections import Counter
 
-import pytest
 import numpy as np
+import pytest
 from scipy import sparse
-
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_classification
 
@@ -70,7 +74,9 @@ def test_fit_resample_object():
     sampling_strategy = "auto"
     cluster = KMeans(n_init='auto', random_state=RND_SEED)
     cc = ClusterCentroids(
-        sampling_strategy=sampling_strategy, random_state=RND_SEED, estimator=cluster,
+        sampling_strategy=sampling_strategy,
+        random_state=RND_SEED,
+        estimator=cluster,
     )
 
     X_resampled, y_resampled = cc.fit_resample(X, Y)

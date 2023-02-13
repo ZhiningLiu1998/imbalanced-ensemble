@@ -16,6 +16,7 @@ SOLUTION_TYPES = ('resampling', 'reweighting')
 
 SAMPLING_TYPES = ('under-sampling', 'over-sampling')
 
+
 class Substitution:
     """Decorate a class' docstring to perform string substitution on it.
 
@@ -33,6 +34,7 @@ class Substitution:
         obj.__doc__ = obj.__doc__.format(**self.params)
         return obj
 
+
 # class SamplerUserGuideSubstitution:
 #     """Decorate a sampler class' docstring to replace imblearn User Guide by link.
 
@@ -45,7 +47,7 @@ class Substitution:
 #             self.base_link = base_link + 'under_sampling.html'
 #         elif isinstance(self, BaseOverSampler):
 #             self.base_link = base_link + 'over_sampling.html'
-    
+
 #     def user_guide_sub(self, match: re.Match):
 #         string = match.group()
 #         term = re.findall(r"<(.*)>", string)[0]
@@ -57,10 +59,11 @@ class Substitution:
 #         return string
 
 #     def __call__(self, obj):
-#         obj.__doc__ = re.sub(r":ref:`User Guide <.*>`", 
-#                              self.user_guide_sub, 
+#         obj.__doc__ = re.sub(r":ref:`User Guide <.*>`",
+#                              self.user_guide_sub,
 #                              obj.__doc__)
 #         return obj
+
 
 class FuncSubstitution:
     """Decorate a function's docstring to perform string substitution on it.
@@ -78,6 +81,7 @@ class FuncSubstitution:
     def __call__(self, obj):
         obj.__doc__ = obj.__doc__ % (self.params)
         return obj
+
 
 class FuncGlossarySubstitution:
     """Decorate a function's docstring to replace sklearn glossary term by link.
@@ -347,30 +351,27 @@ _docstring_example = """>>> from imbens.ensemble import %(method_name)s
     """.rstrip()
 
 
-def _get_example_docstring(method_name:str):
+def _get_example_docstring(method_name: str):
     return _docstring_example % ({'method_name': method_name})
 
 
 def _check_type_parameter(typ_str, typ_name, all_types):
     if not isinstance(typ_str, str):
-        raise TypeError(
-          f"'{typ_name}' should be string, got {type(typ_str)}."
-        )
+        raise TypeError(f"'{typ_name}' should be string, got {type(typ_str)}.")
     if typ_str not in all_types:
         raise ValueError(
-          f"'{typ_name}' should be one of {all_types},"
-          f" got '{typ_str}'."
+            f"'{typ_name}' should be one of {all_types}," f" got '{typ_str}'."
         )
 
 
-def _get_random_state_docstring(sampling_type:str=None, **ignored_kwargs) -> str:
+def _get_random_state_docstring(sampling_type: str = None, **ignored_kwargs) -> str:
     if sampling_type is None:
         return _random_state_ensemble_docstring
     _check_type_parameter(sampling_type, 'sampling_type', SAMPLING_TYPES)
     return _random_state_ensemble_resampling_docstring
 
 
-def _get_n_jobs_docstring(ensemble_type:str, **ignored_kwargs) -> str:
+def _get_n_jobs_docstring(ensemble_type: str, **ignored_kwargs) -> str:
     _check_type_parameter(ensemble_type, 'ensemble_type', ENSEMBLE_TYPES)
     if ensemble_type == 'bagging' or ensemble_type == 'random-forest':
         return _n_jobs_fit_pred_docstring
@@ -381,52 +382,68 @@ def _get_n_jobs_docstring(ensemble_type:str, **ignored_kwargs) -> str:
             f"boosting-like ensemble should not have 'n_jobs' parameter."
             f" Check your usage."
         )
-    else: raise NotImplementedError(
-        f"_get_n_jobs_docstring for 'ensemble_type' = {ensemble_type}"
-        f" needs to be implemented."
-    )
+    else:
+        raise NotImplementedError(
+            f"_get_n_jobs_docstring for 'ensemble_type' = {ensemble_type}"
+            f" needs to be implemented."
+        )
 
-def _get_train_verbose_docstring(training_type:str, **ignored_kwargs) -> str:
+
+def _get_train_verbose_docstring(training_type: str, **ignored_kwargs) -> str:
     _check_type_parameter(training_type, 'training_type', TRAINING_TYPES)
     if training_type == 'iterative':
         return _train_verbose_iterative_docstring
     elif training_type == 'parallel':
         return _train_verbose_parallel_docstring
-    else: raise NotImplementedError(
-        f"_get_train_verbose_docstring for 'training_type' = {training_type}"
-        f" needs to be implemented."
-    )
-  
-def _get_target_label_docstring(sampling_type:str, **ignored_kwargs) -> str:
+    else:
+        raise NotImplementedError(
+            f"_get_train_verbose_docstring for 'training_type' = {training_type}"
+            f" needs to be implemented."
+        )
+
+
+def _get_target_label_docstring(sampling_type: str, **ignored_kwargs) -> str:
     _check_type_parameter(sampling_type, 'sampling_type', SAMPLING_TYPES)
     if sampling_type == 'under-sampling':
         return _target_label_under_sampling_docstring
     elif sampling_type == 'over-sampling':
         return _target_label_over_sampling_docstring
-    else: raise NotImplementedError(
-        f"_get_target_label_docstring for 'sampling_type' = {sampling_type}"
-        f" needs to be implemented."
-    )
-  
-def _get_n_target_samples_docstring(sampling_type:str, **ignored_kwargs) -> str:
+    else:
+        raise NotImplementedError(
+            f"_get_target_label_docstring for 'sampling_type' = {sampling_type}"
+            f" needs to be implemented."
+        )
+
+
+def _get_n_target_samples_docstring(sampling_type: str, **ignored_kwargs) -> str:
     _check_type_parameter(sampling_type, 'sampling_type', SAMPLING_TYPES)
     if sampling_type == 'under-sampling':
         return _n_target_samples_under_sampling_docstring
     elif sampling_type == 'over-sampling':
         return _n_target_samples_over_sampling_docstring
-    else: raise NotImplementedError(
-        f"_get_n_target_samples_docstring for 'sampling_type' = {sampling_type}"
-        f" needs to be implemented."
-    )
+    else:
+        raise NotImplementedError(
+            f"_get_n_target_samples_docstring for 'sampling_type' = {sampling_type}"
+            f" needs to be implemented."
+        )
 
 
 PARAM_DOCSTRING_TYPE = (
-    'n_jobs_sampler', 'balancing_schedule', 'eval_datasets', 'eval_metrics', 
-    'random_state', 'n_jobs', 'warm_start', 'train_verbose', 'target_label', 
-    'n_target_samples', 'early_termination',
+    'n_jobs_sampler',
+    'balancing_schedule',
+    'eval_datasets',
+    'eval_metrics',
+    'random_state',
+    'n_jobs',
+    'warm_start',
+    'train_verbose',
+    'target_label',
+    'n_target_samples',
+    'early_termination',
 )
 
-def _get_parameter_docstring(param:str, **properties):
+
+def _get_parameter_docstring(param: str, **properties):
     _check_type_parameter(param, 'param', PARAM_DOCSTRING_TYPE)
     if param == 'n_jobs_sampler':
         return _n_jobs_sampler_docstring
@@ -450,11 +467,12 @@ def _get_parameter_docstring(param:str, **properties):
         return _get_target_label_docstring(**properties)
     elif param == 'n_target_samples':
         return _get_n_target_samples_docstring(**properties)
-    else: raise NotImplementedError(
-        f"_get_parameter_docstring for 'param' = {param}"
-        f" needs to be implemented."
-    )
-    
+    else:
+        raise NotImplementedError(
+            f"_get_parameter_docstring for 'param' = {param}"
+            f" needs to be implemented."
+        )
+
 
 # %%
 
@@ -463,36 +481,26 @@ if __name__ == "__main__":  # pragma: no cover
     for param in PARAM_DOCSTRING_TYPE:
         if param == 'random_state':
             for sampling_type in SAMPLING_TYPES:
-                print (f"\n_get_random_state_docstring('{sampling_type}')\n")
-                print (
-                    _get_parameter_docstring(param, sampling_type=sampling_type)
-                )
+                print(f"\n_get_random_state_docstring('{sampling_type}')\n")
+                print(_get_parameter_docstring(param, sampling_type=sampling_type))
         elif param == 'n_jobs':
             for ensemble_type in ENSEMBLE_TYPES:
-                print (f"\n_get_n_jobs_docstring('{ensemble_type}')\n")
-                print (
-                    _get_parameter_docstring(param, ensemble_type=ensemble_type)
-                )
+                print(f"\n_get_n_jobs_docstring('{ensemble_type}')\n")
+                print(_get_parameter_docstring(param, ensemble_type=ensemble_type))
         elif param == 'train_verbose':
             for training_type in TRAINING_TYPES:
-                print (f"\n_get_train_verbose_docstring('{training_type}')\n")
-                print (
-                    _get_parameter_docstring(param, training_type=training_type)
-                )
+                print(f"\n_get_train_verbose_docstring('{training_type}')\n")
+                print(_get_parameter_docstring(param, training_type=training_type))
         elif param == 'target_label':
             for sampling_type in SAMPLING_TYPES:
-                print (f"\n_get_target_label_docstring('{sampling_type}')\n")
-                print (
-                    _get_parameter_docstring(param, sampling_type=sampling_type)
-                )
+                print(f"\n_get_target_label_docstring('{sampling_type}')\n")
+                print(_get_parameter_docstring(param, sampling_type=sampling_type))
         elif param == 'n_target_samples':
             for sampling_type in SAMPLING_TYPES:
-                print (f"\n_get_n_target_samples_docstring('{sampling_type}')\n")
-                print (
-                    _get_parameter_docstring(param, sampling_type=sampling_type)
-                )
+                print(f"\n_get_n_target_samples_docstring('{sampling_type}')\n")
+                print(_get_parameter_docstring(param, sampling_type=sampling_type))
         else:
-            print (f"\n_get_parameter_docstring('{param}')\n")
-            print (_get_parameter_docstring(param))
+            print(f"\n_get_parameter_docstring('{param}')\n")
+            print(_get_parameter_docstring(param))
 
 # %%

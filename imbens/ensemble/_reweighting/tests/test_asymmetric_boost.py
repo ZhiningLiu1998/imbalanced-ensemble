@@ -51,7 +51,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     # check that we have an ensemble of estimators with a
     # consistent size
     assert len(asymboost.estimators_) > 1
-    
+
     # each estimator in the ensemble should have different random state
     assert len({est.random_state for est in asymboost.estimators_}) == len(
         asymboost.estimators_
@@ -80,10 +80,15 @@ def test_sample_weight(imbalanced_dataset, algorithm):
 
     # Predictions should be the same when sample_weight are all ones
     y_pred_sample_weight = asymboost.fit(
-        X, y, sample_weight=sample_weight, cost_matrix='uniform',
+        X,
+        y,
+        sample_weight=sample_weight,
+        cost_matrix='uniform',
     ).predict(X)
     y_pred_no_sample_weight = asymboost.fit(
-        X, y, cost_matrix='uniform',
+        X,
+        y,
+        cost_matrix='uniform',
     ).predict(X)
 
     assert_array_equal(y_pred_sample_weight, y_pred_no_sample_weight)
@@ -91,7 +96,10 @@ def test_sample_weight(imbalanced_dataset, algorithm):
     rng = np.random.RandomState(42)
     sample_weight = rng.rand(y.shape[0])
     y_pred_sample_weight = asymboost.fit(
-        X, y, sample_weight=sample_weight, cost_matrix='uniform',
+        X,
+        y,
+        sample_weight=sample_weight,
+        cost_matrix='uniform',
     ).predict(X)
 
     with pytest.raises(AssertionError):
@@ -99,26 +107,34 @@ def test_sample_weight(imbalanced_dataset, algorithm):
 
 
 @pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
-@pytest.mark.parametrize("cost_matrix", [None, 'uniform', 'inverse', 'log1p-inverse', 'random'])
+@pytest.mark.parametrize(
+    "cost_matrix", [None, 'uniform', 'inverse', 'log1p-inverse', 'random']
+)
 def test_cost_matrix(imbalanced_dataset, algorithm, cost_matrix):
     expected_cost_matrixs = {
-        'uniform': np.array([
-            [1.00, 1.00, 1.00],
-            [1.00, 1.00, 1.00],
-            [1.00, 1.00, 1.00],
-        ]),
-        'inverse': np.array([
-            [1.00, 0.24, 0.01],
-            [4.12, 1.00, 0.06],
-            [72.20, 17.51, 1.00],
-        ]),
-        'log1p-inverse': np.array([
-            [0.69, 0.22, 0.01],
-            [1.63, 0.69, 0.06],
-            [4.29, 2.92, 0.69],
-        ]),
+        'uniform': np.array(
+            [
+                [1.00, 1.00, 1.00],
+                [1.00, 1.00, 1.00],
+                [1.00, 1.00, 1.00],
+            ]
+        ),
+        'inverse': np.array(
+            [
+                [1.00, 0.24, 0.01],
+                [4.12, 1.00, 0.06],
+                [72.20, 17.51, 1.00],
+            ]
+        ),
+        'log1p-inverse': np.array(
+            [
+                [0.69, 0.22, 0.01],
+                [1.63, 0.69, 0.06],
+                [4.29, 2.92, 0.69],
+            ]
+        ),
     }
-    
+
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, random_state=1
@@ -147,31 +163,38 @@ def test_cost_matrix(imbalanced_dataset, algorithm, cost_matrix):
             asymboost.fit(X_train, y_train, cost_matrix=cost_matrix)
 
 
-@pytest.mark.parametrize("cost_matrix", [
-    np.array([
-        [1.00, 0.24, 0.01],
-        [4.12, 1.00, 0.06],
-        [72.20, 17.51, 1.00],
-    ]),
-    np.array([
-        [1.00, 0.24, 0.01],
-    ]),
-    np.array([
-        [1.00, 0.24, 'a'],
-        [4.12, 1.00, 0.06],
-        [72.20, 17.51, 1.00],
-    ]),
-    10,
-])
+@pytest.mark.parametrize(
+    "cost_matrix",
+    [
+        np.array(
+            [
+                [1.00, 0.24, 0.01],
+                [4.12, 1.00, 0.06],
+                [72.20, 17.51, 1.00],
+            ]
+        ),
+        np.array(
+            [
+                [1.00, 0.24, 0.01],
+            ]
+        ),
+        np.array(
+            [
+                [1.00, 0.24, 'a'],
+                [4.12, 1.00, 0.06],
+                [72.20, 17.51, 1.00],
+            ]
+        ),
+        10,
+    ],
+)
 def test_cost_matrix_customize(imbalanced_dataset, cost_matrix):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, random_state=1
     )
 
-    asymboost = AsymBoostClassifier(
-        random_state=0
-    )
+    asymboost = AsymBoostClassifier(random_state=0)
     if isinstance(cost_matrix, np.ndarray):
         if cost_matrix.dtype != float:
             with pytest.raises(ValueError, match="dtype='numeric' is not compatible"):

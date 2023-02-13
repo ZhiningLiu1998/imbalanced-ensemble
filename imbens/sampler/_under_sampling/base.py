@@ -11,8 +11,9 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..base import BaseSampler
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from sampler.base import BaseSampler
 
@@ -98,5 +99,6 @@ class BaseCleaningSampler(BaseSampler):
           correspond to the targeted classes. The values correspond to the
           desired number of samples for each class.
         """.rstrip()
+
 
 # %%

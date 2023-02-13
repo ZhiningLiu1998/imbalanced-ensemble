@@ -1,5 +1,5 @@
 """
-The :mod:`imbens.ensemble.over_sampling` submodule contains 
+The :mod:`imbens.ensemble._over_sampling` submodule contains 
 a set of over-sampling-based ensemble imbalanced learning methods.
 """
 

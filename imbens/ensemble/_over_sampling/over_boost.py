@@ -12,18 +12,25 @@ if not LOCAL_DEBUG:
     from .._boost import ResampleBoostClassifier
     from ...sampler._over_sampling import RandomOverSampler
     from ...utils._validation import _deprecate_positional_args
-    from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                     _get_parameter_docstring, 
-                                     _get_example_docstring)
-else:           # pragma: no cover
+    from ...utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from ensemble._boost import ResampleBoostClassifier
     from sampler._over_sampling import RandomOverSampler
     from utils._validation import _deprecate_positional_args
-    from utils._docstring import (Substitution, FuncSubstitution, 
-                                  _get_parameter_docstring, 
-                                  _get_example_docstring)
+    from utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
 
 
 # Properties
@@ -46,13 +53,13 @@ _properties = {
 @Substitution(
     early_termination=_get_parameter_docstring('early_termination', **_properties),
     random_state=_get_parameter_docstring('random_state', **_properties),
-    example=_get_example_docstring(_method_name)
+    example=_get_example_docstring(_method_name),
 )
 class OverBoostClassifier(ResampleBoostClassifier):
     """Random over-sampling integrated in the learning of AdaBoost.
 
-    OverBoost is similar to SMOTEBoost [1]_, but use RandomOverSampler 
-    instead of SMOTE. It alleviates the problem of class balancing by 
+    OverBoost is similar to SMOTEBoost [1]_, but use RandomOverSampler
+    instead of SMOTE. It alleviates the problem of class balancing by
     Randomly over-samples the sample at each iteration of the boosting algorithm.
 
     This OverBoost implementation supports multi-class classification.
@@ -81,7 +88,7 @@ class OverBoostClassifier(ResampleBoostClassifier):
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
-    
+
     {early_termination}
 
     {random_state}
@@ -112,9 +119,9 @@ class OverBoostClassifier(ResampleBoostClassifier):
     estimator_errors_ : ndarray of shape (n_estimator,)
         Classification error for each estimator in the boosted
         ensemble.
-        
+
     estimators_n_training_samples_ : list of ints
-        The number of training samples for each fitted 
+        The number of training samples for each fitted
         base estimators.
 
     feature_importances_ : ndarray of shape (n_features,)
@@ -125,31 +132,33 @@ class OverBoostClassifier(ResampleBoostClassifier):
     SMOTEBoostClassifier : SMOTE over-sampling integrated in AdaBoost.
 
     KmeansSMOTEBoostClassifier : Kmeans-SMOTE over-sampling integrated in AdaBoost.
-    
+
     OverBaggingClassifier : Bagging with intergrated random over-sampling.
 
     References
     ----------
-    .. [1] Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W. 
-       "SMOTEBoost: Improving prediction of the minority class in boosting." 
-       European conference on principles of data mining and knowledge discovery. 
+    .. [1] Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W.
+       "SMOTEBoost: Improving prediction of the minority class in boosting."
+       European conference on principles of data mining and knowledge discovery.
        Springer, Berlin, Heidelberg, (2003): 107-119.
-    
+
     Examples
     --------
     {example}
     """
 
     @_deprecate_positional_args
-    def __init__(self,
-                estimator=None,
-                n_estimators:int=50,
-                *,
-                learning_rate:float=1.,
-                algorithm:str='SAMME.R',
-                early_termination:bool=False,
-                random_state=None):
-        
+    def __init__(
+        self,
+        estimator=None,
+        n_estimators: int = 50,
+        *,
+        learning_rate: float = 1.0,
+        algorithm: str = 'SAMME.R',
+        early_termination: bool = False,
+        random_state=None,
+    ):
+
         sampler = _sampler_class()
         sampling_type = _sampling_type
 
@@ -161,13 +170,13 @@ class OverBoostClassifier(ResampleBoostClassifier):
             learning_rate=learning_rate,
             algorithm=algorithm,
             early_termination=early_termination,
-            random_state=random_state)
+            random_state=random_state,
+        )
 
         self.__name__ = _method_name
         self._sampling_type = _sampling_type
         self._sampler_class = _sampler_class
         self._properties = _properties
-
 
     @_deprecate_positional_args
     @FuncSubstitution(
@@ -178,16 +187,19 @@ class OverBoostClassifier(ResampleBoostClassifier):
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def fit(self, X, y, 
-            *,
-            sample_weight=None, 
-            target_label:int=None, 
-            n_target_samples:int or dict=None, 
-            balancing_schedule:str or function='uniform',
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict=False,
-            ):
+    def fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        target_label: int = None,
+        n_target_samples: int or dict = None,
+        balancing_schedule: str or function = 'uniform',
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict = False,
+    ):
         """Build a OverBoost classifier from the training set (X, y).
 
         Parameters
@@ -202,17 +214,17 @@ class OverBoostClassifier(ResampleBoostClassifier):
         sample_weight : array-like of shape (n_samples,), default=None
             Sample weights. If None, the sample weights are initialized to
             ``1 / n_samples``.
-        
+
         %(target_label)s
-        
+
         %(n_target_samples)s
-        
+
         %(balancing_schedule)s
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
@@ -220,20 +232,22 @@ class OverBoostClassifier(ResampleBoostClassifier):
         self : object
             Returns self.
         """
-         
+
         update_x_y_after_resample = True
-        
-        return self._fit(X, y, 
-            sample_weight=sample_weight, 
+
+        return self._fit(
+            X,
+            y,
+            sample_weight=sample_weight,
             sampler_kwargs={},
             update_x_y_after_resample=update_x_y_after_resample,
-            target_label=target_label, 
-            n_target_samples=n_target_samples, 
+            target_label=target_label,
+            n_target_samples=n_target_samples,
             balancing_schedule=balancing_schedule,
             eval_datasets=eval_datasets,
             eval_metrics=eval_metrics,
             train_verbose=train_verbose,
-            )
+        )
 
 
 # %%
@@ -245,24 +259,35 @@ if __name__ == "__main__":  # pragma: no cover
     from sklearn.datasets import make_classification
     from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-    
+
     # X, y = make_classification(n_classes=2, class_sep=2, # 2-class
     #     weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,  # 3-class
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=2000,
+        random_state=10,
+    )
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, random_state=42
+    )
 
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
+    origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
     print('Original training dataset shape %s' % origin_distr)
 
     init_kwargs_default = {
         'estimator': None,
         # 'estimator': DecisionTreeClassifier(max_depth=2),
         'n_estimators': 100,
-        'learning_rate': 1.,
+        'learning_rate': 1.0,
         'algorithm': 'SAMME.R',
         'random_state': 42,
         # 'random_state': None,
@@ -278,11 +303,13 @@ if __name__ == "__main__":  # pragma: no cover
         'eval_metrics': {
             'acc': (accuracy_score, {}),
             'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),},
+            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        },
         'train_verbose': {
             'granularity': 10,
             'print_distribution': True,
-            'print_metrics': True,},
+            'print_metrics': True,
+        },
     }
 
     ensembles = {}
@@ -292,22 +319,19 @@ if __name__ == "__main__":  # pragma: no cover
     ensembles['overboost'] = overboost
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
-    fit_kwargs.update({
-        'balancing_schedule': 'progressive'
-    })
+    fit_kwargs.update({'balancing_schedule': 'progressive'})
     overboost_prog = OverBoostClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['overboost_prog'] = overboost_prog
 
-    
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
-        eval_datasets = None,
-        eval_metrics = None,
+        eval_datasets=None,
+        eval_metrics=None,
     ).fit(
-        ensembles = ensembles,
-        granularity = 5,
+        ensembles=ensembles,
+        granularity=5,
     )
     fig, axes = visualizer.performance_lineplot(
         on_ensembles=None,

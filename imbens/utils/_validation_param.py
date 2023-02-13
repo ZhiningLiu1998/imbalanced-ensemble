@@ -4,19 +4,18 @@
 # License: MIT
 
 
-from copy import copy
-from warnings import warn
-from collections import Counter
-from inspect import signature
-
 import numbers
-import numpy as np
+from collections import Counter
+from copy import copy
+from inspect import signature
 from math import ceil
+from warnings import warn
+
+import numpy as np
 from sklearn.ensemble import BaseEnsemble
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
 from sklearn.utils import check_array, check_X_y
 from sklearn.utils.validation import check_is_fitted
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-
 
 SAMPLING_KIND = (
     "over-sampling",
@@ -49,10 +48,12 @@ def _check_n_target_samples_int(y, n_target_samples, sampling_type):
                 f" Set 'n_target_samples' < {n_max_class_samples_}"
                 f" to perform under-sampling properly."
             )
-        target_distr = dict([
-            (label, min(n_target_samples, target_stats[label]))
-            for label in target_stats.keys()
-        ])
+        target_distr = dict(
+            [
+                (label, min(n_target_samples, target_stats[label]))
+                for label in target_stats.keys()
+            ]
+        )
         return target_distr
     elif sampling_type == 'over-sampling':
         if n_target_samples < n_min_class_samples_:
@@ -62,34 +63,40 @@ def _check_n_target_samples_int(y, n_target_samples, sampling_type):
                 f" Set 'n_target_samples' > {n_min_class_samples_}"
                 f" to perform over-sampling properly."
             )
-        target_distr = dict([
-            (label, max(n_target_samples, target_stats[label]))
-            for label in target_stats.keys()
-        ])
+        target_distr = dict(
+            [
+                (label, max(n_target_samples, target_stats[label]))
+                for label in target_stats.keys()
+            ]
+        )
         return target_distr
     elif sampling_type == "multi-class-hybrid-sampling":
-        warning_info =  f" Set 'n_target_samples' between [{n_min_class_samples_}" + \
-                f" , {n_max_class_samples_}] if you want to perform" + \
-                f" multi-class hybrid-sampling (under-sample the minority" + \
-                f" classes, over-sample the majority classes) properly."
+        warning_info = (
+            f" Set 'n_target_samples' between [{n_min_class_samples_}"
+            + f" , {n_max_class_samples_}] if you want to perform"
+            + f" multi-class hybrid-sampling (under-sample the minority"
+            + f" classes, over-sample the majority classes) properly."
+        )
         if n_target_samples >= n_max_class_samples_:
             raise Warning(
-                f"'n_target_samples' >= the number of samples" + \
-                f" of the largest class ({n_max_class_samples_})." + \
-                f" ONLY over-sampling will be applied to all classes." + warning_info
+                f"'n_target_samples' >= the number of samples"
+                + f" of the largest class ({n_max_class_samples_})."
+                + f" ONLY over-sampling will be applied to all classes."
+                + warning_info
             )
         elif n_target_samples <= n_min_class_samples_:
             raise Warning(
-                f"'n_target_samples' <= the number of samples" + \
-                f" of the smallest class ({n_min_class_samples_})." + \
-                f" ONLY under-sampling will be applied to all classes." + warning_info
+                f"'n_target_samples' <= the number of samples"
+                + f" of the smallest class ({n_min_class_samples_})."
+                + f" ONLY under-sampling will be applied to all classes."
+                + warning_info
             )
-        target_distr = dict([
-            (label, n_target_samples)
-            for label in target_stats.keys()
-        ])
+        target_distr = dict(
+            [(label, n_target_samples) for label in target_stats.keys()]
+        )
         return target_distr
-    else: raise SamplingKindError
+    else:
+        raise SamplingKindError
 
 
 def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
@@ -142,13 +149,19 @@ def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
 
     elif sampling_type == "multi-class-hybrid-sampling":
         target_distr = copy(target_stats)
-        if all(n_target_samples[label] <= target_stats[label] for label in n_target_samples.keys()):
+        if all(
+            n_target_samples[label] <= target_stats[label]
+            for label in n_target_samples.keys()
+        ):
             raise Warning(
                 f"The target number of samples is smaller than the number"
                 f" of original samples for all classes. ONLY under-sampling"
                 f" will be carried out."
             )
-        elif all(n_target_samples[label] >= target_stats[label] for label in n_target_samples.keys()):
+        elif all(
+            n_target_samples[label] >= target_stats[label]
+            for label in n_target_samples.keys()
+        ):
             raise Warning(
                 f"The target number of samples is greater than the number"
                 f" of original samples for all classes. ONLY over-sampling"
@@ -156,8 +169,9 @@ def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
             )
         target_distr.update(n_target_samples)
         return target_distr
-    
-    else: raise SamplingKindError
+
+    else:
+        raise SamplingKindError
 
 
 def check_n_target_samples(y, n_target_samples, sampling_type):
@@ -165,36 +179,40 @@ def check_n_target_samples(y, n_target_samples, sampling_type):
         return _check_n_target_samples_int(y, n_target_samples, sampling_type)
     elif isinstance(n_target_samples, dict):
         return _check_n_target_samples_dict(y, n_target_samples, sampling_type)
-    else: raise ValueError(
-        f"'n_target_samples' should be of type `int` or `dict`,"
-        f" got {type(n_target_samples)}."
-    )
+    else:
+        raise ValueError(
+            f"'n_target_samples' should be of type `int` or `dict`,"
+            f" got {type(n_target_samples)}."
+        )
 
 
 def check_target_label(y, target_label, sampling_type):
     """check parameter `target_label`."""
-    
+
     target_stats = dict(Counter(y))
     if isinstance(target_label, numbers.Integral):
         if target_label in target_stats.keys():
             return target_label
-        else: raise ValueError(
-            f"The target class {target_label} is not present in the data."
+        else:
+            raise ValueError(
+                f"The target class {target_label} is not present in the data."
+            )
+    else:
+        raise TypeError(
+            f"'target_label' should be of type `int`," f" got {type(target_label)}."
         )
-    else: raise TypeError(
-        f"'target_label' should be of type `int`,"
-        f" got {type(target_label)}."
-    )
 
 
-def check_target_label_and_n_target_samples(y, target_label, n_target_samples, sampling_type):
+def check_target_label_and_n_target_samples(
+    y, target_label, n_target_samples, sampling_type
+):
     """Jointly check `target_label` and `n_target_samples` parameters."""
 
     # Store the original target class distribution
     target_stats = dict(Counter(y))
     min_class = min(target_stats, key=target_stats.get)
     maj_class = max(target_stats, key=target_stats.get)
-    
+
     # if n_target_samples is NOT specified
     if n_target_samples == None:
         # Set target_label if NOT specified
@@ -207,13 +225,15 @@ def check_target_label_and_n_target_samples(y, target_label, n_target_samples, s
                 raise ValueError(
                     f"For \"multi-class-hybrid-sampling\", must specify"
                     f" 'n_target_samples' or 'target_label'."
-                )    
-            else: raise SamplingKindError
+                )
+            else:
+                raise SamplingKindError
         # Check target_label
-        else: target_label_ = check_target_label(y, target_label, sampling_type)
+        else:
+            target_label_ = check_target_label(y, target_label, sampling_type)
         # Set n_target_samples
         n_target_samples = target_stats[target_label_]
-    
+
     # if n_target_samples is specified
     else:
         if target_label == None:
@@ -224,7 +244,7 @@ def check_target_label_and_n_target_samples(y, target_label, n_target_samples, s
                 f"'n_target_samples' and 'target_label' cannot"
                 f" be specified at the same time."
             )
-    
+
     # Check n_target_samples
     target_distr_ = check_n_target_samples(y, n_target_samples, sampling_type)
 
@@ -242,8 +262,9 @@ BALANCING_SCHEDULE_PARAMS_TYPE = {
 def _uniform_schedule(origin_distr, target_distr, i_estimator, total_estimator):
     """Return target distribution"""
     for param, (param_name, param_type) in zip(
-            [origin_distr, target_distr, i_estimator, total_estimator], 
-            list(BALANCING_SCHEDULE_PARAMS_TYPE.items())):
+        [origin_distr, target_distr, i_estimator, total_estimator],
+        list(BALANCING_SCHEDULE_PARAMS_TYPE.items()),
+    ):
         if not isinstance(param, param_type):
             raise TypeError(
                 f"'{param_name}' must be `{param_type}`, got {type(param)}."
@@ -259,8 +280,9 @@ def _uniform_schedule(origin_distr, target_distr, i_estimator, total_estimator):
 def _progressive_schedule(origin_distr, target_distr, i_estimator, total_estimator):
     """Progressively interpolate between original and target distribution"""
     for param, (param_name, param_type) in zip(
-            [origin_distr, target_distr, i_estimator, total_estimator], 
-            list(BALANCING_SCHEDULE_PARAMS_TYPE.items())):
+        [origin_distr, target_distr, i_estimator, total_estimator],
+        list(BALANCING_SCHEDULE_PARAMS_TYPE.items()),
+    ):
         if not isinstance(param, param_type):
             raise TypeError(
                 f"'{param_name}' must be `{param_type}`, got {type(param)}."
@@ -273,11 +295,13 @@ def _progressive_schedule(origin_distr, target_distr, i_estimator, total_estimat
     result_distr = {}
     if total_estimator == 1:
         progress_ = 1
-    else: progress_ = i_estimator / (total_estimator-1)
+    else:
+        progress_ = i_estimator / (total_estimator - 1)
     for label in origin_distr.keys():
         result_distr[label] = ceil(
-            origin_distr[label]*(1.-progress_) + \
-            target_distr[label]*progress_ - 1e-10
+            origin_distr[label] * (1.0 - progress_)
+            + target_distr[label] * progress_
+            - 1e-10
         )
     return result_distr
 
@@ -287,13 +311,14 @@ BALANCING_KIND_MAPPING = {
     "progressive": _progressive_schedule,
 }
 BALANCING_KIND = list(BALANCING_KIND_MAPPING.keys())
-BALANCING_SCHEDULE_INFO = \
-    "\nNote: self-defined `balancing_schedule` should take 4 positional" + \
-    " arguments with order ('origin_distr': `dict`, 'target_distr':" + \
-    " `dict`, 'i_estimator': `int`, 'total_estimator': `int`), and" + \
-    " return a 'result_distr': `dict`. For all `dict`, the keys" + \
-    " correspond to the targeted classes, and the values correspond to the" + \
-    " (desired) number of samples for each class."
+BALANCING_SCHEDULE_INFO = (
+    "\nNote: self-defined `balancing_schedule` should take 4 positional"
+    + " arguments with order ('origin_distr': `dict`, 'target_distr':"
+    + " `dict`, 'i_estimator': `int`, 'total_estimator': `int`), and"
+    + " return a 'result_distr': `dict`. For all `dict`, the keys"
+    + " correspond to the targeted classes, and the values correspond to the"
+    + " (desired) number of samples for each class."
+)
 
 
 def check_balancing_schedule(balancing_schedule):
@@ -309,17 +334,20 @@ def check_balancing_schedule(balancing_schedule):
         else:
             if not isinstance(return_value, dict):
                 raise TypeError(
-                    f" The self-defined `balancing_schedule` must return a `dict`," + \
-                    f" got {type(return_value)}" + \
-                    BALANCING_SCHEDULE_INFO
+                    f" The self-defined `balancing_schedule` must return a `dict`,"
+                    + f" got {type(return_value)}"
+                    + BALANCING_SCHEDULE_INFO
                 )
         return balancing_schedule
 
     if balancing_schedule in BALANCING_KIND:
         return BALANCING_KIND_MAPPING[balancing_schedule]
     else:
-        balancing_schedule_info = balancing_schedule if isinstance(balancing_schedule, str) \
+        balancing_schedule_info = (
+            balancing_schedule
+            if isinstance(balancing_schedule, str)
             else type(balancing_schedule)
+        )
         raise TypeError(
             f"'balancing_schedule' should be one of {BALANCING_KIND} or `callable`,"
             f" got {balancing_schedule_info}."
@@ -329,14 +357,13 @@ def check_balancing_schedule(balancing_schedule):
 EVAL_METRICS_DEFAULT = {
     'acc': (accuracy_score, {}),
     'balanced_acc': (balanced_accuracy_score, {}),
-    'weighted_f1': (f1_score, {'average':'weighted'}),
+    'weighted_f1': (f1_score, {'average': 'weighted'}),
 }
-EVAL_METRICS_INFO = \
-            " Example 'eval_metrics': {..., 'metric_name': ('metric_func', 'metric_kwargs'), ...}."
-            # " where `metric_name` is string, `metric_func` is `callable`," + \
-            # " and `metric_arguments` is a dict of arguments" + \
-            # " that needs to be passed to the metric function," + \
-            # " e.g., {..., `argument_name`: `value`}."
+EVAL_METRICS_INFO = " Example 'eval_metrics': {..., 'metric_name': ('metric_func', 'metric_kwargs'), ...}."
+# " where `metric_name` is string, `metric_func` is `callable`," + \
+# " and `metric_arguments` is a dict of arguments" + \
+# " that needs to be passed to the metric function," + \
+# " e.g., {..., `argument_name`: `value`}."
 EVAL_METRICS_TUPLE_TYPE = {
     'metric_func': callable,
     'metric_kwargs': dict,
@@ -348,16 +375,17 @@ def _check_eval_metric_func(metric_func):
     if not callable(metric_func):
         raise TypeError(
             f" The 'metric_func' should be `callable`, got {type(metric_func)},"
-            f" please check your usage."
-            + EVAL_METRICS_INFO
+            f" please check your usage." + EVAL_METRICS_INFO
         )
     if 'y_true' not in signature(metric_func).parameters:
         raise RuntimeError(
             f"The metric function must have the keyword argument 'y_true'"
             f" (true labels or binary label indicators, 1d-array of shape (n_samples,))."
         )
-    if 'y_pred' not in signature(metric_func).parameters and \
-        'y_score' not in signature(metric_func).parameters:
+    if (
+        'y_pred' not in signature(metric_func).parameters
+        and 'y_score' not in signature(metric_func).parameters
+    ):
         raise RuntimeError(
             f"The metric function must have the keyword argument 'y_pred' or 'y_score'."
             f" When use 'y_pred': it corresponds to predicted labels, 1d-array of shape (n_samples,)."
@@ -375,8 +403,7 @@ def _check_eval_metric_args(metric_kwargs):
             f" The 'metric_kwargs' should be a `dict` of arguments"
             f" that needs to be passed to the metric function,"
             f" got {type(metric_kwargs)}, "
-            f" please check your usage."
-            + EVAL_METRICS_INFO
+            f" please check your usage." + EVAL_METRICS_INFO
         )
     return metric_kwargs
 
@@ -385,8 +412,7 @@ def _check_eval_metric_name(metric_name):
     if not isinstance(metric_name, str):
         raise TypeError(
             f" The keys must be `string`, got {type(metric_name)}, "
-            f" please check your usage."
-            + EVAL_METRICS_INFO
+            f" please check your usage." + EVAL_METRICS_INFO
         )
     return metric_name
 
@@ -394,18 +420,20 @@ def _check_eval_metric_name(metric_name):
 def _check_eval_metric_tuple(metric_tuple, metric_name):
     if not isinstance(metric_tuple, tuple):
         raise TypeError(
-            f" The value of '{metric_name}' is {type(metric_tuple)} (should be tuple)," + \
-            f" please check your usage."
+            f" The value of '{metric_name}' is {type(metric_tuple)} (should be tuple),"
+            + f" please check your usage."
             + EVAL_METRICS_INFO
         )
     elif len(metric_tuple) != EVAL_METRICS_TUPLE_LEN:
         raise ValueError(
-            f" The data tuple of '{metric_name}' has {len(metric_tuple)} element(s)" + \
-            f" (should be {EVAL_METRICS_TUPLE_LEN}), please check your usage."
+            f" The data tuple of '{metric_name}' has {len(metric_tuple)} element(s)"
+            + f" (should be {EVAL_METRICS_TUPLE_LEN}), please check your usage."
             + EVAL_METRICS_INFO
         )
     else:
-        metric_func_, accept_proba, accept_labels = _check_eval_metric_func(metric_tuple[0])
+        metric_func_, accept_proba, accept_labels = _check_eval_metric_func(
+            metric_tuple[0]
+        )
         metric_kwargs_ = _check_eval_metric_args(metric_tuple[1])
         return (
             metric_func_,
@@ -419,12 +447,13 @@ def _check_eval_metrics_dict(eval_metrics_dict):
     """check 'eval_metrics' dict."""
     eval_metrics_dict_ = {}
     for metric_name, metric_tuple in eval_metrics_dict.items():
-        
+
         metric_name_ = _check_eval_metric_name(metric_name)
         metric_tuple_ = _check_eval_metric_tuple(metric_tuple, metric_name_)
         eval_metrics_dict_[metric_name_] = metric_tuple_
-    
+
     return eval_metrics_dict_
+
 
 def check_eval_metrics(eval_metrics):
     """Check parameter `eval_metrics`."""
@@ -432,7 +461,7 @@ def check_eval_metrics(eval_metrics):
         return _check_eval_metrics_dict(EVAL_METRICS_DEFAULT)
     elif isinstance(eval_metrics, dict):
         return _check_eval_metrics_dict(eval_metrics)
-    else: 
+    else:
         raise TypeError(
             f"'eval_metrics' must be of type `dict`, got {type(eval_metrics)}, please check your usage."
             + EVAL_METRICS_INFO
@@ -452,39 +481,42 @@ TRAIN_VERBOSE_DEFAULT = {
     'print_metrics': True,
 }
 
-TRAIN_VERBOSE_DICT_INFO = \
-        " When 'train_verbose' is `dict`, at least one of the following" + \
-        " terms should be specified: " + \
-        " {'granularity': `int` (default=1)," + \
-        " 'print_distribution': `bool` (default=True)," + \
-        " 'print_metrics': `bool` (default=True)}."
+TRAIN_VERBOSE_DICT_INFO = (
+    " When 'train_verbose' is `dict`, at least one of the following"
+    + " terms should be specified: "
+    + " {'granularity': `int` (default=1),"
+    + " 'print_distribution': `bool` (default=True),"
+    + " 'print_metrics': `bool` (default=True)}."
+)
 
 
-def check_train_verbose(train_verbose:bool or numbers.Integral or dict,
-                        n_estimators_ensemble:int, training_type:str, 
-                        **ignored_properties):
-                        # n_estimators_ensemble:int,):
+def check_train_verbose(
+    train_verbose: bool or numbers.Integral or dict,
+    n_estimators_ensemble: int,
+    training_type: str,
+    **ignored_properties,
+):
+    # n_estimators_ensemble:int,):
 
     train_verbose_ = copy(TRAIN_VERBOSE_DEFAULT)
-    train_verbose_.update({
-        'granularity': max(1, int(n_estimators_ensemble/10))
-    })
+    train_verbose_.update({'granularity': max(1, int(n_estimators_ensemble / 10))})
 
     if training_type == 'parallel':
         # For ensemble classifiers trained in parallel
         # train_verbose can only be of type bool
         if isinstance(train_verbose, bool):
             if train_verbose == True:
-                train_verbose_['print_distribution'] = False 
+                train_verbose_['print_distribution'] = False
                 return train_verbose_
             if train_verbose == False:
                 return False
-        else: raise TypeError(
-            f"'train_verbose' can only be of type `bool`"
-            f" for ensemble classifiers trained in parallel,"
-            f" gor {type(train_verbose)}."
-        )
-    
+        else:
+            raise TypeError(
+                f"'train_verbose' can only be of type `bool`"
+                f" for ensemble classifiers trained in parallel,"
+                f" gor {type(train_verbose)}."
+            )
+
     elif training_type == 'iterative':
         # For ensemble classifiers trained in iterative manner
         # train_verbose can be of type bool / int / dict
@@ -497,49 +529,52 @@ def check_train_verbose(train_verbose:bool or numbers.Integral or dict,
         if isinstance(train_verbose, numbers.Integral):
             train_verbose_.update({'granularity': train_verbose})
             return train_verbose_
-            
+
         if isinstance(train_verbose, dict):
             # check key value type
-            set_diff_verbose_keys = set(train_verbose.keys()) - set(TRAIN_VERBOSE_TYPE.keys())
+            set_diff_verbose_keys = set(train_verbose.keys()) - set(
+                TRAIN_VERBOSE_TYPE.keys()
+            )
             if len(set_diff_verbose_keys) > 0:
                 raise ValueError(
-                    f"'train_verbose' keys {set_diff_verbose_keys} are not supported." + \
-                    TRAIN_VERBOSE_DICT_INFO
+                    f"'train_verbose' keys {set_diff_verbose_keys} are not supported."
+                    + TRAIN_VERBOSE_DICT_INFO
                 )
             for key, value in train_verbose.items():
                 if not isinstance(value, TRAIN_VERBOSE_TYPE[key]):
                     raise TypeError(
-                        f"train_verbose['{key}'] has wrong data type, should be {TRAIN_VERBOSE_TYPE[key]}." + \
-                        TRAIN_VERBOSE_DICT_INFO
+                        f"train_verbose['{key}'] has wrong data type, should be {TRAIN_VERBOSE_TYPE[key]}."
+                        + TRAIN_VERBOSE_DICT_INFO
                     )
             train_verbose_.update(train_verbose)
             return train_verbose_
-            
-        else: raise TypeError(
-            f"'train_verbose' should be of type `bool`, `int`, or `dict`, got {type(train_verbose)} instead." + \
-            TRAIN_VERBOSE_DICT_INFO
+
+        else:
+            raise TypeError(
+                f"'train_verbose' should be of type `bool`, `int`, or `dict`, got {type(train_verbose)} instead."
+                + TRAIN_VERBOSE_DICT_INFO
+            )
+
+    else:
+        raise NotImplementedError(
+            f"'check_train_verbose' for 'training_type' = {training_type}"
+            f" needs to be implemented."
         )
-    
-    else: raise NotImplementedError(
-        f"'check_train_verbose' for 'training_type' = {training_type}"
-        f" needs to be implemented."
-    )
 
 
 VISUALIZER_ENSEMBLES_EXAMPLE_INFO = " Example: {..., ensemble_name: ensemble, ...}"
 
-VISUALIZER_ENSEMBLES_USAGE_INFO = \
-    f" All imbalanced ensemble estimators should use the same training & validation" + \
-    f" datasets and dataset names for comparable visualizations." + \
-    f" Call `fit` with same 'X', 'y', 'eval_datasets'."
+VISUALIZER_ENSEMBLES_USAGE_INFO = (
+    f" All imbalanced ensemble estimators should use the same training & validation"
+    + f" datasets and dataset names for comparable visualizations."
+    + f" Call `fit` with same 'X', 'y', 'eval_datasets'."
+)
 
 
 def _check_visualizer_ensemble_item(name, estimator) -> bool:
     if not isinstance(name, str):
-        raise TypeError(
-            f"Ensemble name must be `string`, got {type(name)}."
-        )
-    
+        raise TypeError(f"Ensemble name must be `string`, got {type(name)}.")
+
     # Ensure estimator is an fitted sklearn/imbalanced-ensemble estimator
     # and is already fitted.
     check_is_fitted(estimator)
@@ -549,34 +584,37 @@ def _check_visualizer_ensemble_item(name, estimator) -> bool:
             f"Value with name '{name}' is not an ensemble classifier instance."
         )
 
-    if getattr(estimator, "_estimator_ensemble_type", None) == \
-            "imbens_classifier":
+    if getattr(estimator, "_estimator_ensemble_type", None) == "imbens_classifier":
         is_imbens_clf = True
-    else: is_imbens_clf = False
+    else:
+        is_imbens_clf = False
 
     return is_imbens_clf
 
 
-def get_dict_subset_by_key(dictionary:dict, subset_keys:list, exclude:bool=False):
+def get_dict_subset_by_key(dictionary: dict, subset_keys: list, exclude: bool = False):
     if exclude:
         return {k: v for k, v in dictionary.items() if k not in subset_keys}
-    else: return {k: v for k, v in dictionary.items() if k in subset_keys}
+    else:
+        return {k: v for k, v in dictionary.items() if k in subset_keys}
 
 
-def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics_:dict) -> dict:
+def check_visualizer_ensembles(
+    ensembles: dict, eval_datasets_: dict, eval_metrics_: dict
+) -> dict:
 
     # Check 'ensembles' parameter
     if not isinstance(ensembles, dict):
         raise TypeError(
-            f"'ensembles' must be a `dict`, got {type(ensembles)}." + \
-            VISUALIZER_ENSEMBLES_EXAMPLE_INFO
+            f"'ensembles' must be a `dict`, got {type(ensembles)}."
+            + VISUALIZER_ENSEMBLES_EXAMPLE_INFO
         )
     if len(ensembles) == 0:
         raise ValueError(
             f"'ensembles' must not be empty." + VISUALIZER_ENSEMBLES_EXAMPLE_INFO
         )
-    
-    # Check all key-value pairs of 'ensembles' and 
+
+    # Check all key-value pairs of 'ensembles' and
     # record names of those are not imbalanced ensemble classifier
     names_imbens = []
     for name, estimator in ensembles.items():
@@ -585,20 +623,24 @@ def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics
     names_sklearn_ensemble = list(set(ensembles.keys()) - set(names_imbens))
 
     # Raise error if not all ensembles have the same n_features_/n_features_in_
-    n_features_fitted = _check_all_estimators_have_same_attribute(ensembles,
-        attr_alias = ('n_features_', 'n_features_in_'))
-    
+    n_features_fitted = _check_all_estimators_have_same_attribute(
+        ensembles, attr_alias=('n_features_', 'n_features_in_')
+    )
+
     sklearn_ensembles = get_dict_subset_by_key(ensembles, names_sklearn_ensemble)
-    imb_ensembles = get_dict_subset_by_key(ensembles, names_sklearn_ensemble, exclude=True)
+    imb_ensembles = get_dict_subset_by_key(
+        ensembles, names_sklearn_ensemble, exclude=True
+    )
 
     # Raise error if not all imbalanced ensembles have the same eval_datasets names
-    if not _all_elements_equal([list(estimator.eval_datasets_.keys())
-                                for estimator in imb_ensembles.values()]):
+    if not _all_elements_equal(
+        [list(estimator.eval_datasets_.keys()) for estimator in imb_ensembles.values()]
+    ):
         raise ValueError(
-            f"Got ensemble estimators that used inconsistent dataset names." + \
-            VISUALIZER_ENSEMBLES_USAGE_INFO
+            f"Got ensemble estimators that used inconsistent dataset names."
+            + VISUALIZER_ENSEMBLES_USAGE_INFO
         )
-        
+
     # If eval_datasets_ is not given
     if len(eval_datasets_) == 0:
         # If all are sklearn ensemble classifier
@@ -620,7 +662,7 @@ def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics
                 )
     # If eval_datasets_ is given
     else:
-        # eval_datasets_ is already validated, 
+        # eval_datasets_ is already validated,
         # all data should have the same number of features
         n_features_given = list(eval_datasets_.values())[0][0].shape[1]
 
@@ -631,7 +673,7 @@ def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics
                 f" but the ensemble estimators are trained on data with"
                 f" {n_features_fitted} features."
             )
-        
+
         # Use the given evaluation datasets
         return_eval_datasets_ = copy(eval_datasets_)
 
@@ -650,8 +692,7 @@ def check_visualizer_ensembles(ensembles:dict, eval_datasets_:dict, eval_metrics
     return ensembles, return_eval_datasets_, vis_format
 
 
-def _check_all_estimators_have_same_attribute(
-        ensembles:dict, attr_alias:tuple):
+def _check_all_estimators_have_same_attribute(ensembles: dict, attr_alias: tuple):
 
     has_attrs, values, not_has_attr_names = [], [], []
     for name, estimator in ensembles.items():
@@ -666,39 +707,42 @@ def _check_all_estimators_have_same_attribute(
             has_attrs.append(False)
             values.append(None)
             not_has_attr_names.append(name)
-    
+
     if not all(has_attrs):
         raise ValueError(
             f"Estimators with name {not_has_attr_names} has no"
-            f" attribute {attr_alias}, check your usage." 
+            f" attribute {attr_alias}, check your usage."
         )
-    
+
     if not _all_elements_equal(values):
         raise ValueError(
             f"Got ensemble estimators that has inconsistent {attr_alias}."
             f" Make sure that the training data for all estimators"
             f" (also the evaluation data for imbalanced-ensemble estimators)"
             f" are sampled from the same task/distribution."
-            )
+        )
 
     return values[0]
 
 
-def _all_elements_equal(list_to_check:list) -> bool:
+def _all_elements_equal(list_to_check: list) -> bool:
     """Private function to check whether all elements of
     list_to_check are equal."""
 
-    # set() is not used here as some times the list 
+    # set() is not used here as some times the list
     # elements are not hashable, e.g., strings.
     if len(list_to_check) == 1:
         return True
-    return all([
-        (list_to_check[i] == list_to_check[i+1])
-        for i in range(len(list_to_check)-1)
-        ])
+    return all(
+        [
+            (list_to_check[i] == list_to_check[i + 1])
+            for i in range(len(list_to_check) - 1)
+        ]
+    )
 
 
 PLOT_FIGSIZE_INFO = " Example: (width, height)."
+
 
 def check_plot_figsize(figsize):
     if not isinstance(figsize, tuple):
@@ -720,26 +764,23 @@ def check_plot_figsize(figsize):
     return figsize
 
 
-def check_has_diff_elements(given_set:list or set, 
-                            universal_set:list or set, 
-                            msg:str=""):
+def check_has_diff_elements(
+    given_set: list or set, universal_set: list or set, msg: str = ""
+):
     diff_set = set(given_set) - set(universal_set)
     if len(diff_set) > 0:
-        raise ValueError(
-            msg % {"diff_set": diff_set}
-        )
+        raise ValueError(msg % {"diff_set": diff_set})
 
 
-def check_type(param, param_name:str, typ, typ_name:str=None):
+def check_type(param, param_name: str, typ, typ_name: str = None):
     if not isinstance(param, typ):
         typ_name = str(typ) if typ_name is None else typ_name
         raise TypeError(
-            f"'{param_name}' should be of type `{typ_name}`,"
-            f" got {type(param)}."
+            f"'{param_name}' should be of type `{typ_name}`," f" got {type(param)}."
         )
     return param
 
-    
+
 def check_pred_proba(y_pred_proba, n_samples, n_classes, dtype=None):
     """Private function for validating y_pred_proba"""
     if dtype is not None and dtype not in [np.float32, np.float64]:
@@ -748,13 +789,15 @@ def check_pred_proba(y_pred_proba, n_samples, n_classes, dtype=None):
     if dtype is None:
         dtype = [np.float64, np.float32]
     y_pred_proba = check_array(
-        y_pred_proba, accept_sparse=False, ensure_2d=False, dtype=dtype,
-        order="C"
+        y_pred_proba, accept_sparse=False, ensure_2d=False, dtype=dtype, order="C"
     )
     if y_pred_proba.ndim != 2:
         raise ValueError("Predicted probabilites must be 2D array")
 
     if y_pred_proba.shape != (n_samples, n_classes):
-        raise ValueError("y_pred_proba.shape == {}, expected {}!"
-                        .format(y_pred_proba.shape, (n_samples, n_classes)))
+        raise ValueError(
+            "y_pred_proba.shape == {}, expected {}!".format(
+                y_pred_proba.shape, (n_samples, n_classes)
+            )
+        )
     return y_pred_proba

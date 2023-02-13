@@ -17,11 +17,21 @@ import imbens
 
 RANDOM_STATE = 42
 # make dataset
-X, y = make_classification(n_classes=3, class_sep=2,
-    weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-    n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+X, y = make_classification(
+    n_classes=3,
+    class_sep=2,
+    weights=[0.1, 0.3, 0.6],
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0,
+    n_features=20,
+    n_clusters_per_class=2,
+    n_samples=2000,
+    random_state=0,
+)
 X_train, X_valid, y_train, y_valid = train_test_split(
-    X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+    X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+)
 
 
 # Train all ensemble classifiers, store the results in fitted_ensembles
@@ -39,17 +49,17 @@ for clf_name, clf in ensemble_dict.items():
     clf.fit(**fit_kwargs)
     fit_time = time() - start_time
     fitted_ensembles[clf_name] = clf
-    print ('Training {:^30s} | Time used: {:.3f}s'.format(clf.__name__, fit_time))
+    print('Training {:^30s} | Time used: {:.3f}s'.format(clf.__name__, fit_time))
 
 visualizer = imbens.visualizer.ImbalancedEnsembleVisualizer(
-    eval_datasets = {
-        'training' : (X_train, y_train),
-        'validation' : (X_valid, y_valid),
+    eval_datasets={
+        'training': (X_train, y_train),
+        'validation': (X_valid, y_valid),
     },
-    eval_metrics = {
+    eval_metrics={
         'acc': (sklearn.metrics.accuracy_score, {}),
         'balanced_acc': (sklearn.metrics.balanced_accuracy_score, {}),
-        'weighted_f1': (sklearn.metrics.f1_score, {'average':'weighted'}),
+        'weighted_f1': (sklearn.metrics.f1_score, {'average': 'weighted'}),
     },
 )
 # Fit visualizer
@@ -91,8 +101,7 @@ def test_performance_curve():
         on_metrics=['balanced_acc', 'weighted_f1'],
         n_samples_as_x_axis=True,
         sub_figsize=(3, 2.3),
-        
-        split_by=['dataset'], # Group results by dataset
+        split_by=['dataset'],  # Group results by dataset
     )
     # Group results by method
     fig, axes = visualizer.performance_lineplot(
@@ -101,8 +110,7 @@ def test_performance_curve():
         on_metrics=['balanced_acc', 'weighted_f1'],
         n_samples_as_x_axis=True,
         sub_figsize=(3, 2.3),
-        
-        split_by=['method'], # Group results by method
+        split_by=['method'],  # Group results by method
     )
 
 

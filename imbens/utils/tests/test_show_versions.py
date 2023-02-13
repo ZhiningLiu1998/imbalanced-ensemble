@@ -2,12 +2,11 @@
 # Author: Alexander L. Hayes <hayesall@iu.edu>
 # License: MIT
 
-import pytest
-from imbens.utils._show_versions import _get_deps_info
-from imbens.utils._show_versions import show_versions
 
+from imbens.utils._show_versions import _get_deps_info, show_versions
 
 _deps_info = _get_deps_info()
+
 
 def test_get_deps_info():
     assert "pip" in _deps_info

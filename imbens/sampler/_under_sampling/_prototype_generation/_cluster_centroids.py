@@ -13,28 +13,24 @@ clustering.
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from ..base import BaseUnderSampler
-    from ....utils._docstring import Substitution
-    from ....utils._docstring import _random_state_docstring
+    from ....utils._docstring import Substitution, _random_state_docstring
     from ....utils._validation import _deprecate_positional_args
-else:           # pragma: no cover
+    from ..base import BaseUnderSampler
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../../..")
     from sampler._under_sampling.base import BaseUnderSampler
     from utils._docstring import Substitution
     from utils._docstring import _random_state_docstring
     from utils._validation import _deprecate_positional_args
 
-import warnings
-
 import numpy as np
 from scipy import sparse
-
 from sklearn.base import clone
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import _safe_indexing
-
 
 VOTING_KIND = ("auto", "hard", "soft")
 
@@ -141,7 +137,7 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
                 X_new = sparse.csr_matrix(centroids, dtype=X.dtype)
             else:
                 X_new = centroids
-        
+
         y_new = np.array([target_class] * centroids.shape[0], dtype=y.dtype)
 
         return X_new, y_new
@@ -196,34 +192,46 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
         y_resampled = np.hstack(y_resampled)
 
         return X_resampled, np.array(y_resampled, dtype=y.dtype)
-        
+
         # if sample_weight is not None:
         #     # sample_weight is already validated in self.fit_resample()
         #     sample_weight_under = _safe_indexing(sample_weight, idx_under)
         #     return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under), sample_weight_under
         # else: return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": False}
+
 
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
+
     from sklearn.datasets import make_classification
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
     print('Original dataset shape %s' % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 200, 1: 100, 0: 100}
 
     rus = ClusterCentroids(
-        random_state=42, 
+        random_state=42,
         sampling_strategy=target_distr,
         voting="hard",
-        )
+    )
     X_res, y_res = rus.fit_resample(X, y)
 
     print('Resampled dataset shape %s' % Counter(y_res))

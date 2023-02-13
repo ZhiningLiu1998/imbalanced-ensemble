@@ -11,24 +11,24 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..exceptions import raise_isinstance_error
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("..")
     from exceptions import raise_isinstance_error
 
-import numpy as np
 import warnings
 from collections import OrderedDict
 from functools import wraps
-from inspect import signature, Parameter
+from inspect import Parameter, signature
 from numbers import Integral, Real
 
+import numpy as np
 from sklearn.base import clone
-from sklearn.neighbors._base import KNeighborsMixin
 from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors._base import KNeighborsMixin
 from sklearn.utils import column_or_1d
 from sklearn.utils.multiclass import type_of_target
-
 
 SAMPLING_KIND = (
     "over-sampling",
@@ -81,8 +81,8 @@ class ArraysTransformer:
 def check_neighbors_object(nn_name, nn_object, additional_neighbor=0):
     """Check the objects is consistent to be a NN.
 
-    Several methods in imbens.sampler relies on NN. 
-    Only KNeighborsMixin will be accepted. This utility allows for type 
+    Several methods in imbens.sampler relies on NN.
+    Only KNeighborsMixin will be accepted. This utility allows for type
     checking and raise if the type is wrong.
 
     Parameters

@@ -64,12 +64,8 @@ def test_balanced_bagging_classifier(estimator, params):
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
     bag = SMOTEBaggingClassifier(
-        k_neighbors=1,
-        estimator=estimator, 
-        random_state=0, **params
-    ).fit(
-        X_train, y_train
-    )
+        k_neighbors=1, estimator=estimator, random_state=0, **params
+    ).fit(X_train, y_train)
     bag.predict(X_test)
     bag.predict_proba(X_test)
     bag.score(X_test, y_test)
@@ -301,10 +297,7 @@ def test_warm_start(random_state=42):
         assert len(clf_ws) == n_estimators
 
     clf_no_ws = SMOTEBaggingClassifier(
-        k_neighbors=1,
-        n_estimators=10, 
-        random_state=random_state, 
-        warm_start=False
+        k_neighbors=1, n_estimators=10, random_state=random_state, warm_start=False
     )
     clf_no_ws.fit(X, y)
 

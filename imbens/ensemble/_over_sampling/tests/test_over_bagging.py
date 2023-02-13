@@ -339,17 +339,13 @@ def test_warm_start_equivalence():
     X, y = make_hastie_10_2(n_samples=20, random_state=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=43)
 
-    clf_ws = OverBaggingClassifier(
-        n_estimators=5, warm_start=True, random_state=3141
-    )
+    clf_ws = OverBaggingClassifier(n_estimators=5, warm_start=True, random_state=3141)
     clf_ws.fit(X_train, y_train)
     clf_ws.set_params(n_estimators=10)
     clf_ws.fit(X_train, y_train)
     y1 = clf_ws.predict(X_test)
 
-    clf = OverBaggingClassifier(
-        n_estimators=10, warm_start=False, random_state=3141
-    )
+    clf = OverBaggingClassifier(n_estimators=10, warm_start=False, random_state=3141)
     clf.fit(X_train, y_train)
     y2 = clf.predict(X_test)
 

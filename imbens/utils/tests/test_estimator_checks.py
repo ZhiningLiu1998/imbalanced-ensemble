@@ -1,21 +1,27 @@
-import pytest
-import numpy as np
+"""Test utilities for plot."""
 
+# Authors: Zhining Liu <zhining.liu@outlook.com>
+# License: MIT
+
+import numpy as np
+import pytest
 from sklearn.base import BaseEstimator
 from sklearn.utils.multiclass import check_classification_targets
 
-from imbens.sampler.base import BaseSampler
 from imbens.sampler._over_sampling.base import BaseOverSampler
-from imbens.utils.testing import all_estimators
+from imbens.sampler.base import BaseSampler
 from imbens.utils import check_target_type as target_check
-from imbens.utils.estimator_checks import check_target_type
-from imbens.utils.estimator_checks import check_samplers_one_label
-from imbens.utils.estimator_checks import check_samplers_fit
-from imbens.utils.estimator_checks import check_samplers_sparse
-from imbens.utils.estimator_checks import check_samplers_preserve_dtype
-from imbens.utils.estimator_checks import check_samplers_string
-from imbens.utils.estimator_checks import check_samplers_nan
-from imbens.utils.estimator_checks import _yield_all_checks
+from imbens.utils.estimator_checks import (
+    _yield_all_checks,
+    check_samplers_fit,
+    check_samplers_nan,
+    check_samplers_one_label,
+    check_samplers_preserve_dtype,
+    check_samplers_sparse,
+    check_samplers_string,
+    check_target_type,
+)
+from imbens.utils.testing import all_estimators
 
 
 class BaseBadSampler(BaseEstimator):
@@ -126,13 +132,13 @@ def test_all_samplers():
     for name, SamplerClass in all_samplers:
         print(name)
         if name in [
-            'BalanceCascadeUnderSampler', 
+            'BalanceCascadeUnderSampler',
             'SelfPacedUnderSampler',
             'CondensedNearestNeighbour',
             'InstanceHardnessThreshold',
             'ClusterCentroids',
             'KMeansSMOTE',
-            ]:  # for speed up test
+        ]:  # for speed up test
             continue
         try:
             sampler = SamplerClass(random_state=0)

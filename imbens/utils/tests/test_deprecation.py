@@ -4,6 +4,7 @@
 # License: MIT
 
 import pytest
+
 from imbens.utils.deprecation import deprecate_parameter
 
 

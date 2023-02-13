@@ -19,29 +19,23 @@ LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
     from ..utils._validation import _deprecate_positional_args
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("..")
     from utils._validation import _deprecate_positional_args
 
 import functools
 import warnings
+from inspect import signature
 
 import numpy as np
 import scipy as sp
-
-from sklearn.metrics import mean_absolute_error
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.metrics._classification import _check_targets
-from sklearn.metrics._classification import _prf_divide
+from sklearn.metrics import mean_absolute_error, precision_recall_fscore_support
+from sklearn.metrics._classification import _check_targets, _prf_divide
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils.multiclass import unique_labels
-from sklearn.utils.validation import (
-    check_consistent_length,
-    column_or_1d,
-)
-
-from inspect import signature
+from sklearn.utils.validation import check_consistent_length, column_or_1d
 
 
 @_deprecate_positional_args

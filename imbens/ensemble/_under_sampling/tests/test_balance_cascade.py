@@ -4,9 +4,9 @@
 # License: MIT
 
 import numpy as np
-from scipy import sparse
 import pytest
 import sklearn
+from scipy import sparse
 from sklearn.datasets import load_iris
 from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import ParameterGrid, train_test_split
@@ -79,7 +79,10 @@ def test_fit_target_label(fit_params):
         2: {1: 19, 2: 38, 0: 14},
     }
     if fit_params['target_label'] in [0, 1, 2]:
-        if fit_params['balancing_schedule'] == 'uniform' or fit_params['target_label'] == 2:
+        if (
+            fit_params['balancing_schedule'] == 'uniform'
+            or fit_params['target_label'] == 2
+        ):
             bcc = BalanceCascadeClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
@@ -89,8 +92,9 @@ def test_fit_target_label(fit_params):
             bcc.predict_proba(X_test)
             bcc.score(X_test, y_test)
         else:
-            with pytest.raises(ValueError, 
-                            match='only support static target sample distribution'):
+            with pytest.raises(
+                ValueError, match='only support static target sample distribution'
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
@@ -117,10 +121,12 @@ def test_fit_target_samples_int(fit_params):
         10: {1: 10, 2: 10, 0: 10},
         20: {1: 19, 2: 20, 0: 14},
     }
-    
+
     if fit_params['balancing_schedule'] == 'uniform':
         if fit_params['n_target_samples'] > 38:
-            with pytest.raises(ValueError, match="'n_target_samples' > the number of samples"):
+            with pytest.raises(
+                ValueError, match="'n_target_samples' > the number of samples"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
@@ -140,7 +146,9 @@ def test_fit_target_samples_int(fit_params):
             bcc.score(X_test, y_test)
     else:
         if fit_params['n_target_samples'] > 38:
-            with pytest.raises(ValueError, match="'n_target_samples' > the number of samples"):
+            with pytest.raises(
+                ValueError, match="'n_target_samples' > the number of samples"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
@@ -150,8 +158,9 @@ def test_fit_target_samples_int(fit_params):
                     X_train, y_train, **fit_params
                 )
         else:
-            with pytest.raises(ValueError, 
-                            match='only support static target sample distribution'):
+            with pytest.raises(
+                ValueError, match='only support static target sample distribution'
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
@@ -180,9 +189,8 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
         0: {1: 5, 2: 10, 0: 14},
         1: {0: 5, 1: 5, 2: 10},
     }
-    fit_params['n_target_samples'] = \
-        input_n_target_samples_dict[n_target_samples_idx]
-    
+    fit_params['n_target_samples'] = input_n_target_samples_dict[n_target_samples_idx]
+
     if fit_params['balancing_schedule'] == 'uniform':
         if n_target_samples_idx in [0, 1]:
             bcc = BalanceCascadeClassifier(random_state=0).fit(
@@ -194,29 +202,38 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
             bcc.predict_proba(X_test)
             bcc.score(X_test, y_test)
         elif n_target_samples_idx in [2, 3]:
-            with pytest.raises(ValueError, match="The number of samples in a class must > 0"):
+            with pytest.raises(
+                ValueError, match="The number of samples in a class must > 0"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
         elif n_target_samples_idx in [4]:
-            with pytest.raises(ValueError, match="The target number of samples of class"):
+            with pytest.raises(
+                ValueError, match="The target number of samples of class"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
     else:
         if n_target_samples_idx in [0, 1]:
-            with pytest.raises(ValueError, 
-                            match='only support static target sample distribution'):
+            with pytest.raises(
+                ValueError, match='only support static target sample distribution'
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
         elif n_target_samples_idx in [2, 3]:
-            with pytest.raises(ValueError, match="The number of samples in a class must > 0"):
+            with pytest.raises(
+                ValueError, match="The number of samples in a class must > 0"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
         elif n_target_samples_idx in [4]:
-            with pytest.raises(ValueError, match="The target number of samples of class"):
+            with pytest.raises(
+                ValueError, match="The target number of samples of class"
+            ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
@@ -227,7 +244,8 @@ def test_fit_target_label_target_samples_error(n_target_samples):
     """Ensure we raise an error when set both target_label and n_target_samples"""
     with pytest.raises(ValueError, match='cannot be specified at the same time'):
         bcc = BalanceCascadeClassifier(random_state=0).fit(
-            X_train, y_train,
+            X_train,
+            y_train,
             target_label=0,
             n_target_samples=n_target_samples,
         )

@@ -9,26 +9,32 @@ integrated in the learning of AdaBoost.
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from .._boost import ResampleBoostClassifier
     from ...sampler._over_sampling import KMeansSMOTE
-    from ...utils._validation_param import check_type
+    from ...utils._docstring import (
+        FuncSubstitution,
+        Substitution,
+        _get_example_docstring,
+        _get_parameter_docstring,
+    )
     from ...utils._validation import _deprecate_positional_args
-    from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                     _get_parameter_docstring, 
-                                     _get_example_docstring)
-else:           # pragma: no cover
+    from ...utils._validation_param import check_type
+    from .._boost import ResampleBoostClassifier
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from ensemble._boost import ResampleBoostClassifier
     from sampler._over_sampling import KMeansSMOTE
     from utils._validation_param import check_type
     from utils._validation import _deprecate_positional_args
-    from utils._docstring import (Substitution, FuncSubstitution, 
-                                  _get_parameter_docstring, 
-                                  _get_example_docstring)
+    from utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
 
 import numbers
-
 
 # Properties
 _method_name = 'KmeansSMOTEBoostClassifier'
@@ -51,13 +57,13 @@ _properties = {
     n_jobs_sampler=_get_parameter_docstring('n_jobs_sampler', **_properties),
     early_termination=_get_parameter_docstring('early_termination', **_properties),
     random_state=_get_parameter_docstring('random_state', **_properties),
-    example=_get_example_docstring(_method_name)
+    example=_get_example_docstring(_method_name),
 )
 class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
     """Kmeans-SMOTE over-sampling integrated in the learning of AdaBoost.
 
-    KmeansSMOTEBoost is similar to SMOTEBoost [1]_, but use KmeansSMOTE 
-    instead of SMOTE. It alleviates the problem of class balancing by 
+    KmeansSMOTEBoost is similar to SMOTEBoost [1]_, but use KmeansSMOTE
+    instead of SMOTE. It alleviates the problem of class balancing by
     KmeansSMOTE over-sampling the sample at each iteration of the boosting algorithm.
 
     This KmeansSMOTEBoost implementation supports multi-class classification.
@@ -79,7 +85,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         samples in KmeansSMOTE. If object, an estimator that inherits from
         :class:`~sklearn.neighbors.base.KNeighborsMixin` that will be used to
         find the k_neighbors.
-    
+
     {n_jobs_sampler}
 
     kmeans_estimator : int or object, default=None
@@ -108,7 +114,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         If 'SAMME' then use the SAMME discrete boosting algorithm.
         The SAMME.R algorithm typically converges faster than SAMME,
         achieving a lower test error with fewer boosting iterations.
-    
+
     {early_termination}
 
     {random_state}
@@ -139,9 +145,9 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
     estimator_errors_ : ndarray of shape (n_estimator,)
         Classification error for each estimator in the boosted
         ensemble.
-        
+
     estimators_n_training_samples_ : list of ints
-        The number of training samples for each fitted 
+        The number of training samples for each fitted
         base estimators.
 
     feature_importances_ : ndarray of shape (n_features,)
@@ -152,14 +158,14 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
     SMOTEBoostClassifier : SMOTE over-sampling integrated in AdaBoost.
 
     OverBoostClassifier : Random over-sampling integrated in AdaBoost.
-    
+
     SMOTEBaggingClassifier : Bagging with intergrated SMOTE over-sampling.
 
     References
     ----------
-    .. [1] Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W. 
-       "SMOTEBoost: Improving prediction of the minority class in boosting." 
-       European conference on principles of data mining and knowledge discovery. 
+    .. [1] Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W.
+       "SMOTEBoost: Improving prediction of the minority class in boosting."
+       European conference on principles of data mining and knowledge discovery.
        Springer, Berlin, Heidelberg, (2003): 107-119.
 
     Examples
@@ -168,20 +174,22 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
     """
 
     @_deprecate_positional_args
-    def __init__(self,
-                estimator=None,
-                n_estimators:int=50,
-                *,
-                k_neighbors:int=2,
-                n_jobs_sampler=None,
-                kmeans_estimator=None,
-                cluster_balance_threshold=0.1,
-                density_exponent="auto",
-                learning_rate:float=1.,
-                algorithm:str='SAMME.R',
-                early_termination:bool=False,
-                random_state=None):
-        
+    def __init__(
+        self,
+        estimator=None,
+        n_estimators: int = 50,
+        *,
+        k_neighbors: int = 2,
+        n_jobs_sampler=None,
+        kmeans_estimator=None,
+        cluster_balance_threshold=0.1,
+        density_exponent="auto",
+        learning_rate: float = 1.0,
+        algorithm: str = 'SAMME.R',
+        early_termination: bool = False,
+        random_state=None,
+    ):
+
         sampler = _sampler_class()
         sampling_type = _sampling_type
 
@@ -193,8 +201,9 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
             learning_rate=learning_rate,
             algorithm=algorithm,
             early_termination=early_termination,
-            random_state=random_state)
-        
+            random_state=random_state,
+        )
+
         self.__name__ = _method_name
         self._sampling_type = _sampling_type
         self._sampler_class = _sampler_class
@@ -212,7 +221,6 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
                 f" an int in the range [1, inf) or None. Got {self.k_neighbors_} instead."
             )
 
-
     @_deprecate_positional_args
     @FuncSubstitution(
         target_label=_get_parameter_docstring('target_label', **_properties),
@@ -222,16 +230,19 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def fit(self, X, y, 
-            *,
-            sample_weight=None, 
-            target_label:int=None, 
-            n_target_samples:int or dict=None, 
-            balancing_schedule:str or function='uniform',
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict=False,
-            ):
+    def fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        target_label: int = None,
+        n_target_samples: int or dict = None,
+        balancing_schedule: str or function = 'uniform',
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict = False,
+    ):
         """Build a KmeansSMOTEBoost classifier from the training set (X, y).
 
         Parameters
@@ -246,68 +257,83 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         sample_weight : array-like of shape (n_samples,), default=None
             Sample weights. If None, the sample weights are initialized to
             ``1 / n_samples``.
-        
+
         %(target_label)s
-        
+
         %(n_target_samples)s
-        
+
         %(balancing_schedule)s
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
         -------
         self : object
         """
-         
+
         kmeans_smote_sampler_kwargs = {
             'k_neighbors': self.k_neighbors_,
             'n_jobs': self.n_jobs_sampler,
             'kmeans_estimator': self.kmeans_estimator,
             'cluster_balance_threshold': self.cluster_balance_threshold,
             'density_exponent': self.density_exponent,
-            }
+        }
         update_x_y_after_resample = True
-        
-        return self._fit(X, y, 
-            sample_weight=sample_weight, 
+
+        return self._fit(
+            X,
+            y,
+            sample_weight=sample_weight,
             sampler_kwargs=kmeans_smote_sampler_kwargs,
             update_x_y_after_resample=update_x_y_after_resample,
-            target_label=target_label, 
-            n_target_samples=n_target_samples, 
+            target_label=target_label,
+            n_target_samples=n_target_samples,
             balancing_schedule=balancing_schedule,
             eval_datasets=eval_datasets,
             eval_metrics=eval_metrics,
             train_verbose=train_verbose,
-            )
+        )
 
 
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     import warnings
+
     warnings.filterwarnings('ignore')
     from collections import Counter
     from copy import copy
-    from sklearn.tree import DecisionTreeClassifier
+
     from sklearn.datasets import make_classification
-    from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-    
+    from sklearn.model_selection import train_test_split
+    from sklearn.tree import DecisionTreeClassifier
+
     # X, y = make_classification(n_classes=2, class_sep=2, # 2-class
     #     weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,  # 3-class
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=2000,
+        random_state=10,
+    )
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, random_state=42
+    )
 
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
+    origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
     print('Original training dataset shape %s' % origin_distr)
 
     init_kwargs_default = {
@@ -315,7 +341,7 @@ if __name__ == "__main__":  # pragma: no cover
         # 'estimator': DecisionTreeClassifier(max_depth=2),
         'n_estimators': 100,
         'k_neighbors': 5,
-        'learning_rate': 1.,
+        'learning_rate': 1.0,
         'algorithm': 'SAMME.R',
         'random_state': 10,
         # 'random_state': None,
@@ -332,11 +358,13 @@ if __name__ == "__main__":  # pragma: no cover
         'eval_metrics': {
             'acc': (accuracy_score, {}),
             'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),},
+            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        },
         'train_verbose': {
             'granularity': 10,
             'print_distribution': True,
-            'print_metrics': True,},
+            'print_metrics': True,
+        },
     }
 
     ensembles = {}
@@ -346,22 +374,19 @@ if __name__ == "__main__":  # pragma: no cover
     ensembles['kmsmoteboost'] = kmsmoteboost
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
-    fit_kwargs.update({
-        'balancing_schedule': 'progressive'
-    })
+    fit_kwargs.update({'balancing_schedule': 'progressive'})
     kmsmoteboost_prog = KmeansSMOTEBoostClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['kmsmoteboost_prog'] = kmsmoteboost_prog
-
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
-        eval_datasets = None,
-        eval_metrics = None,
+        eval_datasets=None,
+        eval_metrics=None,
     ).fit(
-        ensembles = ensembles,
-        granularity = 5,
+        ensembles=ensembles,
+        granularity=5,
     )
     fig, axes = visualizer.performance_lineplot(
         on_ensembles=None,

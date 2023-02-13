@@ -3,21 +3,20 @@
 #          Christos Aridas
 # License: MIT
 
-from collections import Counter
-from collections import OrderedDict
+from collections import Counter, OrderedDict
 
-import pytest
 import numpy as np
-
-from sklearn.neighbors._base import KNeighborsMixin
+import pytest
 from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors._base import KNeighborsMixin
 from sklearn.utils._testing import assert_array_equal
 
-from imbens.utils import check_neighbors_object
-from imbens.utils import check_sampling_strategy
-from imbens.utils import check_target_type
-from imbens.utils._validation import ArraysTransformer
-from imbens.utils._validation import _deprecate_positional_args
+from imbens.utils import (
+    check_neighbors_object,
+    check_sampling_strategy,
+    check_target_type,
+)
+from imbens.utils._validation import ArraysTransformer, _deprecate_positional_args
 
 multiclass_target = np.array([1] * 50 + [2] * 100 + [3] * 25)
 binary_target = np.array([1] * 25 + [0] * 100)
@@ -283,8 +282,16 @@ def test_sampling_strategy_callable_args():
 @pytest.mark.parametrize(
     "sampling_strategy, sampling_type, expected_result",
     [
-        ({3: 25, 1: 25, 2: 25}, "under-sampling", OrderedDict({1: 25, 2: 25, 3: 25}),),
-        ({3: 100, 1: 100, 2: 100}, "over-sampling", OrderedDict({1: 50, 2: 0, 3: 75}),),
+        (
+            {3: 25, 1: 25, 2: 25},
+            "under-sampling",
+            OrderedDict({1: 25, 2: 25, 3: 25}),
+        ),
+        (
+            {3: 100, 1: 100, 2: 100},
+            "over-sampling",
+            OrderedDict({1: 50, 2: 0, 3: 75}),
+        ),
     ],
 )
 def test_sampling_strategy_check_order(

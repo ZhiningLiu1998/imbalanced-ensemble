@@ -11,26 +11,30 @@
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from ..utils._validation import (ArraysTransformer, 
-                                     _deprecate_positional_args, 
-                                     check_sampling_strategy, 
-                                     check_target_type)
-else:           # pragma: no cover
+    from ..utils._validation import (
+        ArraysTransformer,
+        _deprecate_positional_args,
+        check_sampling_strategy,
+        check_target_type,
+    )
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("..")
-    from utils._validation import (ArraysTransformer, 
-                                   _deprecate_positional_args, 
-                                   check_sampling_strategy, 
-                                   check_target_type)
+    from utils._validation import (
+        ArraysTransformer,
+        _deprecate_positional_args,
+        check_sampling_strategy,
+        check_target_type,
+    )
 
 from abc import ABCMeta, abstractmethod
 
 import numpy as np
-
 from sklearn.base import BaseEstimator
-from sklearn.utils.validation import _check_sample_weight
 from sklearn.preprocessing import label_binarize
 from sklearn.utils.multiclass import check_classification_targets
+from sklearn.utils.validation import _check_sample_weight
 
 
 class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
@@ -41,7 +45,6 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
     """
 
     _estimator_type = "sampler"
-
 
     def fit(self, X, y):
         """Check inputs and statistics of the sampler.
@@ -67,7 +70,6 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
             self.sampling_strategy, y, self._sampling_type
         )
         return self
-
 
     @_deprecate_positional_args
     def fit_resample(self, X, y, *, sample_weight=None, **kwargs):
@@ -120,26 +122,28 @@ class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
                 sample_weight = _check_sample_weight(sample_weight, X, dtype=np.float64)
             except Exception as e:
                 e_args = list(e.args)
-                e_args[0] += \
-                    f"\n'sample_weight' should be an array-like of shape (n_samples,)," + \
-                    f" got {type(sample_weight)}, please check your usage."
+                e_args[0] += (
+                    f"\n'sample_weight' should be an array-like of shape (n_samples,),"
+                    + f" got {type(sample_weight)}, please check your usage."
+                )
                 e.args = tuple(e_args)
                 raise e
             else:
                 output = self._fit_resample(X, y, sample_weight=sample_weight, **kwargs)
 
-        y_ = label_binarize(output[1], classes=np.unique(y)) if binarize_y else output[1]
+        y_ = (
+            label_binarize(output[1], classes=np.unique(y)) if binarize_y else output[1]
+        )
 
         X_, y_ = arrays_transformer.transform(output[0], y_)
         if len(output) == 2:
             output = (X_, y_)
-        else:   # with sample_weight
+        else:  # with sample_weight
             output = tuple([X_, y_] + [output[i] for i in range(2, len(output))])
         return output
 
-
     @abstractmethod
-    def _fit_resample(self, X, y, **kwargs):    # pragma: no cover
+    def _fit_resample(self, X, y, **kwargs):  # pragma: no cover
         """Base method defined in each sampler to defined the sampling
         strategy.
 
@@ -181,11 +185,11 @@ class BaseSampler(SamplerMixin):
         X, y = self._validate_data(X, y, reset=True, accept_sparse=accept_sparse)
         return X, y, binarize_y
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"X_types": ["2darray", "sparse", "dataframe"]}
 
 
-def _identity(X, y):    # pragma: no cover
+def _identity(X, y):  # pragma: no cover
     return X, y
 
 
@@ -326,7 +330,11 @@ class FunctionSampler(BaseSampler):
 
         if self.validate:
 
-            y_ = label_binarize(output[1], classes=np.unique(y)) if binarize_y else output[1]
+            y_ = (
+                label_binarize(output[1], classes=np.unique(y))
+                if binarize_y
+                else output[1]
+            )
             X_, y_ = arrays_transformer.transform(output[0], y_)
             return (X_, y_) if len(output) == 2 else (X_, y_, output[2])
 
@@ -336,5 +344,6 @@ class FunctionSampler(BaseSampler):
         func = _identity if self.func is None else self.func
         output = func(X, y, **(self.kw_args if self.kw_args else {}))
         return output
+
 
 # %%

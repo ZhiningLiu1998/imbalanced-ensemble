@@ -5,6 +5,7 @@
 # License: MIT
 
 import numbers
+
 import numpy as np
 import pytest
 import sklearn
@@ -52,7 +53,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     # check that we have an ensemble of estimators with a
     # consistent size
     assert len(auboost.estimators_) > 1
-    
+
     # each estimator in the ensemble should have different random state
     assert len({est.random_state for est in auboost.estimators_}) == len(
         auboost.estimators_
@@ -81,10 +82,15 @@ def test_sample_weight(imbalanced_dataset, algorithm):
 
     # Predictions should be the same when sample_weight are all ones
     y_pred_sample_weight = auboost.fit(
-        X, y, sample_weight=sample_weight, beta='uniform',
+        X,
+        y,
+        sample_weight=sample_weight,
+        beta='uniform',
     ).predict(X)
     y_pred_no_sample_weight = auboost.fit(
-        X, y, beta='uniform',
+        X,
+        y,
+        beta='uniform',
     ).predict(X)
 
     assert_array_equal(y_pred_sample_weight, y_pred_no_sample_weight)
@@ -92,7 +98,10 @@ def test_sample_weight(imbalanced_dataset, algorithm):
     rng = np.random.RandomState(42)
     sample_weight = rng.rand(y.shape[0])
     y_pred_sample_weight = auboost.fit(
-        X, y, sample_weight=sample_weight, beta='uniform',
+        X,
+        y,
+        sample_weight=sample_weight,
+        beta='uniform',
     ).predict(X)
 
     with pytest.raises(AssertionError):
@@ -100,14 +109,20 @@ def test_sample_weight(imbalanced_dataset, algorithm):
 
 
 @pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
-@pytest.mark.parametrize("beta", [None, 'uniform', 'inverse', 'log1p-inverse', 'random'])
+@pytest.mark.parametrize(
+    "beta", [None, 'uniform', 'inverse', 'log1p-inverse', 'random']
+)
 def test_beta(imbalanced_dataset, algorithm, beta):
     expected_betas = {
         'uniform': {0: 1.0, 1: 1.0, 2: 1.0},
         'inverse': {0: 72.19587628865979, 1: 17.5075, 2: 1.0},
-        'log1p-inverse': {0: 4.2931390845260236, 1: 2.9181760553351164, 2: 0.6931471805599453},
+        'log1p-inverse': {
+            0: 4.2931390845260236,
+            1: 2.9181760553351164,
+            2: 0.6931471805599453,
+        },
     }
-    
+
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, random_state=1
@@ -118,7 +133,7 @@ def test_beta(imbalanced_dataset, algorithm, beta):
     auboost = AdaUBoostClassifier(
         n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
-    
+
     if beta in [None, 'uniform', 'inverse', 'log1p-inverse']:
         auboost.fit(X_train, y_train, beta=beta)
         assert_array_equal(classes, auboost.classes_)
@@ -132,29 +147,33 @@ def test_beta(imbalanced_dataset, algorithm, beta):
             auboost.fit(X_train, y_train, beta=beta)
 
 
-@pytest.mark.parametrize("beta", [
-    {},
-    {1: 1.0, 2: 1.0},
-    {0: 1, 1: 1.0, 2: 1.0},
-    {0: 'a', 1: 1.0, 2: 1.0},
-    10,
-])
+@pytest.mark.parametrize(
+    "beta",
+    [
+        {},
+        {1: 1.0, 2: 1.0},
+        {0: 1, 1: 1.0, 2: 1.0},
+        {0: 'a', 1: 1.0, 2: 1.0},
+        10,
+    ],
+)
 def test_beta_customize(imbalanced_dataset, beta):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, random_state=1
     )
 
-    auboost = AdaUBoostClassifier(
-        random_state=0
-    )
+    auboost = AdaUBoostClassifier(random_state=0)
     if type(beta) == dict:
         if len(beta) < 3:
-            with pytest.raises(ValueError, match="should specify beta values for all classes"):
+            with pytest.raises(
+                ValueError, match="should specify beta values for all classes"
+            ):
                 auboost.fit(X_train, y_train, beta=beta)
-        elif not all([isinstance(value, numbers.Number) 
-                      for value in beta.values()]):
-            with pytest.raises(ValueError, match="all values should be Integer or Real number"):
+        elif not all([isinstance(value, numbers.Number) for value in beta.values()]):
+            with pytest.raises(
+                ValueError, match="all values should be Integer or Real number"
+            ):
                 auboost.fit(X_train, y_train, beta=beta)
         else:
             auboost.fit(X_train, y_train, beta=beta)

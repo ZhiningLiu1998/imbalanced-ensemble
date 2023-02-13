@@ -3,10 +3,10 @@
 #          Christos Aridas
 # License: MIT
 
-import numpy as np
 from collections import Counter
-import pytest
 
+import numpy as np
+import pytest
 from sklearn.utils._testing import assert_array_equal
 
 from imbens.sampler._under_sampling import RandomUnderSampler
@@ -62,7 +62,9 @@ def test_rus_fit_resample(as_frame):
 def test_rus_fit_resample_half():
     sampling_strategy = {0: 3, 1: 6}
     rus = RandomUnderSampler(
-        sampling_strategy=sampling_strategy, random_state=RND_SEED, replacement=True,
+        sampling_strategy=sampling_strategy,
+        random_state=RND_SEED,
+        replacement=True,
     )
     X_resampled, y_resampled = rus.fit_resample(X, Y)
 

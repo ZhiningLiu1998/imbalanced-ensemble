@@ -12,18 +12,25 @@ if not LOCAL_DEBUG:
     from .._bagging import ResampleBaggingClassifier
     from ...sampler._under_sampling import RandomUnderSampler
     from ...utils._validation import _deprecate_positional_args
-    from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                     _get_parameter_docstring, 
-                                     _get_example_docstring)
-else:           # pragma: no cover
+    from ...utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from ensemble._bagging import ResampleBaggingClassifier
     from sampler._under_sampling import RandomUnderSampler
     from utils._validation import _deprecate_positional_args
-    from utils._docstring import (Substitution, FuncSubstitution, 
-                                  _get_parameter_docstring, 
-                                  _get_example_docstring)
+    from utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
 
 
 # Properties
@@ -47,7 +54,7 @@ _properties = {
     random_state=_get_parameter_docstring('random_state', **_properties),
     n_jobs=_get_parameter_docstring('n_jobs', **_properties),
     warm_start=_get_parameter_docstring('warm_start', **_properties),
-    example=_get_example_docstring(_method_name)
+    example=_get_example_docstring(_method_name),
 )
 class UnderBaggingClassifier(ResampleBaggingClassifier):
     """A Bagging classifier with intergrated random under-sampling.
@@ -123,12 +130,12 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     estimators_samples_ : list of arrays
         The subset of drawn samples (i.e., the in-bag samples) for each base
         estimator. Each subset is defined by an array of the indices selected.
-    
+
     estimators_features_ : list of arrays
         The subset of drawn features for each base estimator.
 
     estimators_n_training_samples_ : list of ints
-        The number of training samples for each fitted 
+        The number of training samples for each fitted
         base estimators.
 
     classes_ : ndarray of shape (n_classes,)
@@ -153,7 +160,7 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     EasyEnsembleClassifier : Bag of balanced boosted learners.
 
     BalancedRandomForestClassifier : RandomForest with random under-sampling.
-    
+
     RUSBoostClassifier : Random under-sampling integrated in AdaBoost.
 
     Notes
@@ -161,7 +168,7 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     This is possible to turn this classifier into a balanced random forest [2]_
     by passing a :class:`~sklearn.tree.DecisionTreeClassifier` with
     `max_features='auto'` as a base estimator.
-    
+
     References
     ----------
     .. [1] R. Maclin, and D. Opitz. "An empirical evaluation of bagging and
@@ -177,19 +184,21 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
     """
 
     @_deprecate_positional_args
-    def __init__(self,
-                 estimator=None,
-                 n_estimators:int=50,
-                 *,
-                 max_samples=1.0,
-                 max_features=1.0,
-                 bootstrap=True,
-                 bootstrap_features=False,
-                 oob_score=False,
-                 warm_start=False,
-                 n_jobs=None,
-                 random_state=None,
-                 verbose=0,):
+    def __init__(
+        self,
+        estimator=None,
+        n_estimators: int = 50,
+        *,
+        max_samples=1.0,
+        max_features=1.0,
+        bootstrap=True,
+        bootstrap_features=False,
+        oob_score=False,
+        warm_start=False,
+        n_jobs=None,
+        random_state=None,
+        verbose=0,
+    ):
 
         sampling_strategy = 'auto'
         sampler = _sampler_class()
@@ -216,7 +225,6 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
         self._sampling_type = _sampling_type
         self._sampler_class = _sampler_class
         self._properties = _properties
-    
 
     @_deprecate_positional_args
     @FuncSubstitution(
@@ -224,14 +232,17 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def fit(self, X, y, 
-            *,
-            sample_weight=None, 
-            max_samples=None,
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict=False,
-            ):
+    def fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        max_samples=None,
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict = False,
+    ):
         """Build an UnderBagging ensemble of estimators from the training set (X, y).
 
         Parameters
@@ -251,25 +262,28 @@ class UnderBaggingClassifier(ResampleBaggingClassifier):
 
         max_samples : int or float, default=None
             Argument to use instead of self.max_samples.
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
         -------
         self : object
         """
-        
-        return self._fit(X, y, 
-            sample_weight=sample_weight, 
+
+        return self._fit(
+            X,
+            y,
+            sample_weight=sample_weight,
             max_samples=max_samples,
             eval_datasets=eval_datasets,
             eval_metrics=eval_metrics,
             train_verbose=train_verbose,
-            )
+        )
+
 
 # %%
 
@@ -279,17 +293,28 @@ if __name__ == "__main__":  # pragma: no cover
     from sklearn.datasets import make_classification
     from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-    
+
     # X, y = make_classification(n_classes=2, class_sep=2, # 2-class
     #     weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,  # 3-class
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=2000,
+        random_state=10,
+    )
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, random_state=42
+    )
 
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
+    origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
     print('Original training dataset shape %s' % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -317,7 +342,8 @@ if __name__ == "__main__":  # pragma: no cover
         'eval_metrics': {
             'acc': (accuracy_score, {}),
             'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),},
+            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        },
         'train_verbose': True,
     }
 
@@ -326,17 +352,16 @@ if __name__ == "__main__":  # pragma: no cover
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     underbagging = UnderBaggingClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['underbagging'] = underbagging
-    
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
-        eval_datasets = None,
-        eval_metrics = None,
+        eval_datasets=None,
+        eval_metrics=None,
     ).fit(
-        ensembles = ensembles,
-        granularity = 5,
+        ensembles=ensembles,
+        granularity=5,
     )
     fig, axes = visualizer.performance_lineplot(
         on_ensembles=None,

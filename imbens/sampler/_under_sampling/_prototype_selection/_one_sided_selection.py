@@ -10,27 +10,30 @@
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
+    from ....utils._docstring import (
+        Substitution,
+        _n_jobs_docstring,
+        _random_state_docstring,
+    )
+    from ....utils._validation import _deprecate_positional_args
     from ..base import BaseCleaningSampler
     from ._tomek_links import TomekLinks
-    from ....utils._docstring import _n_jobs_docstring, Substitution
-    from ....utils._docstring import _random_state_docstring
-    from ....utils._validation import _deprecate_positional_args
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../../..")
     from sampler._under_sampling.base import BaseCleaningSampler
-    from sampler._under_sampling._prototype_selection._tomek_links \
-        import TomekLinks
+    from sampler._under_sampling._prototype_selection._tomek_links import TomekLinks
     from utils._docstring import _n_jobs_docstring, Substitution
     from utils._docstring import _random_state_docstring
     from utils._validation import _deprecate_positional_args
 
-import numpy as np
 from collections import Counter
 
+import numpy as np
 from sklearn.base import clone
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.utils import check_random_state, _safe_indexing
+from sklearn.utils import _safe_indexing, check_random_state
 
 
 @Substitution(
@@ -191,21 +194,32 @@ class OneSidedSelection(BaseCleaningSampler):
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
             return X_cleaned, y_cleaned, sample_weight_under
-        else: return X_cleaned, y_cleaned
+        else:
+            return X_cleaned, y_cleaned
 
-
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
+
 
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
+
     from sklearn.datasets import make_classification
 
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
     print('Original dataset shape %s' % Counter(y))
 
     origin_distr = Counter(y)
@@ -219,5 +233,3 @@ if __name__ == "__main__":  # pragma: no cover
     print('Test resampled weight shape %s' % Counter(weight_res))
 
 # %%
-
-

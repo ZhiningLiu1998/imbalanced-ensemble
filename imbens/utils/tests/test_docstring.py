@@ -6,8 +6,7 @@
 import pytest
 
 from imbens.utils import Substitution
-from imbens.utils._docstring import _random_state_docstring
-from imbens.utils._docstring import _n_jobs_docstring
+from imbens.utils._docstring import _n_jobs_docstring, _random_state_docstring
 
 func_docstring = """A function.
 

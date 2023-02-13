@@ -12,28 +12,30 @@ threshold."""
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from ..base import BaseUnderSampler
-    from ....utils._docstring import _n_jobs_docstring, Substitution
-    from ....utils._docstring import _random_state_docstring
+    from ....utils._docstring import (
+        Substitution,
+        _n_jobs_docstring,
+        _random_state_docstring,
+    )
     from ....utils._validation import _deprecate_positional_args
-else:           # pragma: no cover
+    from ..base import BaseUnderSampler
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../../..")
     from sampler._under_sampling.base import BaseUnderSampler
     from utils._docstring import _n_jobs_docstring, Substitution
     from utils._docstring import _random_state_docstring
     from utils._validation import _deprecate_positional_args
 
-import numpy as np
 from collections import Counter
 
+import numpy as np
 from sklearn.base import ClassifierMixin, clone
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble._base import _set_random_states
-from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import cross_val_predict
-from sklearn.utils import check_random_state
-from sklearn.utils import _safe_indexing
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
+from sklearn.utils import _safe_indexing, check_random_state
 
 
 @Substitution(
@@ -122,7 +124,6 @@ class InstanceHardnessThreshold(BaseUnderSampler):
         self.cv = cv
         self.n_jobs = n_jobs
 
-
     def _validate_estimator(self, random_state):
         """Private function to create the classifier"""
 
@@ -144,7 +145,6 @@ class InstanceHardnessThreshold(BaseUnderSampler):
             raise ValueError(
                 f"Invalid parameter `estimator`. Got {type(self.estimator)}."
             )
-
 
     def _fit_resample(self, X, y, sample_weight=None):
         random_state = check_random_state(self.random_state)
@@ -194,27 +194,45 @@ class InstanceHardnessThreshold(BaseUnderSampler):
         if sample_weight is not None:
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
-            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under), sample_weight_under
-        else: return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
+            return (
+                _safe_indexing(X, idx_under),
+                _safe_indexing(y, idx_under),
+                sample_weight_under,
+            )
+        else:
+            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
 
-
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
+
 
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
+
     from sklearn.datasets import make_classification
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
     print('Original dataset shape %s' % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 200, 1: 100, 0: 100}
 
-    undersampler = InstanceHardnessThreshold(random_state=42, sampling_strategy=target_distr)
+    undersampler = InstanceHardnessThreshold(
+        random_state=42, sampling_strategy=target_distr
+    )
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
 
     print('Resampled dataset shape %s' % Counter(y_res))

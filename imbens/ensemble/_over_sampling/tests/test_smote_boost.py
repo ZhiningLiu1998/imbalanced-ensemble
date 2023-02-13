@@ -41,9 +41,7 @@ def test_smoteboost(imbalanced_dataset, algorithm):
 
     n_estimators = 100
     smoteboost = SMOTEBoostClassifier(
-        n_estimators=n_estimators,
-        algorithm=algorithm, 
-        random_state=0
+        n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
     smoteboost.fit(X_train, y_train)
     assert_array_equal(classes, smoteboost.classes_)
@@ -107,28 +105,20 @@ def test_smoteboost_k_neighbors(imbalanced_dataset, algorithm, k_neighbors):
     if type(k_neighbors) != int:
         with pytest.raises(TypeError, match="'k_neighbors' should be of type"):
             smoteboost = SMOTEBoostClassifier(
-                k_neighbors=k_neighbors,
-                algorithm=algorithm, 
-                random_state=0
+                k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
             ).fit(X_train, y_train)
     else:
         if k_neighbors < 1:
             with pytest.raises(ValueError, match="must be an int in the range"):
                 smoteboost = SMOTEBoostClassifier(
-                    k_neighbors=k_neighbors,
-                    algorithm=algorithm, 
-                    random_state=0
+                    k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
                 ).fit(X_train, y_train)
         elif k_neighbors > 100:
             with pytest.raises(ValueError, match="Expected n_neighbors <= n_samples"):
                 smoteboost = SMOTEBoostClassifier(
-                    k_neighbors=k_neighbors,
-                    algorithm=algorithm, 
-                    random_state=0
+                    k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
                 ).fit(X_train, y_train)
         else:
             smoteboost = SMOTEBoostClassifier(
-                k_neighbors=k_neighbors,
-                algorithm=algorithm, 
-                random_state=0
+                k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
             ).fit(X_train, y_train)

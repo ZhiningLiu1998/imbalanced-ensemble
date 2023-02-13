@@ -10,24 +10,20 @@
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
+    from ....utils._docstring import Substitution, _random_state_docstring
+    from ....utils._validation import _deprecate_positional_args, check_target_type
     from ..base import BaseUnderSampler
-    from ....utils._docstring import Substitution
-    from ....utils._docstring import _random_state_docstring
-    from ....utils._validation import (_deprecate_positional_args, 
-                                    check_target_type)
-else:           # pragma: no cover
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../../..")
     from sampler._under_sampling.base import BaseUnderSampler
     from utils._docstring import Substitution
     from utils._docstring import _random_state_docstring
-    from utils._validation import (_deprecate_positional_args, 
-                                   check_target_type)
+    from utils._validation import _deprecate_positional_args, check_target_type
 
 import numpy as np
-
-from sklearn.utils import check_random_state
-from sklearn.utils import _safe_indexing
+from sklearn.utils import _safe_indexing, check_random_state
 
 
 @Substitution(
@@ -112,7 +108,7 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
             raise TypeError(
                 f"`sample_proba` should be an array-like of shape (n_samples,),"
                 f" got {type(sample_proba)} instead."
-                )
+            )
         else:
             sample_proba = np.asarray(sample_proba)
             if sample_proba.shape != y.shape:
@@ -124,21 +120,23 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
                     sample_proba = sample_proba.astype(float)
                 except Exception as e:
                     e_args = list(e.args)
-                    e_args[0] += \
-                        f"\n`sample_proba` should be an array-like with dtype == float," + \
-                        f" please check your usage."
+                    e_args[0] += (
+                        f"\n`sample_proba` should be an array-like with dtype == float,"
+                        + f" please check your usage."
+                    )
                     e.args = tuple(e_args)
                     raise e
 
         idx_under = np.empty((0,), dtype=int)
 
         for target_class in np.unique(y):
-            class_idx = (y == target_class)
+            class_idx = y == target_class
             if target_class in self.sampling_strategy_.keys():
                 if sample_proba is not None:
                     probabilities = np.array(sample_proba[class_idx]).astype(float)
                     probabilities /= probabilities.sum()
-                else: probabilities = None
+                else:
+                    probabilities = None
                 n_samples = self.sampling_strategy_[target_class]
                 index_target_class = random_state.choice(
                     range(np.count_nonzero(class_idx)),
@@ -162,25 +160,41 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
         if sample_weight is not None:
             # sample_weight is already validated in self.fit_resample()
             sample_weight_under = _safe_indexing(sample_weight, idx_under)
-            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under), sample_weight_under
-        else: return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
-        
-        
-    def _more_tags(self):   # pragma: no cover
+            return (
+                _safe_indexing(X, idx_under),
+                _safe_indexing(y, idx_under),
+                sample_weight_under,
+            )
+        else:
+            return _safe_indexing(X, idx_under), _safe_indexing(y, idx_under)
+
+    def _more_tags(self):  # pragma: no cover
         return {
             "X_types": ["2darray", "string", "sparse", "dataframe"],
             "sample_indices": True,
             "allow_nan": True,
         }
 
+
 # %%
 
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
+
     from sklearn.datasets import make_classification
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
+
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
     print('Original dataset shape %s' % Counter(y))
 
     origin_distr = Counter(y)

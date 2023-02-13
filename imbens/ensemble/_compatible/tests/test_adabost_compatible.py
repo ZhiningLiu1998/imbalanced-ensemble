@@ -51,7 +51,7 @@ def test_adaboost(imbalanced_dataset, algorithm):
     # check that we have an ensemble of estimators with a
     # consistent size
     assert len(adaboost.estimators_) > 1
-    
+
     # each estimator in the ensemble should have different random state
     assert len({est.random_state for est in adaboost.estimators_}) == len(
         adaboost.estimators_

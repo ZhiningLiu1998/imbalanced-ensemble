@@ -7,29 +7,35 @@
 from functools import partial
 
 import numpy as np
-
 import pytest
-
-from sklearn import datasets
-from sklearn import svm
-
+from sklearn import datasets, svm
+from sklearn.metrics import (
+    accuracy_score,
+    average_precision_score,
+    brier_score_loss,
+    cohen_kappa_score,
+    jaccard_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 from sklearn.preprocessing import label_binarize
+from sklearn.utils._testing import (
+    assert_allclose,
+    assert_array_equal,
+    assert_no_warnings,
+)
 from sklearn.utils.validation import check_random_state
-from sklearn.utils._testing import assert_allclose
-from sklearn.utils._testing import assert_array_equal
-from sklearn.utils._testing import assert_no_warnings
-from sklearn.metrics import accuracy_score, average_precision_score
-from sklearn.metrics import brier_score_loss, cohen_kappa_score
-from sklearn.metrics import jaccard_score, precision_score
-from sklearn.metrics import recall_score, roc_auc_score
 
-from imbens.metrics import sensitivity_specificity_support
-from imbens.metrics import sensitivity_score
-from imbens.metrics import specificity_score
-from imbens.metrics import geometric_mean_score
-from imbens.metrics import make_index_balanced_accuracy
-from imbens.metrics import classification_report_imbalanced
-from imbens.metrics import macro_averaged_mean_absolute_error
+from imbens.metrics import (
+    classification_report_imbalanced,
+    geometric_mean_score,
+    macro_averaged_mean_absolute_error,
+    make_index_balanced_accuracy,
+    sensitivity_score,
+    sensitivity_specificity_support,
+    specificity_score,
+)
 
 RND_SEED = 42
 R_TOL = 1e-2
@@ -180,7 +186,9 @@ def test_sensitivity_specificity_support_errors():
 
 def test_sensitivity_specificity_unused_pos_label():
     # but average != 'binary'; even if data is binary
-    with pytest.warns(UserWarning, match=r"use labels=\[pos_label\] to specify a single"):
+    with pytest.warns(
+        UserWarning, match=r"use labels=\[pos_label\] to specify a single"
+    ):
         sensitivity_specificity_support(
             [1, 2, 1], [1, 2, 2], pos_label=2, average="macro"
         )
@@ -204,7 +212,12 @@ def test_geometric_mean_support_binary():
         ([0, 0, 0, 0], [0, 0, 0, 0], 0.001, 1.0),
         ([0, 0, 0, 0], [1, 1, 1, 1], 0.001, 0.001),
         ([0, 0, 1, 1], [0, 1, 1, 0], 0.001, 0.5),
-        ([0, 1, 2, 0, 1, 2], [0, 2, 1, 0, 0, 1], 0.001, (0.001 ** 2) ** (1 / 3),),
+        (
+            [0, 1, 2, 0, 1, 2],
+            [0, 2, 1, 0, 0, 1],
+            0.001,
+            (0.001**2) ** (1 / 3),
+        ),
         ([0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5], 0.001, 1),
         ([0, 1, 1, 1, 1, 0], [0, 0, 1, 1, 1, 1], 0.001, (0.5 * 0.75) ** 0.5),
     ],
@@ -253,7 +266,11 @@ def test_geometric_mean_sample_weight(
     y_true, y_pred, sample_weight, average, expected_gmean
 ):
     gmean = geometric_mean_score(
-        y_true, y_pred, labels=[0, 1], sample_weight=sample_weight, average=average,
+        y_true,
+        y_pred,
+        labels=[0, 1],
+        sample_weight=sample_weight,
+        average=average,
     )
     assert gmean == pytest.approx(expected_gmean, rel=R_TOL)
 
@@ -482,7 +499,6 @@ def test_classification_report_imbalanced_dict():
         ([1, 1, 1, 1, 1, 2], [1, 2, 1, 2, 1, 2], 0.2),
         ([1, 1, 1, 2, 2, 2, 3, 3, 3], [1, 3, 1, 2, 1, 1, 2, 3, 3], 0.555),
         ([1, 1, 1, 1, 1, 1, 2, 3, 3], [1, 3, 1, 2, 1, 1, 2, 3, 3], 0.166),
-
     ],
 )
 def test_macro_averaged_mean_absolute_error(y_true, y_pred, expected_ma_mae):
@@ -498,7 +514,9 @@ def test_macro_averaged_mean_absolute_error_sample_weight():
 
     sample_weight = [1, 1, 1, 1, 1, 1]
     ma_mae_unit_weights = macro_averaged_mean_absolute_error(
-        y_true, y_pred, sample_weight=sample_weight,
+        y_true,
+        y_pred,
+        sample_weight=sample_weight,
     )
 
     assert ma_mae_unit_weights == pytest.approx(ma_mae_no_weights)

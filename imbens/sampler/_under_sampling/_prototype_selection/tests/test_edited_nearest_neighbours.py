@@ -3,13 +3,11 @@
 #          Christos Aridas
 # License: MIT
 
-import pytest
 import numpy as np
-
-from sklearn.utils._testing import assert_array_equal
-
+import pytest
 from sklearn.datasets import make_classification
 from sklearn.neighbors import NearestNeighbors
+from sklearn.utils._testing import assert_array_equal
 
 from imbens.sampler._under_sampling import EditedNearestNeighbours
 
@@ -135,7 +133,10 @@ def test_enn_check_kind_selection():
     `check_sel="mode"`."""
 
     X, y = make_classification(
-        n_samples=1000, n_classes=2, weights=[0.3, 0.7], random_state=0,
+        n_samples=1000,
+        n_classes=2,
+        weights=[0.3, 0.7],
+        random_state=0,
     )
 
     enn_all = EditedNearestNeighbours(kind_sel="all")

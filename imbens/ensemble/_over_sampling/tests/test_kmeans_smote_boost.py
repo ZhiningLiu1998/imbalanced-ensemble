@@ -41,9 +41,7 @@ def test_ksmoteboost(imbalanced_dataset, algorithm):
 
     n_estimators = 100
     ksmoteboost = KmeansSMOTEBoostClassifier(
-        n_estimators=n_estimators,
-        algorithm=algorithm, 
-        random_state=0
+        n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
     ksmoteboost.fit(X_train, y_train)
     assert_array_equal(classes, ksmoteboost.classes_)
@@ -107,28 +105,20 @@ def test_smoteboost_k_neighbors(imbalanced_dataset, algorithm, k_neighbors):
     if type(k_neighbors) != int:
         with pytest.raises(TypeError, match="'k_neighbors' should be of type"):
             ksmoteboost = KmeansSMOTEBoostClassifier(
-                k_neighbors=k_neighbors,
-                algorithm=algorithm, 
-                random_state=0
+                k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
             ).fit(X_train, y_train)
     else:
         if k_neighbors < 1:
             with pytest.raises(ValueError, match="must be an int in the range"):
                 ksmoteboost = KmeansSMOTEBoostClassifier(
-                    k_neighbors=k_neighbors,
-                    algorithm=algorithm, 
-                    random_state=0
+                    k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
                 ).fit(X_train, y_train)
         elif k_neighbors > 100:
             with pytest.raises(RuntimeError, match="No clusters found with sufficient"):
                 ksmoteboost = KmeansSMOTEBoostClassifier(
-                    k_neighbors=k_neighbors,
-                    algorithm=algorithm, 
-                    random_state=0
+                    k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
                 ).fit(X_train, y_train)
         else:
             ksmoteboost = KmeansSMOTEBoostClassifier(
-                k_neighbors=k_neighbors,
-                algorithm=algorithm, 
-                random_state=0
+                k_neighbors=k_neighbors, algorithm=algorithm, random_state=0
             ).fit(X_train, y_train)

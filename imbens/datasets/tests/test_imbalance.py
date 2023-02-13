@@ -5,11 +5,9 @@
 
 from collections import Counter
 
-import pytest
 import numpy as np
-
-from sklearn.datasets import load_iris
-from sklearn.datasets import fetch_openml
+import pytest
+from sklearn.datasets import fetch_openml, load_iris
 
 from imbens.datasets import make_imbalance
 
@@ -71,8 +69,9 @@ def test_make_imbalance_dict(iris, sampling_strategy, expected_counts):
 )
 def test_make_imbalanced_iris(as_frame, sampling_strategy, expected_counts):
     pytest.importorskip("pandas")
-    X, y = fetch_openml("iris", parser='auto', version=1,
-                        return_X_y=True, as_frame=as_frame)
+    X, y = fetch_openml(
+        "iris", parser='auto', version=1, return_X_y=True, as_frame=as_frame
+    )
     X_res, y_res = make_imbalance(X, y, sampling_strategy=sampling_strategy)
     if as_frame:
         assert hasattr(X_res, "loc")

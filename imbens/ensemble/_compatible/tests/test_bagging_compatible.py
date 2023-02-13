@@ -62,9 +62,9 @@ def test_balanced_bagging_classifier(estimator, params):
     )
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
-    bag = CompatibleBaggingClassifier(estimator=estimator, random_state=0, **params).fit(
-        X_train, y_train
-    )
+    bag = CompatibleBaggingClassifier(
+        estimator=estimator, random_state=0, **params
+    ).fit(X_train, y_train)
     bag.predict(X_test)
     bag.predict_proba(X_test)
     bag.score(X_test, y_test)

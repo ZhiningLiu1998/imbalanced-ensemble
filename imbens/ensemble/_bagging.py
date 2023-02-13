@@ -11,50 +11,62 @@ bagging imbalanced ensemble classifier.
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from .base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from ..pipeline import Pipeline
+    from ..utils._docstring import (
+        FuncGlossarySubstitution,
+        FuncSubstitution,
+        _get_parameter_docstring,
+    )
+    from ..utils._validation import (
+        _deprecate_positional_args,
+        check_sampling_strategy,
+        check_target_type,
+    )
     from ..utils._validation_data import check_eval_datasets
-    from ..utils._validation_param import (check_train_verbose, 
-                                           check_eval_metrics, 
-                                           check_type)
-    from ..utils._validation import (_deprecate_positional_args, 
-                                     check_sampling_strategy, 
-                                     check_target_type)
-    from ..utils._docstring import (FuncSubstitution, 
-                                    FuncGlossarySubstitution,
-                                    _get_parameter_docstring)
-else:           # pragma: no cover
+    from ..utils._validation_param import (
+        check_eval_metrics,
+        check_train_verbose,
+        check_type,
+    )
+    from .base import MAX_INT, ImbalancedEnsembleClassifierMixin
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from pipeline import Pipeline
     from utils._validation_data import check_eval_datasets
-    from utils._validation_param import (check_train_verbose, 
-                                         check_eval_metrics, 
-                                         check_type)
-    from utils._validation import (_deprecate_positional_args, 
-                                   check_sampling_strategy, 
-                                   check_target_type)
-    from utils._docstring import (FuncSubstitution, 
-                                  FuncGlossarySubstitution,
-                                  _get_parameter_docstring)
+    from utils._validation_param import (
+        check_train_verbose,
+        check_eval_metrics,
+        check_type,
+    )
+    from utils._validation import (
+        _deprecate_positional_args,
+        check_sampling_strategy,
+        check_target_type,
+    )
+    from utils._docstring import (
+        FuncSubstitution,
+        FuncGlossarySubstitution,
+        _get_parameter_docstring,
+    )
 
-from abc import ABCMeta, abstractmethod
-
-import numpy as np
-import numbers
 import itertools
+import numbers
+from abc import ABCMeta, abstractmethod
 from warnings import warn
 
+import numpy as np
 from sklearn.base import clone
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble._base import _partition_estimators
 from sklearn.pipeline import Pipeline as skPipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
-from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
-from sklearn.utils.parallel import delayed, Parallel
+from sklearn.utils.parallel import Parallel, delayed
 from sklearn.utils.random import sample_without_replacement
+from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
 
 
 def _generate_indices(random_state, bootstrap, n_population, n_samples):
@@ -63,30 +75,40 @@ def _generate_indices(random_state, bootstrap, n_population, n_samples):
     if bootstrap:
         indices = random_state.randint(0, n_population, n_samples)
     else:
-        indices = sample_without_replacement(n_population, n_samples,
-                                             random_state=random_state)
+        indices = sample_without_replacement(
+            n_population, n_samples, random_state=random_state
+        )
 
     return indices
 
 
-def _generate_bagging_indices(random_state, bootstrap_features,
-                              bootstrap_samples, n_features, n_samples,
-                              max_features, max_samples):
+def _generate_bagging_indices(
+    random_state,
+    bootstrap_features,
+    bootstrap_samples,
+    n_features,
+    n_samples,
+    max_features,
+    max_samples,
+):
     """Randomly draw feature and sample indices."""
     # Get valid random state
     random_state = check_random_state(random_state)
 
     # Draw indices
-    feature_indices = _generate_indices(random_state, bootstrap_features,
-                                        n_features, max_features)
-    sample_indices = _generate_indices(random_state, bootstrap_samples,
-                                       n_samples, max_samples)
+    feature_indices = _generate_indices(
+        random_state, bootstrap_features, n_features, max_features
+    )
+    sample_indices = _generate_indices(
+        random_state, bootstrap_samples, n_samples, max_samples
+    )
 
     return feature_indices, sample_indices
-    
 
-def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
-                               seeds, total_n_estimators, verbose):
+
+def _parallel_build_estimators(
+    n_estimators, ensemble, X, y, sample_weight, seeds, total_n_estimators, verbose
+):
     """Private function used to build a batch of estimators within a job."""
     # Retrieve settings
     n_samples, n_features = X.shape
@@ -94,10 +116,10 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
     max_samples = ensemble._max_samples
     bootstrap = ensemble.bootstrap
     bootstrap_features = ensemble.bootstrap_features
-    
+
     # Check if the estimator supports sample_weight
     estimator_ = ensemble.estimator_
-    while (isinstance(estimator_, skPipeline)): # for Pipelines
+    while isinstance(estimator_, skPipeline):  # for Pipelines
         estimator_ = estimator_._final_estimator
     support_sample_weight = has_fit_parameter(estimator_, "sample_weight")
     if not support_sample_weight and sample_weight is not None:
@@ -110,31 +132,40 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
 
     for i in range(n_estimators):
         if verbose > 1:
-            print("Building estimator %d of %d for this parallel run "
-                  "(total %d)..." % (i + 1, n_estimators, total_n_estimators))
+            print(
+                "Building estimator %d of %d for this parallel run "
+                "(total %d)..." % (i + 1, n_estimators, total_n_estimators)
+            )
 
         random_state = seeds[i]
-        estimator = ensemble._make_estimator(append=False,
-                                             random_state=random_state)
+        estimator = ensemble._make_estimator(append=False, random_state=random_state)
 
         # Draw random feature, sample indices
-        features, indices = _generate_bagging_indices(random_state,
-                                                      bootstrap_features,
-                                                      bootstrap, n_features,
-                                                      n_samples, max_features,
-                                                      max_samples)
+        features, indices = _generate_bagging_indices(
+            random_state,
+            bootstrap_features,
+            bootstrap,
+            n_features,
+            n_samples,
+            max_features,
+            max_samples,
+        )
 
         # Draw samples, using sample weights, and then fit
         if support_sample_weight and sample_weight is not None:
             curr_sample_weight = sample_weight.copy()
-            estimator.fit((X[indices])[:, features], y[indices], 
-                sample_weight=curr_sample_weight[indices])
+            estimator.fit(
+                (X[indices])[:, features],
+                y[indices],
+                sample_weight=curr_sample_weight[indices],
+            )
         else:
             estimator.fit((X[indices])[:, features], y[indices])
-        
+
         if hasattr(estimator, 'n_training_samples_'):
             n_training_samples = getattr(estimator, 'n_training_samples_')
-        else: n_training_samples = len(indices)
+        else:
+            n_training_samples = len(indices)
 
         estimators.append(estimator)
         estimators_features.append(features)
@@ -145,10 +176,12 @@ def _parallel_build_estimators(n_estimators, ensemble, X, y, sample_weight,
 
 _super = BaggingClassifier
 
-class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
-                                BaggingClassifier, metaclass=ABCMeta):
+
+class ResampleBaggingClassifier(
+    ImbalancedEnsembleClassifierMixin, BaggingClassifier, metaclass=ABCMeta
+):
     """Base class for all resampling + bagging imbalanced ensemble classifier.
-    
+
     Warning: This class should not be used directly. Use the derive classes
     instead.
     """
@@ -164,22 +197,24 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
     }
 
     @_deprecate_positional_args
-    def __init__(self,
-                estimator=None,
-                n_estimators=10,
-                *,
-                sampler,
-                sampling_type,
-                sampling_strategy="auto",
-                max_samples=1.0,
-                max_features=1.0,
-                bootstrap=True,
-                bootstrap_features=False,
-                oob_score=False,
-                warm_start=False,
-                n_jobs=None,
-                random_state=None,
-                verbose=0,):
+    def __init__(
+        self,
+        estimator=None,
+        n_estimators=10,
+        *,
+        sampler,
+        sampling_type,
+        sampling_strategy="auto",
+        max_samples=1.0,
+        max_features=1.0,
+        bootstrap=True,
+        bootstrap_features=False,
+        oob_score=False,
+        warm_start=False,
+        n_jobs=None,
+        random_state=None,
+        verbose=0,
+    ):
 
         self.sampling_strategy = sampling_strategy
         self._sampling_type = sampling_type
@@ -198,7 +233,6 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             random_state=random_state,
             verbose=verbose,
         )
-
 
     def _validate_y(self, y):
         """Validate the label vector."""
@@ -219,7 +253,6 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             self._sampling_strategy = self.sampling_strategy
         return y_encoded
 
-
     def _validate_estimator(self, default=DecisionTreeClassifier()):
         """Check the estimator and the n_estimator attribute, set the
         `estimator_` attribute."""
@@ -237,22 +270,23 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             estimator = clone(self.estimator)
         else:
             estimator = clone(default)
-        
+
         # validate sampler and sampler_kwargs
         # validated sampler stored in self.sampler_
         try:
             self.sampler_ = clone(self.sampler)
         except Exception as e:
             e_args = list(e.args)
-            e_args[0] = "Exception occurs when trying to validate" + \
-                        " sampler: " + e_args[0]
+            e_args[0] = (
+                "Exception occurs when trying to validate" + " sampler: " + e_args[0]
+            )
             e.args = tuple(e_args)
             raise e
 
         if self.sampler_._sampling_type != "bypass":
             self.sampler_.set_params(sampling_strategy=self._sampling_strategy)
             self.sampler_.set_params(**self.sampler_kwargs_)
-        
+
         self._estimator = Pipeline(
             [("sampler", self.sampler_), ("classifier", estimator)]
         )
@@ -262,8 +296,7 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         except AttributeError:
             pass
 
-
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         tags = super()._more_tags()
         tags_key = "_xfail_checks"
         failing_test = "check_estimators_nan_inf"
@@ -273,7 +306,6 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         else:
             tags[tags_key] = {failing_test: reason}
         return tags
-    
 
     @_deprecate_positional_args
     @FuncSubstitution(
@@ -281,15 +313,18 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def _fit(self, X, y, 
-            *,
-            sample_weight=None, 
-            sampler_kwargs:dict={},
-            max_samples=None,
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict,
-            ):
+    def _fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        sampler_kwargs: dict = {},
+        max_samples=None,
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict,
+    ):
         """Build a Bagging ensemble of estimators from the training set (X, y).
 
         Parameters
@@ -306,30 +341,29 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             Sample weights. If None, then samples are equally weighted.
             Note that this is supported only if the base estimator supports
             sample weighting.
-        
+
         sampler_kwargs : dict, default={}
             The kwargs to use as additional parameters when instantiating a
             new sampler. If none are given, default parameters are used.
-        
+
         max_samples : int or float, default=None
             Argument to use instead of self.max_samples.
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
         -------
         self : object
         """
-        
+
         # Check data, sampler_kwargs and random_state
         check_target_type(y)
 
-        self.sampler_kwargs_ = check_type(
-            sampler_kwargs, 'sampler_kwargs', dict)
+        self.sampler_kwargs_ = check_type(sampler_kwargs, 'sampler_kwargs', dict)
 
         random_state = check_random_state(self.random_state)
 
@@ -341,16 +375,17 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             'multi_output': True,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
-        
+
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
-        
+
         # Check evaluation metrics
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
         # Check verbose
         self.train_verbose_ = check_train_verbose(
-            train_verbose, self.n_estimators, **self._properties)
+            train_verbose, self.n_estimators, **self._properties
+        )
         self._init_training_log_format()
 
         if sample_weight is not None:
@@ -394,12 +429,14 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
         # Other checks
         if not self.bootstrap and self.oob_score:
-            raise ValueError("Out of bag estimation only available"
-                             " if bootstrap=True")
+            raise ValueError(
+                "Out of bag estimation only available" " if bootstrap=True"
+            )
 
         if self.warm_start and self.oob_score:
-            raise ValueError("Out of bag estimate only available"
-                             " if warm_start=False")
+            raise ValueError(
+                "Out of bag estimate only available" " if warm_start=False"
+            )
 
         if hasattr(self, "oob_score_") and self.warm_start:
             del self.oob_score_
@@ -413,18 +450,23 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         n_more_estimators = self.n_estimators - len(self.estimators_)
 
         if n_more_estimators < 0:
-            raise ValueError('n_estimators=%d must be larger or equal to '
-                             'len(estimators_)=%d when warm_start==True'
-                             % (self.n_estimators, len(self.estimators_)))
+            raise ValueError(
+                'n_estimators=%d must be larger or equal to '
+                'len(estimators_)=%d when warm_start==True'
+                % (self.n_estimators, len(self.estimators_))
+            )
 
         elif n_more_estimators == 0:
-            warn("Warm-start fitting without increasing n_estimators does not "
-                 "fit new trees.")
+            warn(
+                "Warm-start fitting without increasing n_estimators does not "
+                "fit new trees."
+            )
             return self
 
         # Parallel loop
-        n_jobs, n_estimators, starts = _partition_estimators(n_more_estimators,
-                                                             self.n_jobs)
+        n_jobs, n_estimators, starts = _partition_estimators(
+            n_more_estimators, self.n_jobs
+        )
         total_n_estimators = sum(n_estimators)
 
         # Advance random state to state after training
@@ -435,51 +477,53 @@ class ResampleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         seeds = random_state.randint(MAX_INT, size=n_more_estimators)
         self._seeds = seeds
 
-        all_results = Parallel(n_jobs=n_jobs, verbose=self.verbose,
-                               **self._parallel_args())(
+        all_results = Parallel(
+            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
+        )(
             delayed(_parallel_build_estimators)(
                 n_estimators[i],
                 self,
                 X,
                 y,
                 sample_weight,
-                seeds[starts[i]:starts[i + 1]],
+                seeds[starts[i] : starts[i + 1]],
                 total_n_estimators,
-                verbose=self.verbose)
-            for i in range(n_jobs))
+                verbose=self.verbose,
+            )
+            for i in range(n_jobs)
+        )
 
         # Reduce
-        self.estimators_ += list(itertools.chain.from_iterable(
-            t[0] for t in all_results))
-        self.estimators_features_ += list(itertools.chain.from_iterable(
-            t[1] for t in all_results))
-        self.estimators_n_training_samples_ += list(itertools.chain.from_iterable(
-            t[2] for t in all_results))
+        self.estimators_ += list(
+            itertools.chain.from_iterable(t[0] for t in all_results)
+        )
+        self.estimators_features_ += list(
+            itertools.chain.from_iterable(t[1] for t in all_results)
+        )
+        self.estimators_n_training_samples_ += list(
+            itertools.chain.from_iterable(t[2] for t in all_results)
+        )
 
         if self.oob_score:
             self._set_oob_score(X, y)
-        
+
         # Print training infomation to console.
         self._training_log_to_console()
 
         return self
-
 
     @abstractmethod
     def fit(self, X, y, sample_weight, **kwargs):
         """Needs to be implemented in the derived class"""
         pass
 
-
     @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-
     @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
-
 
     def set_params(self, **params):
         return super().set_params(**params)

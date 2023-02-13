@@ -1,5 +1,5 @@
 """
-The :mod:`imbens.ensemble.reweighting` submodule contains 
+The :mod:`imbens.ensemble._reweighting` submodule contains 
 a set of reweighting-based ensemble imbalanced learning methods.
 """
 

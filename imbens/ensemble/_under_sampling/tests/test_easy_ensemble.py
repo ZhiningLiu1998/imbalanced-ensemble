@@ -9,13 +9,13 @@ import pytest
 import sklearn
 from sklearn.datasets import load_iris, make_hastie_10_2
 from sklearn.dummy import DummyClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_selection import SelectKBest
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.model_selection import GridSearchCV, ParameterGrid, train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn.utils._testing import (
     assert_allclose,
     assert_array_almost_equal,
@@ -32,6 +32,7 @@ sklearn_version = parse_version(sklearn.__version__)
 iris = load_iris()
 estimator_default = AdaBoostClassifier(n_estimators=10)
 
+
 @pytest.mark.parametrize(
     "estimator",
     [
@@ -47,7 +48,7 @@ estimator_default = AdaBoostClassifier(n_estimators=10)
 @pytest.mark.parametrize(
     "params",
     ParameterGrid(
-        {   
+        {
             "n_estimators": [5],
             "max_samples": [0.5, 1.0],
             "max_features": [1, 2, 4],
@@ -65,21 +66,17 @@ def test_easy_ensemble_classifier(estimator, params):
         random_state=0,
     )
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
-    
+
     if estimator is None or type(estimator) == AdaBoostClassifier:
         easyens = EasyEnsembleClassifier(
             estimator=estimator, random_state=0, **params
-        ).fit(
-            X_train, y_train
-        )
+        ).fit(X_train, y_train)
     else:
         with pytest.warns(UserWarning, match='You are trying to set'):
             easyens = EasyEnsembleClassifier(
                 estimator=estimator, random_state=0, **params
-            ).fit(
-                X_train, y_train
-            )
-            
+            ).fit(X_train, y_train)
+
     easyens.predict(X_test)
     easyens.predict_proba(X_test)
     easyens.score(X_test, y_test)
@@ -318,7 +315,7 @@ def test_warm_start(random_state=42):
             clf_ws.set_params(n_estimators=n_estimators)
         clf_ws.fit(X, y)
         assert len(clf_ws) == n_estimators
-    
+
     clf_no_ws = EasyEnsembleClassifier(
         n_estimators=10, random_state=random_state, warm_start=False
     )
@@ -343,7 +340,7 @@ def test_warm_start_equal_n_estimators():
     # Test that nothing happens when fitting without increasing n_estimators
     X, y = make_hastie_10_2(n_samples=20, random_state=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=43)
-    
+
     clf = EasyEnsembleClassifier(n_estimators=5, warm_start=True, random_state=83)
     clf.fit(X_train, y_train)
 
@@ -363,17 +360,13 @@ def test_warm_start_equivalence():
     X, y = make_hastie_10_2(n_samples=20, random_state=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=43)
 
-    clf_ws = EasyEnsembleClassifier(
-        n_estimators=5, warm_start=True, random_state=3141
-    )
+    clf_ws = EasyEnsembleClassifier(n_estimators=5, warm_start=True, random_state=3141)
     clf_ws.fit(X_train, y_train)
     clf_ws.set_params(n_estimators=10)
     clf_ws.fit(X_train, y_train)
     y1 = clf_ws.predict(X_test)
 
-    clf = EasyEnsembleClassifier(
-        n_estimators=10, warm_start=False, random_state=3141
-    )
+    clf = EasyEnsembleClassifier(n_estimators=10, warm_start=False, random_state=3141)
     clf.fit(X_train, y_train)
     y2 = clf.predict(X_test)
 

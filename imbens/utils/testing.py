@@ -9,9 +9,8 @@
 import inspect
 import pkgutil
 from importlib import import_module
-from pathlib import Path
-
 from operator import itemgetter
+from pathlib import Path
 
 from sklearn.base import BaseEstimator
 from sklearn.utils._testing import ignore_warnings
@@ -33,8 +32,8 @@ def all_estimators(
     type_filter : string, list of string, or None, default=None
         Which kind of estimators should be returned. If None, no
         filter is applied and all estimators are returned.  Possible
-        values are 'sampler' or 'ensemble' to get estimators only of 
-        these specific types, or a list of these to get the estimators 
+        values are 'sampler' or 'ensemble' to get estimators only of
+        these specific types, or a list of these to get the estimators
         that fit at least one of the types.
 
     Returns
@@ -44,8 +43,8 @@ def all_estimators(
         and ``class`` is the actual type of the class.
 
     """
-    from ..sampler.base import SamplerMixin
     from ..ensemble.base import ImbalancedEnsembleClassifierMixin
+    from ..sampler.base import SamplerMixin
 
     def is_abstract(c):
         if not (hasattr(c, "__abstractmethods__")):
@@ -96,7 +95,7 @@ def all_estimators(
         filters = {
             "sampler": SamplerMixin,
             "ensemble": ImbalancedEnsembleClassifierMixin,
-            }
+        }
         for name, mixin in filters.items():
             if name in type_filter:
                 type_filter.remove(name)

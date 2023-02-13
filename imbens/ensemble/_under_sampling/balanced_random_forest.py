@@ -9,57 +9,60 @@ on balanced boostrasp samples."""
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
-    from ...sampler._under_sampling import RandomUnderSampler
     from ...pipeline import make_pipeline
+    from ...sampler._under_sampling import RandomUnderSampler
+    from ...utils._docstring import (
+        FuncGlossarySubstitution,
+        FuncSubstitution,
+        Substitution,
+        _get_example_docstring,
+        _get_parameter_docstring,
+    )
+    from ...utils._validation import _deprecate_positional_args, check_sampling_strategy
     from ...utils._validation_data import check_eval_datasets
-    from ...utils._validation_param import (check_train_verbose, 
-                                            check_eval_metrics)
-    from ...utils._validation import (_deprecate_positional_args,
-                                    check_sampling_strategy)
-    from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                     FuncGlossarySubstitution,
-                                     _get_parameter_docstring, 
-                                     _get_example_docstring)
-else:           # pragma: no cover
+    from ...utils._validation_param import check_eval_metrics, check_train_verbose
+    from ..base import MAX_INT, ImbalancedEnsembleClassifierMixin
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from sampler._under_sampling import RandomUnderSampler
     from pipeline import make_pipeline
     from utils._validation_data import check_eval_datasets
-    from utils._validation_param import (check_train_verbose, 
-                                         check_eval_metrics)
-    from utils._validation import (_deprecate_positional_args,
-                                   check_sampling_strategy)
-    from utils._docstring import (Substitution, FuncSubstitution, 
-                                  FuncGlossarySubstitution,
-                                  _get_parameter_docstring, 
-                                  _get_example_docstring)
+    from utils._validation_param import check_train_verbose, check_eval_metrics
+    from utils._validation import _deprecate_positional_args, check_sampling_strategy
+    from utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        FuncGlossarySubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
 
 import numbers
-from warnings import warn
+from collections import Counter
 from copy import deepcopy
+from warnings import warn
 
 import numpy as np
 from numpy import float32 as DTYPE
 from numpy import float64 as DOUBLE
 from scipy.sparse import issparse
-from collections import Counter
-
 from sklearn.base import clone, is_classifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble._base import _set_random_states
-from sklearn.ensemble._forest import (_get_n_samples_bootstrap,
-                                      _parallel_build_trees,
-                                      _generate_unsampled_indices,)
-from sklearn.utils.parallel import delayed, Parallel
+from sklearn.ensemble._forest import (
+    _generate_unsampled_indices,
+    _get_n_samples_bootstrap,
+    _parallel_build_trees,
+)
 from sklearn.exceptions import DataConversionWarning
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.utils import check_array, check_random_state, _safe_indexing
+from sklearn.utils import _safe_indexing, check_random_state
 from sklearn.utils.multiclass import type_of_target
+from sklearn.utils.parallel import Parallel, delayed
 from sklearn.utils.validation import _check_sample_weight
-
 
 # Properties
 _method_name = 'BalancedRandomForestClassifier'
@@ -78,6 +81,7 @@ _properties = {
 }
 
 _super = RandomForestClassifier
+
 
 def _local_parallel_build_trees(
     sampler,
@@ -100,27 +104,28 @@ def _local_parallel_build_trees(
     if _get_n_samples_bootstrap is not None:
         n_samples_bootstrap = min(n_samples_bootstrap, X_resampled.shape[0])
     tree = _parallel_build_trees(
-                tree,
-                bootstrap,
-                X_resampled,
-                y_resampled,
-                sample_weight,
-                tree_idx,
-                n_trees,
-                verbose=verbose,
-                class_weight=class_weight,
-                n_samples_bootstrap=n_samples_bootstrap,
-            )
+        tree,
+        bootstrap,
+        X_resampled,
+        y_resampled,
+        sample_weight,
+        tree_idx,
+        n_trees,
+        verbose=verbose,
+        class_weight=class_weight,
+        n_samples_bootstrap=n_samples_bootstrap,
+    )
     return sampler, tree, y_resampled.shape[0]
 
 
 @Substitution(
     random_state=_get_parameter_docstring('random_state', **_properties),
     n_jobs=_get_parameter_docstring('n_jobs', **_properties),
-    example=_get_example_docstring(_method_name)
+    example=_get_example_docstring(_method_name),
 )
-class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
-                                     RandomForestClassifier):
+class BalancedRandomForestClassifier(
+    ImbalancedEnsembleClassifierMixin, RandomForestClassifier
+):
     """A balanced random forest classifier.
 
     A balanced random forest randomly under-samples each boostrap sample to
@@ -265,9 +270,9 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
     samplers_ : list of RandomUnderSampler
         The collection of fitted samplers.
-    
+
     estimators_n_training_samples_ : list of ints
-        The number of training samples for each fitted 
+        The number of training samples for each fitted
         base estimators.
 
     pipelines_ : list of Pipeline.
@@ -369,7 +374,7 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         self._sampling_type = _sampling_type
         self._sampler_class = _sampler_class
         self._properties = _properties
-        
+
         self.sampling_strategy = sampling_strategy
         self.replacement = replacement
 
@@ -417,13 +422,16 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def fit(self, X, y, 
-            *, 
-            sample_weight=None,
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict=False,
-            ):
+    def fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict = False,
+    ):
         """Build a forest of trees from the training set (X, y).
 
         Parameters
@@ -443,11 +451,11 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
             ignored while searching for a split in each node. In the case of
             classification, splits are also ignored if they would result in any
             single class carrying a negative weight in either child node.
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
@@ -459,23 +467,24 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         # Validate or convert input data
         if issparse(y):
             raise ValueError("sparse multilabel-indicator for y is not supported.")
-        
+
         check_x_y_args = {
             'accept_sparse': ['csc'],
             'multi_output': True,
             'dtype': DTYPE,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
-        
+
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
-        
+
         # Check evaluation metrics
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
         # Check verbose
         self.train_verbose_ = check_train_verbose(
-            train_verbose, self.n_estimators, **self._properties)
+            train_verbose, self.n_estimators, **self._properties
+        )
         self._init_training_log_format()
 
         if sample_weight is not None:
@@ -638,9 +647,8 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 
         # Print training infomation to console.
         self._training_log_to_console()
-        
-        return self
 
+        return self
 
     def _set_oob_score_and_attributes(self, X, y):
         """Compute and set the OOB score and attributes.
@@ -660,7 +668,6 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
         self.oob_score_ = accuracy_score(
             y, np.argmax(self.oob_decision_function_, axis=1)
         )
-
 
     def _compute_oob_predictions(self, X, y):
         """Compute and set the OOB score.
@@ -730,16 +737,13 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
             oob_pred[..., k] /= n_oob_pred[..., [k]]
 
         return oob_pred
-    
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {"multioutput": False}
-
 
     @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
-
 
     @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
     def predict_proba(self, X):
@@ -751,20 +755,32 @@ class BalancedRandomForestClassifier(ImbalancedEnsembleClassifierMixin,
 if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from copy import copy
+
     from sklearn.datasets import make_classification
-    from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-    
+    from sklearn.model_selection import train_test_split
+
     # X, y = make_classification(n_classes=2, class_sep=2, # 2-class
     #     weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,  # 3-class
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=2000,
+        random_state=10,
+    )
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, random_state=42
+    )
 
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
+    origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
     print('Original training dataset shape %s' % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -800,7 +816,8 @@ if __name__ == "__main__":  # pragma: no cover
         'eval_metrics': {
             'acc': (accuracy_score, {}),
             'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),},
+            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        },
         'train_verbose': True,
     }
 
@@ -810,16 +827,15 @@ if __name__ == "__main__":  # pragma: no cover
     brf = BalancedRandomForestClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['brf'] = brf
 
-
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
-        eval_datasets = None,
-        eval_metrics = None,
+        eval_datasets=None,
+        eval_metrics=None,
     ).fit(
-        ensembles = ensembles,
-        granularity = 5,
+        ensembles=ensembles,
+        granularity=5,
     )
     fig, axes = visualizer.performance_lineplot(
         on_ensembles=None,
@@ -835,5 +851,5 @@ if __name__ == "__main__":  # pragma: no cover
         on_datasets=None,
         sub_figsize=(4, 3.3),
     )
-    
+
 # %%

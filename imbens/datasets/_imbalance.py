@@ -8,6 +8,7 @@
 # License: MIT
 
 from collections import Counter
+
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 
@@ -102,8 +103,7 @@ def make_imbalance(
         )
 
     if verbose:
-        print(
-            f"The original target distribution in the dataset is: {target_stats}")
+        print(f"The original target distribution in the dataset is: {target_stats}")
     rus = RandomUnderSampler(
         sampling_strategy=sampling_strategy_,
         replacement=False,
@@ -116,8 +116,9 @@ def make_imbalance(
     return X_resampled, y_resampled
 
 
-def generate_imbalance_data(n_samples=200, weights=[.9, .1],
-                            test_size=.5, random_state=None, kwargs={}):
+def generate_imbalance_data(
+    n_samples=200, weights=[0.9, 0.1], test_size=0.5, random_state=None, kwargs={}
+):
     """Generate a random n-classes imbalanced classification problem.
 
     Returns the training and test data and labels.
@@ -128,16 +129,16 @@ def generate_imbalance_data(n_samples=200, weights=[.9, .1],
         The number of samples.
 
     weights : array-like of shape (n_classes,), default=[.9,.1]
-        The proportions of samples assigned to each class, i.e., 
+        The proportions of samples assigned to each class, i.e.,
         it determines the imbalance ratio between classes.
         If None, then classes are balanced.
         Note that the number of class will be automatically set
         to the length of weights.
 
     test_size : float or int, default=None
-        If float, should be between 0.0 and 1.0 and represent the 
-        proportion of the dataset to include in the test split. 
-        If int, represents the absolute number of test samples. 
+        If float, should be between 0.0 and 1.0 and represent the
+        proportion of the dataset to include in the test split.
+        If int, represents the absolute number of test samples.
 
     random_state : int, RandomState instance or None, default=None
         If int, random_state is the seed used by the random number generator;
@@ -147,7 +148,7 @@ def generate_imbalance_data(n_samples=200, weights=[.9, .1],
 
     kwargs : dict
         Dictionary of additional keyword arguments to pass to
-        ``sklearn.datasets.make_classification``. 
+        ``sklearn.datasets.make_classification``.
         Please see details `here <https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html#sklearn.datasets.make_classification>`_.
 
     Returns
@@ -170,8 +171,8 @@ def generate_imbalance_data(n_samples=200, weights=[.9, .1],
         n_samples=n_samples,
         weights=weights,
         random_state=random_state,
-        **kwargs
+        **kwargs,
     )
     return train_test_split(
-        X, y, test_size=test_size, stratify=y,
-        random_state=random_state)
+        X, y, test_size=test_size, stratify=y, random_state=random_state
+    )

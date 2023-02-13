@@ -8,46 +8,45 @@
 LOCAL_DEBUG = False
 
 if not LOCAL_DEBUG:
-    from ..base import ImbalancedEnsembleClassifierMixin, MAX_INT
-    from .._bagging import _parallel_build_estimators
+    from ...utils._docstring import (
+        FuncGlossarySubstitution,
+        FuncSubstitution,
+        Substitution,
+        _get_example_docstring,
+        _get_parameter_docstring,
+    )
+    from ...utils._validation import _deprecate_positional_args, check_target_type
     from ...utils._validation_data import check_eval_datasets
-    from ...utils._validation_param import (check_train_verbose, 
-                                            check_eval_metrics)
-    from ...utils._validation import (_deprecate_positional_args, 
-                                      check_target_type)
-    from ...utils._docstring import (Substitution, FuncSubstitution, 
-                                     FuncGlossarySubstitution,
-                                     _get_parameter_docstring, 
-                                     _get_example_docstring)
-else:           # pragma: no cover
+    from ...utils._validation_param import check_eval_metrics, check_train_verbose
+    from .._bagging import _parallel_build_estimators
+    from ..base import MAX_INT, ImbalancedEnsembleClassifierMixin
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from ensemble._bagging import _parallel_build_estimators
     from utils._validation_data import check_eval_datasets
-    from utils._validation_param import (check_train_verbose, 
-                                         check_eval_metrics)
-    from utils._validation import (_deprecate_positional_args, 
-                                   check_target_type)
-    from utils._docstring import (Substitution, FuncSubstitution, 
-                                  FuncGlossarySubstitution,
-                                  _get_parameter_docstring, 
-                                  _get_example_docstring)
+    from utils._validation_param import check_train_verbose, check_eval_metrics
+    from utils._validation import _deprecate_positional_args, check_target_type
+    from utils._docstring import (
+        Substitution,
+        FuncSubstitution,
+        FuncGlossarySubstitution,
+        _get_parameter_docstring,
+        _get_example_docstring,
+    )
 
 import itertools
 import numbers
-from warnings import warn
 from collections import Counter
+from warnings import warn
 
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble._base import _partition_estimators
 from sklearn.utils import check_random_state
-from sklearn.utils.parallel import delayed, Parallel
+from sklearn.utils.parallel import Parallel, delayed
 from sklearn.utils.validation import _check_sample_weight
-
-
-
-
 
 # Properties
 _method_name = 'CompatibleBaggingClassifier'
@@ -64,10 +63,9 @@ _super = BaggingClassifier
     random_state=_get_parameter_docstring('random_state', **_properties),
     n_jobs=_get_parameter_docstring('n_jobs', **_properties),
     warm_start=_get_parameter_docstring('warm_start', **_properties),
-    example=_get_example_docstring(_method_name)
+    example=_get_example_docstring(_method_name),
 )
-class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
-                                  BaggingClassifier):
+class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClassifier):
     """Bagging classifier re-implemented in imbalanced-ensemble style.
 
     A Bagging classifier is an ensemble meta-estimator that fits base
@@ -146,12 +144,12 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
     estimators_samples_ : list of arrays
         The subset of drawn samples (i.e., the in-bag samples) for each base
         estimator. Each subset is defined by an array of the indices selected.
-    
+
     estimators_features_ : list of arrays
         The subset of drawn features for each base estimator.
 
     estimators_n_training_samples_ : list of ints
-        The number of training samples for each fitted 
+        The number of training samples for each fitted
         base estimators.
 
     classes_ : ndarray of shape (n_classes,)
@@ -197,19 +195,21 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
     """
 
     @_deprecate_positional_args
-    def __init__(self,
-                estimator=None,
-                n_estimators:int=50,
-                *,
-                max_samples=1.0,
-                max_features=1.0,
-                bootstrap=True,
-                bootstrap_features=False,
-                oob_score=False,
-                warm_start=False,
-                n_jobs=None,
-                random_state=None,
-                verbose=0,):
+    def __init__(
+        self,
+        estimator=None,
+        n_estimators: int = 50,
+        *,
+        max_samples=1.0,
+        max_features=1.0,
+        bootstrap=True,
+        bootstrap_features=False,
+        oob_score=False,
+        warm_start=False,
+        n_jobs=None,
+        random_state=None,
+        verbose=0,
+    ):
 
         super().__init__(
             estimator=estimator,
@@ -228,21 +228,23 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         self.__name__ = _method_name
         self._properties = _properties
 
-
     @_deprecate_positional_args
     @FuncSubstitution(
         eval_datasets=_get_parameter_docstring('eval_datasets'),
         eval_metrics=_get_parameter_docstring('eval_metrics'),
         train_verbose=_get_parameter_docstring('train_verbose', **_properties),
     )
-    def fit(self, X, y, 
-            *,
-            sample_weight=None, 
-            max_samples=None,
-            eval_datasets:dict=None,
-            eval_metrics:dict=None,
-            train_verbose:bool or int or dict=False,
-            ):
+    def fit(
+        self,
+        X,
+        y,
+        *,
+        sample_weight=None,
+        max_samples=None,
+        eval_datasets: dict = None,
+        eval_metrics: dict = None,
+        train_verbose: bool or int or dict = False,
+    ):
         """Build a Bagging ensemble of estimators from the training set (X, y).
 
         Parameters
@@ -261,11 +263,11 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
         max_samples : int or float, default=None
             Argument to use instead of self.max_samples.
-        
+
         %(eval_datasets)s
-        
+
         %(eval_metrics)s
-        
+
         %(train_verbose)s
 
         Returns
@@ -285,16 +287,17 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
             'multi_output': True,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
-        
+
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
-        
+
         # Check evaluation metrics
         self.eval_metrics_ = check_eval_metrics(eval_metrics)
 
         # Check verbose
         self.train_verbose_ = check_train_verbose(
-            train_verbose, self.n_estimators, **self._properties)
+            train_verbose, self.n_estimators, **self._properties
+        )
         self._init_training_log_format()
 
         if sample_weight is not None:
@@ -338,12 +341,14 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
 
         # Other checks
         if not self.bootstrap and self.oob_score:
-            raise ValueError("Out of bag estimation only available"
-                             " if bootstrap=True")
+            raise ValueError(
+                "Out of bag estimation only available" " if bootstrap=True"
+            )
 
         if self.warm_start and self.oob_score:
-            raise ValueError("Out of bag estimate only available"
-                             " if warm_start=False")
+            raise ValueError(
+                "Out of bag estimate only available" " if warm_start=False"
+            )
 
         if hasattr(self, "oob_score_") and self.warm_start:
             del self.oob_score_
@@ -357,18 +362,23 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         n_more_estimators = self.n_estimators - len(self.estimators_)
 
         if n_more_estimators < 0:
-            raise ValueError('n_estimators=%d must be larger or equal to '
-                             'len(estimators_)=%d when warm_start==True'
-                             % (self.n_estimators, len(self.estimators_)))
+            raise ValueError(
+                'n_estimators=%d must be larger or equal to '
+                'len(estimators_)=%d when warm_start==True'
+                % (self.n_estimators, len(self.estimators_))
+            )
 
         elif n_more_estimators == 0:
-            warn("Warm-start fitting without increasing n_estimators does not "
-                 "fit new trees.")
+            warn(
+                "Warm-start fitting without increasing n_estimators does not "
+                "fit new trees."
+            )
             return self
 
         # Parallel loop
-        n_jobs, n_estimators, starts = _partition_estimators(n_more_estimators,
-                                                             self.n_jobs)
+        n_jobs, n_estimators, starts = _partition_estimators(
+            n_more_estimators, self.n_jobs
+        )
         total_n_estimators = sum(n_estimators)
 
         # Advance random state to state after training
@@ -379,45 +389,48 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin,
         seeds = random_state.randint(MAX_INT, size=n_more_estimators)
         self._seeds = seeds
 
-        all_results = Parallel(n_jobs=n_jobs, verbose=self.verbose,
-                               **self._parallel_args())(
+        all_results = Parallel(
+            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
+        )(
             delayed(_parallel_build_estimators)(
                 n_estimators[i],
                 self,
                 X,
                 y,
                 sample_weight,
-                seeds[starts[i]:starts[i + 1]],
+                seeds[starts[i] : starts[i + 1]],
                 total_n_estimators,
-                verbose=self.verbose)
-            for i in range(n_jobs))
+                verbose=self.verbose,
+            )
+            for i in range(n_jobs)
+        )
 
         # Reduce
-        self.estimators_ += list(itertools.chain.from_iterable(
-            t[0] for t in all_results))
-        self.estimators_features_ += list(itertools.chain.from_iterable(
-            t[1] for t in all_results))
-        self.estimators_n_training_samples_ += list(itertools.chain.from_iterable(
-            t[2] for t in all_results))
+        self.estimators_ += list(
+            itertools.chain.from_iterable(t[0] for t in all_results)
+        )
+        self.estimators_features_ += list(
+            itertools.chain.from_iterable(t[1] for t in all_results)
+        )
+        self.estimators_n_training_samples_ += list(
+            itertools.chain.from_iterable(t[2] for t in all_results)
+        )
 
         if self.oob_score:
             self._set_oob_score(X, y)
-        
+
         # Print training infomation to console.
         self._training_log_to_console()
 
         return self
 
-
     @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-
     @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
-
 
     def set_params(self, **params):
         return super().set_params(**params)
@@ -429,20 +442,32 @@ if __name__ == "__main__":  # pragma: no cover
 
     from collections import Counter
     from copy import copy
+
     from sklearn.datasets import make_classification
-    from sklearn.model_selection import train_test_split
     from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-    
+    from sklearn.model_selection import train_test_split
+
     # X, y = make_classification(n_classes=2, class_sep=2, # 2-class
     #     weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    X, y = make_classification(n_classes=3, class_sep=2, # 3-class
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=2000, random_state=10)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,  # 3-class
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=2000,
+        random_state=10,
+    )
 
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, random_state=42
+    )
 
-    origin_distr = dict(Counter(y_train)) # {2: 600, 1: 300, 0: 100}
+    origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
     print('Original training dataset shape %s' % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -468,7 +493,8 @@ if __name__ == "__main__":  # pragma: no cover
         'eval_metrics': {
             'acc': (accuracy_score, {}),
             'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average':'weighted'}),},
+            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        },
         'train_verbose': True,
     }
 
@@ -478,16 +504,15 @@ if __name__ == "__main__":  # pragma: no cover
     bagging_comp = CompatibleBaggingClassifier(**init_kwargs).fit(**fit_kwargs)
     ensembles['bagging_comp'] = bagging_comp
 
-
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
 
     visualizer = ImbalancedEnsembleVisualizer(
-        eval_datasets = None,
-        eval_metrics = None,
+        eval_datasets=None,
+        eval_metrics=None,
     ).fit(
-        ensembles = ensembles,
-        granularity = 5,
+        ensembles=ensembles,
+        granularity=5,
     )
     fig, axes = visualizer.performance_lineplot(
         on_ensembles=None,
