@@ -101,10 +101,9 @@ def plot_2Dprojection_and_cardinality(X, y, figsize=(10, 4), vis_params=None,
 
     return fig, (ax1, ax2)
 
-def plot_online_figure(url:str=None):
+def plot_online_figure(url:str=None):   # pragma: no cover
     '''Plot an online figure'''
     figure = mpimg.imread(url)
     plt.axis('off')
     plt.imshow(figure)
     plt.tight_layout()
-    plt.show()
