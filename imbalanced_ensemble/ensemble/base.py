@@ -278,16 +278,8 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     f" the method family they belong to."
                 )
 
-            try:
-                training_type = self._properties['training_type']
-            except Exception as e:
-                e_args = list(e.args)
-                e_args[0] += \
-                    f" The key 'training_type' does not exist in" + \
-                    f" the `_properties` attribute, please check" + \
-                    f" your usage."
-                e.args = tuple(e_args)
-                raise e
+            # already validated in check_trian_verbose
+            training_type = self._properties['training_type']
 
             if training_type not in TRAINING_TYPES:
                 raise ValueError(f"'training_type' should be in {TRAINING_TYPES}")
@@ -657,7 +649,7 @@ class BaseImbalancedEnsemble(ImbalancedEnsembleClassifierMixin,
 
 
     @property
-    def feature_importances_(self):
+    def feature_importances_(self): # pragma: no cover
         """The impurity-based feature importances.
         The higher, the more important the feature.
         The importance of a feature is computed as the (normalized)

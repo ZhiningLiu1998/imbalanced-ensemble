@@ -142,7 +142,6 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
             else:
                 X_new = centroids
         
-        print (target_class, X_new.shape)
         y_new = np.array([target_class] * centroids.shape[0], dtype=y.dtype)
 
         return X_new, y_new

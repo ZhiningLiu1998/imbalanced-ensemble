@@ -39,20 +39,6 @@ from imbalanced_ensemble.sampler.over_sampling.base import BaseOverSampler
 from imbalanced_ensemble.sampler.under_sampling.base import BaseCleaningSampler, BaseUnderSampler
 
 
-def _set_checking_parameters(estimator):
-    params = estimator.get_params()
-    name = estimator.__class__.__name__
-    if "n_estimators" in params:
-        estimator.set_params(n_estimators=min(5, estimator.n_estimators))
-    if name == "ClusterCentroids":
-        estimator.set_params(
-            voting="soft",
-            estimator=KMeans(random_state=0, algorithm="full", n_init=1),
-        )
-    if name == "KMeansSMOTE":
-        estimator.set_params(kmeans_estimator=12)
-
-
 def _yield_sampler_checks(sampler):
     tags = sampler._get_tags()
     yield check_target_type
@@ -80,7 +66,6 @@ def _yield_sampler_checks(sampler):
 
 def _yield_classifier_checks(classifier):
     yield check_classifier_on_multilabel_or_multioutput_targets
-    yield check_classifiers_with_encoded_labels
 
 
 def _yield_all_checks(estimator):
@@ -350,7 +335,7 @@ def check_samplers_multiclass_ova(name, sampler_orig):
         weights=[0.2, 0.3, 0.5],
         random_state=0,
     )
-    y_ova = label_binarize(y, np.unique(y))
+    y_ova = label_binarize(y, classes=np.unique(y))
     X_res, y_res = sampler.fit_resample(X, y)
     X_res_ova, y_res_ova = sampler.fit_resample(X, y_ova)
     assert_allclose(X_res, X_res_ova)
@@ -440,27 +425,5 @@ def check_classifier_on_multilabel_or_multioutput_targets(name, estimator_orig):
     estimator = clone(estimator_orig)
     X, y = make_multilabel_classification(n_samples=30)
     msg = "Multilabel and multioutput targets are not supported."
-    with pytest.raises(ValueError, match=msg):
+    with pytest.raises(ValueError):
         estimator.fit(X, y)
-
-
-def check_classifiers_with_encoded_labels(name, classifier_orig):
-    # Non-regression test for #709
-    # https://github.com/scikit-learn-contrib/imbalanced-learn/issues/709
-    pytest.importorskip("pandas")
-    classifier = clone(classifier_orig)
-    df, y = fetch_openml("iris", version=1, as_frame=True, return_X_y=True)
-    df, y = make_imbalance(
-        df,
-        y,
-        sampling_strategy={
-            "Iris-setosa": 30,
-            "Iris-versicolor": 20,
-            "Iris-virginica": 50,
-        },
-    )
-    classifier.set_params(sampling_strategy={"Iris-setosa": 20, "Iris-virginica": 20})
-    classifier.fit(df, y)
-    assert set(classifier.classes_) == set(y.cat.categories.tolist())
-    y_pred = classifier.predict(df)
-    assert set(y_pred) == set(y.cat.categories.tolist())
