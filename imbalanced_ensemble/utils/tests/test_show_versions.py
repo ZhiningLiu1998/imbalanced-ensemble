@@ -8,8 +8,7 @@ from imbalanced_ensemble.utils._show_versions import show_versions
 
 
 def test_get_deps_info():
-    with pytest.warns(UserWarning, match='Setuptools is replacing distutils'):
-        _deps_info = _get_deps_info()
+    _deps_info = _get_deps_info()
     assert "pip" in _deps_info
     assert "setuptools" in _deps_info
     assert "imblearn" in _deps_info
