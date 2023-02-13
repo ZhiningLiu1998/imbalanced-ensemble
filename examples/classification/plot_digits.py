@@ -8,8 +8,8 @@ scikit-learn base classifier and recognize images of hand-written digits, from 0
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.visualizer.ImbalancedEnsembleVisualizer`
 """
 
 
@@ -21,14 +21,14 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import sklearn
 from sklearn.model_selection import train_test_split
-from imbalanced_ensemble.datasets import make_imbalance
-from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+from imbens.datasets import make_imbalance
+from imbens.utils._plot import plot_2Dprojection_and_cardinality
 import matplotlib.pyplot as plt
 
 RANDOM_STATE = 42

@@ -3,11 +3,11 @@
 Pipeline
 ================================
 
-.. automodule:: imbalanced_ensemble.pipeline
+.. automodule:: imbens.pipeline
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.pipeline
+.. currentmodule:: imbens.pipeline
 
 .. autosummary::
    :toctree: _autosummary

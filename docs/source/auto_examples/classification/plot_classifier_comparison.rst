@@ -22,7 +22,7 @@
 Classifier comparison
 =========================================================
 
-A comparison of a several classifiers in :mod:`imbalanced_ensemble.ensemble` 
+A comparison of a several classifiers in :mod:`imbens.ensemble` 
 on synthetic datasets. The point of this example is to illustrate the nature 
 of decision boundaries of different imbalanced ensmeble classifiers. 
 This should be taken with a grain of salt, as the intuition conveyed by these 
@@ -34,22 +34,22 @@ The lower right shows the average precision score (AUPRC) on the test set.
 This example uses:
     
     - Reweighting-based method
-        - :class:`imbalanced_ensemble.ensemble.AdaCostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.AdaUBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.AsymBoostClassifier`
+        - :class:`imbens.ensemble.AdaCostClassifier`
+        - :class:`imbens.ensemble.AdaUBoostClassifier`
+        - :class:`imbens.ensemble.AsymBoostClassifier`
     - Under-sampling-based method
-        - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-        - :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`
-        - :class:`imbalanced_ensemble.ensemble.BalancedRandomForestClassifier`
-        - :class:`imbalanced_ensemble.ensemble.EasyEnsembleClassifier`
-        - :class:`imbalanced_ensemble.ensemble.RUSBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.UnderBaggingClassifier`
+        - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+        - :class:`imbens.ensemble.BalanceCascadeClassifier`
+        - :class:`imbens.ensemble.BalancedRandomForestClassifier`
+        - :class:`imbens.ensemble.EasyEnsembleClassifier`
+        - :class:`imbens.ensemble.RUSBoostClassifier`
+        - :class:`imbens.ensemble.UnderBaggingClassifier`
     - Over-sampling-based method
-        - :class:`imbalanced_ensemble.ensemble.OverBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.KmeansSMOTEBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.OverBaggingClassifier`
-        - :class:`imbalanced_ensemble.ensemble.SMOTEBaggingClassifier`
+        - :class:`imbens.ensemble.OverBoostClassifier`
+        - :class:`imbens.ensemble.SMOTEBoostClassifier`
+        - :class:`imbens.ensemble.KmeansSMOTEBoostClassifier`
+        - :class:`imbens.ensemble.OverBaggingClassifier`
+        - :class:`imbens.ensemble.SMOTEBaggingClassifier`
 
 .. GENERATED FROM PYTHON SOURCE LINES 35-39
 
@@ -72,8 +72,8 @@ This example uses:
 
     print(__doc__)
 
-    # Import imbalanced_ensemble
-    import imbalanced_ensemble as imbens
+    # Import imbalanced-ensemble
+    import imbens
 
     # Import utilities
     import numpy as np
@@ -81,7 +81,7 @@ This example uses:
     from sklearn.model_selection import train_test_split
     from sklearn.preprocessing import StandardScaler
     from sklearn.datasets import make_moons, make_circles, make_classification
-    from imbalanced_ensemble.datasets import make_imbalance
+    from imbens.datasets import make_imbalance
 
     # Import plot utilities
     import matplotlib.pyplot as plt
@@ -140,7 +140,7 @@ Preparation
 .. code-block:: default
 
 
-    from imbalanced_ensemble.utils.testing import all_estimators
+    from imbens.utils.testing import all_estimators
 
     init_kwargs = {'n_estimators': 5, 'random_state': RANDOM_STATE}
     all_ensembles_clf = {name: ensemble(**init_kwargs) for (name, ensemble) in all_estimators('ensemble')}
@@ -160,22 +160,22 @@ Preparation
 
     Method                         | Class 
     ========================================================================================================================
-    AdaCostClassifier              | <class 'imbalanced_ensemble.ensemble.reweighting.adacost.AdaCostClassifier'>
-    AdaUBoostClassifier            | <class 'imbalanced_ensemble.ensemble.reweighting.adauboost.AdaUBoostClassifier'>
-    AsymBoostClassifier            | <class 'imbalanced_ensemble.ensemble.reweighting.asymmetric_boost.AsymBoostClassifier'>
-    BalanceCascadeClassifier       | <class 'imbalanced_ensemble.ensemble.under_sampling.balance_cascade.BalanceCascadeClassifier'>
-    BalancedRandomForestClassifier | <class 'imbalanced_ensemble.ensemble.under_sampling.balanced_random_forest.BalancedRandomForestClassifier'>
-    CompatibleAdaBoostClassifier   | <class 'imbalanced_ensemble.ensemble.compatible.adaboost_compatible.CompatibleAdaBoostClassifier'>
-    CompatibleBaggingClassifier    | <class 'imbalanced_ensemble.ensemble.compatible.bagging_compatible.CompatibleBaggingClassifier'>
-    EasyEnsembleClassifier         | <class 'imbalanced_ensemble.ensemble.under_sampling.easy_ensemble.EasyEnsembleClassifier'>
-    KmeansSMOTEBoostClassifier     | <class 'imbalanced_ensemble.ensemble.over_sampling.kmeans_smote_boost.KmeansSMOTEBoostClassifier'>
-    OverBaggingClassifier          | <class 'imbalanced_ensemble.ensemble.over_sampling.over_bagging.OverBaggingClassifier'>
-    OverBoostClassifier            | <class 'imbalanced_ensemble.ensemble.over_sampling.over_boost.OverBoostClassifier'>
-    RUSBoostClassifier             | <class 'imbalanced_ensemble.ensemble.under_sampling.rus_boost.RUSBoostClassifier'>
-    SMOTEBaggingClassifier         | <class 'imbalanced_ensemble.ensemble.over_sampling.smote_bagging.SMOTEBaggingClassifier'>
-    SMOTEBoostClassifier           | <class 'imbalanced_ensemble.ensemble.over_sampling.smote_boost.SMOTEBoostClassifier'>
-    SelfPacedEnsembleClassifier    | <class 'imbalanced_ensemble.ensemble.under_sampling.self_paced_ensemble.SelfPacedEnsembleClassifier'>
-    UnderBaggingClassifier         | <class 'imbalanced_ensemble.ensemble.under_sampling.under_bagging.UnderBaggingClassifier'>
+    AdaCostClassifier              | <class 'imbens.ensemble._reweighting.adacost.AdaCostClassifier'>
+    AdaUBoostClassifier            | <class 'imbens.ensemble._reweighting.adauboost.AdaUBoostClassifier'>
+    AsymBoostClassifier            | <class 'imbens.ensemble._reweighting.asymmetric_boost.AsymBoostClassifier'>
+    BalanceCascadeClassifier       | <class 'imbens.ensemble._under_sampling.balance_cascade.BalanceCascadeClassifier'>
+    BalancedRandomForestClassifier | <class 'imbens.ensemble._under_sampling.balanced_random_forest.BalancedRandomForestClassifier'>
+    CompatibleAdaBoostClassifier   | <class 'imbens.ensemble._compatible.adaboost_compatible.CompatibleAdaBoostClassifier'>
+    CompatibleBaggingClassifier    | <class 'imbens.ensemble._compatible.bagging_compatible.CompatibleBaggingClassifier'>
+    EasyEnsembleClassifier         | <class 'imbens.ensemble._under_sampling.easy_ensemble.EasyEnsembleClassifier'>
+    KmeansSMOTEBoostClassifier     | <class 'imbens.ensemble._over_sampling.kmeans_smote_boost.KmeansSMOTEBoostClassifier'>
+    OverBaggingClassifier          | <class 'imbens.ensemble._over_sampling.over_bagging.OverBaggingClassifier'>
+    OverBoostClassifier            | <class 'imbens.ensemble._over_sampling.over_boost.OverBoostClassifier'>
+    RUSBoostClassifier             | <class 'imbens.ensemble._under_sampling.rus_boost.RUSBoostClassifier'>
+    SMOTEBaggingClassifier         | <class 'imbens.ensemble._over_sampling.smote_bagging.SMOTEBaggingClassifier'>
+    SMOTEBoostClassifier           | <class 'imbens.ensemble._over_sampling.smote_boost.SMOTEBoostClassifier'>
+    SelfPacedEnsembleClassifier    | <class 'imbens.ensemble._under_sampling.self_paced_ensemble.SelfPacedEnsembleClassifier'>
+    UnderBaggingClassifier         | <class 'imbens.ensemble._under_sampling.under_bagging.UnderBaggingClassifier'>
 
 
 
@@ -282,7 +282,7 @@ Compare all under-sampling-based ensemble algorithms
 .. code-block:: default
 
 
-    from imbalanced_ensemble.ensemble.under_sampling.__init__ import __all__ as names
+    from imbens.ensemble._under_sampling.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
     plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
@@ -310,7 +310,7 @@ Compare all over-sampling-based ensemble algorithms
 .. code-block:: default
 
 
-    from imbalanced_ensemble.ensemble.over_sampling.__init__ import __all__ as names
+    from imbens.ensemble._over_sampling.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
     plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
@@ -338,7 +338,7 @@ Compare all reweighting-based ensemble algorithms
 .. code-block:: default
 
 
-    from imbalanced_ensemble.ensemble.reweighting.__init__ import __all__ as names
+    from imbens.ensemble._reweighting.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
     plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
@@ -357,7 +357,7 @@ Compare all reweighting-based ensemble algorithms
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.825 seconds)
+   **Total running time of the script:** ( 0 minutes  4.204 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_classifier_comparison.py:

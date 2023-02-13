@@ -23,8 +23,8 @@ Evaluate classification by compiling a report
 =============================================
 
 Specific metrics have been developed to evaluate classifier which has been
-trained using imbalanced data. "mod:`imbalanced_ensemble` provides a classification report
-(:func:`imbalanced_ensemble.metrics.classification_report_imbalanced`) 
+trained using imbalanced data. "mod:`imbens` provides a classification report
+(:func:`imbens.metrics.classification_report_imbalanced`) 
 similar to :mod:`sklearn`, with additional metrics specific to imbalanced
 learning problem.
 
@@ -64,9 +64,9 @@ learning problem.
     from sklearn.svm import LinearSVC
     from sklearn.model_selection import train_test_split
 
-    from imbalanced_ensemble.sampler import over_sampling as os
-    from imbalanced_ensemble import pipeline as pl
-    from imbalanced_ensemble.metrics import classification_report_imbalanced
+    from imbens.sampler import SMOTE
+    from imbens import pipeline as pl
+    from imbens.metrics import classification_report_imbalanced
 
     print(__doc__)
 
@@ -89,7 +89,7 @@ learning problem.
     )
 
     pipeline = pl.make_pipeline(
-        os.SMOTE(random_state=RANDOM_STATE), LinearSVC(random_state=RANDOM_STATE)
+        SMOTE(random_state=RANDOM_STATE), LinearSVC(random_state=RANDOM_STATE)
     )
 
     # Split the data
@@ -107,7 +107,7 @@ learning problem.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.198 seconds)
+   **Total running time of the script:** ( 0 minutes  0.169 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_classification_report.py:

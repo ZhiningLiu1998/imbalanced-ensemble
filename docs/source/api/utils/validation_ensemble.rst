@@ -3,11 +3,11 @@
 Validation checks used in ensembles
 ===================================
 
-.. automodule:: imbalanced_ensemble.utils
+.. automodule:: imbens.utils
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.utils
+.. currentmodule:: imbens.utils
 
 .. autosummary::
    :toctree: _autosummary

@@ -3,11 +3,11 @@
 Datasets
 ================================
 
-.. automodule:: imbalanced_ensemble.datasets
+.. automodule:: imbens.datasets
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.datasets
+.. currentmodule:: imbens.datasets
 
 .. autosummary::
    :toctree: _autosummary

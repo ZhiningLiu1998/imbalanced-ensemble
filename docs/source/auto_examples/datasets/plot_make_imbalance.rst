@@ -22,9 +22,9 @@
 Make a dataset class-imbalanced
 ===============================
 
-An illustration of the :func:`~imbalanced_ensemble.datasets.make_imbalance` function to
+An illustration of the :func:`~imbens.datasets.make_imbalance` function to
 create an imbalanced dataset from a balanced dataset. We show the ability of
-:func:`~imbalanced_ensemble.datasets.make_imbalance` of dealing with Pandas DataFrame.
+:func:`~imbens.datasets.make_imbalance` of dealing with Pandas DataFrame.
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-18
 
@@ -107,7 +107,7 @@ original dataset.
 Make a dataset imbalanced
 -------------------------
 
-Now, we will show the helpers :func:`~imbalanced_ensemble.datasets.make_imbalance`
+Now, we will show the helpers :func:`~imbens.datasets.make_imbalance`
 that is useful to random select a subset of samples. It will impact the
 class distribution as specified by the parameters.
 
@@ -134,7 +134,7 @@ class distribution as specified by the parameters.
 
 .. code-block:: default
 
-    from imbalanced_ensemble.datasets import make_imbalance
+    from imbens.datasets import make_imbalance
 
     fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
 
@@ -184,7 +184,7 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.387 seconds)
+   **Total running time of the script:** ( 0 minutes  0.315 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:

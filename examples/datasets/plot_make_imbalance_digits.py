@@ -3,7 +3,7 @@
 Make digits dataset class-imbalanced
 =========================================================
 
-An illustration of the :func:`~imbalanced_ensemble.datasets.make_imbalance` 
+An illustration of the :func:`~imbens.datasets.make_imbalance` 
 function to create an imbalanced version of the digits dataset.
 """
 
@@ -13,13 +13,13 @@ function to create an imbalanced version of the digits dataset.
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import sklearn
-from imbalanced_ensemble.datasets import make_imbalance
-from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality, plot_scatter
+from imbens.datasets import make_imbalance
+from imbens.utils._plot import plot_2Dprojection_and_cardinality, plot_scatter
 import matplotlib.pyplot as plt
 import seaborn as sns
 

@@ -4,17 +4,32 @@ Release History
 Version 0.1.8 (2023.02)
 =========================
 
-Maintenance:
+Enhancement:
 
-- Add unit test for all ensemble classifiers and samplers with ``pytest``.
+- Add unit test for all ensemble classifiers and samplers.
 - Following sklearn version >1.2, for all ensemble classifiers, 
 
   - the parameter ``base_estimator`` is renamed to ``estimator``.
   - the attribute ``base_estimator_`` is renamed to ``estimator_``.
 
+Maintenance:
+
+- Set default ``k_neighbors=1`` for SMOTEBagging to prevent error in few-shot cases.
+- Set default ``cluster_balance_threshold=0.1`` for KmeansSMOTEBoost to prevent error in few-shot cases.
+- Add ``decision_function()`` for supported ensembles.
+- The parameter ``base_sampler`` is renamed to ``sampler``.
+- The attribute ``base_sampler_`` is renamed to ``sampler_``.
+- Bump supported Python version to ``3.8, 3.9, 3.10, 3.11``.
+
 Bug Fixes:
 
 - Add missing comma in the INSTALL_REQUIRES list which breaks ``conda env export``.
+- Fix ``BalanceCascade`` and ``SelfPacedEnsemble``'s ``_make_sampler()`` behaviour.
+- Fix ``BalanceCascade`` and ``SelfPacedEnsemble`` parameter check.
+- Fix cost_matrix type check for cost-sensitive methods
+- Fix ``SVMSMOTE`` with ``sample_weight``
+- Fix ``CompatibleAdaBoost`` with ``train_verbose``
+- Fix samplers in/output type consistency
 
 
 Version 0.1.7 (2022.01)
@@ -24,17 +39,17 @@ Enhancement:
 
 - Add ``feature_importances_`` attribute for supported methods:
 
-  - :class:`imbalanced_ensemble.ensemble.AdaCostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.AdaUBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.AsymBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`
-  - :class:`imbalanced_ensemble.ensemble.BalancedRandomForestClassifier`
-  - :class:`imbalanced_ensemble.ensemble.CompatibleAdaBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.KmeansSMOTEBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.OverBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.RUSBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+  - :class:`imbens.ensemble.AdaCostClassifier`
+  - :class:`imbens.ensemble.AdaUBoostClassifier`
+  - :class:`imbens.ensemble.AsymBoostClassifier`
+  - :class:`imbens.ensemble.BalanceCascadeClassifier`
+  - :class:`imbens.ensemble.BalancedRandomForestClassifier`
+  - :class:`imbens.ensemble.CompatibleAdaBoostClassifier`
+  - :class:`imbens.ensemble.KmeansSMOTEBoostClassifier`
+  - :class:`imbens.ensemble.OverBoostClassifier`
+  - :class:`imbens.ensemble.RUSBoostClassifier`
+  - :class:`imbens.ensemble.SMOTEBoostClassifier`
+  - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 
 Documentation:
 
@@ -47,7 +62,7 @@ Version 0.1.6 (2021.11)
 Enhancement: 
 
 - All boosting-based methods now support ``early_termination``, which can be used to enable/disable strict early termination for Adaboost training.
-- Add utility functions :func:`imbalanced_ensemble.datasets.generate_imbalance_data` and :func:`imbalanced_ensemble.utils.evaluate_print` to ease the test and evaluation.
+- Add utility functions :func:`imbens.datasets.generate_imbalance_data` and :func:`imbens.utils.evaluate_print` to ease the test and evaluation.
 
 Bug Fixes:
 
@@ -60,11 +75,11 @@ Version 0.1.5 (2021.08)
 
 Enhancement: 
 
-- :class:`imbalanced_ensemble.sampler.under_sampling.RandomUnderSampler` now support ``sample_proba`` (the probability of each instance being sampled, not ``sample_weight``).
+- :class:`imbens.sampler.RandomUnderSampler` now support ``sample_proba`` (the probability of each instance being sampled, not ``sample_weight``).
 
 Bug Fixes:
 
-- Fixed ValueError when using :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer` with ``seaborn`` v0.11.2.
+- Fixed ValueError when using :class:`imbens.visualizer.ImbalancedEnsembleVisualizer` with ``seaborn`` v0.11.2.
 - Fixed all ensemble algorithms (error or performance issue) when the classification targets do not begin with 0.
 
 
@@ -73,9 +88,9 @@ Version 0.1.4 (2021.06)
 
 Enhancement: 
 
-- :func:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.performance_lineplot`: add option ``on_metrics`` to select evaluation metrics to include in the plot. 
-- :func:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.confusion_matrix_heatmap`: add option ``false_pred_only`` to control whether to plot only the false predictions in the confusion matrix.
-- Add some utilities for data visualization in :mod:`imbalanced_ensemble.utils._plot`.
+- :func:`imbens.visualizer.ImbalancedEnsembleVisualizer.performance_lineplot`: add option ``on_metrics`` to select evaluation metrics to include in the plot. 
+- :func:`imbens.visualizer.ImbalancedEnsembleVisualizer.confusion_matrix_heatmap`: add option ``false_pred_only`` to control whether to plot only the false predictions in the confusion matrix.
+- Add some utilities for data visualization in :mod:`imbens.utils._plot`.
 
 
 Documentation:
@@ -85,16 +100,16 @@ Documentation:
 
 Maintenance:
 
-- :func:`imbalanced_ensemble.utils.testing.all_estimators` now support ``'ensemble'`` type_filter.
-- Renamed some functions in :mod:`imbalanced_ensemble.utils._validation_param` to improve readability
+- :func:`imbens.utils.testing.all_estimators` now support ``'ensemble'`` type_filter.
+- Renamed some functions in :mod:`imbens.utils._validation_param` to improve readability
 
 Bug Fixes:
 
 - Fixed typo bugs in:
   
-  - :class:`imbalanced_ensemble.ensemble.KmeansSMOTEBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
-  - :class:`imbalanced_ensemble.ensemble.SMOTEBaggingClassifier`
+  - :class:`imbens.ensemble.KmeansSMOTEBoostClassifier`
+  - :class:`imbens.ensemble.SMOTEBoostClassifier`
+  - :class:`imbens.ensemble.SMOTEBaggingClassifier`
 
 
 Version 0.1.3 (2021.06)
@@ -102,8 +117,8 @@ Version 0.1.3 (2021.06)
 
 Bug Fixes:
 
-- Fixed a typo bug in :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`.
-- Fixed an import Error in :class:`imbalanced_ensemble.ensembleCompatibleAdaBoostClassifier`.
+- Fixed a typo bug in :class:`imbens.ensemble.BalanceCascadeClassifier`.
+- Fixed an import Error in :class:`imbens.ensembleCompatibleAdaBoostClassifier`.
 
 
 Version 0.1.2 (2021.05)
@@ -113,19 +128,19 @@ Enhancement:
 
 - Add support for metric functions that take probability as input.
 - Boosting-based classifiers now will print a message when the training is early terminated.
-- :func:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.performance_lineplot`: ``granularity`` now can be automatically set.
+- :func:`imbens.visualizer.ImbalancedEnsembleVisualizer.performance_lineplot`: ``granularity`` now can be automatically set.
 
 Maintenance:
 
-- All ensemble classifiers now can be directly imported from the :mod:`imbalanced_ensemble.ensemble` module.
+- All ensemble classifiers now can be directly imported from the :mod:`imbens.ensemble` module.
 - The default value of ``train_verbose`` of ``Classifier.fit()``: ``True`` -> ``False``.
 - The default value of ``n_estimators`` of ``Classifier.__init__()``: 50 for all ensemble classifiers.
 - The default value of ``granularity`` of ``Visualizer.fit()``: 5 -> ``None`` (automatically determined).
-- :func:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer.confusion_matrix_heatmap`: swap rows and columns, now rows/columns correspond to datasets/methods.
+- :func:`imbens.visualizer.ImbalancedEnsembleVisualizer.confusion_matrix_heatmap`: swap rows and columns, now rows/columns correspond to datasets/methods.
 
 Bug Fixes:
 
-- Fixed ``ZeroDivisionError`` when using :class:`imbalanced_ensemble.sampler.under_sampling.SelfPacedUnderSampler`.
+- Fixed ``ZeroDivisionError`` when using :class:`imbens.sampler.SelfPacedUnderSampler`.
 
 
 Version 0.1.1 (2021.05)
@@ -133,7 +148,7 @@ Version 0.1.1 (2021.05)
 
 Bug Fixes:
 
-- Unexpected print messages when using the :mod:`imbalanced_ensemble.pipeline` module.
+- Unexpected print messages when using the :mod:`imbens.pipeline` module.
 
 
 Version 0.1.0 (2021.05)

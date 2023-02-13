@@ -1,7 +1,7 @@
-``imbalanced_ensemble.ensemble``
+``imbens.ensemble``
 *********************************
 
-This is the full API documentation of the `imbalanced_ensemble.ensemble` module.
+This is the full API documentation of the `imbens.ensemble` module.
 
 .. toctree::
    :maxdepth: 2

@@ -1,0 +1,39 @@
+
+
+Examples using ``imbens.utils._plot.plot_scatter``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of the make_imbalance  function to create an imbalanced version of the digits d...">
+
+.. only:: html
+
+  .. image:: /auto_examples/datasets/images/thumb/sphx_glr_plot_make_imbalance_digits_thumb.png
+    :alt: Make digits dataset class-imbalanced
+
+  :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Make digits dataset class-imbalanced</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`
+
+.. raw:: html
+
+    </div>
+

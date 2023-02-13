@@ -29,8 +29,8 @@ Note that this feature only applies to resampling-based ensemble classifiers tha
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SMOTEBoostClassifier`
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-20
 
@@ -53,17 +53,17 @@ This example uses:
 
     print(__doc__)
 
-    # Import imbalanced_ensemble
-    import imbalanced_ensemble as imbens
+    # Import imbalanced-ensemble
+    import imbens
 
     # Import utilities
     from sklearn.datasets import make_classification
     from sklearn.model_selection import train_test_split
-    from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+    from imbens.ensemble.base import sort_dict_by_key
     from collections import Counter
 
     # Import plot utilities
-    from imbalanced_ensemble.utils._plot import set_ax_border
+    from imbens.utils._plot import set_ax_border
     import matplotlib.pyplot as plt
     import seaborn as sns
     sns.set_context('talk')
@@ -627,7 +627,7 @@ Visualize different resampling target
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.443 seconds)
+   **Total running time of the script:** ( 0 minutes  1.035 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_resampling_target.py:

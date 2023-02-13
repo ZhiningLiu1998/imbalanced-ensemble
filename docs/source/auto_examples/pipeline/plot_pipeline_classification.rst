@@ -22,12 +22,12 @@
 Usage of pipeline embedding samplers
 ====================================
 
-An example of the :class:`~imbalanced_ensemble.pipeline.Pipeline` object (or
-:func:`~imbalanced_ensemble.pipeline.make_pipeline` helper function) working with
+An example of the :class:`~imbens.pipeline.Pipeline` object (or
+:func:`~imbens.pipeline.make_pipeline` helper function) working with
 transformers (:class:`~sklearn.decomposition.PCA`, 
 :class:`~sklearn.neighbors.KNeighborsClassifier` from *scikit-learn*) and resamplers
-(:class:`~imbalanced_ensemble.sampler.under_sampling.EditedNearestNeighbours`, 
-:class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`).
+(:class:`~imbens.sampler.EditedNearestNeighbours`, 
+:class:`~imbens.sampler.SMOTE`).
 
 .. GENERATED FROM PYTHON SOURCE LINES 13-19
 
@@ -105,8 +105,8 @@ that we would like later to combine
 
     from sklearn.decomposition import PCA
     from sklearn.neighbors import KNeighborsClassifier
-    from imbalanced_ensemble.sampler.under_sampling import EditedNearestNeighbours
-    from imbalanced_ensemble.sampler.over_sampling import SMOTE
+    from imbens.sampler import EditedNearestNeighbours
+    from imbens.sampler import SMOTE
 
     pca = PCA(n_components=2)
     enn = EditedNearestNeighbours()
@@ -130,7 +130,7 @@ the final classifier.
 
 .. code-block:: default
 
-    from imbalanced_ensemble.pipeline import make_pipeline
+    from imbens.pipeline import make_pipeline
 
     model = make_pipeline(pca, enn, smote, knn)
 
@@ -180,7 +180,7 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.038 seconds)
+   **Total running time of the script:** ( 0 minutes  0.026 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pipeline_plot_pipeline_classification.py:

@@ -4,13 +4,13 @@ Visualize an ensemble classifier
 =========================================================
 
 This example illustrates how to quickly visualize an 
-:mod:`imbalanced_ensemble.ensemble` classifier with
-the :mod:`imbalanced_ensemble.visualizer` module.
+:mod:`imbens.ensemble` classifier with
+the :mod:`imbens.visualizer` module.
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.visualizer.ImbalancedEnsembleVisualizer`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -20,8 +20,8 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import sklearn

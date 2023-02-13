@@ -10,8 +10,8 @@ Note that this feature only applies to resampling-based ensemble classifiers tha
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SMOTEBoostClassifier`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -20,15 +20,15 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import math
 import sklearn
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
-from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+from imbens.ensemble.base import sort_dict_by_key
 from collections import Counter
 
 RANDOM_STATE = 42
@@ -202,7 +202,7 @@ smoteboost_clf.fit(X_train, y_train,
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from imbalanced_ensemble.utils._plot import set_ax_border
+from imbens.utils._plot import set_ax_border
 
 ylim = (0, 630)
 
@@ -244,7 +244,7 @@ fig.tight_layout()
 # %% [markdown]
 # **Progressive under/over-sampling**
 
-from imbalanced_ensemble.utils._validation_param import _progressive_schedule
+from imbens.utils._validation_param import _progressive_schedule
 
 N = 10
 i_estimators = [0, 4, 9]

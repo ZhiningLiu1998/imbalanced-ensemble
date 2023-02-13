@@ -1,0 +1,81 @@
+
+
+Examples using ``imbens.ensemble.EasyEnsembleClassifier``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_classifier_comparison_thumb.png
+    :alt: Classifier comparison
+
+  :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classifier comparison</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to plot confusion  matrix for...">
+
+.. only:: html
+
+  .. image:: /auto_examples/visualizer/images/thumb/sphx_glr_plot_confusion_matrix_thumb.png
+    :alt: Plot confusion matrix
+
+  :ref:`sphx_glr_auto_examples_visualizer_plot_confusion_matrix.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot confusion matrix</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_visualizer_plot_confusion_matrix.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to visualize or  compare imbe...">
+
+.. only:: html
+
+  .. image:: /auto_examples/visualizer/images/thumb/sphx_glr_plot_performance_curve_thumb.png
+    :alt: Plot performance curves
+
+  :ref:`sphx_glr_auto_examples_visualizer_plot_performance_curve.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot performance curves</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_visualizer_plot_performance_curve.py`
+
+.. raw:: html
+
+    </div>
+

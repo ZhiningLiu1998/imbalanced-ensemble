@@ -5,7 +5,7 @@
 **General-purpose and introductory examples for the imbalanced-ensemble toolbox.**
 
 **The examples gallery is still under construction.** Please refer to APIs for more detailed guidelines of how to use 
-``imbalanced_ensemble``.
+``imbens``.
 
 
 
@@ -22,7 +22,7 @@
 Basic usage examples
 -------------------------------------------------------
 
-Quick start with :mod:`imbalanced_ensemble`.
+Quick start with :mod:`imbens`.
 
 
 
@@ -33,7 +33,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to quickly visualize an  imbalanced_ensemble.ensemble classifier w...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to quickly visualize an  imbens.ensemble classifier with the imben...">
 
 .. only:: html
 
@@ -50,7 +50,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to enable and customize the training  log when training an imbalan...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to enable and customize the training  log when training an imbens....">
 
 .. only:: html
 
@@ -67,7 +67,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbalanced_ensemble.ensemble classifier.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbens.ensemble classifier.">
 
 .. only:: html
 
@@ -90,7 +90,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 Classification examples
 -------------------------------------------------------
 
-Examples about using classification algorithms in :mod:`imbalanced_ensemble.ensemble` module.
+Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 
 
 
@@ -169,7 +169,7 @@ Examples about using classification algorithms in :mod:`imbalanced_ensemble.ense
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbalanced_ensemble.ensemble  on synthetic datasets. T...">
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
 
 .. only:: html
 
@@ -209,7 +209,7 @@ Examples about using classification algorithms in :mod:`imbalanced_ensemble.ense
 Dataset examples
 -----------------------
 
-Examples concerning the :mod:`imbalanced_ensemble.datasets` module.
+Examples concerning the :mod:`imbens.datasets` module.
 
 
 
@@ -361,7 +361,7 @@ Example of how to use the a pipeline to include under-sampling with `scikit-lear
 Visualizer examples
 -------------------------------------------------------
 
-Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
+Examples concerning the  :mod:`imbens.visualizer`. module.
 
 
 
@@ -372,7 +372,7 @@ Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbalanced_ensemble.visualizer module to plot confusio...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to plot confusion  matrix for...">
 
 .. only:: html
 
@@ -389,7 +389,7 @@ Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbalanced_ensemble.visualizer module to visualize or ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to visualize or  compare imbe...">
 
 .. only:: html
 

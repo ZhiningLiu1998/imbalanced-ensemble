@@ -4,11 +4,11 @@ Customize ensemble training log
 =========================================================
 
 This example illustrates how to enable and customize the training 
-log when training an :mod:`imbalanced_ensemble.ensemble` classifier.
+log when training an :mod:`imbens.ensemble` classifier.
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -18,8 +18,8 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import sklearn

@@ -7,7 +7,7 @@ This example demonstrates how to customize the cost matrix of cost-sensitive ens
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.AdaCostClassifier`
+    - :class:`imbens.ensemble.AdaCostClassifier`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -16,15 +16,15 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import numpy as np
 import sklearn
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
-from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+from imbens.ensemble.base import sort_dict_by_key
 from collections import Counter
 
 # Import plot utilities

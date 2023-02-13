@@ -7,7 +7,7 @@
 Classification examples
 -------------------------------------------------------
 
-Examples about using classification algorithms in :mod:`imbalanced_ensemble.ensemble` module.
+Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 
 
 
@@ -86,7 +86,7 @@ Examples about using classification algorithms in :mod:`imbalanced_ensemble.ense
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbalanced_ensemble.ensemble  on synthetic datasets. T...">
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
 
 .. only:: html
 

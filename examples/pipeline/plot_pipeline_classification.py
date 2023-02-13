@@ -3,12 +3,12 @@
 Usage of pipeline embedding samplers
 ====================================
 
-An example of the :class:`~imbalanced_ensemble.pipeline.Pipeline` object (or
-:func:`~imbalanced_ensemble.pipeline.make_pipeline` helper function) working with
+An example of the :class:`~imbens.pipeline.Pipeline` object (or
+:func:`~imbens.pipeline.make_pipeline` helper function) working with
 transformers (:class:`~sklearn.decomposition.PCA`, 
 :class:`~sklearn.neighbors.KNeighborsClassifier` from *scikit-learn*) and resamplers
-(:class:`~imbalanced_ensemble.sampler.under_sampling.EditedNearestNeighbours`, 
-:class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`).
+(:class:`~imbens.sampler.EditedNearestNeighbours`, 
+:class:`~imbens.sampler.SMOTE`).
 """
 
 # Adapted from imbalanced-learn 
@@ -50,8 +50,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_sta
 # %%
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
-from imbalanced_ensemble.sampler.under_sampling import EditedNearestNeighbours
-from imbalanced_ensemble.sampler.over_sampling import SMOTE
+from imbens.sampler import EditedNearestNeighbours
+from imbens.sampler import SMOTE
 
 pca = PCA(n_components=2)
 enn = EditedNearestNeighbours()
@@ -64,7 +64,7 @@ knn = KNeighborsClassifier(n_neighbors=1)
 # the final classifier.
 
 # %%
-from imbalanced_ensemble.pipeline import make_pipeline
+from imbens.pipeline import make_pipeline
 
 model = make_pipeline(pca, enn, smote, knn)
 

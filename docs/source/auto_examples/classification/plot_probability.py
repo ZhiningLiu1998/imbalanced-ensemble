@@ -10,7 +10,7 @@ We use Decision Tree, Support Vector Machine (rbf kernel), and Gaussian process 
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 """
 
 # Adapted from sklearn
@@ -21,15 +21,15 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import numpy as np
 from collections import Counter
 import sklearn
-from imbalanced_ensemble.datasets import make_imbalance
-from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+from imbens.datasets import make_imbalance
+from imbens.ensemble.base import sort_dict_by_key
 
 RANDOM_STATE = 42
 

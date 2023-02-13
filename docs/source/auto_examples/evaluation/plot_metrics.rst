@@ -23,10 +23,10 @@ Metrics specific to imbalanced learning
 =======================================
 
 Specific metrics have been developed to evaluate classifier which
-has been trained using imbalanced data. :mod:`imbalanced_ensemble` provides mainly
+has been trained using imbalanced data. :mod:`imbens` provides mainly
 two additional metrics which are not implemented in :mod:`sklearn`: (i)
-geometric mean (:func:`imbalanced_ensemble.metrics.geometric_mean_score`) 
-and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_balanced_accuracy`).
+geometric mean (:func:`imbens.metrics.geometric_mean_score`) 
+and (ii) index balanced accuracy (:func:`imbens.metrics.make_index_balanced_accuracy`).
 
 .. GENERATED FROM PYTHON SOURCE LINES 12-17
 
@@ -114,15 +114,15 @@ We will split the data into a training and testing set.
 
 .. GENERATED FROM PYTHON SOURCE LINES 54-56
 
-We will create a pipeline made of a :class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`
+We will create a pipeline made of a :class:`~imbens.sampler.SMOTE`
 over-sampler followed by a :class:`~sklearn.svm.LinearSVC` classifier.
 
 .. GENERATED FROM PYTHON SOURCE LINES 58-66
 
 .. code-block:: default
 
-    from imbalanced_ensemble.pipeline import make_pipeline
-    from imbalanced_ensemble.sampler.over_sampling import SMOTE
+    from imbens.pipeline import make_pipeline
+    from imbens.sampler import SMOTE
     from sklearn.svm import LinearSVC
 
     model = make_pipeline(
@@ -167,7 +167,7 @@ the balancing of the dataset.
 
 .. code-block:: default
 
-    from imbalanced_ensemble.metrics import geometric_mean_score
+    from imbens.metrics import geometric_mean_score
 
     print(f"The geometric mean is {geometric_mean_score(y_test, y_pred):.3f}")
 
@@ -193,7 +193,7 @@ imbalanced learning problems.
 
 .. code-block:: default
 
-    from imbalanced_ensemble.metrics import make_index_balanced_accuracy
+    from imbens.metrics import make_index_balanced_accuracy
 
     alpha = 0.1
     geo_mean = make_index_balanced_accuracy(alpha=alpha, squared=True)(geometric_mean_score)
@@ -243,7 +243,7 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.186 seconds)
+   **Total running time of the script:** ( 0 minutes  0.136 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:

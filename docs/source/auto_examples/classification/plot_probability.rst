@@ -29,7 +29,7 @@ We use Decision Tree, Support Vector Machine (rbf kernel), and Gaussian process 
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-21
 
@@ -54,15 +54,15 @@ This example uses:
 
     print(__doc__)
 
-    # Import imbalanced_ensemble
-    import imbalanced_ensemble as imbens
+    # Import imbalanced-ensemble
+    import imbens
 
     # Import utilities
     import numpy as np
     from collections import Counter
     import sklearn
-    from imbalanced_ensemble.datasets import make_imbalance
-    from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+    from imbens.datasets import make_imbalance
+    from imbens.ensemble.base import sort_dict_by_key
 
     RANDOM_STATE = 42
 
@@ -207,9 +207,9 @@ Plot classification probabilities
 
  .. code-block:: none
 
-    Balanced Accuracy (train) for SPE-DT: 87.8% 
-    Balanced Accuracy (train) for SPE-SVM-rbf: 82.2% 
-    Balanced Accuracy (train) for SPE-GPC: 85.6% 
+    Balanced Accuracy (train) for SPE-DT: 90.0% 
+    Balanced Accuracy (train) for SPE-SVM-rbf: 54.4% 
+    Balanced Accuracy (train) for SPE-GPC: 84.4% 
 
 
 
@@ -217,7 +217,7 @@ Plot classification probabilities
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.768 seconds)
+   **Total running time of the script:** ( 0 minutes  0.545 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_probability.py:

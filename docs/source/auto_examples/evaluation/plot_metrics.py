@@ -4,10 +4,10 @@ Metrics specific to imbalanced learning
 =======================================
 
 Specific metrics have been developed to evaluate classifier which
-has been trained using imbalanced data. :mod:`imbalanced_ensemble` provides mainly
+has been trained using imbalanced data. :mod:`imbens` provides mainly
 two additional metrics which are not implemented in :mod:`sklearn`: (i)
-geometric mean (:func:`imbalanced_ensemble.metrics.geometric_mean_score`) 
-and (ii) index balanced accuracy (:func:`imbalanced_ensemble.metrics.make_index_balanced_accuracy`).
+geometric mean (:func:`imbens.metrics.geometric_mean_score`) 
+and (ii) index balanced accuracy (:func:`imbens.metrics.make_index_balanced_accuracy`).
 """
 
 # Adapted from imbalanced-learn 
@@ -51,12 +51,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # %% [markdown]
-# We will create a pipeline made of a :class:`~imbalanced_ensemble.sampler.over_sampling.SMOTE`
+# We will create a pipeline made of a :class:`~imbens.sampler.SMOTE`
 # over-sampler followed by a :class:`~sklearn.svm.LinearSVC` classifier.
 
 # %%
-from imbalanced_ensemble.pipeline import make_pipeline
-from imbalanced_ensemble.sampler.over_sampling import SMOTE
+from imbens.pipeline import make_pipeline
+from imbens.sampler import SMOTE
 from sklearn.svm import LinearSVC
 
 model = make_pipeline(
@@ -79,7 +79,7 @@ y_pred = model.predict(X_test)
 # the balancing of the dataset.
 
 # %%
-from imbalanced_ensemble.metrics import geometric_mean_score
+from imbens.metrics import geometric_mean_score
 
 print(f"The geometric mean is {geometric_mean_score(y_test, y_pred):.3f}")
 
@@ -88,7 +88,7 @@ print(f"The geometric mean is {geometric_mean_score(y_test, y_pred):.3f}")
 # imbalanced learning problems.
 
 # %%
-from imbalanced_ensemble.metrics import make_index_balanced_accuracy
+from imbens.metrics import make_index_balanced_accuracy
 
 alpha = 0.1
 geo_mean = make_index_balanced_accuracy(alpha=alpha, squared=True)(geometric_mean_score)

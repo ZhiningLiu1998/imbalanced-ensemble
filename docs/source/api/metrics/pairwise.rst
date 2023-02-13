@@ -3,11 +3,11 @@
 Pairwise Metrics
 ================================
 
-.. automodule:: imbalanced_ensemble.metrics
+.. automodule:: imbens.metrics
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.metrics
+.. currentmodule:: imbens.metrics
 
 .. autosummary::
    :toctree: _autosummary

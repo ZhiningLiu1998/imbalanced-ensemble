@@ -23,7 +23,7 @@ Generate an imbalanced dataset
 ===============================
 
 An illustration of using the 
-:func:`~imbalanced_ensemble.datasets.generate_imbalance_data` 
+:func:`~imbens.datasets.generate_imbalance_data` 
 function to create an imbalanced dataset. 
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-14
@@ -47,8 +47,8 @@ function to create an imbalanced dataset.
 
     print(__doc__)
 
-    from imbalanced_ensemble.datasets import generate_imbalance_data
-    from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+    from imbens.datasets import generate_imbalance_data
+    from imbens.utils._plot import plot_2Dprojection_and_cardinality
     from collections import Counter
 
 
@@ -84,8 +84,8 @@ Generate the dataset
 
  .. code-block:: none
 
-    Train class distribution:  Counter({0: 349, 1: 100, 2: 51})
-    Test class distribution:   Counter({0: 349, 1: 100, 2: 51})
+    Train class distribution:  Counter({0: 350, 1: 100, 2: 50})
+    Test class distribution:   Counter({0: 350, 1: 99, 2: 51})
 
 
 
@@ -123,7 +123,7 @@ Plot the generated (training) data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.123 seconds)
+   **Total running time of the script:** ( 0 minutes  0.103 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_generate_imbalance.py:

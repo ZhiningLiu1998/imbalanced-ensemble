@@ -22,17 +22,17 @@ Ensemble imbalanced learning (EIL) is known to effectively improve typical
 IL solutions by combining the outputs of multiple classifiers, thereby 
 reducing the variance introduce by resampling/reweighting. 
 
-About ``imbalanced_ensemble``
+About ``imbens``
 ====================================
 
-``imbalanced_ensemble`` aims to provide users with easy-to-use EIL methods 
+``imbens`` aims to provide users with easy-to-use EIL methods 
 and related utilities, so that everyone can quickly deploy EIL algorithms 
 to their tasks. The EIL methods implemented in this package have 
 unified APIs and are compatible with other popular Python machine-learning 
 packages such as `scikit-learn <https://scikit-learn.org/stable/index.html>`__
 and `imbalanced-learn <https://imbalanced-learn.org/stable/>`__.
 
-``imbalanced_ensemble`` is an early version software and is under development.
+``imbens`` is an early version software and is under development.
 Any kinds of contributions are welcome!
 
 > Note: *many resampling algorithms and utilities are adapted from* 

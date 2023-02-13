@@ -3,11 +3,11 @@
 Visualizer
 ================================
 
-.. automodule:: imbalanced_ensemble.visualizer
+.. automodule:: imbens.visualizer
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.visualizer
+.. currentmodule:: imbens.visualizer
 
 .. autosummary::
    :toctree: _autosummary

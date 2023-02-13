@@ -27,8 +27,8 @@ scikit-learn base classifier and recognize images of hand-written digits, from 0
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.visualizer.ImbalancedEnsembleVisualizer`
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-21
 
@@ -54,14 +54,14 @@ This example uses:
 
     print(__doc__)
 
-    # Import imbalanced_ensemble
-    import imbalanced_ensemble as imbens
+    # Import imbalanced-ensemble
+    import imbens
 
     # Import utilities
     import sklearn
     from sklearn.model_selection import train_test_split
-    from imbalanced_ensemble.datasets import make_imbalance
-    from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+    from imbens.datasets import make_imbalance
+    from imbens.utils._plot import plot_2Dprojection_and_cardinality
     import matplotlib.pyplot as plt
 
     RANDOM_STATE = 42
@@ -227,22 +227,22 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
     Classification report for classifier SelfPacedEnsembleClassifier(estimator=SVC(gamma=0.001, probability=True),
                                 n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x26239AA3840):
+                                random_state=RandomState(MT19937) at 0x247543B9540):
                   precision    recall  f1-score   support
 
                0       1.00      1.00      1.00        89
                1       0.97      1.00      0.98        60
-               2       1.00      0.95      0.97        40
-               3       1.00      0.90      0.95        30
+               2       1.00      0.97      0.99        40
+               3       0.96      0.90      0.93        30
                4       1.00      0.96      0.98        25
-               5       1.00      0.95      0.98        22
+               5       0.91      0.95      0.93        22
                6       1.00      1.00      1.00        20
                7       0.90      0.95      0.93        20
-               8       0.80      1.00      0.89        20
-               9       0.95      0.90      0.92        20
+               8       0.90      0.95      0.93        20
+               9       0.89      0.85      0.87        20
 
         accuracy                           0.97       346
-       macro avg       0.96      0.96      0.96       346
+       macro avg       0.95      0.95      0.95       346
     weighted avg       0.97      0.97      0.97       346
 
 
@@ -312,7 +312,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                                                                          | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                                                       | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|###############################################################################################################################################################################################| 5/5 [00:00<00:00, 51.05it/s]
+      0%|                                                                                                                                                                                                                                                                               | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                                                                            | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|####################################################################################################################################################################################################################| 5/5 [00:00<00:00, 76.76it/s]
     Visualizer computing confusion matrices. Finished!
 
 
@@ -321,7 +321,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.279 seconds)
+   **Total running time of the script:** ( 0 minutes  0.903 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_digits.py:

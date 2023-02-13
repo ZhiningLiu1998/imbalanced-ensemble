@@ -7,7 +7,7 @@
 Dataset examples
 -----------------------
 
-Examples concerning the :mod:`imbalanced_ensemble.datasets` module.
+Examples concerning the :mod:`imbens.datasets` module.
 
 
 

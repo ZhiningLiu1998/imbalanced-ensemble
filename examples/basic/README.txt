@@ -3,4 +3,4 @@
 Basic usage examples
 -------------------------------------------------------
 
-Quick start with :mod:`imbalanced_ensemble`.
+Quick start with :mod:`imbens`.

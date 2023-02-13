@@ -7,7 +7,7 @@
 Basic usage examples
 -------------------------------------------------------
 
-Quick start with :mod:`imbalanced_ensemble`.
+Quick start with :mod:`imbens`.
 
 
 
@@ -18,7 +18,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to quickly visualize an  imbalanced_ensemble.ensemble classifier w...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to quickly visualize an  imbens.ensemble classifier with the imben...">
 
 .. only:: html
 
@@ -35,7 +35,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to enable and customize the training  log when training an imbalan...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to enable and customize the training  log when training an imbens....">
 
 .. only:: html
 
@@ -52,7 +52,7 @@ Quick start with :mod:`imbalanced_ensemble`.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbalanced_ensemble.ensemble classifier.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the basic usage of an  imbens.ensemble classifier.">
 
 .. only:: html
 

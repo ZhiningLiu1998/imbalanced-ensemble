@@ -3,7 +3,7 @@
 Classifier comparison
 =========================================================
 
-A comparison of a several classifiers in :mod:`imbalanced_ensemble.ensemble` 
+A comparison of a several classifiers in :mod:`imbens.ensemble` 
 on synthetic datasets. The point of this example is to illustrate the nature 
 of decision boundaries of different imbalanced ensmeble classifiers. 
 This should be taken with a grain of salt, as the intuition conveyed by these 
@@ -15,22 +15,22 @@ The lower right shows the average precision score (AUPRC) on the test set.
 This example uses:
     
     - Reweighting-based method
-        - :class:`imbalanced_ensemble.ensemble.AdaCostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.AdaUBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.AsymBoostClassifier`
+        - :class:`imbens.ensemble.AdaCostClassifier`
+        - :class:`imbens.ensemble.AdaUBoostClassifier`
+        - :class:`imbens.ensemble.AsymBoostClassifier`
     - Under-sampling-based method
-        - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-        - :class:`imbalanced_ensemble.ensemble.BalanceCascadeClassifier`
-        - :class:`imbalanced_ensemble.ensemble.BalancedRandomForestClassifier`
-        - :class:`imbalanced_ensemble.ensemble.EasyEnsembleClassifier`
-        - :class:`imbalanced_ensemble.ensemble.RUSBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.UnderBaggingClassifier`
+        - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+        - :class:`imbens.ensemble.BalanceCascadeClassifier`
+        - :class:`imbens.ensemble.BalancedRandomForestClassifier`
+        - :class:`imbens.ensemble.EasyEnsembleClassifier`
+        - :class:`imbens.ensemble.RUSBoostClassifier`
+        - :class:`imbens.ensemble.UnderBaggingClassifier`
     - Over-sampling-based method
-        - :class:`imbalanced_ensemble.ensemble.OverBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.SMOTEBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.KmeansSMOTEBoostClassifier`
-        - :class:`imbalanced_ensemble.ensemble.OverBaggingClassifier`
-        - :class:`imbalanced_ensemble.ensemble.SMOTEBaggingClassifier`
+        - :class:`imbens.ensemble.OverBoostClassifier`
+        - :class:`imbens.ensemble.SMOTEBoostClassifier`
+        - :class:`imbens.ensemble.KmeansSMOTEBoostClassifier`
+        - :class:`imbens.ensemble.OverBaggingClassifier`
+        - :class:`imbens.ensemble.SMOTEBaggingClassifier`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -39,8 +39,8 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 import numpy as np
@@ -48,7 +48,7 @@ import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import make_moons, make_circles, make_classification
-from imbalanced_ensemble.datasets import make_imbalance
+from imbens.datasets import make_imbalance
 
 # Import plot utilities
 import matplotlib.pyplot as plt
@@ -81,7 +81,7 @@ datasets = [dataset1, dataset2, dataset3]
 # %% [markdown]
 # **Load all ensemble classifiers**
 
-from imbalanced_ensemble.utils.testing import all_estimators
+from imbens.utils.testing import all_estimators
 
 init_kwargs = {'n_estimators': 5, 'random_state': RANDOM_STATE}
 all_ensembles_clf = {name: ensemble(**init_kwargs) for (name, ensemble) in all_estimators('ensemble')}
@@ -174,7 +174,7 @@ def plot_classifier_comparison(classifiers, names, datasets, figsize):
 # Compare all under-sampling-based ensemble algorithms
 # ----------------------------------------------------
 
-from imbalanced_ensemble.ensemble.under_sampling.__init__ import __all__ as names
+from imbens.ensemble._under_sampling.__init__ import __all__ as names
 
 classifiers = [all_ensembles_clf[name] for name in names]
 plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
@@ -184,7 +184,7 @@ plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3
 # Compare all over-sampling-based ensemble algorithms
 # ----------------------------------------------------
 
-from imbalanced_ensemble.ensemble.over_sampling.__init__ import __all__ as names
+from imbens.ensemble._over_sampling.__init__ import __all__ as names
 
 classifiers = [all_ensembles_clf[name] for name in names]
 plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
@@ -194,7 +194,7 @@ plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3
 # Compare all reweighting-based ensemble algorithms
 # ----------------------------------------------------
 
-from imbalanced_ensemble.ensemble.reweighting.__init__ import __all__ as names
+from imbens.ensemble._reweighting.__init__ import __all__ as names
 
 classifiers = [all_ensembles_clf[name] for name in names]
 plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))

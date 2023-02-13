@@ -25,7 +25,7 @@ copyright = '2021, Zhining Liu'
 author = 'Zhining Liu'
 
 
-from imbalanced_ensemble import __version__
+from imbens import __version__
 
 version = __version__
 # The full version, including alpha/beta/rc tags.
@@ -82,8 +82,8 @@ sphinx_gallery_conf = {
     'examples_dirs': ['../../examples'],
     'gallery_dirs': ['auto_examples'],
     "doc_module": (
-        "imbalanced_ensemble", 
-        "imbalanced_ensemble.ensemble",
+        "imbens", 
+        "imbens.ensemble",
     ),
     "backreferences_dir": os.path.join("back_references"),
     "show_memory": True,

@@ -7,7 +7,7 @@
 Visualizer examples
 -------------------------------------------------------
 
-Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
+Examples concerning the  :mod:`imbens.visualizer`. module.
 
 
 
@@ -18,7 +18,7 @@ Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbalanced_ensemble.visualizer module to plot confusio...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to plot confusion  matrix for...">
 
 .. only:: html
 
@@ -35,7 +35,7 @@ Examples concerning the  :mod:`imbalanced_ensemble.visualizer`. module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbalanced_ensemble.visualizer module to visualize or ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to visualize or  compare imbe...">
 
 .. only:: html
 

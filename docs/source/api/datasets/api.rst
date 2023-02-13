@@ -1,7 +1,7 @@
-``imbalanced_ensemble.datasets``
+``imbens.datasets``
 *********************************
 
-This is the full API documentation of the `imbalanced_ensemble.datasets` module.
+This is the full API documentation of the `imbens.datasets` module.
 
 .. toctree::
    :maxdepth: 3

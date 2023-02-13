@@ -23,11 +23,11 @@ Train and predict with an ensemble classifier
 =========================================================
 
 This example shows the basic usage of an 
-:mod:`imbalanced_ensemble.ensemble` classifier.
+:mod:`imbens.ensemble` classifier.
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 
 .. GENERATED FROM PYTHON SOURCE LINES 13-18
 
@@ -51,19 +51,19 @@ This example uses:
 
     print(__doc__)
 
-    # Import imbalanced_ensemble
-    import imbalanced_ensemble as imbens
+    # Import imbalanced-ensemble
+    import imbens
 
     # Import utilities
     from collections import Counter
     import sklearn
     from sklearn.datasets import make_classification
     from sklearn.model_selection import train_test_split
-    from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+    from imbens.ensemble.base import sort_dict_by_key
 
     # Import plot utilities
     import matplotlib.pyplot as plt
-    from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+    from imbens.utils._plot import plot_2Dprojection_and_cardinality
 
     RANDOM_STATE = 42
 
@@ -121,7 +121,7 @@ Make a toy 3-class imbalanced classification task.
 
 .. GENERATED FROM PYTHON SOURCE LINES 58-61
 
-Using ensemble classifiers in ``imbalanced_ensemble``
+Using ensemble classifiers in ``imbens``
 -----------------------------------------------------
 Take ``SelfPacedEnsembleClassifier`` as example
 
@@ -155,7 +155,7 @@ Take ``SelfPacedEnsembleClassifier`` as example
  .. code-block:: none
 
     SPE: ensemble of 50 DecisionTreeClassifier()
-    Validation Balanced Accuracy: 0.974
+    Validation Balanced Accuracy: 0.980
 
 
 
@@ -171,7 +171,7 @@ Set the ensemble size
 .. code-block:: default
 
 
-    from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier as SPE
+    from imbens.ensemble import SelfPacedEnsembleClassifier as SPE
     from sklearn.metrics import balanced_accuracy_score
 
     clf = SPE(
@@ -194,7 +194,7 @@ Set the ensemble size
  .. code-block:: none
 
     SPE: ensemble of 5 DecisionTreeClassifier()
-    Validation Balanced Accuracy: 0.984
+    Validation Balanced Accuracy: 0.978
 
 
 
@@ -233,7 +233,7 @@ Use different base estimator
  .. code-block:: none
 
     SPE: ensemble of 5 SVC(probability=True)
-    Validation Balanced Accuracy: 0.969
+    Validation Balanced Accuracy: 0.972
 
 
 
@@ -265,10 +265,10 @@ Enable training log
     ┃ #Estimators ┃    Class Distribution    ┃               Metric               ┃
     ┃             ┃                          ┃  acc    balanced_acc   weighted_f1 ┃
     ┣━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-    ┃      1      ┃ {0: 100, 1: 100, 2: 100} ┃ 0.989      0.991          0.989    ┃
+    ┃      1      ┃ {0: 100, 1: 100, 2: 100} ┃ 0.958      0.968          0.959    ┃
     ┃      5      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
     ┃     10      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
-    ┃     15      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
+    ┃     15      ┃ {0: 100, 1: 100, 2: 100} ┃ 0.999      0.997          0.999    ┃
     ┃     20      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
     ┃     25      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
     ┃     30      ┃ {0: 100, 1: 100, 2: 100} ┃ 1.000      1.000          1.000    ┃
@@ -286,7 +286,7 @@ Enable training log
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.853 seconds)
+   **Total running time of the script:** ( 0 minutes  0.687 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_example.py:

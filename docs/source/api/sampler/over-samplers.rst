@@ -3,11 +3,11 @@
 Over-sampling Samplers
 ================================
 
-.. automodule:: imbalanced_ensemble.sampler.over_sampling
+.. automodule:: imbens.sampler
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.sampler.over_sampling
+.. currentmodule:: imbens.sampler
 
 .. autosummary::
    :toctree: _autosummary

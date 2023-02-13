@@ -1,7 +1,7 @@
-``imbalanced_ensemble.visualizer``
+``imbens.visualizer``
 ***********************************
 
-This is the full API documentation of the `imbalanced_ensemble.visualizer` module.
+This is the full API documentation of the `imbens.visualizer` module.
 
 .. toctree::
    :maxdepth: 2

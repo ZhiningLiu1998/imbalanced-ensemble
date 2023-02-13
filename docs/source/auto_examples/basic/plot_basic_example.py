@@ -4,11 +4,11 @@ Train and predict with an ensemble classifier
 =========================================================
 
 This example shows the basic usage of an 
-:mod:`imbalanced_ensemble.ensemble` classifier.
+:mod:`imbens.ensemble` classifier.
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -18,19 +18,19 @@ This example uses:
 # %%
 print(__doc__)
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities
 from collections import Counter
 import sklearn
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
-from imbalanced_ensemble.ensemble.base import sort_dict_by_key
+from imbens.ensemble.base import sort_dict_by_key
 
 # Import plot utilities
 import matplotlib.pyplot as plt
-from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+from imbens.utils._plot import plot_2Dprojection_and_cardinality
 
 RANDOM_STATE = 42
 
@@ -55,7 +55,7 @@ print('Training dataset distribution    %s' % sort_dict_by_key(Counter(y_train))
 print('Validation dataset distribution  %s' % sort_dict_by_key(Counter(y_valid)))
 
 # %% [markdown]
-# Using ensemble classifiers in ``imbalanced_ensemble``
+# Using ensemble classifiers in ``imbens``
 # -----------------------------------------------------
 # Take ``SelfPacedEnsembleClassifier`` as example
 
@@ -80,7 +80,7 @@ print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 # ---------------------
 # (parameter ``n_estimators``: int)
 
-from imbalanced_ensemble.ensemble import SelfPacedEnsembleClassifier as SPE
+from imbens.ensemble import SelfPacedEnsembleClassifier as SPE
 from sklearn.metrics import balanced_accuracy_score
 
 clf = SPE(

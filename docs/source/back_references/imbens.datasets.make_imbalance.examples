@@ -1,0 +1,123 @@
+
+
+Examples using ``imbens.datasets.make_imbalance``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how imbalanced-ensemble can be used to cooperate with  scikit-learn base cla...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_digits_thumb.png
+    :alt: Classify class-imbalanced hand-written digits
+
+  :ref:`sphx_glr_auto_examples_classification_plot_digits.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classify class-imbalanced hand-written digits</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_digits.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot the classification probability for ensemble models with different base classifiers. ">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_probability_thumb.png
+    :alt: Plot probabilities with different base classifiers
+
+  :ref:`sphx_glr_auto_examples_classification_plot_probability.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot probabilities with different base classifiers</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_probability.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_classifier_comparison_thumb.png
+    :alt: Classifier comparison
+
+  :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classifier comparison</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of the make_imbalance function to create an imbalanced dataset from a balanced ...">
+
+.. only:: html
+
+  .. image:: /auto_examples/datasets/images/thumb/sphx_glr_plot_make_imbalance_thumb.png
+    :alt: Make a dataset class-imbalanced
+
+  :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Make a dataset class-imbalanced</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An illustration of the make_imbalance  function to create an imbalanced version of the digits d...">
+
+.. only:: html
+
+  .. image:: /auto_examples/datasets/images/thumb/sphx_glr_plot_make_imbalance_digits_thumb.png
+    :alt: Make digits dataset class-imbalanced
+
+  :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Make digits dataset class-imbalanced</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_datasets_plot_make_imbalance_digits.py`
+
+.. raw:: html
+
+    </div>
+

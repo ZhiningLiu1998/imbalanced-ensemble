@@ -4,7 +4,7 @@ Generate an imbalanced dataset
 ===============================
 
 An illustration of using the 
-:func:`~imbalanced_ensemble.datasets.generate_imbalance_data` 
+:func:`~imbens.datasets.generate_imbalance_data` 
 function to create an imbalanced dataset. 
 """
 
@@ -14,8 +14,8 @@ function to create an imbalanced dataset.
 # %%
 print(__doc__)
 
-from imbalanced_ensemble.datasets import generate_imbalance_data
-from imbalanced_ensemble.utils._plot import plot_2Dprojection_and_cardinality
+from imbens.datasets import generate_imbalance_data
+from imbens.utils._plot import plot_2Dprojection_and_cardinality
 from collections import Counter
 
 # %% [markdown]

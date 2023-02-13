@@ -3,4 +3,4 @@
 Classification examples
 -------------------------------------------------------
 
-Examples about using classification algorithms in :mod:`imbalanced_ensemble.ensemble` module.
+Examples about using classification algorithms in :mod:`imbens.ensemble` module.

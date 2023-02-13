@@ -4,16 +4,16 @@ Plot performance curves
 =========================================================
 
 This example illustrates how to use the 
-:mod:`imbalanced_ensemble.visualizer` module to visualize or 
-compare :mod:`imbalanced_ensemble.ensemble` classifier(s).
+:mod:`imbens.visualizer` module to visualize or 
+compare :mod:`imbens.ensemble` classifier(s).
 
 This example uses:
 
-    - :class:`imbalanced_ensemble.ensemble.SelfPacedEnsembleClassifier`
-    - :class:`imbalanced_ensemble.ensemble.EasyEnsembleClassifier`
-    - :class:`imbalanced_ensemble.ensemble.BalancedRandomForestClassifier`
-    - :class:`imbalanced_ensemble.ensemble.SMOTEBaggingClassifier`
-    - :class:`imbalanced_ensemble.visualizer.ImbalancedEnsembleVisualizer`
+    - :class:`imbens.ensemble.SelfPacedEnsembleClassifier`
+    - :class:`imbens.ensemble.EasyEnsembleClassifier`
+    - :class:`imbens.ensemble.BalancedRandomForestClassifier`
+    - :class:`imbens.ensemble.SMOTEBaggingClassifier`
+    - :class:`imbens.visualizer.ImbalancedEnsembleVisualizer`
 """
 
 # Authors: Zhining Liu <zhining.liu@outlook.com>
@@ -25,8 +25,8 @@ print(__doc__)
 
 from time import time
 
-# Import imbalanced_ensemble
-import imbalanced_ensemble as imbens
+# Import imbalanced-ensemble
+import imbens
 
 # Import utilities from sklearn
 import sklearn
@@ -60,7 +60,7 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 init_kwargs = {'n_estimators': 50, 'random_state': RANDOM_STATE}
 fit_kwargs = {'X': X_train, 'y': y_train}
 
-# imbalanced_ensemble.ensemble classifiers
+# imbens.ensemble classifiers
 ensemble_dict = {
     'SPE': imbens.ensemble.SelfPacedEnsembleClassifier(**init_kwargs),
     'EasyEns': imbens.ensemble.EasyEnsembleClassifier(**init_kwargs),

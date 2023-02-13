@@ -3,11 +3,11 @@
 Over-sampling-based ensembles
 ================================
 
-.. automodule:: imbalanced_ensemble.ensemble
+.. automodule:: imbens.ensemble
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: imbalanced_ensemble.ensemble
+.. currentmodule:: imbens.ensemble
 
 .. autosummary::
    :toctree: _autosummary
