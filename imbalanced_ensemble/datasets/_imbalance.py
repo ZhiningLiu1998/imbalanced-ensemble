@@ -102,7 +102,8 @@ def make_imbalance(
         )
 
     if verbose:
-        print(f"The original target distribution in the dataset is: {target_stats}")
+        print(
+            f"The original target distribution in the dataset is: {target_stats}")
     rus = RandomUnderSampler(
         sampling_strategy=sampling_strategy_,
         replacement=False,
@@ -114,8 +115,8 @@ def make_imbalance(
 
     return X_resampled, y_resampled
 
- 
-def generate_imbalance_data(n_samples=200, weights=[.9,.1], 
+
+def generate_imbalance_data(n_samples=200, weights=[.9, .1],
                             test_size=.5, random_state=None, kwargs={}):
     """Generate a random n-classes imbalanced classification problem.
 
@@ -165,8 +166,8 @@ def generate_imbalance_data(n_samples=200, weights=[.9,.1],
 
     """
     X, y = make_classification(
-        n_classes=len(weights), 
-        n_samples=n_samples, 
+        n_classes=len(weights),
+        n_samples=n_samples,
         weights=weights,
         random_state=random_state,
         **kwargs
