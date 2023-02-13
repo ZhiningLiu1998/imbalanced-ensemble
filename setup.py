@@ -13,6 +13,9 @@ ver_file = os.path.join("imbalanced_ensemble", "_version.py")
 with open(ver_file) as f:
     exec(f.read())
 
+with open("requirements.txt") as f:
+    requirements = f.read().splitlines()
+
 DISTNAME = "imbalanced-ensemble"
 DESCRIPTION = "Toolbox for ensemble learning on class-imbalanced dataset."
 
@@ -60,16 +63,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3 :: Only",
 ]
-INSTALL_REQUIRES = [
-    "numpy>=1.16.0",
-    "scipy>=1.9.1",
-    "pandas>=1.1.3",
-    "joblib>=0.11",
-    "scikit-learn>=1.2.0",
-    "matplotlib>=3.3.2",
-    "seaborn>=0.11.0",
-    "tqdm>=4.50.2",
-]
+INSTALL_REQUIRES = requirements
 EXTRAS_REQUIRE = {
     "dev": [
         "black",
