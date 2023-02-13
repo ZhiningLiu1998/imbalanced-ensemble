@@ -9,7 +9,7 @@ import os
 from setuptools import find_packages, setup, Command
 
 # get __version__ from _version.py
-ver_file = os.path.join("imbalanced_ensemble", "_version.py")
+ver_file = os.path.join("imbens", "_version.py")
 with open(ver_file) as f:
     exec(f.read())
 
@@ -76,9 +76,9 @@ EXTRAS_REQUIRE = {
     "doc": [
         "sphinx",
         "sphinx-gallery",
-        "numpydoc",
-        "pydata-sphinx-theme",
         "sphinx_rtd_theme",
+        "pydata-sphinx-theme",
+        "numpydoc",
         "sphinxcontrib-bibtex",
     ],
 }
