@@ -1,25 +1,30 @@
 Release History
 ***************
 
-Version 0.1.8 (2023.02)
+Version 0.2.0 (2023.02)
 =========================
 
 Enhancement:
 
-- Add unit test for all ensemble classifiers and samplers.
+- Enable CircleCI with CodeCov report.
+- Easier usage:
+  
+  - the package is now imported as ``imbens``
+  - all samplers can be directly accessed in ``imbens.sampler``
+
+Maintenance:
+
+- Complement unit tests (59% -> 96% coverage).
+- Set default ``k_neighbors=1`` for SMOTEBagging to prevent error in few-shot cases.
+- Set default ``cluster_balance_threshold=0.1`` for KmeansSMOTEBoost to prevent error in few-shot cases.
+- Add ``decision_function()`` for supported ensemble classifiers.
+- The parameter ``base_sampler`` is renamed to ``sampler``.
+- The attribute ``base_sampler_`` is renamed to ``sampler_``.
+- Bump supported Python version to ``3.8, 3.9, 3.10, 3.11``.
 - Following sklearn version >1.2, for all ensemble classifiers, 
 
   - the parameter ``base_estimator`` is renamed to ``estimator``.
   - the attribute ``base_estimator_`` is renamed to ``estimator_``.
-
-Maintenance:
-
-- Set default ``k_neighbors=1`` for SMOTEBagging to prevent error in few-shot cases.
-- Set default ``cluster_balance_threshold=0.1`` for KmeansSMOTEBoost to prevent error in few-shot cases.
-- Add ``decision_function()`` for supported ensembles.
-- The parameter ``base_sampler`` is renamed to ``sampler``.
-- The attribute ``base_sampler_`` is renamed to ``sampler_``.
-- Bump supported Python version to ``3.8, 3.9, 3.10, 3.11``.
 
 Bug Fixes:
 
