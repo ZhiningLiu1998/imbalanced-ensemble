@@ -99,6 +99,7 @@ Currently, IMBENS includes more than **[15 ensemble imbalanced learning algorith
 - &#x1F34E; Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).
 
 **Ensemble Imbalanced Learning with 4 Lines of Code:**
+
 ```python
 # Train an SPE classifier
 from imbens.ensemble import SelfPacedEnsembleClassifier
@@ -108,6 +109,11 @@ clf.fit(X_train, y_train)
 # Predict with an SPE classifier
 y_pred = clf.predict(X_test)
 ```
+
+**Contributing to IMBENS**
+
+Please refer to the [contributing guidelines](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/CONTRIBUTING.md).
+
 **Citing IMBENS**
 
 The [IMBENS paper](https://arxiv.org/pdf/2111.12776.pdf) is available on arxiv.
