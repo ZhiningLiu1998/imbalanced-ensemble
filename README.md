@@ -76,7 +76,7 @@ Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">Englis
   <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#related-projects">Related Projects</a> |
   <a href="https://zhuanlan.zhihu.com/p/376572330">知乎/Zhihu</a>  
   Paper:
-  <a href="https://arxiv.org/abs/2111.12776">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>
+  <a href="https://arxiv.org/pdf/2111.12776.pdf">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>
   <br>**
 
 ***IMBENS*** (imported as `imbens`) is a Python library for quick implementation, modification, evaluation, and visualization of **ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
@@ -120,11 +120,11 @@ The [IMBENS paper](https://arxiv.org/pdf/2111.12776.pdf) is available on arxiv.
 If you use IMBENS in a scientific publication, we would appreciate citations to the following paper:
 
 ```bib
-@article{liu2021imbens,
+@article{liu2023imbens,
   title={IMBENS: Ensemble Class-imbalanced Learning in Python},
-  author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
+  author={Liu, Zhining and Kang, Jian and Tong, Hanghang and Chang, Yi},
   journal={arXiv preprint arXiv:2111.12776},
-  year={2021}
+  year={2023}
 }
 ```
 
