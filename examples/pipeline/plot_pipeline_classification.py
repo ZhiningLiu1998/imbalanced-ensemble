@@ -11,7 +11,7 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 :class:`~imbens.sampler.SMOTE`).
 """
 
-# Adapted from imbalanced-learn 
+# Adapted from imbalanced-learn
 # Authors: Christos Aridas
 #          Guillaume Lemaitre
 # License: MIT
@@ -44,7 +44,7 @@ X, y = make_classification(
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)
 
 # %% [markdown]
-# Now, we will create each individual steps 
+# Now, we will create each individual steps
 # that we would like later to combine
 
 # %%

@@ -38,13 +38,23 @@ RANDOM_STATE = 42
 # Make a toy 3-class imbalanced classification task.
 
 # make dataset
-X, y = make_classification(n_classes=3, class_sep=2,
-    weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-    n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+X, y = make_classification(
+    n_classes=3,
+    class_sep=2,
+    weights=[0.1, 0.3, 0.6],
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0,
+    n_features=20,
+    n_clusters_per_class=2,
+    n_samples=2000,
+    random_state=0,
+)
 
 # train valid split
 X_train, X_valid, y_train, y_valid = train_test_split(
-    X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+    X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+)
 
 
 # %% [markdown]
@@ -53,9 +63,9 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 # Take ``SelfPacedEnsembleClassifier`` as example
 
 # Initialize and train an SPE classifier
-clf = imbens.ensemble.SelfPacedEnsembleClassifier(
-    random_state=RANDOM_STATE
-).fit(X_train, y_train)
+clf = imbens.ensemble.SelfPacedEnsembleClassifier(random_state=RANDOM_STATE).fit(
+    X_train, y_train
+)
 
 # Store the fitted SelfPacedEnsembleClassifier
 fitted_ensembles = {'SPE': clf}
@@ -67,9 +77,9 @@ fitted_ensembles = {'SPE': clf}
 
 # Initialize visualizer
 visualizer = imbens.visualizer.ImbalancedEnsembleVisualizer(
-    eval_datasets = {
-        'training' : (X_train, y_train),
-        'validation' : (X_valid, y_valid),
+    eval_datasets={
+        'training': (X_train, y_train),
+        'validation': (X_valid, y_valid),
     },
 )
 
@@ -89,6 +99,6 @@ fig, axes = visualizer.performance_lineplot()
 # ---------------------
 
 fig, axes = visualizer.confusion_matrix_heatmap(
-    on_datasets=['validation'], # only on validation set
+    on_datasets=['validation'],  # only on validation set
     sup_title=False,
 )

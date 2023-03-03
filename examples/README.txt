@@ -1,4 +1,4 @@
-.. _general_examples:
+.. _examples-index:
 
 **General-purpose and introductory examples for the imbalanced-ensemble toolbox.**
 

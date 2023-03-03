@@ -54,9 +54,22 @@ fig = plot_2Dprojection_and_cardinality(X, y, figsize=(8, 4))
 # %% [markdown]
 # **Make class-imbalanced digits dataset**
 
-imbalance_distr = {0: 178, 1: 120, 2: 80, 3: 60, 4: 50, 5: 44, 6: 40, 7: 40, 8: 40, 9: 40}
+imbalance_distr = {
+    0: 178,
+    1: 120,
+    2: 80,
+    3: 60,
+    4: 50,
+    5: 44,
+    6: 40,
+    7: 40,
+    8: 40,
+    9: 40,
+}
 
-X_imb, y_imb = make_imbalance(X, y, sampling_strategy=imbalance_distr, random_state=RANDOM_STATE)
+X_imb, y_imb = make_imbalance(
+    X, y, sampling_strategy=imbalance_distr, random_state=RANDOM_STATE
+)
 
 fig = plot_2Dprojection_and_cardinality(X_imb, y_imb, figsize=(8, 4))
 
@@ -64,25 +77,53 @@ fig = plot_2Dprojection_and_cardinality(X_imb, y_imb, figsize=(8, 4))
 # %% [markdown]
 # Use TSNE to compare the original & imbalanced Digits datasets
 # -------------------------------------------------------------
-# We can observe that it is more difficult to distinguish the tail classes from each other in the imbalanced Digits dataset.  
+# We can observe that it is more difficult to distinguish the tail classes from each other in the imbalanced Digits dataset.
 # These tailed classes are not well represented, thus it is harder for a learning model to learn their patterns.
 
 sns.set_context('talk')
 
-tsne = sklearn.manifold.TSNE(n_components=2, perplexity=100, n_iter=500, random_state=RANDOM_STATE)
+tsne = sklearn.manifold.TSNE(
+    n_components=2, perplexity=100, n_iter=500, random_state=RANDOM_STATE
+)
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
 
 # Plot original digits data
-plot_scatter(tsne.fit_transform(X), y, title='Original Digits Data', weights=100, 
-             vis_params={'edgecolor': 'black', 'alpha': 0.8}, ax=ax1)
-ax1.legend(ncol=2, loc=2, columnspacing=0.01, borderaxespad=0.1, handletextpad=0.01, 
-           labelspacing=0.01, handlelength=None)
+plot_scatter(
+    tsne.fit_transform(X),
+    y,
+    title='Original Digits Data',
+    weights=100,
+    vis_params={'edgecolor': 'black', 'alpha': 0.8},
+    ax=ax1,
+)
+ax1.legend(
+    ncol=2,
+    loc=2,
+    columnspacing=0.01,
+    borderaxespad=0.1,
+    handletextpad=0.01,
+    labelspacing=0.01,
+    handlelength=None,
+)
 
 # Plot imbalanced digits data
-plot_scatter(tsne.fit_transform(X_imb), y_imb, title='Imbalanced Digits Data', weights=100, 
-             vis_params={'edgecolor': 'black', 'alpha': 0.8}, ax=ax2)
-ax2.legend(ncol=2, loc=2, columnspacing=0.01, borderaxespad=0.1, handletextpad=0.01, 
-           labelspacing=0.01, handlelength=None)
+plot_scatter(
+    tsne.fit_transform(X_imb),
+    y_imb,
+    title='Imbalanced Digits Data',
+    weights=100,
+    vis_params={'edgecolor': 'black', 'alpha': 0.8},
+    ax=ax2,
+)
+ax2.legend(
+    ncol=2,
+    loc=2,
+    columnspacing=0.01,
+    borderaxespad=0.1,
+    handletextpad=0.01,
+    labelspacing=0.01,
+    handlelength=None,
+)
 
 fig.tight_layout()

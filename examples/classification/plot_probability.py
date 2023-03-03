@@ -42,11 +42,12 @@ iris = sklearn.datasets.load_iris()
 X = iris.data[:, 0:2]  # we only take the first two features for visualization
 y = iris.target
 
-X, y = make_imbalance(X, y, 
-                      sampling_strategy={0: 50, 1: 30, 2: 10}, 
-                      random_state=RANDOM_STATE)
-print('Class distribution of imbalanced iris dataset: \n%s' % sort_dict_by_key(Counter(y)))
-
+X, y = make_imbalance(
+    X, y, sampling_strategy={0: 50, 1: 30, 2: 10}, random_state=RANDOM_STATE
+)
+print(
+    'Class distribution of imbalanced iris dataset: \n%s' % sort_dict_by_key(Counter(y))
+)
 
 
 # %% [markdown]
@@ -59,13 +60,16 @@ from sklearn.gaussian_process.kernels import RBF
 
 classifiers = {
     'SPE-DT': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, estimator=DecisionTreeClassifier(),
+        n_estimators=5,
+        estimator=DecisionTreeClassifier(),
     ),
     'SPE-SVM-rbf': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, estimator=SVC(kernel='rbf', probability=True),
+        n_estimators=5,
+        estimator=SVC(kernel='rbf', probability=True),
     ),
     'SPE-GPC': imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
+        n_estimators=5,
+        estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
     ),
 }
 
@@ -81,7 +85,7 @@ import matplotlib.pyplot as plt
 n_features = X.shape[1]
 
 plt.figure(figsize=(3 * 2, n_classifiers * 2))
-plt.subplots_adjust(bottom=.2, top=.95)
+plt.subplots_adjust(bottom=0.2, top=0.95)
 
 xx = np.linspace(3, 9, 100)
 yy = np.linspace(1, 5, 100).T
@@ -103,11 +107,12 @@ for index, (name, classifier) in enumerate(classifiers.items()):
         plt.title("Class %d" % k)
         if k == 0:
             plt.ylabel(name)
-        imshow_handle = plt.imshow(probas[:, k].reshape((100, 100)),
-                                   extent=(3, 9, 1, 5), origin='lower')
+        imshow_handle = plt.imshow(
+            probas[:, k].reshape((100, 100)), extent=(3, 9, 1, 5), origin='lower'
+        )
         plt.xticks(())
         plt.yticks(())
-        idx = (y_pred == k)
+        idx = y_pred == k
         if idx.any():
             plt.scatter(X[idx, 0], X[idx, 1], marker='o', c='w', edgecolor='k')
 

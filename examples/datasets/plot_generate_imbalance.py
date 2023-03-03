@@ -25,12 +25,14 @@ from collections import Counter
 
 # %%
 X_train, X_test, y_train, y_test = generate_imbalance_data(
-    n_samples=1000, weights=[.7,.2,.1], test_size=.5,
+    n_samples=1000,
+    weights=[0.7, 0.2, 0.1],
+    test_size=0.5,
     kwargs={'n_informative': 3},
 )
 
-print ("Train class distribution: ", Counter(y_train))
-print ("Test class distribution:  ", Counter(y_test))
+print("Train class distribution: ", Counter(y_train))
+print("Test class distribution:  ", Counter(y_test))
 
 # %% [markdown]
 # Plot the generated (training) data
