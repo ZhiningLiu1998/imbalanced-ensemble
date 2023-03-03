@@ -13,7 +13,6 @@ from os.path import abspath, dirname
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 # sys.path.insert(0, abspath("sphinxext"))
 # from github_link import make_linkcode_resolve
@@ -70,7 +69,7 @@ autosummary_generate = True
 
 # this is needed for some reason...
 # see https://github.com/numpy/numpydoc/issues/69
-numpydoc_show_class_members = False 
+numpydoc_show_class_members = False
 
 # -- Options for sphinx-gallery -----------------------------------------------
 
@@ -79,15 +78,16 @@ plot_gallery = True
 
 # sphinx-gallery configuration
 sphinx_gallery_conf = {
-    'examples_dirs': ['../../examples'],
-    'gallery_dirs': ['auto_examples'],
+    "examples_dirs": ["../../examples"],
+    "gallery_dirs": ["auto_examples"],
     "doc_module": (
-        "imbens", 
+        "imbens",
         "imbens.ensemble",
     ),
     "backreferences_dir": os.path.join("back_references"),
     "show_memory": True,
     "reference_url": {"imbalanced-ensemble": None},
+    "nested_sections": False,
 }
 
 # # -- Options for github link for what's new -----------------------------------
@@ -99,7 +99,7 @@ sphinx_gallery_conf = {
 
 # # The following is used by sphinx.ext.linkcode to provide links to github
 # linkcode_resolve = make_linkcode_resolve(
-#     "imbalanced-ensemble",
+#     "imbens",
 #     "https://github.com/ZhiningLiu1998/"
 #     "imbalanced-ensemble/blob/{revision}/"
 #     "{package}/{path}#L{lineno}",
@@ -116,6 +116,7 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
 
 def setup(app):
     app.add_css_file('css/my_theme.css')

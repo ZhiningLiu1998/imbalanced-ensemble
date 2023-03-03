@@ -43,7 +43,7 @@ This example uses:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-44
+.. GENERATED FROM PYTHON SOURCE LINES 17-45
 
 .. code-block:: default
 
@@ -63,6 +63,7 @@ This example uses:
     # Import plot utilities
     import matplotlib.pyplot as plt
     import seaborn as sns
+
     sns.set_context('talk')
 
     RANDOM_STATE = 42
@@ -81,25 +82,35 @@ This example uses:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-48
+.. GENERATED FROM PYTHON SOURCE LINES 46-49
 
 Prepare data
 ------------
 Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-63
+.. GENERATED FROM PYTHON SOURCE LINES 49-74
 
 .. code-block:: default
 
 
     # make dataset
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=2,
+        n_samples=2000,
+        random_state=0,
+    )
 
     # train valid split
     X_train, X_valid, y_train, y_valid = train_test_split(
-        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+    )
 
     # Print class distribution
     print('Training dataset distribution    %s' % sort_dict_by_key(Counter(y_train)))
@@ -120,18 +131,19 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 75-76
 
 Implement some plot utilities
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-75
+.. GENERATED FROM PYTHON SOURCE LINES 76-87
 
 .. code-block:: default
 
 
     cost_matrices = {}
 
-    def plot_cost_matrix(cost_matrix, title:str, **kwargs):
+
+    def plot_cost_matrix(cost_matrix, title: str, **kwargs):
         ax = sns.heatmap(data=cost_matrix, **kwargs)
         ax.set_ylabel("Predicted Label")
         ax.set_xlabel("Ground Truth")
@@ -145,23 +157,23 @@ Implement some plot utilities
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-79
+.. GENERATED FROM PYTHON SOURCE LINES 88-91
 
 Default Cost Matrix
 ----------------------------
 By default, cost-sensitive ensemble methods will set misclassification cost by inverse class frequency.
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-84
+.. GENERATED FROM PYTHON SOURCE LINES 93-96
 
-**You can access the ``clf.cost_matrix_`` attribute (``clf`` is a fitted cost-sensitive ensemble classifier) to view the cost matrix used for training.**  
-The rows represent the predicted class and columns represent the actual class.  
+**You can access the ``clf.cost_matrix_`` attribute (``clf`` is a fitted cost-sensitive ensemble classifier) to view the cost matrix used for training.**
+The rows represent the predicted class and columns represent the actual class.
 Note that the order of the classes corresponds to that in the attribute ``clf.classes_``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-87
+.. GENERATED FROM PYTHON SOURCE LINES 98-99
 
 Take ``AdaCostClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-91
+.. GENERATED FROM PYTHON SOURCE LINES 99-103
 
 .. code-block:: default
 
@@ -176,11 +188,11 @@ Take ``AdaCostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-93
+.. GENERATED FROM PYTHON SOURCE LINES 104-105
 
 **Train with the default cost matrix setting**
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-99
+.. GENERATED FROM PYTHON SOURCE LINES 105-111
 
 .. code-block:: default
 
@@ -205,11 +217,11 @@ Take ``AdaCostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 **Visualize the default cost matrix**
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-107
+.. GENERATED FROM PYTHON SOURCE LINES 113-119
 
 .. code-block:: default
 
@@ -231,21 +243,23 @@ Take ``AdaCostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-112
+.. GENERATED FROM PYTHON SOURCE LINES 120-124
 
 ``log1p-inverse`` Cost Matrix
 -----------------------------
-You can set misclassification cost by log inverse class frequency by set ``cost_matrix`` = ``'log1p-inverse'``.  
+You can set misclassification cost by log inverse class frequency by set ``cost_matrix`` = ``'log1p-inverse'``.
 This usually leads to a "softer" cost matrix, that is, less penalty for misclassification of minority class samples into the majority class.
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-120
+.. GENERATED FROM PYTHON SOURCE LINES 124-134
 
 .. code-block:: default
 
 
-    adacost_clf.fit(X_train, y_train,
-                   cost_matrix = 'log1p-inverse', # set cost matrix by log inverse class frequency
-                   )
+    adacost_clf.fit(
+        X_train,
+        y_train,
+        cost_matrix='log1p-inverse',  # set cost matrix by log inverse class frequency
+    )
 
     adacost_clf.cost_matrix_
 
@@ -265,11 +279,11 @@ This usually leads to a "softer" cost matrix, that is, less penalty for misclass
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-122
+.. GENERATED FROM PYTHON SOURCE LINES 135-136
 
 **Visualize the log1p-inverse cost matrix**
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-128
+.. GENERATED FROM PYTHON SOURCE LINES 136-142
 
 .. code-block:: default
 
@@ -291,22 +305,24 @@ This usually leads to a "softer" cost matrix, that is, less penalty for misclass
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 129-132
+.. GENERATED FROM PYTHON SOURCE LINES 143-146
 
 Use Uniform Cost Matrix
 ----------------------------
-You can set misclassification cost by log inverse class frequency by set ``cost_matrix`` = ``'uniform'``.  
+You can set misclassification cost by log inverse class frequency by set ``cost_matrix`` = ``'uniform'``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-142
+.. GENERATED FROM PYTHON SOURCE LINES 146-158
 
 .. code-block:: default
 
 
     # Note that this will set all misclassification cost to be equal, i.e., model will not be cost-sensitive.
 
-    adacost_clf.fit(X_train, y_train,
-                   cost_matrix = 'uniform', # set cost matrix to be uniform
-                   )
+    adacost_clf.fit(
+        X_train,
+        y_train,
+        cost_matrix='uniform',  # set cost matrix to be uniform
+    )
 
     adacost_clf.cost_matrix_
 
@@ -326,11 +342,11 @@ You can set misclassification cost by log inverse class frequency by set ``cost_
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-144
+.. GENERATED FROM PYTHON SOURCE LINES 159-160
 
 **Visualize the uniform cost matrix**
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-150
+.. GENERATED FROM PYTHON SOURCE LINES 160-166
 
 .. code-block:: default
 
@@ -352,18 +368,18 @@ You can set misclassification cost by log inverse class frequency by set ``cost_
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-154
+.. GENERATED FROM PYTHON SOURCE LINES 167-170
 
 Use Your Own Cost Matrix
 ------------------------
-You can also set misclassification cost by explicitly passing your cost matrix to ``cost_matrix``.  
+You can also set misclassification cost by explicitly passing your cost matrix to ``cost_matrix``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 156-158
+.. GENERATED FROM PYTHON SOURCE LINES 172-174
 
-Your cost matrix must be a ``numpy.2darray`` of shape (n_classes, n_classes), the rows represent the predicted class and columns represent the actual class.  
+Your cost matrix must be a ``numpy.2darray`` of shape (n_classes, n_classes), the rows represent the predicted class and columns represent the actual class.
 Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of classifying a sample from class :math:`j` to class :math:`i`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-173
+.. GENERATED FROM PYTHON SOURCE LINES 174-191
 
 .. code-block:: default
 
@@ -375,9 +391,11 @@ Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of cl
         [5, 2, 1],
     ]
 
-    adacost_clf.fit(X_train, y_train,
-                   cost_matrix = my_cost_matrix, # use your cost matrix
-                   )
+    adacost_clf.fit(
+        X_train,
+        y_train,
+        cost_matrix=my_cost_matrix,  # use your cost matrix
+    )
 
     adacost_clf.cost_matrix_
 
@@ -397,11 +415,11 @@ Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of cl
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 174-175
+.. GENERATED FROM PYTHON SOURCE LINES 192-193
 
 **Visualize the user-define cost matrix**
 
-.. GENERATED FROM PYTHON SOURCE LINES 175-181
+.. GENERATED FROM PYTHON SOURCE LINES 193-199
 
 .. code-block:: default
 
@@ -423,12 +441,12 @@ Thus the value at :math:`i`-th row :math:`j`-th column represents the cost of cl
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-184
+.. GENERATED FROM PYTHON SOURCE LINES 200-202
 
 Visualize All Used Cost Matrices
 --------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 184-190
+.. GENERATED FROM PYTHON SOURCE LINES 202-209
 
 .. code-block:: default
 
@@ -436,8 +454,9 @@ Visualize All Used Cost Matrices
     sns.set_context('notebook')
     fig, axes = plt.subplots(1, 4, figsize=(20, 4))
     for ax, title in zip(axes, cost_matrices.keys()):
-        plot_cost_matrix(cost_matrices[title], title, 
-                         annot=True, cmap='YlOrRd', vmax=6, ax=ax)
+        plot_cost_matrix(
+            cost_matrices[title], title, annot=True, cmap='YlOrRd', vmax=6, ax=ax
+        )
 
 
 
@@ -453,7 +472,7 @@ Visualize All Used Cost Matrices
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.596 seconds)
+   **Total running time of the script:** ( 0 minutes  0.655 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_cost_matrix.py:

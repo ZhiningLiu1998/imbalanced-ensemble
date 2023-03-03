@@ -77,12 +77,12 @@ Welcome to imbalanced-ensemble documentation!
 **Citing US**
 
 If you find IMBENS helpful in your work or research, we would greatly appreciate citations to the following paper [`PDF <(https://arxiv.org/pdf/2111.12776.pdf>`_]::
-
-   @article{liu2021imbens,
+   
+   @article{liu2023imbens,
       title={IMBENS: Ensemble Class-imbalanced Learning in Python},
-      author={Liu, Zhining and Wei, Zhepei and Yu, Erxin and Huang, Qiang and Guo, Kai and Yu, Boyang and Cai, Zhaonian and Ye, Hangting and Cao, Wei and Bian, Jiang and Wei, Pengfei and Jiang, Jing and Chang, Yi},
+      author={Liu, Zhining and Kang, Jian and Tong, Hanghang and Chang, Yi},
       journal={arXiv preprint arXiv:2111.12776},
-      year={2021}
+      year={2023}
    }
 
 
@@ -152,8 +152,10 @@ methods to cost-sensitive ensemble learning.
    api/metrics/api
    api/utils/api
 
+
 .. toctree::
-   :maxdepth: 2
+   :hidden:
+   :maxdepth: 0
    :caption: Examples
 
    auto_examples/index

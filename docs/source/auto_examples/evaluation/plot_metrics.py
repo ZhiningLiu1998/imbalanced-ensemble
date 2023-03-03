@@ -10,7 +10,7 @@ geometric mean (:func:`imbens.metrics.geometric_mean_score`)
 and (ii) index balanced accuracy (:func:`imbens.metrics.make_index_balanced_accuracy`).
 """
 
-# Adapted from imbalanced-learn 
+# Adapted from imbalanced-learn
 # Authors: Guillaume Lemaitre
 # License: MIT
 

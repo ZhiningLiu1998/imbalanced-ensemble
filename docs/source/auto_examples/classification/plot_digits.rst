@@ -117,13 +117,12 @@ To apply a classifier on this data, we need to flatten the images, turning each 
 
 **The original digits dataset**
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-64
+.. GENERATED FROM PYTHON SOURCE LINES 59-63
 
 .. code-block:: default
 
 
     fig = plot_2Dprojection_and_cardinality(X, y, figsize=(8, 4))
-
 
 
 
@@ -138,21 +137,33 @@ To apply a classifier on this data, we need to flatten the images, turning each 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 64-65
 
 **Make class-imbalanced digits dataset**
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-75
+.. GENERATED FROM PYTHON SOURCE LINES 65-86
 
 .. code-block:: default
 
 
-    imbalance_distr = {0: 178, 1: 120, 2: 80, 3: 60, 4: 50, 5: 44, 6: 40, 7: 40, 8: 40, 9: 40}
+    imbalance_distr = {
+        0: 178,
+        1: 120,
+        2: 80,
+        3: 60,
+        4: 50,
+        5: 44,
+        6: 40,
+        7: 40,
+        8: 40,
+        9: 40,
+    }
 
-    X, y = make_imbalance(X, y, sampling_strategy=imbalance_distr, random_state=RANDOM_STATE)
+    X, y = make_imbalance(
+        X, y, sampling_strategy=imbalance_distr, random_state=RANDOM_STATE
+    )
 
     fig = plot_2Dprojection_and_cardinality(X, y, figsize=(8, 4))
-
 
 
 
@@ -167,26 +178,28 @@ To apply a classifier on this data, we need to flatten the images, turning each 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-80
+.. GENERATED FROM PYTHON SOURCE LINES 87-91
 
 Classification
 --------------
-We split the data into train and test subsets and fit a ``SelfPacedEnsembleClassifier`` (with support vector machine as base classifier) on the train samples.  
+We split the data into train and test subsets and fit a ``SelfPacedEnsembleClassifier`` (with support vector machine as base classifier) on the train samples.
 The fitted classifier can subsequently be used to predict the value of the digit for the samples in the test subset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-99
+.. GENERATED FROM PYTHON SOURCE LINES 91-111
 
 .. code-block:: default
 
 
     # Split data into 50% train and 50% test subsets
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.5, shuffle=True, stratify=y, random_state=0)
+        X, y, test_size=0.5, shuffle=True, stratify=y, random_state=0
+    )
 
     # Create a classifier: a SPE with support vector base classifier
     base_clf = sklearn.svm.SVC(gamma=0.001, probability=True)
     clf = imbens.ensemble.SelfPacedEnsembleClassifier(
-        n_estimators=5, estimator=base_clf,
+        n_estimators=5,
+        estimator=base_clf,
     )
 
     # Learn the digits on the train subset
@@ -203,18 +216,19 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 ``sklearn.metrics.classification_report`` builds a text report showing the main classification metrics.
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-106
+.. GENERATED FROM PYTHON SOURCE LINES 113-120
 
 .. code-block:: default
 
 
-    print(f"Classification report for classifier {clf}:\n"
-          f"{sklearn.metrics.classification_report(y_test, predicted)}\n")
+    print(
+        f"Classification report for classifier {clf}:\n"
+        f"{sklearn.metrics.classification_report(y_test, predicted)}\n"
+    )
 
 
 
@@ -227,22 +241,22 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
     Classification report for classifier SelfPacedEnsembleClassifier(estimator=SVC(gamma=0.001, probability=True),
                                 n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x247543B9540):
+                                random_state=RandomState(MT19937) at 0x14D4217F040):
                   precision    recall  f1-score   support
 
                0       1.00      1.00      1.00        89
-               1       0.97      1.00      0.98        60
+               1       0.92      1.00      0.96        60
                2       1.00      0.97      0.99        40
-               3       0.96      0.90      0.93        30
+               3       1.00      0.90      0.95        30
                4       1.00      0.96      0.98        25
-               5       0.91      0.95      0.93        22
+               5       0.95      0.95      0.95        22
                6       1.00      1.00      1.00        20
                7       0.90      0.95      0.93        20
-               8       0.90      0.95      0.93        20
-               9       0.89      0.85      0.87        20
+               8       0.90      0.90      0.90        20
+               9       0.95      0.90      0.92        20
 
         accuracy                           0.97       346
-       macro avg       0.95      0.95      0.95       346
+       macro avg       0.96      0.95      0.96       346
     weighted avg       0.97      0.97      0.97       346
 
 
@@ -250,11 +264,11 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-108
+.. GENERATED FROM PYTHON SOURCE LINES 121-122
 
 Below we visualize the first 4 test samples and show their predicted digit value in the title.
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-118
+.. GENERATED FROM PYTHON SOURCE LINES 122-131
 
 .. code-block:: default
 
@@ -270,7 +284,6 @@ Below we visualize the first 4 test samples and show their predicted digit value
 
 
 
-
 .. image-sg:: /auto_examples/classification/images/sphx_glr_plot_digits_004.png
    :alt: Prediction: 1, Prediction: 2, Prediction: 9, Prediction: 6
    :srcset: /auto_examples/classification/images/sphx_glr_plot_digits_004.png
@@ -280,18 +293,18 @@ Below we visualize the first 4 test samples and show their predicted digit value
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-120
+.. GENERATED FROM PYTHON SOURCE LINES 132-133
 
 We can also plot a confusion matrix of the true digit values and the predicted digit values using the ``ImbalancedEnsembleVisualizer``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-131
+.. GENERATED FROM PYTHON SOURCE LINES 133-144
 
 .. code-block:: default
 
 
     visualizer = imbens.visualizer.ImbalancedEnsembleVisualizer(
-        eval_datasets = {
-            'test' : (X_test, y_test),
+        eval_datasets={
+            'test': (X_test, y_test),
         },
     ).fit({'SPE': clf})
 
@@ -312,7 +325,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                                                                                               | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                                                                            | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|####################################################################################################################################################################################################################| 5/5 [00:00<00:00, 76.76it/s]
+      0%|                                                                                                                                                                                                     | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                  | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|##########################################################################################################################################| 5/5 [00:00<00:00, 59.86it/s]
     Visualizer computing confusion matrices. Finished!
 
 
@@ -321,7 +334,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.903 seconds)
+   **Total running time of the script:** ( 0 minutes  1.385 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_digits.py:

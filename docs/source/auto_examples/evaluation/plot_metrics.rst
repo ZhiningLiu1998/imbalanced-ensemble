@@ -33,7 +33,7 @@ and (ii) index balanced accuracy (:func:`imbens.metrics.make_index_balanced_accu
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn 
+    # Adapted from imbalanced-learn
     # Authors: Guillaume Lemaitre
     # License: MIT
 
@@ -243,7 +243,7 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.136 seconds)
+   **Total running time of the script:** ( 0 minutes  0.128 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:

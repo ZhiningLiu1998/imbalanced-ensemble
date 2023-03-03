@@ -92,19 +92,29 @@ Prepare data
 ----------------------------
 Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-64
+.. GENERATED FROM PYTHON SOURCE LINES 53-74
 
 .. code-block:: default
 
 
     # make dataset
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=2,
+        n_samples=2000,
+        random_state=0,
+    )
 
     # train valid split
     X_train, X_valid, y_train, y_valid = train_test_split(
-        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+    )
 
 
 
@@ -114,11 +124,11 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 75-76
 
 Print the original class/marginal distribution P(Y) of the training data
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-70
+.. GENERATED FROM PYTHON SOURCE LINES 76-80
 
 .. code-block:: default
 
@@ -139,18 +149,18 @@ Print the original class/marginal distribution P(Y) of the training data
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-75
+.. GENERATED FROM PYTHON SOURCE LINES 81-85
 
 Uniform under-sampling
 ----------------------------
-By default, under-sampling-based ensemble methods will consider the smallest class as the minority class (class 0 with 100 samples).  
-All other classes (class 1 and 2) will be considered as majority classes and will be under-sampled until the number of samples is equalized.  
+By default, under-sampling-based ensemble methods will consider the smallest class as the minority class (class 0 with 100 samples).
+All other classes (class 1 and 2) will be considered as majority classes and will be under-sampled until the number of samples is equalized.
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 87-88
 
 Take ``SelfPacedEnsembleClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-82
+.. GENERATED FROM PYTHON SOURCE LINES 88-92
 
 .. code-block:: default
 
@@ -165,11 +175,11 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-84
+.. GENERATED FROM PYTHON SOURCE LINES 93-94
 
 **Train with the default under-sampling setting**
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-88
+.. GENERATED FROM PYTHON SOURCE LINES 94-98
 
 .. code-block:: default
 
@@ -204,36 +214,38 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
     <div class="output_subarea output_html rendered_html output_result">
     <style>#sk-container-id-6 {color: black;background-color: white;}#sk-container-id-6 pre{padding: 0;}#sk-container-id-6 div.sk-toggleable {background-color: white;}#sk-container-id-6 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-6 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-6 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-6 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-6 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-6 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-6 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-6 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-6 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-6 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-6 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-6 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-6 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-6 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-6 div.sk-item {position: relative;z-index: 1;}#sk-container-id-6 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-6 div.sk-item::before, #sk-container-id-6 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-6 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-6 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-6 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-6 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-6 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-6 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-6 div.sk-label-container {text-align: center;}#sk-container-id-6 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-6 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" checked><label for="sk-estimator-id-6" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre></div></div></div></div></div>
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" checked><label for="sk-estimator-id-6" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre></div></div></div></div></div>
     </div>
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-98
+.. GENERATED FROM PYTHON SOURCE LINES 99-108
 
 Progressive under-sampling
 ---------------------------
-The resample class distributions are progressive 
+The resample class distributions are progressive
 interpolation between the original and the target class distribution.
-Example: For a class :math:`c`, say the number of samples is :math:`N_{c}` 
-and the target number of samples is :math:`N'_{c}`. Suppose that we are 
-training the :math:`t`-th base estimator of a :math:`T`-estimator ensemble, then 
-we expect to get :math:`(1-\frac{t}{T}) \cdot N_{c} + \frac{t}{T} \cdot N'_{c}` 
+Example: For a class :math:`c`, say the number of samples is :math:`N_{c}`
+and the target number of samples is :math:`N'_{c}`. Suppose that we are
+training the :math:`t`-th base estimator of a :math:`T`-estimator ensemble, then
+we expect to get :math:`(1-\frac{t}{T}) \cdot N_{c} + \frac{t}{T} \cdot N'_{c}`
 samples after resampling;
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 110-111
 
 **Train with progressive under-sampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-108
+.. GENERATED FROM PYTHON SOURCE LINES 111-120
 
 .. code-block:: default
 
 
-    spe_clf.fit(X_train, y_train,
-        balancing_schedule='progressive', # Progeressive under-sampling
-        **fit_kwargs
+    spe_clf.fit(
+        X_train,
+        y_train,
+        balancing_schedule='progressive',  # Progeressive under-sampling
+        **fit_kwargs,
     )
 
 
@@ -264,39 +276,44 @@ samples after resampling;
 
     <div class="output_subarea output_html rendered_html output_result">
     <style>#sk-container-id-7 {color: black;background-color: white;}#sk-container-id-7 pre{padding: 0;}#sk-container-id-7 div.sk-toggleable {background-color: white;}#sk-container-id-7 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-7 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-7 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-7 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-7 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-7 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-7 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-7 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-7 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-7 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-7 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-7 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-7 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-7 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-7 div.sk-item {position: relative;z-index: 1;}#sk-container-id-7 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-7 div.sk-item::before, #sk-container-id-7 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-7 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-7 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-7 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-7 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-7 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-7 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-7 div.sk-label-container {text-align: center;}#sk-container-id-7 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-7 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" checked><label for="sk-estimator-id-7" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre></div></div></div></div></div>
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" checked><label for="sk-estimator-id-7" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre></div></div></div></div></div>
     </div>
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-116
+.. GENERATED FROM PYTHON SOURCE LINES 121-128
 
-Define your own resampling schedule. 
+Define your own resampling schedule.
 ------------------------------------
-Your schedule function should take 4 positional arguments with order (``'origin_distr'``: 
-``dict``, ``'target_distr'``: ``dict``, ``'i_estimator'``: ``int``, ``'total_estimator'``: 
-``int``), and returns a ``'result_distr'``: ``dict``. For all parameters of type ``dict``, 
-the keys of type ``int`` correspond to the targeted classes, and the values of type ``str`` 
+Your schedule function should take 4 positional arguments with order (``'origin_distr'``:
+``dict``, ``'target_distr'``: ``dict``, ``'i_estimator'``: ``int``, ``'total_estimator'``:
+``int``), and returns a ``'result_distr'``: ``dict``. For all parameters of type ``dict``,
+the keys of type ``int`` correspond to the targeted classes, and the values of type ``str``
 correspond to the (desired) number of samples for each class.
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-119
+.. GENERATED FROM PYTHON SOURCE LINES 130-131
 
 **Train with user-defined dummy resampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-131
+.. GENERATED FROM PYTHON SOURCE LINES 131-148
 
 .. code-block:: default
 
 
-    def my_dummy_schedule(origin_distr:dict, target_distr:dict, 
-                          i_estimator:int, total_estimator:int):
+
+    def my_dummy_schedule(
+        origin_distr: dict, target_distr: dict, i_estimator: int, total_estimator: int
+    ):
         '''A dummy resampling schedule'''
         return origin_distr
 
-    spe_clf.fit(X_train, y_train,
-        balancing_schedule=my_dummy_schedule, # Use your progressive resampling schedule
-        **fit_kwargs
+
+    spe_clf.fit(
+        X_train,
+        y_train,
+        balancing_schedule=my_dummy_schedule,  # Use your progressive resampling schedule
+        **fit_kwargs,
     )
 
 
@@ -327,38 +344,44 @@ correspond to the (desired) number of samples for each class.
 
     <div class="output_subarea output_html rendered_html output_result">
     <style>#sk-container-id-8 {color: black;background-color: white;}#sk-container-id-8 pre{padding: 0;}#sk-container-id-8 div.sk-toggleable {background-color: white;}#sk-container-id-8 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-8 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-8 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-8 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-8 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-8 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-8 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-8 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-8 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-8 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-8 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-8 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-8 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-8 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-8 div.sk-item {position: relative;z-index: 1;}#sk-container-id-8 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-8 div.sk-item::before, #sk-container-id-8 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-8 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-8 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-8 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-8 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-8 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-8 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-8 div.sk-label-container {text-align: center;}#sk-container-id-8 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-8 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-8" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" checked><label for="sk-estimator-id-8" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre></div></div></div></div></div>
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" checked><label for="sk-estimator-id-8" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre></div></div></div></div></div>
     </div>
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-133
+.. GENERATED FROM PYTHON SOURCE LINES 149-150
 
 **Train with user-defined progressive resampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 133-154
+.. GENERATED FROM PYTHON SOURCE LINES 150-177
 
 .. code-block:: default
 
 
-    def my_progressive_schedule(origin_distr:dict, target_distr:dict, 
-                                i_estimator:int, total_estimator:int):
+
+    def my_progressive_schedule(
+        origin_distr: dict, target_distr: dict, i_estimator: int, total_estimator: int
+    ):
         '''A user-defined progressive resampling schedule'''
         # compute training progress
-        p = i_estimator / (total_estimator-1) if total_estimator >= 1 else 1
+        p = i_estimator / (total_estimator - 1) if total_estimator >= 1 else 1
         result_distr = {}
         # compute expected number of samples for each class
         for label in origin_distr.keys():
             result_distr[label] = math.ceil(
-                origin_distr[label] * (1-p) + target_distr[label] * p - 1e-10 # for numerical stability
+                origin_distr[label] * (1 - p)
+                + target_distr[label] * p
+                - 1e-10  # for numerical stability
             )
         return result_distr
 
 
-    spe_clf.fit(X_train, y_train,
-        balancing_schedule=my_progressive_schedule, # Use your progressive resampling schedule
-        **fit_kwargs
+    spe_clf.fit(
+        X_train,
+        y_train,
+        balancing_schedule=my_progressive_schedule,  # Use your progressive resampling schedule
+        **fit_kwargs,
     )
 
 
@@ -389,28 +412,28 @@ correspond to the (desired) number of samples for each class.
 
     <div class="output_subarea output_html rendered_html output_result">
     <style>#sk-container-id-9 {color: black;background-color: white;}#sk-container-id-9 pre{padding: 0;}#sk-container-id-9 div.sk-toggleable {background-color: white;}#sk-container-id-9 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-9 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-9 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-9 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-9 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-9 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-9 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-9 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-9 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-9 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-9 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-9 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-9 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-9 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-9 div.sk-item {position: relative;z-index: 1;}#sk-container-id-9 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-9 div.sk-item::before, #sk-container-id-9 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-9 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-9 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-9 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-9 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-9 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-9 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-9 div.sk-label-container {text-align: center;}#sk-container-id-9 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-9 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-9" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" checked><label for="sk-estimator-id-9" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x2475DFCD940)</pre></div></div></div></div></div>
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" checked><label for="sk-estimator-id-9" class="sk-toggleable__label sk-toggleable__label-arrow">SelfPacedEnsembleClassifier</label><div class="sk-toggleable__content"><pre>SelfPacedEnsembleClassifier(n_estimators=5,
+                                random_state=RandomState(MT19937) at 0x14D4C080B40)</pre></div></div></div></div></div>
     </div>
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-159
+.. GENERATED FROM PYTHON SOURCE LINES 178-182
 
 Over-sampling
 ----------------------------
-By default, over-sampling-based ensemble methods will consider the largest class as the majority class (class 2 with 600 samples).  
+By default, over-sampling-based ensemble methods will consider the largest class as the majority class (class 2 with 600 samples).
 All other classes (class 0 and 1) will be considered as minority classes and will be over-sampled until the number of samples is equalized.
 
-.. GENERATED FROM PYTHON SOURCE LINES 161-162
+.. GENERATED FROM PYTHON SOURCE LINES 184-185
 
 **The over-sampling schedule can be customized in the same way as under-sampling.**
 
-.. GENERATED FROM PYTHON SOURCE LINES 164-165
+.. GENERATED FROM PYTHON SOURCE LINES 187-188
 
 Take ``SMOTEBoostClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 165-168
+.. GENERATED FROM PYTHON SOURCE LINES 188-191
 
 .. code-block:: default
 
@@ -424,11 +447,11 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 169-170
+.. GENERATED FROM PYTHON SOURCE LINES 192-193
 
 **Train with the default over-sampling setting**
 
-.. GENERATED FROM PYTHON SOURCE LINES 170-174
+.. GENERATED FROM PYTHON SOURCE LINES 193-197
 
 .. code-block:: default
 
@@ -467,11 +490,11 @@ Take ``SMOTEBoostClassifier`` as example
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 175-176
+.. GENERATED FROM PYTHON SOURCE LINES 198-199
 
 **Train with progressive over-sampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 176-180
+.. GENERATED FROM PYTHON SOURCE LINES 199-203
 
 .. code-block:: default
 
@@ -510,19 +533,16 @@ Take ``SMOTEBoostClassifier`` as example
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 181-182
+.. GENERATED FROM PYTHON SOURCE LINES 204-205
 
 **Train with user-defined dummy resampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-189
+.. GENERATED FROM PYTHON SOURCE LINES 205-209
 
 .. code-block:: default
 
 
-    smoteboost_clf.fit(X_train, y_train,
-        balancing_schedule=my_dummy_schedule,
-        **fit_kwargs
-    )
+    smoteboost_clf.fit(X_train, y_train, balancing_schedule=my_dummy_schedule, **fit_kwargs)
 
 
 
@@ -556,18 +576,17 @@ Take ``SMOTEBoostClassifier`` as example
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 190-191
+.. GENERATED FROM PYTHON SOURCE LINES 210-211
 
 **Train with user-defined progressive resampling schedule**
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-198
+.. GENERATED FROM PYTHON SOURCE LINES 211-217
 
 .. code-block:: default
 
 
-    smoteboost_clf.fit(X_train, y_train,
-        balancing_schedule=my_progressive_schedule,
-        **fit_kwargs
+    smoteboost_clf.fit(
+        X_train, y_train, balancing_schedule=my_progressive_schedule, **fit_kwargs
     )
 
 
@@ -602,13 +621,13 @@ Take ``SMOTEBoostClassifier`` as example
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 199-202
+.. GENERATED FROM PYTHON SOURCE LINES 218-221
 
 Visualize different resampling schedule
 ---------------------------------------
 Implement some plot utilities
 
-.. GENERATED FROM PYTHON SOURCE LINES 202-225
+.. GENERATED FROM PYTHON SOURCE LINES 221-246
 
 .. code-block:: default
 
@@ -619,14 +638,16 @@ Implement some plot utilities
 
     ylim = (0, 630)
 
-    def plot_class_distribution(distr:dict, xlabel:str='Class Label', 
-                                ylabel:str='Number of samples', **kwargs):
+
+    def plot_class_distribution(
+        distr: dict,
+        xlabel: str = 'Class Label',
+        ylabel: str = 'Number of samples',
+        **kwargs,
+    ):
         distr = dict(sorted(distr.items(), key=lambda k: k[0], reverse=True))
         ax = sns.barplot(
-            x=list(distr.keys()), 
-            y=list(distr.values()),
-            order=list(distr.keys()),
-            **kwargs
+            x=list(distr.keys()), y=list(distr.values()), order=list(distr.keys()), **kwargs
         )
         set_ax_border(ax)
         ax.grid(axis='y', alpha=0.5, ls='-.')
@@ -642,11 +663,11 @@ Implement some plot utilities
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 226-227
+.. GENERATED FROM PYTHON SOURCE LINES 247-248
 
 **Original class distribution**
 
-.. GENERATED FROM PYTHON SOURCE LINES 227-232
+.. GENERATED FROM PYTHON SOURCE LINES 248-253
 
 .. code-block:: default
 
@@ -673,11 +694,11 @@ Implement some plot utilities
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 233-234
+.. GENERATED FROM PYTHON SOURCE LINES 254-255
 
 **Uniform under/over-sampling**
 
-.. GENERATED FROM PYTHON SOURCE LINES 234-244
+.. GENERATED FROM PYTHON SOURCE LINES 255-265
 
 .. code-block:: default
 
@@ -703,11 +724,11 @@ Implement some plot utilities
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 245-246
+.. GENERATED FROM PYTHON SOURCE LINES 266-267
 
 **Progressive under/over-sampling**
 
-.. GENERATED FROM PYTHON SOURCE LINES 246-272
+.. GENERATED FROM PYTHON SOURCE LINES 267-296
 
 .. code-block:: default
 
@@ -734,8 +755,11 @@ Implement some plot utilities
         plot_class_distribution(resample_distr, ax=ax)
         ax.set(ylim=ylim, title=f'After prog OS @Iter {i+1}/{N}')
 
-    fig.suptitle("Abbreviation: prog: progressive; US: under-sampling; OS: over-sampling; Iter: iteration.", 
-                 y=0.02, style='italic')
+    fig.suptitle(
+        "Abbreviation: prog: progressive; US: under-sampling; OS: over-sampling; Iter: iteration.",
+        y=0.02,
+        style='italic',
+    )
     fig.tight_layout()
 
 
@@ -752,7 +776,7 @@ Implement some plot utilities
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.797 seconds)
+   **Total running time of the script:** ( 0 minutes  0.907 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_sampling_schedule.py:

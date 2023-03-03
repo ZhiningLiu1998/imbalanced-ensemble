@@ -64,17 +64,19 @@ Generate the dataset
 --------------------
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-35
+.. GENERATED FROM PYTHON SOURCE LINES 27-37
 
 .. code-block:: default
 
     X_train, X_test, y_train, y_test = generate_imbalance_data(
-        n_samples=1000, weights=[.7,.2,.1], test_size=.5,
+        n_samples=1000,
+        weights=[0.7, 0.2, 0.1],
+        test_size=0.5,
         kwargs={'n_informative': 3},
     )
 
-    print ("Train class distribution: ", Counter(y_train))
-    print ("Test class distribution:  ", Counter(y_test))
+    print("Train class distribution: ", Counter(y_train))
+    print("Test class distribution:  ", Counter(y_test))
 
 
 
@@ -90,13 +92,13 @@ Generate the dataset
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-39
+.. GENERATED FROM PYTHON SOURCE LINES 38-41
 
 Plot the generated (training) data
 ----------------------------------
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-43
 
 .. code-block:: default
 
@@ -123,7 +125,7 @@ Plot the generated (training) data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.103 seconds)
+   **Total running time of the script:** ( 0 minutes  0.113 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_generate_imbalance.py:

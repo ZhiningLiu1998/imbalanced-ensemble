@@ -79,7 +79,7 @@ Preparation
 -----------
 **Make 3 imbalanced iris classification tasks.**
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-52
+.. GENERATED FROM PYTHON SOURCE LINES 40-53
 
 .. code-block:: default
 
@@ -88,11 +88,12 @@ Preparation
     X = iris.data[:, 0:2]  # we only take the first two features for visualization
     y = iris.target
 
-    X, y = make_imbalance(X, y, 
-                          sampling_strategy={0: 50, 1: 30, 2: 10}, 
-                          random_state=RANDOM_STATE)
-    print('Class distribution of imbalanced iris dataset: \n%s' % sort_dict_by_key(Counter(y)))
-
+    X, y = make_imbalance(
+        X, y, sampling_strategy={0: 50, 1: 30, 2: 10}, random_state=RANDOM_STATE
+    )
+    print(
+        'Class distribution of imbalanced iris dataset: \n%s' % sort_dict_by_key(Counter(y))
+    )
 
 
 
@@ -109,11 +110,11 @@ Preparation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 **Create SPE (ensemble size = 5) with different base classifiers.**
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-75
+.. GENERATED FROM PYTHON SOURCE LINES 55-79
 
 .. code-block:: default
 
@@ -125,13 +126,16 @@ Preparation
 
     classifiers = {
         'SPE-DT': imbens.ensemble.SelfPacedEnsembleClassifier(
-            n_estimators=5, estimator=DecisionTreeClassifier(),
+            n_estimators=5,
+            estimator=DecisionTreeClassifier(),
         ),
         'SPE-SVM-rbf': imbens.ensemble.SelfPacedEnsembleClassifier(
-            n_estimators=5, estimator=SVC(kernel='rbf', probability=True),
+            n_estimators=5,
+            estimator=SVC(kernel='rbf', probability=True),
         ),
         'SPE-GPC': imbens.ensemble.SelfPacedEnsembleClassifier(
-            n_estimators=5, estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
+            n_estimators=5,
+            estimator=GaussianProcessClassifier(1.0 * RBF([1.0, 1.0])),
         ),
     }
 
@@ -145,12 +149,12 @@ Preparation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-78
+.. GENERATED FROM PYTHON SOURCE LINES 80-82
 
 Plot classification probabilities
 ---------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-118
+.. GENERATED FROM PYTHON SOURCE LINES 82-123
 
 .. code-block:: default
 
@@ -160,7 +164,7 @@ Plot classification probabilities
     n_features = X.shape[1]
 
     plt.figure(figsize=(3 * 2, n_classifiers * 2))
-    plt.subplots_adjust(bottom=.2, top=.95)
+    plt.subplots_adjust(bottom=0.2, top=0.95)
 
     xx = np.linspace(3, 9, 100)
     yy = np.linspace(1, 5, 100).T
@@ -182,11 +186,12 @@ Plot classification probabilities
             plt.title("Class %d" % k)
             if k == 0:
                 plt.ylabel(name)
-            imshow_handle = plt.imshow(probas[:, k].reshape((100, 100)),
-                                       extent=(3, 9, 1, 5), origin='lower')
+            imshow_handle = plt.imshow(
+                probas[:, k].reshape((100, 100)), extent=(3, 9, 1, 5), origin='lower'
+            )
             plt.xticks(())
             plt.yticks(())
-            idx = (y_pred == k)
+            idx = y_pred == k
             if idx.any():
                 plt.scatter(X[idx, 0], X[idx, 1], marker='o', c='w', edgecolor='k')
 
@@ -207,9 +212,9 @@ Plot classification probabilities
 
  .. code-block:: none
 
-    Balanced Accuracy (train) for SPE-DT: 90.0% 
-    Balanced Accuracy (train) for SPE-SVM-rbf: 54.4% 
-    Balanced Accuracy (train) for SPE-GPC: 84.4% 
+    Balanced Accuracy (train) for SPE-DT: 84.9% 
+    Balanced Accuracy (train) for SPE-SVM-rbf: 77.8% 
+    Balanced Accuracy (train) for SPE-GPC: 85.6% 
 
 
 
@@ -217,7 +222,7 @@ Plot classification probabilities
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.545 seconds)
+   **Total running time of the script:** ( 0 minutes  0.622 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_probability.py:

@@ -1,12 +1,11 @@
 :orphan:
 
-.. _general_examples:
+.. _examples-index:
 
 **General-purpose and introductory examples for the imbalanced-ensemble toolbox.**
 
 **The examples gallery is still under construction.** Please refer to APIs for more detailed guidelines of how to use 
 ``imbens``.
-
 
 
 .. raw:: html
@@ -20,7 +19,7 @@
 
 
 Basic usage examples
--------------------------------------------------------
+--------------------
 
 Quick start with :mod:`imbens`.
 
@@ -87,8 +86,16 @@ Quick start with :mod:`imbens`.
     </div>
 
 
+.. toctree::
+   :hidden:
+
+   /auto_examples/basic/plot_basic_visualize
+   /auto_examples/basic/plot_training_log
+   /auto_examples/basic/plot_basic_example
+
+
 Classification examples
--------------------------------------------------------
+-----------------------
 
 Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 
@@ -169,23 +176,6 @@ Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
-
-.. only:: html
-
-  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_classifier_comparison_thumb.png
-    :alt: Classifier comparison
-
-  :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Classifier comparison</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to customize the resampling target to achieve advanced resampling...">
 
 .. only:: html
@@ -198,6 +188,23 @@ Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Customize resampling target</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A comparison of a several classifiers in imbens.ensemble  on synthetic datasets. The point of t...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_classifier_comparison_thumb.png
+    :alt: Classifier comparison
+
+  :ref:`sphx_glr_auto_examples_classification_plot_classifier_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classifier comparison</div>
     </div>
 
 
@@ -223,8 +230,20 @@ Examples about using classification algorithms in :mod:`imbens.ensemble` module.
     </div>
 
 
+.. toctree::
+   :hidden:
+
+   /auto_examples/classification/plot_digits
+   /auto_examples/classification/plot_probability
+   /auto_examples/classification/plot_cost_matrix
+   /auto_examples/classification/plot_sampling_schedule
+   /auto_examples/classification/plot_resampling_target
+   /auto_examples/classification/plot_classifier_comparison
+   /auto_examples/classification/plot_torch
+
+
 Dataset examples
------------------------
+----------------
 
 Examples concerning the :mod:`imbens.datasets` module.
 
@@ -291,6 +310,14 @@ Examples concerning the :mod:`imbens.datasets` module.
     </div>
 
 
+.. toctree::
+   :hidden:
+
+   /auto_examples/datasets/plot_generate_imbalance
+   /auto_examples/datasets/plot_make_imbalance
+   /auto_examples/datasets/plot_make_imbalance_digits
+
+
 Evaluation examples
 -------------------
 
@@ -342,8 +369,15 @@ Examples illustrating how classification using imbalanced dataset can be done.
     </div>
 
 
+.. toctree::
+   :hidden:
+
+   /auto_examples/evaluation/plot_classification_report
+   /auto_examples/evaluation/plot_metrics
+
+
 Pipeline examples
----------------------
+-----------------
 
 Example of how to use the a pipeline to include under-sampling with `scikit-learn` estimators.
 
@@ -375,8 +409,14 @@ Example of how to use the a pipeline to include under-sampling with `scikit-lear
     </div>
 
 
+.. toctree::
+   :hidden:
+
+   /auto_examples/pipeline/plot_pipeline_classification
+
+
 Visualizer examples
--------------------------------------------------------
+-------------------
 
 Examples concerning the  :mod:`imbens.visualizer`. module.
 
@@ -428,14 +468,9 @@ Examples concerning the  :mod:`imbens.visualizer`. module.
 
 .. toctree::
    :hidden:
-   :includehidden:
 
-   /auto_examples/basic/index.rst
-   /auto_examples/classification/index.rst
-   /auto_examples/datasets/index.rst
-   /auto_examples/evaluation/index.rst
-   /auto_examples/pipeline/index.rst
-   /auto_examples/visualizer/index.rst
+   /auto_examples/visualizer/plot_confusion_matrix
+   /auto_examples/visualizer/plot_performance_curve
 
 
 .. only:: html

@@ -47,7 +47,7 @@ This example uses:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-52
+.. GENERATED FROM PYTHON SOURCE LINES 21-53
 
 .. code-block:: default
 
@@ -66,6 +66,7 @@ This example uses:
     from imbens.utils._plot import set_ax_border
     import matplotlib.pyplot as plt
     import seaborn as sns
+
     sns.set_context('talk')
 
     RANDOM_STATE = 42
@@ -89,23 +90,33 @@ This example uses:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-56
+.. GENERATED FROM PYTHON SOURCE LINES 54-57
 
 Prepare data
 ------------------------------
 Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-68
+.. GENERATED FROM PYTHON SOURCE LINES 57-79
 
 .. code-block:: default
 
 
     # Generate and split a synthetic dataset
-    X, y = make_classification(n_classes=3, n_samples=2000, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, random_state=RANDOM_STATE)
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, 
-        test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+    X, y = make_classification(
+        n_classes=3,
+        n_samples=2000,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=2,
+        random_state=RANDOM_STATE,
+    )
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+    )
 
     # Print class distribution
     print('Training dataset distribution    %s' % sort_dict_by_key(Counter(y_train)))
@@ -125,11 +136,11 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 80-81
 
 Implement some plot utilities
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-101
+.. GENERATED FROM PYTHON SOURCE LINES 81-118
 
 .. code-block:: default
 
@@ -138,14 +149,16 @@ Implement some plot utilities
 
     all_distribution = {}
 
-    def plot_class_distribution(distr:dict, xlabel:str='Class Label', 
-                                ylabel:str='Number of samples', **kwargs):
+
+    def plot_class_distribution(
+        distr: dict,
+        xlabel: str = 'Class Label',
+        ylabel: str = 'Number of samples',
+        **kwargs
+    ):
         distr = dict(sorted(distr.items(), key=lambda k: k[0], reverse=True))
         ax = sns.barplot(
-            x=list(distr.keys()), 
-            y=list(distr.values()),
-            order=list(distr.keys()),
-            **kwargs
+            x=list(distr.keys()), y=list(distr.values()), order=list(distr.keys()), **kwargs
         )
         set_ax_border(ax)
         ax.grid(axis='y', alpha=0.5, ls='-.')
@@ -153,9 +166,13 @@ Implement some plot utilities
         ax.set_ylabel(ylabel)
         return ax
 
-    def plot_class_distribution_comparison(clf, 
-                                           title1='Original imbalanced class distribution', 
-                                           title2='After resampling', figsize=(12, 6)):
+
+    def plot_class_distribution_comparison(
+        clf,
+        title1='Original imbalanced class distribution',
+        title2='After resampling',
+        figsize=(12, 6),
+    ):
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
         plot_class_distribution(clf.origin_distr_, ax=ax1)
         ax1.set(ylim=ylim, title=title1)
@@ -171,18 +188,18 @@ Implement some plot utilities
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-106
+.. GENERATED FROM PYTHON SOURCE LINES 119-123
 
 Default under-sampling
 ----------------------------
-By default, under-sampling-based ensemble methods will consider the smallest class as the minority class (class 0 with 100 samples).  
-All other classes (class 1 and 2) will be considered as majority classes and will be under-sampled until the number of samples is equalized.  
+By default, under-sampling-based ensemble methods will consider the smallest class as the minority class (class 0 with 100 samples).
+All other classes (class 1 and 2) will be considered as majority classes and will be under-sampled until the number of samples is equalized.
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-109
+.. GENERATED FROM PYTHON SOURCE LINES 125-126
 
 Take ``SelfPacedEnsembleClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-113
+.. GENERATED FROM PYTHON SOURCE LINES 126-130
 
 .. code-block:: default
 
@@ -197,11 +214,11 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-115
+.. GENERATED FROM PYTHON SOURCE LINES 131-132
 
 **Train with the default under-sampling setting**
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-124
+.. GENERATED FROM PYTHON SOURCE LINES 132-141
 
 .. code-block:: default
 
@@ -209,7 +226,7 @@ Take ``SelfPacedEnsembleClassifier`` as example
     spe_clf.fit(X_train, y_train, **fit_kwargs)
 
     all_distribution['Before under-sampling'] = spe_clf.origin_distr_
-    resampling_type='After default under-sampling'
+    resampling_type = 'After default under-sampling'
     all_distribution[resampling_type] = spe_clf.target_distr_
     plot_class_distribution_comparison(spe_clf, title2=resampling_type)
 
@@ -240,25 +257,23 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-131
+.. GENERATED FROM PYTHON SOURCE LINES 142-148
 
 Specify the class targeted by the under-sampling
 -------------------------------------------------
-**Set parameter ``target_label``: int**  
-All other classes that have more samples than the target class will be considered as majority classes.  
-They will be under-sampled until the number of samples is equalized.  
+**Set parameter ``target_label``: int**
+All other classes that have more samples than the target class will be considered as majority classes.
+They will be under-sampled until the number of samples is equalized.
 The remaining minority classes (if any) will stay unchanged.
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-141
+.. GENERATED FROM PYTHON SOURCE LINES 148-156
 
 .. code-block:: default
 
 
-    spe_clf.fit(X_train, y_train, 
-                target_label=1, # target class 1
-                **fit_kwargs)
+    spe_clf.fit(X_train, y_train, target_label=1, **fit_kwargs)  # target class 1
 
-    resampling_type='After under-sampling (target class 1)'
+    resampling_type = 'After under-sampling (target class 1)'
     all_distribution[resampling_type] = spe_clf.target_distr_
     plot_class_distribution_comparison(spe_clf, title2=resampling_type)
 
@@ -289,23 +304,23 @@ The remaining minority classes (if any) will stay unchanged.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-146
+.. GENERATED FROM PYTHON SOURCE LINES 157-161
 
 Specify the desired number of samples after under-sampling
 -----------------------------------------------------------
-**Set parameter ``n_target_samples``: int or dict**  
+**Set parameter ``n_target_samples``: int or dict**
 If int, all classes that have more than the n_target_samples samples will be under-sampled until the number of samples is equalized.
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-156
+.. GENERATED FROM PYTHON SOURCE LINES 161-171
 
 .. code-block:: default
 
 
-    spe_clf.fit(X_train, y_train, 
-                n_target_samples=200, # target number of samples 200
-                **fit_kwargs)
+    spe_clf.fit(
+        X_train, y_train, n_target_samples=200, **fit_kwargs  # target number of samples 200
+    )
 
-    resampling_type='After under-sampling (target number 200)'
+    resampling_type = 'After under-sampling (target number 200)'
     all_distribution[resampling_type] = spe_clf.target_distr_
     plot_class_distribution_comparison(spe_clf, title2=resampling_type)
 
@@ -336,27 +351,30 @@ If int, all classes that have more than the n_target_samples samples will be und
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-161
+.. GENERATED FROM PYTHON SOURCE LINES 172-176
 
 Specify the desired number of samples of each class after under-sampling
 ------------------------------------------------------------------------
-**Set parameter ``n_target_samples``: int or dict**  
+**Set parameter ``n_target_samples``: int or dict**
 If dict, the keys correspond to the targeted classes. The values correspond to the desired number of samples for each targeted class.
 
-.. GENERATED FROM PYTHON SOURCE LINES 161-175
+.. GENERATED FROM PYTHON SOURCE LINES 176-193
 
 .. code-block:: default
 
 
-    spe_clf.fit(X_train, y_train, 
-                n_target_samples={
-                    0: 80,
-                    1: 200,
-                    2: 400,
-                }, # target number of samples
-                **fit_kwargs)
+    spe_clf.fit(
+        X_train,
+        y_train,
+        n_target_samples={
+            0: 80,
+            1: 200,
+            2: 400,
+        },  # target number of samples
+        **fit_kwargs
+    )
 
-    resampling_type='After under-sampling \n(target number {0: 80, 1: 200, 2: 400})'
+    resampling_type = 'After under-sampling \n(target number {0: 80, 1: 200, 2: 400})'
     all_distribution[resampling_type] = spe_clf.target_distr_
     plot_class_distribution_comparison(spe_clf, title2=resampling_type)
 
@@ -387,22 +405,22 @@ If dict, the keys correspond to the targeted classes. The values correspond to t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 176-180
+.. GENERATED FROM PYTHON SOURCE LINES 194-198
 
 Over-sampling
 ----------------------------
-By default, over-sampling-based ensemble methods will consider the largest class as the majority class (class 2 with 600 samples).  
+By default, over-sampling-based ensemble methods will consider the largest class as the majority class (class 2 with 600 samples).
 All other classes (class 0 and 1) will be considered as minority classes and will be over-sampled until the number of samples is equalized.
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-183
+.. GENERATED FROM PYTHON SOURCE LINES 200-201
 
 **The over-sampling schedule can be customized in the same way as under-sampling.**
 
-.. GENERATED FROM PYTHON SOURCE LINES 185-186
+.. GENERATED FROM PYTHON SOURCE LINES 203-204
 
 Take ``SMOTEBoostClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 186-190
+.. GENERATED FROM PYTHON SOURCE LINES 204-208
 
 .. code-block:: default
 
@@ -417,11 +435,11 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-192
+.. GENERATED FROM PYTHON SOURCE LINES 209-210
 
 **Train with the default under-sampling setting**
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-201
+.. GENERATED FROM PYTHON SOURCE LINES 210-219
 
 .. code-block:: default
 
@@ -429,7 +447,7 @@ Take ``SMOTEBoostClassifier`` as example
     smoteboost_clf.fit(X_train, y_train, **fit_kwargs)
 
     all_distribution['Before over-sampling'] = smoteboost_clf.origin_distr_
-    resampling_type='After default over-sampling'
+    resampling_type = 'After default over-sampling'
     all_distribution[resampling_type] = smoteboost_clf.target_distr_
     plot_class_distribution_comparison(smoteboost_clf, title2=resampling_type)
 
@@ -460,20 +478,18 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 202-203
+.. GENERATED FROM PYTHON SOURCE LINES 220-221
 
 **Specify the class targeted by the over-sampling**
 
-.. GENERATED FROM PYTHON SOURCE LINES 203-213
+.. GENERATED FROM PYTHON SOURCE LINES 221-229
 
 .. code-block:: default
 
 
-    smoteboost_clf.fit(X_train, y_train, 
-                       target_label=1, # target class 1
-                       **fit_kwargs)
+    smoteboost_clf.fit(X_train, y_train, target_label=1, **fit_kwargs)  # target class 1
 
-    resampling_type='After over-sampling (target class 1)'
+    resampling_type = 'After over-sampling (target class 1)'
     all_distribution[resampling_type] = smoteboost_clf.target_distr_
     plot_class_distribution_comparison(smoteboost_clf, title2=resampling_type)
 
@@ -504,20 +520,20 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 214-215
+.. GENERATED FROM PYTHON SOURCE LINES 230-231
 
 **Specify the desired number of samples after over-sampling**
 
-.. GENERATED FROM PYTHON SOURCE LINES 215-225
+.. GENERATED FROM PYTHON SOURCE LINES 231-241
 
 .. code-block:: default
 
 
-    smoteboost_clf.fit(X_train, y_train, 
-                       n_target_samples=400, # target number of samples 400
-                       **fit_kwargs)
+    smoteboost_clf.fit(
+        X_train, y_train, n_target_samples=400, **fit_kwargs  # target number of samples 400
+    )
 
-    resampling_type='After over-sampling (target number 400)'
+    resampling_type = 'After over-sampling (target number 400)'
     all_distribution[resampling_type] = smoteboost_clf.target_distr_
     plot_class_distribution_comparison(smoteboost_clf, title2=resampling_type)
 
@@ -548,24 +564,27 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 226-227
+.. GENERATED FROM PYTHON SOURCE LINES 242-243
 
 **Specify the desired number of samples of each class after over-sampling**
 
-.. GENERATED FROM PYTHON SOURCE LINES 227-241
+.. GENERATED FROM PYTHON SOURCE LINES 243-260
 
 .. code-block:: default
 
 
-    smoteboost_clf.fit(X_train, y_train, 
-                       n_target_samples={
-                           0: 200,
-                           1: 400,
-                           2: 600,
-                       }, # target number of samples
-                       **fit_kwargs)
+    smoteboost_clf.fit(
+        X_train,
+        y_train,
+        n_target_samples={
+            0: 200,
+            1: 400,
+            2: 600,
+        },  # target number of samples
+        **fit_kwargs
+    )
 
-    resampling_type='After over-sampling \n(target number {0: 200, 1: 400, 2: 600})'
+    resampling_type = 'After over-sampling \n(target number {0: 200, 1: 400, 2: 600})'
     all_distribution[resampling_type] = smoteboost_clf.target_distr_
     plot_class_distribution_comparison(smoteboost_clf, title2=resampling_type)
 
@@ -596,12 +615,12 @@ Take ``SMOTEBoostClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 242-244
+.. GENERATED FROM PYTHON SOURCE LINES 261-263
 
 Visualize different resampling target
 ---------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 244-251
+.. GENERATED FROM PYTHON SOURCE LINES 263-270
 
 .. code-block:: default
 
@@ -627,7 +646,7 @@ Visualize different resampling target
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.035 seconds)
+   **Total running time of the script:** ( 0 minutes  1.163 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_resampling_target.py:

@@ -80,17 +80,27 @@ Prepare & visualize the data
 ----------------------------
 Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-57
+.. GENERATED FROM PYTHON SOURCE LINES 41-67
 
 .. code-block:: default
 
 
     # Generate and split a synthetic dataset
-    X, y = make_classification(n_classes=3, n_samples=2000, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, random_state=RANDOM_STATE)
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, 
-        test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+    X, y = make_classification(
+        n_classes=3,
+        n_samples=2000,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=2,
+        random_state=RANDOM_STATE,
+    )
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+    )
 
     # Visualize the training dataset
     fig = plot_2Dprojection_and_cardinality(X_train, y_train, figsize=(8, 4))
@@ -119,13 +129,13 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-61
+.. GENERATED FROM PYTHON SOURCE LINES 68-71
 
 Using ensemble classifiers in ``imbens``
 -----------------------------------------------------
 Take ``SelfPacedEnsembleClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-78
+.. GENERATED FROM PYTHON SOURCE LINES 71-88
 
 .. code-block:: default
 
@@ -142,8 +152,8 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
     # Evaluate
     balanced_acc_score = sklearn.metrics.balanced_accuracy_score(y_valid, y_pred)
-    print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+    print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+    print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 
@@ -160,13 +170,13 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-82
+.. GENERATED FROM PYTHON SOURCE LINES 89-92
 
 Set the ensemble size
 ---------------------
 (parameter ``n_estimators``: int)
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-97
+.. GENERATED FROM PYTHON SOURCE LINES 92-107
 
 .. code-block:: default
 
@@ -175,14 +185,14 @@ Set the ensemble size
     from sklearn.metrics import balanced_accuracy_score
 
     clf = SPE(
-        n_estimators=5, # Set ensemble size to 5
+        n_estimators=5,  # Set ensemble size to 5
         random_state=RANDOM_STATE,
     ).fit(X_train, y_train)
 
     # Evaluate
     balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-    print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+    print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+    print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 
@@ -199,13 +209,13 @@ Set the ensemble size
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-101
+.. GENERATED FROM PYTHON SOURCE LINES 108-111
 
 Use different base estimator
 ----------------------------
 (parameter ``estimator``: estimator object)
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-116
+.. GENERATED FROM PYTHON SOURCE LINES 111-126
 
 .. code-block:: default
 
@@ -214,14 +224,14 @@ Use different base estimator
 
     clf = SPE(
         n_estimators=5,
-        estimator=SVC(probability=True), # Use SVM as the base estimator
+        estimator=SVC(probability=True),  # Use SVM as the base estimator
         random_state=RANDOM_STATE,
     ).fit(X_train, y_train)
 
     # Evaluate
     balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-    print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-    print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+    print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+    print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 
@@ -238,21 +248,23 @@ Use different base estimator
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-120
+.. GENERATED FROM PYTHON SOURCE LINES 127-130
 
 Enable training log
 -------------------
 (``fit()`` parameter ``train_verbose``: bool, int or dict)
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-124
+.. GENERATED FROM PYTHON SOURCE LINES 130-136
 
 .. code-block:: default
 
 
     clf = SPE(random_state=RANDOM_STATE).fit(
-        X_train, y_train, 
-        train_verbose=True, # Enable training log
+        X_train,
+        y_train,
+        train_verbose=True,  # Enable training log
     )
+
 
 
 
@@ -286,7 +298,7 @@ Enable training log
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.687 seconds)
+   **Total running time of the script:** ( 0 minutes  0.679 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_example.py:

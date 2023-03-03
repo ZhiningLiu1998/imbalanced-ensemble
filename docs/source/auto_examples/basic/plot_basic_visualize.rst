@@ -78,19 +78,29 @@ Prepare data
 ------------
 Make a toy 3-class imbalanced classification task.
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-50
+.. GENERATED FROM PYTHON SOURCE LINES 39-60
 
 .. code-block:: default
 
 
     # make dataset
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=2, n_samples=2000, random_state=0)
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=2,
+        n_samples=2000,
+        random_state=0,
+    )
 
     # train valid split
     X_train, X_valid, y_train, y_valid = train_test_split(
-        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+        X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+    )
 
 
 
@@ -100,21 +110,21 @@ Make a toy 3-class imbalanced classification task.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-54
+.. GENERATED FROM PYTHON SOURCE LINES 61-64
 
 Train an ensemble classifier
 ----------------------------
 Take ``SelfPacedEnsembleClassifier`` as example
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-64
+.. GENERATED FROM PYTHON SOURCE LINES 64-74
 
 .. code-block:: default
 
 
     # Initialize and train an SPE classifier
-    clf = imbens.ensemble.SelfPacedEnsembleClassifier(
-        random_state=RANDOM_STATE
-    ).fit(X_train, y_train)
+    clf = imbens.ensemble.SelfPacedEnsembleClassifier(random_state=RANDOM_STATE).fit(
+        X_train, y_train
+    )
 
     # Store the fitted SelfPacedEnsembleClassifier
     fitted_ensembles = {'SPE': clf}
@@ -127,21 +137,21 @@ Take ``SelfPacedEnsembleClassifier`` as example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-67
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
 
 Fit an ImbalancedEnsembleVisualizer
 -----------------------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-80
+.. GENERATED FROM PYTHON SOURCE LINES 77-90
 
 .. code-block:: default
 
 
     # Initialize visualizer
     visualizer = imbens.visualizer.ImbalancedEnsembleVisualizer(
-        eval_datasets = {
-            'training' : (X_train, y_train),
-            'validation' : (X_valid, y_valid),
+        eval_datasets={
+            'training': (X_train, y_train),
+            'validation': (X_valid, y_valid),
         },
     )
 
@@ -157,21 +167,21 @@ Fit an ImbalancedEnsembleVisualizer
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                                                                                              | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                                                                                                                                                                                                     | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|##########################################################################################################################################################################################################| 50/50 [00:00<00:00, 2315.63it/s]
-      0%|                                                                                                                                                                                                                                                                              | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                                                                                                                                                                                                     | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|##########################################################################################################################################################################################################| 50/50 [00:00<00:00, 2389.13it/s]
+      0%|                                                                                                                                                                                                    | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                                                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|################################################################################################################################| 50/50 [00:00<00:00, 2206.76it/s]
+      0%|                                                                                                                                                                                                    | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                                                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|################################################################################################################################| 50/50 [00:00<00:00, 2351.15it/s]
     Visualizer computing confusion matrices.. Finished!
 
-    <imbens.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x000002475C33B370>
+    <imbens.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x0000014D4B39F100>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-84
+.. GENERATED FROM PYTHON SOURCE LINES 91-94
 
 Plot performance curve
 ----------------------
 **performance w.r.t. number of base estimators**
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-87
+.. GENERATED FROM PYTHON SOURCE LINES 94-97
 
 .. code-block:: default
 
@@ -190,20 +200,21 @@ Plot performance curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-90
+.. GENERATED FROM PYTHON SOURCE LINES 98-100
 
 Plot confusion matrix
 ---------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-94
+.. GENERATED FROM PYTHON SOURCE LINES 100-105
 
 .. code-block:: default
 
 
     fig, axes = visualizer.confusion_matrix_heatmap(
-        on_datasets=['validation'], # only on validation set
+        on_datasets=['validation'],  # only on validation set
         sup_title=False,
     )
+
 
 
 .. image-sg:: /auto_examples/basic/images/sphx_glr_plot_basic_visualize_002.png
@@ -218,7 +229,7 @@ Plot confusion matrix
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.474 seconds)
+   **Total running time of the script:** ( 0 minutes  0.491 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_visualize.py:

@@ -45,7 +45,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-25
+.. GENERATED FROM PYTHON SOURCE LINES 19-26
 
 .. code-block:: default
 
@@ -53,6 +53,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 
     import matplotlib.pyplot as plt
     import seaborn as sns
+
     sns.set_context("poster")
 
 
@@ -62,7 +63,7 @@ create an imbalanced dataset from a balanced dataset. We show the ability of
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-32
+.. GENERATED FROM PYTHON SOURCE LINES 27-33
 
 Generate the dataset
 --------------------
@@ -71,7 +72,7 @@ First, we will generate a dataset and convert it to a
 :class:`~pandas.DataFrame` with arbitrary column names. We will plot the
 original dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-49
+.. GENERATED FROM PYTHON SOURCE LINES 35-50
 
 .. code-block:: default
 
@@ -83,7 +84,7 @@ original dataset.
 
     fig = plt.figure(figsize=(6, 5))
     ax = sns.scatterplot(
-        data=X, 
+        data=X,
         x="feature 1",
         y="feature 2",
         hue=y,
@@ -102,7 +103,7 @@ original dataset.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-56
+.. GENERATED FROM PYTHON SOURCE LINES 51-57
 
 Make a dataset imbalanced
 -------------------------
@@ -111,7 +112,7 @@ Now, we will show the helpers :func:`~imbens.datasets.make_imbalance`
 that is useful to random select a subset of samples. It will impact the
 class distribution as specified by the parameters.
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-66
+.. GENERATED FROM PYTHON SOURCE LINES 59-67
 
 .. code-block:: default
 
@@ -130,7 +131,7 @@ class distribution as specified by the parameters.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-102
+.. GENERATED FROM PYTHON SOURCE LINES 68-103
 
 .. code-block:: default
 
@@ -139,7 +140,7 @@ class distribution as specified by the parameters.
     fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
 
     sns.scatterplot(
-        data=X, 
+        data=X,
         x="feature 1",
         y="feature 2",
         hue=y,
@@ -156,9 +157,9 @@ class distribution as specified by the parameters.
             sampling_strategy=ratio_func,
             **{"multiplier": multiplier, "minority_class": 1},
         )
-    
+
         sns.scatterplot(
-            data=X_resampled, 
+            data=X_resampled,
             x="feature 1",
             y="feature 2",
             hue=y_resampled,
@@ -184,7 +185,7 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.315 seconds)
+   **Total running time of the script:** ( 0 minutes  0.381 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:

@@ -56,7 +56,7 @@ learning problem.
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn 
+    # Adapted from imbalanced-learn
     # Authors: Guillaume Lemaitre
     # License: MIT
 
@@ -107,7 +107,7 @@ learning problem.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.169 seconds)
+   **Total running time of the script:** ( 0 minutes  0.172 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_classification_report.py:

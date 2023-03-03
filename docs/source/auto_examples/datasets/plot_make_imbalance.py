@@ -20,6 +20,7 @@ print(__doc__)
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 sns.set_context("poster")
 
 # %% [markdown]
@@ -39,7 +40,7 @@ X = pd.DataFrame(X, columns=["feature 1", "feature 2"])
 
 fig = plt.figure(figsize=(6, 5))
 ax = sns.scatterplot(
-    data=X, 
+    data=X,
     x="feature 1",
     y="feature 2",
     hue=y,
@@ -69,7 +70,7 @@ from imbens.datasets import make_imbalance
 fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
 
 sns.scatterplot(
-    data=X, 
+    data=X,
     x="feature 1",
     y="feature 2",
     hue=y,
@@ -86,9 +87,9 @@ for ax, multiplier in zip(axs.ravel()[1:], multipliers):
         sampling_strategy=ratio_func,
         **{"multiplier": multiplier, "minority_class": 1},
     )
-    
+
     sns.scatterplot(
-        data=X_resampled, 
+        data=X_resampled,
         x="feature 1",
         y="feature 2",
         hue=y_resampled,

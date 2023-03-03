@@ -102,7 +102,7 @@ Preparation
 -----------
 **Make 3 imbalanced toy classification tasks.**
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-81
+.. GENERATED FROM PYTHON SOURCE LINES 63-93
 
 .. code-block:: default
 
@@ -111,15 +111,27 @@ Preparation
 
     # dataset 1
     X, y = make_moons(200, noise=0.2, random_state=RANDOM_STATE)
-    dataset1 = make_imbalance(X, y, sampling_strategy=distribution, random_state=RANDOM_STATE)
+    dataset1 = make_imbalance(
+        X, y, sampling_strategy=distribution, random_state=RANDOM_STATE
+    )
     # dataset 2
     X, y = make_circles(200, noise=0.2, factor=0.5, random_state=RANDOM_STATE)
-    dataset2 = make_imbalance(X, y, sampling_strategy=distribution, random_state=RANDOM_STATE)
+    dataset2 = make_imbalance(
+        X, y, sampling_strategy=distribution, random_state=RANDOM_STATE
+    )
     # dataset 3
-    X, y = make_classification(200, n_features=2, n_redundant=0, n_informative=2,
-                               random_state=1, n_clusters_per_class=1)
+    X, y = make_classification(
+        200,
+        n_features=2,
+        n_redundant=0,
+        n_informative=2,
+        random_state=1,
+        n_clusters_per_class=1,
+    )
     X += 2 * np.random.RandomState(RANDOM_STATE).uniform(size=X.shape)
-    dataset3 = make_imbalance(X, y, sampling_strategy=distribution, random_state=RANDOM_STATE)
+    dataset3 = make_imbalance(
+        X, y, sampling_strategy=distribution, random_state=RANDOM_STATE
+    )
 
     datasets = [dataset1, dataset2, dataset3]
 
@@ -131,11 +143,11 @@ Preparation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-83
+.. GENERATED FROM PYTHON SOURCE LINES 94-95
 
 **Load all ensemble classifiers**
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-94
+.. GENERATED FROM PYTHON SOURCE LINES 95-108
 
 .. code-block:: default
 
@@ -143,11 +155,13 @@ Preparation
     from imbens.utils.testing import all_estimators
 
     init_kwargs = {'n_estimators': 5, 'random_state': RANDOM_STATE}
-    all_ensembles_clf = {name: ensemble(**init_kwargs) for (name, ensemble) in all_estimators('ensemble')}
+    all_ensembles_clf = {
+        name: ensemble(**init_kwargs) for (name, ensemble) in all_estimators('ensemble')
+    }
 
-    print ('{:<30s} | Class \n{:=<120s}'.format('Method', ''))
+    print('{:<30s} | Class \n{:=<120s}'.format('Method', ''))
     for (name, ensemble) in all_estimators('ensemble'):
-        print ('{:<30s} | {}'.format(name, ensemble))
+        print('{:<30s} | {}'.format(name, ensemble))
 
 
 
@@ -180,18 +194,19 @@ Preparation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 109-110
 
 **Function for classifier comparison**
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-173
+.. GENERATED FROM PYTHON SOURCE LINES 110-208
 
 .. code-block:: default
 
 
+
     def plot_classifier_comparison(classifiers, names, datasets, figsize):
 
-        h = .02  # step size in the mesh
+        h = 0.02  # step size in the mesh
 
         figure = plt.figure(figsize=figsize)
         i = 1
@@ -200,13 +215,13 @@ Preparation
             # preprocess dataset, split into training and test part
             X, y = ds
             X = StandardScaler().fit_transform(X)
-            X_train, X_test, y_train, y_test = \
-                train_test_split(X, y, test_size=.4, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.4, random_state=42
+            )
 
-            x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
-            y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
-            xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                                 np.arange(y_min, y_max, h))
+            x_min, x_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
+            y_min, y_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
+            xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
 
             # just plot the dataset first
             cm = plt.cm.RdBu
@@ -215,11 +230,18 @@ Preparation
             if ds_cnt == 0:
                 ax.set_title("Input data")
             # Plot the training points
-            ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
-                       edgecolors='k')
+            ax.scatter(
+                X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright, edgecolors='k'
+            )
             # Plot the testing points
-            ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, alpha=0.6,
-                       edgecolors='k')
+            ax.scatter(
+                X_test[:, 0],
+                X_test[:, 1],
+                c=y_test,
+                cmap=cm_bright,
+                alpha=0.6,
+                edgecolors='k',
+            )
             ax.set_xlim(xx.min(), xx.max())
             ax.set_ylim(yy.min(), yy.max())
             ax.set_xticks(())
@@ -241,14 +263,21 @@ Preparation
 
                 # Put the result into a color plot
                 Z = Z.reshape(xx.shape)
-                ax.contourf(xx, yy, Z, cmap=cm, alpha=.8)
+                ax.contourf(xx, yy, Z, cmap=cm, alpha=0.8)
 
                 # Plot the training points
-                ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright,
-                           edgecolors='k')
+                ax.scatter(
+                    X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright, edgecolors='k'
+                )
                 # Plot the testing points
-                ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright,
-                           edgecolors='k', alpha=0.6)
+                ax.scatter(
+                    X_test[:, 0],
+                    X_test[:, 1],
+                    c=y_test,
+                    cmap=cm_bright,
+                    edgecolors='k',
+                    alpha=0.6,
+                )
 
                 ax.set_xlim(xx.min(), xx.max())
                 ax.set_ylim(yy.min(), yy.max())
@@ -256,9 +285,15 @@ Preparation
                 ax.set_yticks(())
                 if ds_cnt == 0:
                     ax.set_title(name)
-                ax.text(0.95, 0.06, ('%.2f' % score).lstrip('0'), size=15,
+                ax.text(
+                    0.95,
+                    0.06,
+                    ('%.2f' % score).lstrip('0'),
+                    size=15,
                     bbox=dict(boxstyle='round', alpha=0.8, facecolor='white'),
-                    transform=ax.transAxes, horizontalalignment='right')
+                    transform=ax.transAxes,
+                    horizontalalignment='right',
+                )
                 i += 1
 
         plt.tight_layout()
@@ -272,12 +307,12 @@ Preparation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 174-176
+.. GENERATED FROM PYTHON SOURCE LINES 209-211
 
 Compare all under-sampling-based ensemble algorithms
 ----------------------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 176-183
+.. GENERATED FROM PYTHON SOURCE LINES 211-220
 
 .. code-block:: default
 
@@ -285,7 +320,9 @@ Compare all under-sampling-based ensemble algorithms
     from imbens.ensemble._under_sampling.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
-    plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
+    plot_classifier_comparison(
+        classifiers, names, datasets, figsize=(len(names) * 3 + 3, 9)
+    )
 
 
 
@@ -300,12 +337,12 @@ Compare all under-sampling-based ensemble algorithms
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 184-186
+.. GENERATED FROM PYTHON SOURCE LINES 221-223
 
 Compare all over-sampling-based ensemble algorithms
 ----------------------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 186-193
+.. GENERATED FROM PYTHON SOURCE LINES 223-232
 
 .. code-block:: default
 
@@ -313,7 +350,9 @@ Compare all over-sampling-based ensemble algorithms
     from imbens.ensemble._over_sampling.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
-    plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
+    plot_classifier_comparison(
+        classifiers, names, datasets, figsize=(len(names) * 3 + 3, 9)
+    )
 
 
 
@@ -328,12 +367,12 @@ Compare all over-sampling-based ensemble algorithms
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 194-196
+.. GENERATED FROM PYTHON SOURCE LINES 233-235
 
 Compare all reweighting-based ensemble algorithms
 ----------------------------------------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 196-201
+.. GENERATED FROM PYTHON SOURCE LINES 235-242
 
 .. code-block:: default
 
@@ -341,7 +380,9 @@ Compare all reweighting-based ensemble algorithms
     from imbens.ensemble._reweighting.__init__ import __all__ as names
 
     classifiers = [all_ensembles_clf[name] for name in names]
-    plot_classifier_comparison(classifiers, names, datasets, figsize=(len(names)*3+3, 9))
+    plot_classifier_comparison(
+        classifiers, names, datasets, figsize=(len(names) * 3 + 3, 9)
+    )
 
 
 
@@ -357,7 +398,7 @@ Compare all reweighting-based ensemble algorithms
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.204 seconds)
+   **Total running time of the script:** ( 0 minutes  4.641 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_classifier_comparison.py:

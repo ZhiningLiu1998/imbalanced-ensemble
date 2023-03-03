@@ -40,11 +40,21 @@ RANDOM_STATE = 42
 # Make a toy 3-class imbalanced classification task.
 
 # Generate and split a synthetic dataset
-X, y = make_classification(n_classes=3, n_samples=2000, class_sep=2,
-    weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-    n_features=20, n_clusters_per_class=2, random_state=RANDOM_STATE)
-X_train, X_valid, y_train, y_valid = train_test_split(X, y, 
-    test_size=0.5, stratify=y, random_state=RANDOM_STATE)
+X, y = make_classification(
+    n_classes=3,
+    n_samples=2000,
+    class_sep=2,
+    weights=[0.1, 0.3, 0.6],
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0,
+    n_features=20,
+    n_clusters_per_class=2,
+    random_state=RANDOM_STATE,
+)
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y, test_size=0.5, stratify=y, random_state=RANDOM_STATE
+)
 
 # Visualize the training dataset
 fig = plot_2Dprojection_and_cardinality(X_train, y_train, figsize=(8, 4))
@@ -71,8 +81,8 @@ y_pred = clf.predict(X_valid)
 
 # Evaluate
 balanced_acc_score = sklearn.metrics.balanced_accuracy_score(y_valid, y_pred)
-print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 # %% [markdown]
@@ -84,14 +94,14 @@ from imbens.ensemble import SelfPacedEnsembleClassifier as SPE
 from sklearn.metrics import balanced_accuracy_score
 
 clf = SPE(
-    n_estimators=5, # Set ensemble size to 5
+    n_estimators=5,  # Set ensemble size to 5
     random_state=RANDOM_STATE,
 ).fit(X_train, y_train)
 
 # Evaluate
 balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 # %% [markdown]
@@ -103,14 +113,14 @@ from sklearn.svm import SVC
 
 clf = SPE(
     n_estimators=5,
-    estimator=SVC(probability=True), # Use SVM as the base estimator
+    estimator=SVC(probability=True),  # Use SVM as the base estimator
     random_state=RANDOM_STATE,
 ).fit(X_train, y_train)
 
 # Evaluate
 balanced_acc_score = balanced_accuracy_score(y_valid, clf.predict(X_valid))
-print (f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
-print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
+print(f'SPE: ensemble of {clf.n_estimators} {clf.estimator_}')
+print('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 
 
 # %% [markdown]
@@ -119,6 +129,7 @@ print ('Validation Balanced Accuracy: {:.3f}'.format(balanced_acc_score))
 # (``fit()`` parameter ``train_verbose``: bool, int or dict)
 
 clf = SPE(random_state=RANDOM_STATE).fit(
-    X_train, y_train, 
-    train_verbose=True, # Enable training log
+    X_train,
+    y_train,
+    train_verbose=True,  # Enable training log
 )

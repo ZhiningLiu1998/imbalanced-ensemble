@@ -34,7 +34,7 @@ transformers (:class:`~sklearn.decomposition.PCA`,
 .. code-block:: default
 
 
-    # Adapted from imbalanced-learn 
+    # Adapted from imbalanced-learn
     # Authors: Christos Aridas
     #          Guillaume Lemaitre
     # License: MIT
@@ -96,7 +96,7 @@ Let's first create an imbalanced dataset and split in to two sets.
 
 .. GENERATED FROM PYTHON SOURCE LINES 47-49
 
-Now, we will create each individual steps 
+Now, we will create each individual steps
 that we would like later to combine
 
 .. GENERATED FROM PYTHON SOURCE LINES 51-61
@@ -180,7 +180,7 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.026 seconds)
+   **Total running time of the script:** ( 0 minutes  0.029 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pipeline_plot_pipeline_classification.py:
