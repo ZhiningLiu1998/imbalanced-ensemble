@@ -203,6 +203,23 @@ Examples about using classification algorithms in :mod:`imbens.ensemble` module.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="An example of how to cooperate imbens with deep learning frameworks like PyTorch. In this examp...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_torch_thumb.png
+    :alt: Classification with PyTorch Neural Network
+
+  :ref:`sphx_glr_auto_examples_classification_plot_torch.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classification with PyTorch Neural Network</div>
+    </div>
+
+
+.. raw:: html
+
     </div>
 
 
