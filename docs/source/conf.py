@@ -14,8 +14,8 @@ from os.path import abspath, dirname
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
-# sys.path.insert(0, abspath("sphinxext"))
-# from github_link import make_linkcode_resolve
+sys.path.insert(0, abspath("sphinxext"))
+from github_link import make_linkcode_resolve
 
 # -- Project information -----------------------------------------------------
 
@@ -40,7 +40,7 @@ extensions = [
     "sphinx.ext.autosummary",
     # "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
-    # "sphinx.ext.linkcode",
+    "sphinx.ext.linkcode",
     # "sphinxcontrib.bibtex",
     "numpydoc",
     # "sphinx_issues",
@@ -92,18 +92,18 @@ sphinx_gallery_conf = {
 
 # # -- Options for github link for what's new -----------------------------------
 
-# # Config for sphinx_issues
+# Config for sphinx_issues
 # issues_uri = "https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues/{issue}"
 # issues_github_path = "ZhiningLiu1998/imbalanced-ensemble"
 # issues_user_uri = "https://github.com/{user}"
 
-# # The following is used by sphinx.ext.linkcode to provide links to github
-# linkcode_resolve = make_linkcode_resolve(
-#     "imbens",
-#     "https://github.com/ZhiningLiu1998/"
-#     "imbalanced-ensemble/blob/{revision}/"
-#     "{package}/{path}#L{lineno}",
-# )
+# The following is used by sphinx.ext.linkcode to provide links to github
+linkcode_resolve = make_linkcode_resolve(
+    "imbens",
+    "https://github.com/ZhiningLiu1998/"
+    "imbalanced-ensemble/blob/{revision}/"
+    "{package}/{path}#L{lineno}",
+)
 
 # -- Options for HTML output -------------------------------------------------
 

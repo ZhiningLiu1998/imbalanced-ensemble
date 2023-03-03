@@ -203,6 +203,27 @@ Examples using ``imbens.ImbalancedEnsembleClassifierMixin``
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="An example of how to cooperate imbens with deep learning frameworks like PyTorch. In this examp...">
+
+.. only:: html
+
+  .. image:: /auto_examples/classification/images/thumb/sphx_glr_plot_torch_thumb.png
+    :alt: Classification with PyTorch Neural Network
+
+  :ref:`sphx_glr_auto_examples_classification_plot_torch.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classification with PyTorch Neural Network</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_classification_plot_torch.py`
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how to use the  imbens.visualizer module to plot confusion  matrix for...">
 
 .. only:: html

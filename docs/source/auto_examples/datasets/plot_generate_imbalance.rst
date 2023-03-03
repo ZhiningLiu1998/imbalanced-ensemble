@@ -86,8 +86,8 @@ Generate the dataset
 
  .. code-block:: none
 
-    Train class distribution:  Counter({0: 350, 1: 100, 2: 50})
-    Test class distribution:   Counter({0: 350, 1: 99, 2: 51})
+    Train class distribution:  Counter({0: 348, 1: 100, 2: 52})
+    Test class distribution:   Counter({0: 348, 1: 100, 2: 52})
 
 
 
@@ -125,7 +125,7 @@ Plot the generated (training) data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.113 seconds)
+   **Total running time of the script:** ( 0 minutes  0.133 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_generate_imbalance.py:

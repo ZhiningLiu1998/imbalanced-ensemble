@@ -298,7 +298,7 @@ Enable training log
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.679 seconds)
+   **Total running time of the script:** ( 0 minutes  0.895 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_example.py:

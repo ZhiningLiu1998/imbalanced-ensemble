@@ -212,9 +212,9 @@ Plot classification probabilities
 
  .. code-block:: none
 
-    Balanced Accuracy (train) for SPE-DT: 84.9% 
-    Balanced Accuracy (train) for SPE-SVM-rbf: 77.8% 
-    Balanced Accuracy (train) for SPE-GPC: 85.6% 
+    Balanced Accuracy (train) for SPE-DT: 92.2% 
+    Balanced Accuracy (train) for SPE-SVM-rbf: 78.9% 
+    Balanced Accuracy (train) for SPE-GPC: 81.1% 
 
 
 
@@ -222,7 +222,7 @@ Plot classification probabilities
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.622 seconds)
+   **Total running time of the script:** ( 0 minutes  0.711 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_probability.py:

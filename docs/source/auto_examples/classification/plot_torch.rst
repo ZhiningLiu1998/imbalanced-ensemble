@@ -361,7 +361,7 @@ Classification and Visualization
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.144 seconds)
+   **Total running time of the script:** ( 0 minutes  2.404 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_torch.py:

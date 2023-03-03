@@ -242,7 +242,7 @@ These tailed classes are not well represented, thus it is harder for a learning 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.278 seconds)
+   **Total running time of the script:** ( 0 minutes  8.726 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance_digits.py:

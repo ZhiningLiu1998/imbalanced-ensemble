@@ -243,7 +243,7 @@ imbalanced learning problems.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.128 seconds)
+   **Total running time of the script:** ( 0 minutes  0.145 seconds)
 
 
 .. _sphx_glr_download_auto_examples_evaluation_plot_metrics.py:

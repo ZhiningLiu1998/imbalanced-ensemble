@@ -1,3 +1,5 @@
+# %%
+
 from operator import attrgetter
 import inspect
 import subprocess
@@ -6,6 +8,8 @@ import sys
 from functools import partial
 
 REVISION_CMD = "git rev-parse --short HEAD"
+
+# %%
 
 
 def _get_git_revision():
@@ -46,21 +50,31 @@ def _linkcode_resolve(domain, info, package, url_fmt, revision):
     module = __import__(info["module"], fromlist=[class_name])
     obj = attrgetter(info["fullname"])(module)
 
+    # try:
+    #     fn = inspect.getsourcefile(obj)
+    # except Exception:
+    #     fn = None
+    # if not fn:
+    #     try:
+    #         fn = inspect.getsourcefile(sys.modules[obj.__module__])
+    #     except Exception:
+    #         fn = None
     try:
-        fn = inspect.getsourcefile(obj)
+        fn = inspect.getsourcefile(sys.modules[obj.__module__])
     except Exception:
         fn = None
-    if not fn:
-        try:
-            fn = inspect.getsourcefile(sys.modules[obj.__module__])
-        except Exception:
-            fn = None
     if not fn:
         return
 
     fn = os.path.relpath(fn, start=os.path.dirname(__import__(package).__file__))
     try:
-        lineno = inspect.getsourcelines(obj)[1]
+        src_code_lines, lineno = inspect.getsourcelines(obj)
+        i = 0
+        for l in src_code_lines:
+            if 'def' in l or 'class' in l:
+                break
+            i += 1
+        lineno += i
     except Exception:
         lineno = ""
     return url_fmt.format(revision=revision, package=package, path=fn, lineno=lineno)
@@ -81,3 +95,15 @@ def make_linkcode_resolve(package, url_fmt):
     return partial(
         _linkcode_resolve, revision=revision, package=package, url_fmt=url_fmt
     )
+
+
+# %%
+
+linkcode_resolve = make_linkcode_resolve(
+    "imbens",
+    "https://github.com/ZhiningLiu1998/"
+    "imbalanced-ensemble/blob/{revision}/"
+    "{package}/{path}#L{lineno}",
+)
+
+linkcode_resolve

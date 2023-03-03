@@ -167,11 +167,11 @@ Fit an ImbalancedEnsembleVisualizer
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                    | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                                                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|################################################################################################################################| 50/50 [00:00<00:00, 2206.76it/s]
-      0%|                                                                                                                                                                                                    | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                                                                                                                           | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|################################################################################################################################| 50/50 [00:00<00:00, 2351.15it/s]
+      0%|                                                                                                                                                                                                                       | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  ::   0%|                                                                                                                                                              | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset  training  :: 100%|###################################################################################################################################################| 50/50 [00:00<00:00, 1562.61it/s]
+      0%|                                                                                                                                                                                                                       | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation ::   0%|                                                                                                                                                              | 0/50 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset validation :: 100%|###################################################################################################################################################| 50/50 [00:00<00:00, 1490.98it/s]
     Visualizer computing confusion matrices.. Finished!
 
-    <imbens.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x0000014D4B39F100>
+    <imbens.visualizer.visualizer.ImbalancedEnsembleVisualizer object at 0x00000176110998B0>
 
 
 
@@ -229,7 +229,7 @@ Plot confusion matrix
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.491 seconds)
+   **Total running time of the script:** ( 0 minutes  0.659 seconds)
 
 
 .. _sphx_glr_download_auto_examples_basic_plot_basic_visualize.py:

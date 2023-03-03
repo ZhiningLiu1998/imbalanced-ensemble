@@ -185,7 +185,7 @@ class distribution as specified by the parameters.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.381 seconds)
+   **Total running time of the script:** ( 0 minutes  0.447 seconds)
 
 
 .. _sphx_glr_download_auto_examples_datasets_plot_make_imbalance.py:

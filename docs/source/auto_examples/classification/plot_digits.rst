@@ -241,22 +241,22 @@ The fitted classifier can subsequently be used to predict the value of the digit
 
     Classification report for classifier SelfPacedEnsembleClassifier(estimator=SVC(gamma=0.001, probability=True),
                                 n_estimators=5,
-                                random_state=RandomState(MT19937) at 0x14D4217F040):
+                                random_state=RandomState(MT19937) at 0x1760814F040):
                   precision    recall  f1-score   support
 
                0       1.00      1.00      1.00        89
-               1       0.92      1.00      0.96        60
-               2       1.00      0.97      0.99        40
+               1       0.94      1.00      0.97        60
+               2       1.00      0.95      0.97        40
                3       1.00      0.90      0.95        30
                4       1.00      0.96      0.98        25
                5       0.95      0.95      0.95        22
                6       1.00      1.00      1.00        20
-               7       0.90      0.95      0.93        20
-               8       0.90      0.90      0.90        20
+               7       0.86      0.95      0.90        20
+               8       0.86      0.90      0.88        20
                9       0.95      0.90      0.92        20
 
         accuracy                           0.97       346
-       macro avg       0.96      0.95      0.96       346
+       macro avg       0.96      0.95      0.95       346
     weighted avg       0.97      0.97      0.97       346
 
 
@@ -325,7 +325,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
  .. code-block:: none
 
-      0%|                                                                                                                                                                                                     | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                  | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|##########################################################################################################################################| 5/5 [00:00<00:00, 59.86it/s]
+      0%|                                                                                                                                                                                                                        | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test ::   0%|                                                                                                                                                                     | 0/5 [00:00<?, ?it/s]    Visualizer evaluating model SPE on dataset test :: 100%|#############################################################################################################################################################| 5/5 [00:00<00:00, 58.45it/s]
     Visualizer computing confusion matrices. Finished!
 
 
@@ -334,7 +334,7 @@ We can also plot a confusion matrix of the true digit values and the predicted d
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.385 seconds)
+   **Total running time of the script:** ( 0 minutes  1.194 seconds)
 
 
 .. _sphx_glr_download_auto_examples_classification_plot_digits.py:

@@ -180,7 +180,7 @@ will happen when calling `fit` and disabled when calling `decision_function`,
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.029 seconds)
+   **Total running time of the script:** ( 0 minutes  0.032 seconds)
 
 
 .. _sphx_glr_download_auto_examples_pipeline_plot_pipeline_classification.py:
