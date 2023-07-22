@@ -1,6 +1,20 @@
 Release History
 ***************
 
+Version 0.2.1 (2023.07)
+=========================
+
+Maintenance:
+
+- Bump supported scikit-learn version to ``1.3.0``.
+- Update requirements for building documentation with ``sphinx``.
+- Remove redundant doc (``auto_examples`` and ``back_references``) files in the source distribution.
+
+Bug Fixes:
+
+- Fix ``AttributeError`` in :class:`imbens.ensemble.BalancedRandomForestClassifier`.
+- Fix several bugs encountered in CI.
+
 Version 0.2.0 (2023.02)
 =========================
 
