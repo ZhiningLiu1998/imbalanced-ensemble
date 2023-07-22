@@ -80,6 +80,8 @@ EXTRAS_REQUIRE = {
         "pydata-sphinx-theme",
         "numpydoc",
         "sphinxcontrib-bibtex",
+        "torch",
+        "pytest",
     ],
 }
 
