@@ -348,7 +348,6 @@ class BalancedRandomForestClassifier(
         ccp_alpha=0.0,
         max_samples=None,
     ):
-
         super().__init__(
             criterion=criterion,
             max_depth=max_depth,
@@ -392,9 +391,9 @@ class BalancedRandomForestClassifier(
             )
 
         if self.estimator is not None:
-            self._estimator = clone(self.estimator)
+            self.estimator_ = clone(self.estimator)
         else:
-            self._estimator = clone(default)
+            self.estimator_ = clone(default)
 
         self.sampler_ = RandomUnderSampler(
             sampling_strategy=self._sampling_strategy,
@@ -406,7 +405,7 @@ class BalancedRandomForestClassifier(
         Warning: This method should be used to properly instantiate new
         sub-estimators.
         """
-        estimator = clone(self._estimator)
+        estimator = clone(self.estimator_)
         estimator.set_params(**{p: getattr(self, p) for p in self.estimator_params})
         sampler = clone(self.sampler_)
 

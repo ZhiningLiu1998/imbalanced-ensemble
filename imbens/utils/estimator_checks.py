@@ -131,7 +131,7 @@ def check_target_type(name, estimator_orig):
     # should raise warning if the target is continuous (we cannot raise error)
     X = np.random.random((20, 2))
     y = np.linspace(0, 1, 20)
-    msg = "Unknown label type: 'continuous'"
+    msg = "Unknown label type: continuous"
     assert_raises_regex(
         ValueError,
         msg,
