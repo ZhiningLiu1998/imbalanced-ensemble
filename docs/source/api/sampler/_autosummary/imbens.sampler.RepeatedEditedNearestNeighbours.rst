@@ -20,6 +20,9 @@
         ~RepeatedEditedNearestNeighbours.fit_resample
       
       
+        ~RepeatedEditedNearestNeighbours.get_metadata_routing
+      
+      
         ~RepeatedEditedNearestNeighbours.get_params
       
       

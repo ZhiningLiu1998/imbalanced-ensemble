@@ -20,6 +20,9 @@
         ~AdaCostClassifier.fit
       
       
+        ~AdaCostClassifier.get_metadata_routing
+      
+      
         ~AdaCostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~AdaCostClassifier.score
       
       
+        ~AdaCostClassifier.set_fit_request
+      
+      
         ~AdaCostClassifier.set_params
+      
+      
+        ~AdaCostClassifier.set_score_request
       
       
         ~AdaCostClassifier.staged_decision_function

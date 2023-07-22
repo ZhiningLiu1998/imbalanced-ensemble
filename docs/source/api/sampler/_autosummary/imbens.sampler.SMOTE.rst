@@ -20,6 +20,9 @@
         ~SMOTE.fit_resample
       
       
+        ~SMOTE.get_metadata_routing
+      
+      
         ~SMOTE.get_params
       
       

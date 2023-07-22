@@ -20,6 +20,9 @@
         ~SVMSMOTE.fit_resample
       
       
+        ~SVMSMOTE.get_metadata_routing
+      
+      
         ~SVMSMOTE.get_params
       
       

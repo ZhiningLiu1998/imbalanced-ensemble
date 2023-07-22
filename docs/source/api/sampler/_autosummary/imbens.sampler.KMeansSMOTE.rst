@@ -20,6 +20,9 @@
         ~KMeansSMOTE.fit_resample
       
       
+        ~KMeansSMOTE.get_metadata_routing
+      
+      
         ~KMeansSMOTE.get_params
       
       

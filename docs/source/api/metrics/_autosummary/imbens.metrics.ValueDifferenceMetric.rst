@@ -17,6 +17,9 @@
         ~ValueDifferenceMetric.fit
       
       
+        ~ValueDifferenceMetric.get_metadata_routing
+      
+      
         ~ValueDifferenceMetric.get_params
       
       

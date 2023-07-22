@@ -20,6 +20,9 @@
         ~EasyEnsembleClassifier.fit
       
       
+        ~EasyEnsembleClassifier.get_metadata_routing
+      
+      
         ~EasyEnsembleClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~EasyEnsembleClassifier.score
       
       
+        ~EasyEnsembleClassifier.set_fit_request
+      
+      
         ~EasyEnsembleClassifier.set_params
+      
+      
+        ~EasyEnsembleClassifier.set_score_request
       
    
    

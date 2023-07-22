@@ -20,6 +20,9 @@
         ~RandomUnderSampler.fit_resample
       
       
+        ~RandomUnderSampler.get_metadata_routing
+      
+      
         ~RandomUnderSampler.get_params
       
       

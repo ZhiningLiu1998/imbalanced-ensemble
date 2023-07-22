@@ -20,6 +20,9 @@
         ~OneSidedSelection.fit_resample
       
       
+        ~OneSidedSelection.get_metadata_routing
+      
+      
         ~OneSidedSelection.get_params
       
       

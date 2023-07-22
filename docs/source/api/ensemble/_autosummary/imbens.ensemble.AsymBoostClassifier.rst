@@ -20,6 +20,9 @@
         ~AsymBoostClassifier.fit
       
       
+        ~AsymBoostClassifier.get_metadata_routing
+      
+      
         ~AsymBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~AsymBoostClassifier.score
       
       
+        ~AsymBoostClassifier.set_fit_request
+      
+      
         ~AsymBoostClassifier.set_params
+      
+      
+        ~AsymBoostClassifier.set_score_request
       
       
         ~AsymBoostClassifier.staged_decision_function

@@ -20,6 +20,9 @@
         ~TomekLinks.fit_resample
       
       
+        ~TomekLinks.get_metadata_routing
+      
+      
         ~TomekLinks.get_params
       
       

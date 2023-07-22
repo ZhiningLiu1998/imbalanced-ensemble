@@ -23,6 +23,9 @@
         ~BalancedRandomForestClassifier.fit
       
       
+        ~BalancedRandomForestClassifier.get_metadata_routing
+      
+      
         ~BalancedRandomForestClassifier.get_params
       
       
@@ -38,7 +41,13 @@
         ~BalancedRandomForestClassifier.score
       
       
+        ~BalancedRandomForestClassifier.set_fit_request
+      
+      
         ~BalancedRandomForestClassifier.set_params
+      
+      
+        ~BalancedRandomForestClassifier.set_score_request
       
    
    

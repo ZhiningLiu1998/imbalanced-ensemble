@@ -20,6 +20,9 @@
         ~ADASYN.fit_resample
       
       
+        ~ADASYN.get_metadata_routing
+      
+      
         ~ADASYN.get_params
       
       

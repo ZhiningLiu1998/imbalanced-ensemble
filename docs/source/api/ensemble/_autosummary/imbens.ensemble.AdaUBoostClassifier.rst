@@ -20,6 +20,9 @@
         ~AdaUBoostClassifier.fit
       
       
+        ~AdaUBoostClassifier.get_metadata_routing
+      
+      
         ~AdaUBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~AdaUBoostClassifier.score
       
       
+        ~AdaUBoostClassifier.set_fit_request
+      
+      
         ~AdaUBoostClassifier.set_params
+      
+      
+        ~AdaUBoostClassifier.set_score_request
       
       
         ~AdaUBoostClassifier.staged_decision_function

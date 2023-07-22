@@ -20,6 +20,9 @@
         ~AllKNN.fit_resample
       
       
+        ~AllKNN.get_metadata_routing
+      
+      
         ~AllKNN.get_params
       
       

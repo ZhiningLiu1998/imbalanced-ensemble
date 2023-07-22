@@ -20,6 +20,9 @@
         ~CompatibleAdaBoostClassifier.fit
       
       
+        ~CompatibleAdaBoostClassifier.get_metadata_routing
+      
+      
         ~CompatibleAdaBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~CompatibleAdaBoostClassifier.score
       
       
+        ~CompatibleAdaBoostClassifier.set_fit_request
+      
+      
         ~CompatibleAdaBoostClassifier.set_params
+      
+      
+        ~CompatibleAdaBoostClassifier.set_score_request
       
       
         ~CompatibleAdaBoostClassifier.staged_decision_function

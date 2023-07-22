@@ -20,6 +20,9 @@
         ~RUSBoostClassifier.fit
       
       
+        ~RUSBoostClassifier.get_metadata_routing
+      
+      
         ~RUSBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~RUSBoostClassifier.score
       
       
+        ~RUSBoostClassifier.set_fit_request
+      
+      
         ~RUSBoostClassifier.set_params
+      
+      
+        ~RUSBoostClassifier.set_score_request
       
       
         ~RUSBoostClassifier.staged_decision_function

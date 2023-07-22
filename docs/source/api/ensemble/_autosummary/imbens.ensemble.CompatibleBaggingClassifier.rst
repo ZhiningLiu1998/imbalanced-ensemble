@@ -20,6 +20,9 @@
         ~CompatibleBaggingClassifier.fit
       
       
+        ~CompatibleBaggingClassifier.get_metadata_routing
+      
+      
         ~CompatibleBaggingClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~CompatibleBaggingClassifier.score
       
       
+        ~CompatibleBaggingClassifier.set_fit_request
+      
+      
         ~CompatibleBaggingClassifier.set_params
+      
+      
+        ~CompatibleBaggingClassifier.set_score_request
       
    
    

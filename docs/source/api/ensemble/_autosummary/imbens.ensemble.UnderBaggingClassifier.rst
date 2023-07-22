@@ -20,6 +20,9 @@
         ~UnderBaggingClassifier.fit
       
       
+        ~UnderBaggingClassifier.get_metadata_routing
+      
+      
         ~UnderBaggingClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~UnderBaggingClassifier.score
       
       
+        ~UnderBaggingClassifier.set_fit_request
+      
+      
         ~UnderBaggingClassifier.set_params
+      
+      
+        ~UnderBaggingClassifier.set_score_request
       
    
    

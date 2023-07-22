@@ -32,6 +32,9 @@
         ~Pipeline.get_feature_names_out
       
       
+        ~Pipeline.get_metadata_routing
+      
+      
         ~Pipeline.get_params
       
       
@@ -53,10 +56,16 @@
         ~Pipeline.score_samples
       
       
+        ~Pipeline.set_fit_request
+      
+      
         ~Pipeline.set_output
       
       
         ~Pipeline.set_params
+      
+      
+        ~Pipeline.set_score_request
       
       
         ~Pipeline.transform

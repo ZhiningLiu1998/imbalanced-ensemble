@@ -20,6 +20,9 @@
         ~NearMiss.fit_resample
       
       
+        ~NearMiss.get_metadata_routing
+      
+      
         ~NearMiss.get_params
       
       

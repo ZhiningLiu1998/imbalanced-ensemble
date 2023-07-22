@@ -20,6 +20,9 @@
         ~KmeansSMOTEBoostClassifier.fit
       
       
+        ~KmeansSMOTEBoostClassifier.get_metadata_routing
+      
+      
         ~KmeansSMOTEBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~KmeansSMOTEBoostClassifier.score
       
       
+        ~KmeansSMOTEBoostClassifier.set_fit_request
+      
+      
         ~KmeansSMOTEBoostClassifier.set_params
+      
+      
+        ~KmeansSMOTEBoostClassifier.set_score_request
       
       
         ~KmeansSMOTEBoostClassifier.staged_decision_function

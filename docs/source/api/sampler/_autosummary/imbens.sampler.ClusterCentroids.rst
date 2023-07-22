@@ -20,6 +20,9 @@
         ~ClusterCentroids.fit_resample
       
       
+        ~ClusterCentroids.get_metadata_routing
+      
+      
         ~ClusterCentroids.get_params
       
       

@@ -20,6 +20,9 @@
         ~SelfPacedEnsembleClassifier.fit
       
       
+        ~SelfPacedEnsembleClassifier.get_metadata_routing
+      
+      
         ~SelfPacedEnsembleClassifier.get_params
       
       
@@ -32,7 +35,13 @@
         ~SelfPacedEnsembleClassifier.score
       
       
+        ~SelfPacedEnsembleClassifier.set_fit_request
+      
+      
         ~SelfPacedEnsembleClassifier.set_params
+      
+      
+        ~SelfPacedEnsembleClassifier.set_score_request
       
    
    

@@ -20,6 +20,9 @@
         ~BorderlineSMOTE.fit_resample
       
       
+        ~BorderlineSMOTE.get_metadata_routing
+      
+      
         ~BorderlineSMOTE.get_params
       
       

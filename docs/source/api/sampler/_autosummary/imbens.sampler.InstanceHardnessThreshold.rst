@@ -20,6 +20,9 @@
         ~InstanceHardnessThreshold.fit_resample
       
       
+        ~InstanceHardnessThreshold.get_metadata_routing
+      
+      
         ~InstanceHardnessThreshold.get_params
       
       

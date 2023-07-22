@@ -20,6 +20,9 @@
         ~CondensedNearestNeighbour.fit_resample
       
       
+        ~CondensedNearestNeighbour.get_metadata_routing
+      
+      
         ~CondensedNearestNeighbour.get_params
       
       

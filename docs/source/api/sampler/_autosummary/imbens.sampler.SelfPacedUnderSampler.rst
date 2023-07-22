@@ -20,6 +20,9 @@
         ~SelfPacedUnderSampler.fit_resample
       
       
+        ~SelfPacedUnderSampler.get_metadata_routing
+      
+      
         ~SelfPacedUnderSampler.get_params
       
       

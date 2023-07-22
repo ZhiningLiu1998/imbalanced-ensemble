@@ -20,6 +20,9 @@
         ~RandomOverSampler.fit_resample
       
       
+        ~RandomOverSampler.get_metadata_routing
+      
+      
         ~RandomOverSampler.get_params
       
       

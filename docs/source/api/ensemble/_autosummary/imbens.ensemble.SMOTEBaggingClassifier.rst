@@ -20,6 +20,9 @@
         ~SMOTEBaggingClassifier.fit
       
       
+        ~SMOTEBaggingClassifier.get_metadata_routing
+      
+      
         ~SMOTEBaggingClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~SMOTEBaggingClassifier.score
       
       
+        ~SMOTEBaggingClassifier.set_fit_request
+      
+      
         ~SMOTEBaggingClassifier.set_params
+      
+      
+        ~SMOTEBaggingClassifier.set_score_request
       
    
    

@@ -20,6 +20,9 @@
         ~NeighbourhoodCleaningRule.fit_resample
       
       
+        ~NeighbourhoodCleaningRule.get_metadata_routing
+      
+      
         ~NeighbourhoodCleaningRule.get_params
       
       

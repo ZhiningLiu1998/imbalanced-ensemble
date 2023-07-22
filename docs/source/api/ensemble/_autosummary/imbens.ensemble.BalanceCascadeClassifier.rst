@@ -20,6 +20,9 @@
         ~BalanceCascadeClassifier.fit
       
       
+        ~BalanceCascadeClassifier.get_metadata_routing
+      
+      
         ~BalanceCascadeClassifier.get_params
       
       
@@ -32,7 +35,13 @@
         ~BalanceCascadeClassifier.score
       
       
+        ~BalanceCascadeClassifier.set_fit_request
+      
+      
         ~BalanceCascadeClassifier.set_params
+      
+      
+        ~BalanceCascadeClassifier.set_score_request
       
    
    

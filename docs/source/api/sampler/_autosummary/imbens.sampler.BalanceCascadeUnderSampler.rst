@@ -20,6 +20,9 @@
         ~BalanceCascadeUnderSampler.fit_resample
       
       
+        ~BalanceCascadeUnderSampler.get_metadata_routing
+      
+      
         ~BalanceCascadeUnderSampler.get_params
       
       

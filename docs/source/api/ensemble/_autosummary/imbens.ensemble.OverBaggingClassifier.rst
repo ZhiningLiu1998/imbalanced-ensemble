@@ -20,6 +20,9 @@
         ~OverBaggingClassifier.fit
       
       
+        ~OverBaggingClassifier.get_metadata_routing
+      
+      
         ~OverBaggingClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~OverBaggingClassifier.score
       
       
+        ~OverBaggingClassifier.set_fit_request
+      
+      
         ~OverBaggingClassifier.set_params
+      
+      
+        ~OverBaggingClassifier.set_score_request
       
    
    

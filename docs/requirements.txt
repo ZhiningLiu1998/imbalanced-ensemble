@@ -12,3 +12,7 @@ sphinx-gallery
 numpydoc
 pydata-sphinx-theme
 sphinxcontrib-bibtex
+torch
+torchvision
+pytest
+pytest-cov

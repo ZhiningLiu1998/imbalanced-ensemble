@@ -20,6 +20,9 @@
         ~OverBoostClassifier.fit
       
       
+        ~OverBoostClassifier.get_metadata_routing
+      
+      
         ~OverBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~OverBoostClassifier.score
       
       
+        ~OverBoostClassifier.set_fit_request
+      
+      
         ~OverBoostClassifier.set_params
+      
+      
+        ~OverBoostClassifier.set_score_request
       
       
         ~OverBoostClassifier.staged_decision_function

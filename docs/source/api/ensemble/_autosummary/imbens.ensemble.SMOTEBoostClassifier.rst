@@ -20,6 +20,9 @@
         ~SMOTEBoostClassifier.fit
       
       
+        ~SMOTEBoostClassifier.get_metadata_routing
+      
+      
         ~SMOTEBoostClassifier.get_params
       
       
@@ -35,7 +38,13 @@
         ~SMOTEBoostClassifier.score
       
       
+        ~SMOTEBoostClassifier.set_fit_request
+      
+      
         ~SMOTEBoostClassifier.set_params
+      
+      
+        ~SMOTEBoostClassifier.set_score_request
       
       
         ~SMOTEBoostClassifier.staged_decision_function
