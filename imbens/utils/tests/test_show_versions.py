@@ -2,13 +2,13 @@
 # Author: Alexander L. Hayes <hayesall@iu.edu>
 # License: MIT
 
+# %%
 
 from imbens.utils._show_versions import _get_deps_info, show_versions
 
-_deps_info = _get_deps_info()
-
 
 def test_get_deps_info():
+    _deps_info = _get_deps_info()
     assert "pip" in _deps_info
     assert "setuptools" in _deps_info
     assert "imblearn" in _deps_info
@@ -59,3 +59,6 @@ def test_show_versions_github(capsys):
     assert "* pandas" in out
     assert "* joblib" in out
     assert "</details>" in out
+
+
+# %%
