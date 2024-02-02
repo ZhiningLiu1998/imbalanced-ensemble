@@ -51,9 +51,9 @@
   <a href="https://pepy.tech/project/imbalanced-ensemble">
     <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
   </a>
-  <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/graphs/traffic">
+  <!-- <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/graphs/traffic">
     <img src="https://visitor-badge.glitch.me/badge?page_id=ZhiningLiu1998.imbalanced-ensemble">
-  </a>
+  </a> -->
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -79,10 +79,12 @@ Language: <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">Englis
   <a href="https://arxiv.org/pdf/2111.12776.pdf">"IMBENS: Ensemble Class-imbalanced Learning in Python"</a>
   <br>**
 
-***IMBENS*** (imported as `imbens`) is a Python library for quick implementation, modification, evaluation, and visualization of **ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
-Currently, IMBENS includes more than **[15 ensemble imbalanced learning algorithms](#list-of-implemented-methods)**, from the classical *SMOTEBoost* (2003), *RUSBoost* (2010) to recent [*Self-paced Ensemble*](https://github.com/ZhiningLiu1998/self-paced-ensemble) (2020), from *resampling* to *cost-sensitive learning*.
+***IMBENS* (imported as `imbens`) is a Python library for quick implementation, modification, evaluation, and visualization of ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
+Currently, IMBENS includes **[over 15 ensemble imbalanced learning algorithms](#list-of-implemented-methods) (SMOTEBoost, SMOTEBagging, RUSBoost, EasyEnsemble, BalanceCascade, SelfPacedEnsemble, etc)** and also **[19 resampling methods](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/api.html) (SMOTE, ADASYN, TomekLinks, etc)** from [imbalance-learn](https://imbalanced-learn.org/stable/references/index.html#api).
 
-***IMBENS*** is developed on top of [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn) (imblearn) and follows the API design of [scikit-learn](https://github.com/scikit-learn/scikit-learn). Compared to imblearn, IMBENS provides more powerful ensemble learning algorithms with ***multi-class learning*** support and many other **advanced features**:
+**IMBENS is featured for:**
+
+<!-- ***IMBENS*** is developed on top of [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn) (imblearn) and follows the API design of [scikit-learn](https://github.com/scikit-learn/scikit-learn). Compared to imblearn, IMBENS provides more powerful ensemble learning algorithms with ***multi-class learning*** support and many other **advanced features**: -->
 
 <!-- The problem of learning from imbalanced data is known as imbalanced learning or long-tail learning (under multi-class scenario). See related papers/libraries/resources [here](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning). -->
 <!-- More algorithms will be included in the future. We also provide detailed documentation and examples across various algorithms. See full list of implemented methods [here](#list-of-implemented-methods).** -->
@@ -92,13 +94,13 @@ Currently, IMBENS includes more than **[15 ensemble imbalanced learning algorith
 - **We would greatly appreciate your contribution, and you will appear in the [Contributors✨](#contributors-)!** -->
 
 <!-- **IMBENS is featured for:** -->
-- &#x1F34E; Unified, easy-to-use APIs, detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).
-- &#x1F34E; Capable for out-of-the-box ***multi-class*** imbalanced (long-tailed) learning.
-- &#x1F34E; Optimized performance with parallelization when possible using [joblib](https://github.com/joblib/joblib).
-- &#x1F34E; Powerful, customizable, interactive training logging and visualizer.
-- &#x1F34E; Full compatibility with other popular packages like [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).
+- &#x1F34E; **Unified, easy-to-use APIs with [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).**
+- &#x1F34E; **Optimized performance with parallelization using [joblib](https://github.com/joblib/joblib).**
+- &#x1F34E; **Powerful, customizable, interactive training [logging]((#customizing-training-log)) and [visualizer](#visualize-ensemble-classifiers).**
+- &#x1F34E; **Full compatibility with [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).**
+- &#x1F34E; **Off-the-shelf *multi-class* imbalanced learning by extending existing techniques.**
 
-**Ensemble Imbalanced Learning with 4 Lines of Code:**
+**IMBENS for class-imbalanced classification with <5 lines of code:**
 
 ```python
 # Train an SPE classifier
@@ -109,10 +111,6 @@ clf.fit(X_train, y_train)
 # Predict with an SPE classifier
 y_pred = clf.predict(X_test)
 ```
-
-**Contributing to IMBENS**
-
-Please refer to the [contributing guidelines](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/CONTRIBUTING.md).
 
 **Citing IMBENS**
 
@@ -127,6 +125,10 @@ If you use IMBENS in a scientific publication, we would appreciate citations to 
   year={2023}
 }
 ```
+
+**Contributing to IMBENS**
+
+Please refer to the [contributing guidelines](https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/CONTRIBUTING.md).
 
 ## Table of Contents
 
@@ -421,8 +423,8 @@ For more resources on imbalanced learning, please refer to [**awesome-imbalanced
 
 ## Acknowledgements
 
-***Many samplers and utilities are adapted from* [imbalanced-learn](https://imbalanced-learn.org/), *which is an amazing project!***
-
+IMBENS was initially developed on top of [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn), but has undergone heavy developments to implement many important imbalanced ensemble techniques.
+The infrastructure also underwent significant refactoring to support advanced ensemble learning features that are essential to practical usability (fine-grained training control, parallel computing, multi-class support, training logs, visualization, etc).
 
 ## References
 
