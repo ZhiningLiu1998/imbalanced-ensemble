@@ -180,6 +180,21 @@ class Pipeline(pipeline.Pipeline):
         else:
             return it
 
+    def _check_fit_params(self, **fit_params):
+        fit_params_steps = {name: {} for name, step in self.steps if step is not None}
+        for pname, pval in fit_params.items():
+            if "__" not in pname:
+                raise ValueError(
+                    "Pipeline.fit does not accept the {} parameter. "
+                    "You can pass parameters to specific steps of your "
+                    "pipeline using the stepname__parameter format, e.g. "
+                    "`Pipeline.fit(X, y, logisticregression__sample_weight"
+                    "=sample_weight)`.".format(pname)
+                )
+            step, param = pname.split("__", 1)
+            fit_params_steps[step][param] = pval
+        return fit_params_steps
+
     # Estimator interface
 
     def _fit(self, X, y=None, sample_weight=None, **fit_params_steps):
