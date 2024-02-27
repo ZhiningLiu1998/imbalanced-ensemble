@@ -41,7 +41,7 @@ def test_scorer_common_average(data, score, expected_score, average):
 
     scorer = make_scorer(score, pos_label=None, average=average)
     grid = GridSearchCV(
-        LinearSVC(random_state=0),
+        LinearSVC(dual="auto", random_state=0),
         param_grid={"C": [1, 10]},
         scoring=scorer,
         cv=3,
@@ -70,7 +70,7 @@ def test_scorer_default_average(data, score, average, expected_score):
 
     scorer = make_scorer(score, pos_label=1, average=average)
     grid = GridSearchCV(
-        LinearSVC(random_state=0),
+        LinearSVC(dual="auto", random_state=0),
         param_grid={"C": [1, 10]},
         scoring=scorer,
         cv=3,

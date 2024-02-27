@@ -14,7 +14,7 @@ import seaborn as sns
 from sklearn.decomposition import KernelPCA
 
 DEFAULT_VIS_KWARGS = {
-    'cmap': plt.cm.rainbow,
+    # 'cmap': plt.cm.rainbow,
     'edgecolor': 'black',
     'alpha': 0.6,
 }
