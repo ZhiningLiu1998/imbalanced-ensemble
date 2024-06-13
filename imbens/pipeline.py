@@ -17,7 +17,7 @@ composite estimator, as a chain of transforms, samples and estimators.
 from collections import Counter
 from sklearn import pipeline
 from sklearn.base import clone
-from sklearn.utils import _print_elapsed_time
+from sklearn.utils._user_interface import _print_elapsed_time
 from sklearn.utils.metaestimators import available_if
 from sklearn.utils.validation import check_memory
 
