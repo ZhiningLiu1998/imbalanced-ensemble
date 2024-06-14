@@ -37,26 +37,26 @@ from warnings import warn
 from sklearn.ensemble import AdaBoostClassifier
 
 # Properties
-_method_name = 'EasyEnsembleClassifier'
+_method_name = "EasyEnsembleClassifier"
 _sampler_class = RandomUnderSampler
 
 _solution_type = ResampleBaggingClassifier._solution_type
-_sampling_type = 'under-sampling'
+_sampling_type = "under-sampling"
 _ensemble_type = ResampleBaggingClassifier._ensemble_type
 _training_type = ResampleBaggingClassifier._training_type
 
 _properties = {
-    'sampling_type': _sampling_type,
-    'solution_type': _solution_type,
-    'ensemble_type': _ensemble_type,
-    'training_type': _training_type,
+    "sampling_type": _sampling_type,
+    "solution_type": _solution_type,
+    "ensemble_type": _ensemble_type,
+    "training_type": _training_type,
 }
 
 
 @Substitution(
-    random_state=_get_parameter_docstring('random_state', **_properties),
-    n_jobs=_get_parameter_docstring('n_jobs', **_properties),
-    warm_start=_get_parameter_docstring('warm_start', **_properties),
+    random_state=_get_parameter_docstring("random_state", **_properties),
+    n_jobs=_get_parameter_docstring("n_jobs", **_properties),
+    warm_start=_get_parameter_docstring("warm_start", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class EasyEnsembleClassifier(ResampleBaggingClassifier):
@@ -195,13 +195,13 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
         verbose=0,
     ):
 
-        sampling_strategy = 'auto'
+        sampling_strategy = "auto"
         sampler = _sampler_class()
         sampling_type = _sampling_type
 
         # Check if the estimator is AdaBoostClassifier
         if estimator is None:
-            estimator = AdaBoostClassifier(n_estimators=10)
+            estimator = AdaBoostClassifier(n_estimators=10, algorithm="SAMME")
         elif type(estimator) == AdaBoostClassifier:
             estimator = estimator
         else:
@@ -238,9 +238,9 @@ class EasyEnsembleClassifier(ResampleBaggingClassifier):
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -325,53 +325,53 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'estimator': None,
+        "estimator": None,
         # 'estimator': DecisionTreeClassifier(),
-        'n_estimators': 100,
-        'max_samples': 1.0,
-        'max_features': 1.0,
-        'bootstrap': True,
-        'bootstrap_features': False,
-        'oob_score': False,
-        'warm_start': False,
-        'n_jobs': None,
-        'random_state': 42,
+        "n_estimators": 100,
+        "max_samples": 1.0,
+        "max_features": 1.0,
+        "bootstrap": True,
+        "bootstrap_features": False,
+        "oob_score": False,
+        "warm_start": False,
+        "n_jobs": None,
+        "random_state": 42,
         # 'random_state': None,
-        'verbose': 0,
+        "verbose": 0,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'sample_weight': None,
-        'max_samples': None,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "X": X_train,
+        "y": y_train,
+        "sample_weight": None,
+        "max_samples": None,
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': True,
+        "train_verbose": True,
     }
 
     ensembles = {}
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     easyens = EasyEnsembleClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['easyens'] = easyens
+    ensembles["easyens"] = easyens
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     init_kwargs.update(
         {
-            'estimator': DecisionTreeClassifier(),
+            "estimator": DecisionTreeClassifier(),
         }
     )
     easyens_fallback = EasyEnsembleClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['easyens_fallback'] = easyens_fallback
+    ensembles["easyens_fallback"] = easyens_fallback
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer

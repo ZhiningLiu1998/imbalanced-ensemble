@@ -37,26 +37,26 @@ else:  # pragma: no cover
 import numbers
 
 # Properties
-_method_name = 'KmeansSMOTEBoostClassifier'
+_method_name = "KmeansSMOTEBoostClassifier"
 _sampler_class = KMeansSMOTE
 
 _solution_type = ResampleBoostClassifier._solution_type
-_sampling_type = 'over-sampling'
+_sampling_type = "over-sampling"
 _ensemble_type = ResampleBoostClassifier._ensemble_type
 _training_type = ResampleBoostClassifier._training_type
 
 _properties = {
-    'solution_type': _solution_type,
-    'sampling_type': _sampling_type,
-    'ensemble_type': _ensemble_type,
-    'training_type': _training_type,
+    "solution_type": _solution_type,
+    "sampling_type": _sampling_type,
+    "ensemble_type": _ensemble_type,
+    "training_type": _training_type,
 }
 
 
 @Substitution(
-    n_jobs_sampler=_get_parameter_docstring('n_jobs_sampler', **_properties),
-    early_termination=_get_parameter_docstring('early_termination', **_properties),
-    random_state=_get_parameter_docstring('random_state', **_properties),
+    n_jobs_sampler=_get_parameter_docstring("n_jobs_sampler", **_properties),
+    early_termination=_get_parameter_docstring("early_termination", **_properties),
+    random_state=_get_parameter_docstring("random_state", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
@@ -108,7 +108,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         ``learning_rate``. There is a trade-off between ``learning_rate`` and
         ``n_estimators``.
 
-    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME.R'
+    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME'
         If 'SAMME.R' then use the SAMME.R real boosting algorithm.
         ``estimator`` must support calculation of class probabilities.
         If 'SAMME' then use the SAMME discrete boosting algorithm.
@@ -185,7 +185,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         cluster_balance_threshold=0.1,
         density_exponent="auto",
         learning_rate: float = 1.0,
-        algorithm: str = 'SAMME.R',
+        algorithm: str = "SAMME",
         early_termination: bool = False,
         random_state=None,
     ):
@@ -210,7 +210,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         self._properties = _properties
 
         self.k_neighbors = k_neighbors
-        self.k_neighbors_ = check_type(k_neighbors, 'k_neighbors', numbers.Integral)
+        self.k_neighbors_ = check_type(k_neighbors, "k_neighbors", numbers.Integral)
         self.n_jobs_sampler = n_jobs_sampler
         self.kmeans_estimator = kmeans_estimator
         self.cluster_balance_threshold = cluster_balance_threshold
@@ -223,12 +223,12 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        target_label=_get_parameter_docstring('target_label', **_properties),
-        n_target_samples=_get_parameter_docstring('n_target_samples', **_properties),
-        balancing_schedule=_get_parameter_docstring('balancing_schedule'),
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        target_label=_get_parameter_docstring("target_label", **_properties),
+        n_target_samples=_get_parameter_docstring("n_target_samples", **_properties),
+        balancing_schedule=_get_parameter_docstring("balancing_schedule"),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -238,7 +238,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         sample_weight=None,
         target_label: int = None,
         n_target_samples: int or dict = None,
-        balancing_schedule: str or function = 'uniform',
+        balancing_schedule: str or function = "uniform",
         eval_datasets: dict = None,
         eval_metrics: dict = None,
         train_verbose: bool or int or dict = False,
@@ -276,11 +276,11 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
         """
 
         kmeans_smote_sampler_kwargs = {
-            'k_neighbors': self.k_neighbors_,
-            'n_jobs': self.n_jobs_sampler,
-            'kmeans_estimator': self.kmeans_estimator,
-            'cluster_balance_threshold': self.cluster_balance_threshold,
-            'density_exponent': self.density_exponent,
+            "k_neighbors": self.k_neighbors_,
+            "n_jobs": self.n_jobs_sampler,
+            "kmeans_estimator": self.kmeans_estimator,
+            "cluster_balance_threshold": self.cluster_balance_threshold,
+            "density_exponent": self.density_exponent,
         }
         update_x_y_after_resample = True
 
@@ -304,7 +304,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
 if __name__ == "__main__":  # pragma: no cover
     import warnings
 
-    warnings.filterwarnings('ignore')
+    warnings.filterwarnings("ignore")
     from collections import Counter
     from copy import copy
 
@@ -334,36 +334,36 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     init_kwargs_default = {
-        'estimator': None,
+        "estimator": None,
         # 'estimator': DecisionTreeClassifier(max_depth=2),
-        'n_estimators': 100,
-        'k_neighbors': 5,
-        'learning_rate': 1.0,
-        'algorithm': 'SAMME.R',
-        'random_state': 10,
+        "n_estimators": 100,
+        "k_neighbors": 5,
+        "learning_rate": 1.0,
+        "algorithm": "SAMME.R",
+        "random_state": 10,
         # 'random_state': None,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'sample_weight': None,
-        'target_label': None,
-        'n_target_samples': None,
+        "X": X_train,
+        "y": y_train,
+        "sample_weight": None,
+        "target_label": None,
+        "n_target_samples": None,
         # 'n_target_samples': target_distr,
-        'balancing_schedule': 'uniform',
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "balancing_schedule": "uniform",
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': {
-            'granularity': 10,
-            'print_distribution': True,
-            'print_metrics': True,
+        "train_verbose": {
+            "granularity": 10,
+            "print_distribution": True,
+            "print_metrics": True,
         },
     }
 
@@ -371,12 +371,12 @@ if __name__ == "__main__":  # pragma: no cover
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     kmsmoteboost = KmeansSMOTEBoostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['kmsmoteboost'] = kmsmoteboost
+    ensembles["kmsmoteboost"] = kmsmoteboost
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
-    fit_kwargs.update({'balancing_schedule': 'progressive'})
+    fit_kwargs.update({"balancing_schedule": "progressive"})
     kmsmoteboost_prog = KmeansSMOTEBoostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['kmsmoteboost_prog'] = kmsmoteboost_prog
+    ensembles["kmsmoteboost_prog"] = kmsmoteboost_prog
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer

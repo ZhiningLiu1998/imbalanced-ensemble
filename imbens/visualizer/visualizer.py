@@ -50,26 +50,26 @@ from sklearn.metrics import confusion_matrix
 from tqdm import tqdm
 
 DATAFRAME_COLUMNS = [
-    'n_estimators',
-    'method',
-    'dataset',
-    'metric',
-    'score',
-    'n_samples',
+    "n_estimators",
+    "method",
+    "dataset",
+    "metric",
+    "score",
+    "n_samples",
 ]
 
-SPLIT_BY = ['method', 'dataset']
+SPLIT_BY = ["method", "dataset"]
 
 LINEPLOT_KWARGS_DEFAULT = {
-    'markers': True,
-    'alpha': 0.8,
+    "markers": True,
+    "alpha": 0.8,
 }
 
 HEATMAP_KWARGS_DEFAULT = {
-    'alpha': 0.8,
+    "alpha": 0.8,
 }
 
-FONT_DEFAULT = 'Consolas'
+FONT_DEFAULT = "Consolas"
 
 RESERVED_SUPTITLE_INCHES = 0.4
 
@@ -88,7 +88,7 @@ fontweight or weight	{a numeric value in range 0-1000, 'ultralight', 'light',
 """
 
 
-def set_ax_border(ax, border_color='black', border_width=2):
+def set_ax_border(ax, border_color="black", border_width=2):
     """Set the border color and width."""
 
     for _, spine in ax.spines.items():
@@ -112,6 +112,7 @@ class ImbalancedEnsembleVisualizer:
           iteratively trained ensemble) of a single ensemble model;
         - or to compare the performance of multiple different ensemble
           models in an intuitive way.
+
 
     Parameters
     ----------
@@ -183,7 +184,7 @@ class ImbalancedEnsembleVisualizer:
 
     def __init__(self, eval_metrics: dict = None, eval_datasets: dict = None):
 
-        self.__name__ = 'ImbalancedEnsembleVisualizer'
+        self.__name__ = "ImbalancedEnsembleVisualizer"
         self._fitted = False
 
         # Check evaluation metrics
@@ -191,16 +192,16 @@ class ImbalancedEnsembleVisualizer:
 
         # Check evaluation datasets
         check_x_y_args = {
-            'accept_sparse': ['csr', 'csc'],
-            'force_all_finite': False,
-            'dtype': None,
+            "accept_sparse": ["csr", "csc"],
+            "force_all_finite": False,
+            "dtype": None,
         }
         self.eval_datasets_ = check_eval_datasets(eval_datasets, **check_x_y_args)
 
         # Set default rcParams
         rcParams.update(
             {
-                "font.weight": 'roman',
+                "font.weight": "roman",
             }
         )
         try:
@@ -218,27 +219,27 @@ class ImbalancedEnsembleVisualizer:
 
         # Default styles of different titles
         self.suptitle_style = {
-            'size': 'x-large',
-            'stretch': 'expanded',
-            'style': 'italic',
-            'variant': 'small-caps',
-            'weight': 'black',
+            "size": "x-large",
+            "stretch": "expanded",
+            "style": "italic",
+            "variant": "small-caps",
+            "weight": "black",
         }
         self.row_col_title_style = {
-            'size': 'large',
-            'weight': 'bold',
-            'bbox': {
-                'boxstyle': 'round',
-                'pad': 0.25,
-                'fc': 'white',
-                'ec': 'black',
-                'lw': 1,
-                'alpha': 0.5,
+            "size": "large",
+            "weight": "bold",
+            "bbox": {
+                "boxstyle": "round",
+                "pad": 0.25,
+                "fc": "white",
+                "ec": "black",
+                "lw": 1,
+                "alpha": 0.5,
             },
         }
         self.axis_title_style = {
-            'size': 'medium',
-            'weight': 'bold',
+            "size": "medium",
+            "weight": "bold",
         }
 
     def fit(
@@ -294,7 +295,7 @@ class ImbalancedEnsembleVisualizer:
 
         # Check granularity
         if granularity is not None:
-            granularity_ = check_type(granularity, 'granularity', numbers.Integral)
+            granularity_ = check_type(granularity, "granularity", numbers.Integral)
         else:
             max_n_estimators = max(
                 [len(ens.estimators_) for ens in self.ensembles_.values()]
@@ -362,7 +363,7 @@ class ImbalancedEnsembleVisualizer:
         """
         max_n_estimators = len(ensemble.estimators_)
         # If not imbalanced-ensemble classifier
-        if not hasattr(ensemble, 'estimators_n_training_samples_'):
+        if not hasattr(ensemble, "estimators_n_training_samples_"):
             # If Bagging classifier
             if isinstance(ensemble, BaggingClassifier):
                 out = (
@@ -401,7 +402,7 @@ class ImbalancedEnsembleVisualizer:
         """Get n-estimators predicted probabilities from a bagging-like ensemble."""
 
         # Check whether the ensemble has verbose attribute
-        has_verbose = hasattr(ensemble, 'verbose')
+        has_verbose = hasattr(ensemble, "verbose")
         # Temporarily disable built-in verbose
         if has_verbose:
             tmp_verbose, ensemble.verbose = ensemble.verbose, 0
@@ -420,7 +421,7 @@ class ImbalancedEnsembleVisualizer:
         """Get n-estimators predicted probabilities from a general ensemble."""
 
         # Check whether the ensemble has verbose attribute
-        has_verbose = hasattr(ensemble, 'verbose')
+        has_verbose = hasattr(ensemble, "verbose")
         # Temporarily disable built-in verbose
         if has_verbose:
             tmp_verbose, ensemble.verbose = ensemble.verbose, 0
@@ -511,7 +512,7 @@ class ImbalancedEnsembleVisualizer:
                         ac_labels,
                     ) in eval_metrics.items():
                         if ac_labels:
-                            kwargs['labels'] = classes_
+                            kwargs["labels"] = classes_
                         if ac_proba:  # If the metric take predict probabilities
                             score = metric_func(y_eval, curr_y_pred_proba, **kwargs)
                         else:  # If the metric do not take predict probabilities
@@ -537,7 +538,7 @@ class ImbalancedEnsembleVisualizer:
 
         # max_len_xxx_name was used to format the verbose
         max_len_ensemble_name = max([len(_) for _ in self.ensembles_.keys()])
-        max_len_dataset_name = max([len(_) for _ in self.vis_format_['dataset_names']])
+        max_len_dataset_name = max([len(_) for _ in self.vis_format_["dataset_names"]])
 
         return pd.concat(
             [
@@ -637,13 +638,13 @@ class ImbalancedEnsembleVisualizer:
 
         # Check parameters
         on_ensembles = self._check_is_subset(
-            on_ensembles, 'on_ensembles', self.vis_format_['ensemble_names']
+            on_ensembles, "on_ensembles", self.vis_format_["ensemble_names"]
         )
         on_datasets = self._check_is_subset(
-            on_datasets, 'on_datasets', self.vis_format_['dataset_names']
+            on_datasets, "on_datasets", self.vis_format_["dataset_names"]
         )
         on_metrics = self._check_is_subset(
-            on_metrics, 'on_metrics', self.vis_format_['metric_names']
+            on_metrics, "on_metrics", self.vis_format_["metric_names"]
         )
         n_ensembles, n_datasets, n_metrics = (
             len(on_ensembles),
@@ -664,16 +665,16 @@ class ImbalancedEnsembleVisualizer:
         )
 
         n_samples_as_x_axis_ = check_type(
-            n_samples_as_x_axis, 'n_samples_as_x_axis_', bool
+            n_samples_as_x_axis, "n_samples_as_x_axis_", bool
         )
 
         (sub_fig_width, sub_fig_height) = check_plot_figsize(sub_figsize)
 
-        sup_title_ = check_type(sup_title, 'sup_title', (bool, str))
+        sup_title_ = check_type(sup_title, "sup_title", (bool, str))
 
         lineplot_kwargs_ = copy(LINEPLOT_KWARGS_DEFAULT)
         lineplot_kwargs_.update(lineplot_kwargs)
-        for kw in ['ax', 'data', 'x', 'y', 'hue', 'style']:
+        for kw in ["ax", "data", "x", "y", "hue", "style"]:
             if kw in lineplot_kwargs_.keys():
                 raise ValueError(
                     f"Cannot set parameter '{kw}' for"
@@ -681,14 +682,14 @@ class ImbalancedEnsembleVisualizer:
                 )
 
         # Select data for visualization
-        on_ensembles_mask = vis_perf_dataframe['method'].map(
-            {k: k in on_ensembles for k in self.vis_format_['ensemble_names']}
+        on_ensembles_mask = vis_perf_dataframe["method"].map(
+            {k: k in on_ensembles for k in self.vis_format_["ensemble_names"]}
         )
-        on_datasets_mask = vis_perf_dataframe['dataset'].map(
-            {k: k in on_datasets for k in self.vis_format_['dataset_names']}
+        on_datasets_mask = vis_perf_dataframe["dataset"].map(
+            {k: k in on_datasets for k in self.vis_format_["dataset_names"]}
         )
-        on_metrics_mask = vis_perf_dataframe['metric'].map(
-            {k: k in on_metrics for k in self.vis_format_['metric_names']}
+        on_metrics_mask = vis_perf_dataframe["metric"].map(
+            {k: k in on_metrics for k in self.vis_format_["metric_names"]}
         )
         final_mask = on_ensembles_mask & on_datasets_mask & on_metrics_mask
         vis_perf_dataframe = vis_perf_dataframe.loc[final_mask]
@@ -711,23 +712,23 @@ class ImbalancedEnsembleVisualizer:
                 # Update the number of included ensemble methods
                 n_ensembles = len(include_ensembles)
                 # Select data
-                has_n_samples_mask = vis_perf_dataframe['method'].map(
+                has_n_samples_mask = vis_perf_dataframe["method"].map(
                     self.ensembles_has_n_training_samples_
                 )
                 vis_perf_dataframe = vis_perf_dataframe.loc[has_n_samples_mask]
             # Set x-axis to number of samples
-            x_column = 'n_samples'
+            x_column = "n_samples"
             x_label = "# Training Samples"
         else:
             # Set x-axis to number of base estimators
-            x_column = 'n_estimators'
+            x_column = "n_estimators"
             x_label = "# Base Estimators"
 
         # Set figure size and layout
         n_rows_fig, n_columns_fig = 1, n_metrics
-        if 'method' in split_by:
+        if "method" in split_by:
             n_rows_fig *= n_ensembles
-        if 'dataset' in split_by:
+        if "dataset" in split_by:
             n_rows_fig *= n_datasets
 
         total_width, total_height = (
@@ -742,31 +743,31 @@ class ImbalancedEnsembleVisualizer:
 
         # Set column titles
         pad = 10
-        col_titles = ['Metric: <{}>'.format(metric) for metric in on_metrics]
+        col_titles = ["Metric: <{}>".format(metric) for metric in on_metrics]
         for ax, col_title in zip(axes[0], col_titles):
             ax.annotate(
                 col_title,
                 xy=(0.5, 1),
                 xytext=(0, pad),
-                xycoords='axes fraction',
-                textcoords='offset points',
-                ha='center',
-                va='baseline',
+                xycoords="axes fraction",
+                textcoords="offset points",
+                ha="center",
+                va="baseline",
                 **self.row_col_title_style,
             )
 
         # Plot performances on each ax
-        vis_df_grp = vis_perf_dataframe.groupby(by=split_by + ['metric'])
+        vis_df_grp = vis_perf_dataframe.groupby(by=split_by + ["metric"])
         for (key, _), ax in zip(vis_df_grp.groups.items(), axes.flatten()):
             metric_name = key if len(split_by) == 0 else key[-1]
             # Use seaborn.lineplot for visualization
             kwargs = {
-                'data': vis_df_grp.get_group(key).reset_index(drop=True),
-                'x': x_column,
-                'y': 'score',
-                'hue': 'method',
-                'style': 'dataset',
-                'ax': ax,
+                "data": vis_df_grp.get_group(key).reset_index(drop=True),
+                "x": x_column,
+                "y": "score",
+                "hue": "method",
+                "style": "dataset",
+                "ax": ax,
             }
             kwargs.update(lineplot_kwargs_)
             ax = sns.lineplot(**kwargs)
@@ -779,10 +780,10 @@ class ImbalancedEnsembleVisualizer:
                 handlelength=None,
                 borderpad=0.4,
             )
-            ax = set_ax_border(ax, border_color='black', border_width=2)
+            ax = set_ax_border(ax, border_color="black", border_width=2)
             ax.set_xlabel(x_label, **self.axis_title_style)
-            ax.set_ylabel(f'{metric_name}', **self.axis_title_style)
-            ax.grid(color='black', linestyle='-.', alpha=0.3)
+            ax.set_ylabel(f"{metric_name}", **self.axis_title_style)
+            ax.grid(color="black", linestyle="-.", alpha=0.3)
 
         # Use tight layout
         height_rect = (total_height - RESERVED_SUPTITLE_INCHES) / total_height
@@ -811,7 +812,7 @@ class ImbalancedEnsembleVisualizer:
         for ensemble_name, ensemble in self.ensembles_.items():
             conf_matrices_ensemble = {}
             # Check whether the ensemble has verbose attribute
-            has_verbose = hasattr(ensemble, 'verbose')
+            has_verbose = hasattr(ensemble, "verbose")
             # Temporarily disable built-in verbose
             if has_verbose:
                 tmp_verbose, ensemble.verbose = ensemble.verbose, 0
@@ -910,22 +911,22 @@ class ImbalancedEnsembleVisualizer:
             )
 
         on_ensembles = self._check_is_subset(
-            on_ensembles, 'on_ensembles', self.vis_format_['ensemble_names']
+            on_ensembles, "on_ensembles", self.vis_format_["ensemble_names"]
         )
         on_datasets = self._check_is_subset(
-            on_datasets, 'on_datasets', self.vis_format_['dataset_names']
+            on_datasets, "on_datasets", self.vis_format_["dataset_names"]
         )
         n_ensembles, n_datasets = len(on_ensembles), len(on_datasets)
 
-        false_pred_only = check_type(false_pred_only, 'false_pred_only', bool)
+        false_pred_only = check_type(false_pred_only, "false_pred_only", bool)
 
         (sub_fig_width, sub_fig_height) = check_plot_figsize(sub_figsize)
 
-        sup_title_ = check_type(sup_title, 'sup_title', (bool, str))
+        sup_title_ = check_type(sup_title, "sup_title", (bool, str))
 
         heatmap_kwargs_ = copy(HEATMAP_KWARGS_DEFAULT)
         heatmap_kwargs_.update(heatmap_kwargs)
-        for kw in ['ax', 'data']:
+        for kw in ["ax", "data"]:
             if kw in heatmap_kwargs_.keys():
                 raise ValueError(
                     f"Cannot set parameter '{kw}' for"
@@ -946,18 +947,18 @@ class ImbalancedEnsembleVisualizer:
 
         # Set titles for each column and row
         pad = 10
-        row_titles = ['On dataset: <{}>'.format(col) for col in on_datasets]
-        col_titles = ['Method: <{}>'.format(row) for row in on_ensembles]
+        row_titles = ["On dataset: <{}>".format(col) for col in on_datasets]
+        col_titles = ["Method: <{}>".format(row) for row in on_ensembles]
         # Set column titles
         for ax, col_title in zip(axes[0], col_titles):
             ax.annotate(
                 col_title,
                 xy=(0.5, 1),
                 xytext=(0, pad),
-                xycoords='axes fraction',
-                textcoords='offset points',
-                ha='center',
-                va='baseline',
+                xycoords="axes fraction",
+                textcoords="offset points",
+                ha="center",
+                va="baseline",
                 **self.row_col_title_style,
             )
 
@@ -968,9 +969,9 @@ class ImbalancedEnsembleVisualizer:
                 xy=(0, 0.5),
                 xytext=(-ax.yaxis.labelpad - pad, 0),
                 xycoords=ax.yaxis.label,
-                textcoords='offset points',
-                ha='right',
-                va='center',
+                textcoords="offset points",
+                ha="right",
+                va="center",
                 rotation=90,
                 **self.row_col_title_style,
             )
@@ -983,16 +984,16 @@ class ImbalancedEnsembleVisualizer:
                 conf_matrix_df = conf_matrices[ensemble_name][dataset_name]
                 # Use seaborn.heatmap for visualization
                 kwargs = {
-                    'data': conf_matrix_df,
-                    'annot': True,
-                    'fmt': 'd',
-                    'linewidths': 0.5,
-                    'ax': ax,
+                    "data": conf_matrix_df,
+                    "annot": True,
+                    "fmt": "d",
+                    "linewidths": 0.5,
+                    "ax": ax,
                 }
                 kwargs.update(heatmap_kwargs_)
                 # if false_pred_only, set mask to the heatmap
                 if false_pred_only:
-                    kwargs['mask'] = np.identity(conf_matrix_df.shape[0])
+                    kwargs["mask"] = np.identity(conf_matrix_df.shape[0])
                 ax = sns.heatmap(**kwargs)
                 # Set x_label and y_label properties
                 ax.set_xlabel("Predicted Label", **self.axis_title_style)

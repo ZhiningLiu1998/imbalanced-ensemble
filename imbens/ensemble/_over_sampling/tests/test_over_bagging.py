@@ -1,4 +1,5 @@
 """Test OverBaggingClassifier."""
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
@@ -396,7 +397,7 @@ def test_estimators_samples():
     # remap the y outside of the OverBaggingClassifier
     # _, y = np.unique(y, return_inverse=True)
     bagging = OverBaggingClassifier(
-        LogisticRegression(solver="lbfgs", multi_class="auto"),
+        LogisticRegression(solver="lbfgs"),
         max_samples=0.5,
         max_features=0.5,
         random_state=1,

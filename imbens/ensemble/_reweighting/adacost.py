@@ -33,22 +33,22 @@ import numpy as np
 import pandas as pd
 
 # Properties
-_method_name = 'AdaCostClassifier'
+_method_name = "AdaCostClassifier"
 
 _solution_type = ReweightBoostClassifier._solution_type
 _ensemble_type = ReweightBoostClassifier._ensemble_type
 _training_type = ReweightBoostClassifier._training_type
 
 _properties = {
-    'solution_type': _solution_type,
-    'ensemble_type': _ensemble_type,
-    'training_type': _training_type,
+    "solution_type": _solution_type,
+    "ensemble_type": _ensemble_type,
+    "training_type": _training_type,
 }
 
 
 @Substitution(
-    early_termination=_get_parameter_docstring('early_termination', **_properties),
-    random_state=_get_parameter_docstring('random_state', **_properties),
+    early_termination=_get_parameter_docstring("early_termination", **_properties),
+    random_state=_get_parameter_docstring("random_state", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class AdaCostClassifier(ReweightBoostClassifier):
@@ -81,7 +81,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
         ``learning_rate``. There is a trade-off between ``learning_rate`` and
         ``n_estimators``.
 
-    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME.R'
+    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME'
         If 'SAMME.R' then use the SAMME.R real boosting algorithm.
         ``estimator`` must support calculation of class probabilities.
         If 'SAMME' then use the SAMME discrete boosting algorithm.
@@ -151,7 +151,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
         n_estimators: int = 50,
         *,
         learning_rate: float = 1.0,
-        algorithm: str = 'SAMME.R',
+        algorithm: str = "SAMME",
         early_termination: bool = False,
         random_state=None,
     ):
@@ -179,10 +179,10 @@ class AdaCostClassifier(ReweightBoostClassifier):
         y_pred : array-like of shape = [n_samples, 1]
                  Predicted class values.
         """
-        df = pd.DataFrame({'y_pred': y_pred, 'y_true': y_true})
-        df = df.merge(self.cost_table_adacost_, how='left', on=['y_pred', 'y_true'])
+        df = pd.DataFrame({"y_pred": y_pred, "y_true": y_true})
+        df = df.merge(self.cost_table_adacost_, how="left", on=["y_pred", "y_true"])
 
-        return df['cost'].values
+        return df["cost"].values
 
     def _cost_matrix_to_misclassification_weights(self, cost_matrix):
         """Creates a table of misclassification cost from the cost matrix.
@@ -201,7 +201,7 @@ class AdaCostClassifier(ReweightBoostClassifier):
         for (x, y), value in np.ndenumerate(cost_matrix):
             table = np.vstack((table, np.array([x, y, value])))
 
-        return pd.DataFrame(table, columns=['y_pred', 'y_true', 'cost'])
+        return pd.DataFrame(table, columns=["y_pred", "y_true", "cost"])
 
     def _validate_cost_matrix(self, cost_matrix, n_classes):
         """validate the cost matrix & set the cost map table."""
@@ -213,9 +213,9 @@ class AdaCostClassifier(ReweightBoostClassifier):
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -309,32 +309,32 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     init_kwargs_default = {
-        'estimator': None,
+        "estimator": None,
         # 'estimator': DecisionTreeClassifier(max_depth=3),
-        'n_estimators': 100,
-        'learning_rate': 1.0,
-        'algorithm': 'SAMME.R',
-        'random_state': 42,
+        "n_estimators": 100,
+        "learning_rate": 1.0,
+        "algorithm": "SAMME.R",
+        "random_state": 42,
         # 'random_state': None,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'sample_weight': None,
-        'cost_matrix': None,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "X": X_train,
+        "y": y_train,
+        "sample_weight": None,
+        "cost_matrix": None,
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': {
+        "train_verbose": {
             # 'granularity': 10,
-            'print_distribution': True,
-            'print_metrics': True,
+            "print_distribution": True,
+            "print_metrics": True,
         },
     }
 
@@ -342,25 +342,25 @@ if __name__ == "__main__":  # pragma: no cover
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     adacost = AdaCostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['adacost'] = adacost
+    ensembles["adacost"] = adacost
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     fit_kwargs.update(
         {
-            'cost_matrix': 'log1p-inverse',
+            "cost_matrix": "log1p-inverse",
         }
     )
     adacost_log = AdaCostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['adacost_log'] = adacost_log
+    ensembles["adacost_log"] = adacost_log
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     fit_kwargs.update(
         {
-            'cost_matrix': 'uniform',
+            "cost_matrix": "uniform",
         }
     )
     adacost_uniform = AdaCostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['adacost_uniform'] = adacost_uniform
+    ensembles["adacost_uniform"] = adacost_uniform
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer

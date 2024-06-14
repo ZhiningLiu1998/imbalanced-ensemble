@@ -398,7 +398,7 @@ def test_estimators_samples():
     # remap the y outside of the CompatibleBaggingClassifier
     # _, y = np.unique(y, return_inverse=True)
     bagging = CompatibleBaggingClassifier(
-        LogisticRegression(solver="lbfgs", multi_class="auto"),
+        LogisticRegression(solver="lbfgs"),
         max_samples=0.5,
         max_features=0.5,
         random_state=1,

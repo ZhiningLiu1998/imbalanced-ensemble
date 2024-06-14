@@ -67,14 +67,14 @@ class ResampleBoostClassifier(
     instead.
     """
 
-    _ensemble_type = 'boosting'
-    _solution_type = 'resampling'
-    _training_type = 'iterative'
+    _ensemble_type = "boosting"
+    _solution_type = "resampling"
+    _training_type = "iterative"
 
     _properties = {
-        'solution_type': _solution_type,
-        'ensemble_type': _ensemble_type,
-        'training_type': _training_type,
+        "solution_type": _solution_type,
+        "ensemble_type": _ensemble_type,
+        "training_type": _training_type,
     }
 
     def __init__(
@@ -84,7 +84,7 @@ class ResampleBoostClassifier(
         sampler,
         sampling_type: str,
         learning_rate: float = 1.0,
-        algorithm: str = 'SAMME.R',
+        algorithm: str = "SAMME",
         early_termination: bool = False,
         random_state=None,
     ):
@@ -203,7 +203,7 @@ class ResampleBoostClassifier(
             The classification error for the current boost.
             If None then boosting has terminated early.
         """
-        if self.algorithm == 'SAMME.R':
+        if self.algorithm == "SAMME.R":
             return self._boost_real(
                 iboost,
                 X_resampled,
@@ -356,7 +356,7 @@ class ResampleBoostClassifier(
         sampler_kwargs: dict,
         target_label: int,
         n_target_samples: int or dict,
-        balancing_schedule: str or function = 'uniform',
+        balancing_schedule: str or function = "uniform",
         update_x_y_after_resample: bool = False,
         eval_datasets: dict,
         eval_metrics: dict,
@@ -364,17 +364,17 @@ class ResampleBoostClassifier(
     ):
 
         update_x_y_after_resample = check_type(
-            update_x_y_after_resample, 'update_x_y_after_resample', bool
+            update_x_y_after_resample, "update_x_y_after_resample", bool
         )
 
-        self.sampler_kwargs_ = check_type(sampler_kwargs, 'sampler_kwargs', dict)
+        self.sampler_kwargs_ = check_type(sampler_kwargs, "sampler_kwargs", dict)
 
         early_termination_ = check_type(
-            self.early_termination, 'early_termination', bool
+            self.early_termination, "early_termination", bool
         )
 
         # Check that algorithm is supported.
-        if self.algorithm not in ('SAMME', 'SAMME.R'):
+        if self.algorithm not in ("SAMME", "SAMME.R"):
             raise ValueError("algorithm %s is not supported" % self.algorithm)
 
         # Check parameters.
@@ -386,17 +386,17 @@ class ResampleBoostClassifier(
         ):
             DTYPE = np.float64  # from fast_dict.pxd
             dtype = DTYPE
-            accept_sparse = 'csc'
+            accept_sparse = "csc"
         else:
             dtype = None
-            accept_sparse = ['csr', 'csc']
+            accept_sparse = ["csr", "csc"]
 
         check_x_y_args = {
-            'accept_sparse': accept_sparse,
-            'ensure_2d': True,
-            'allow_nd': True,
-            'dtype': dtype,
-            'y_numeric': False,
+            "accept_sparse": accept_sparse,
+            "ensure_2d": True,
+            "allow_nd": True,
+            "dtype": dtype,
+            "y_numeric": False,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
 
@@ -566,7 +566,7 @@ class ResampleBoostClassifier(
             )
 
         try:
-            if hasattr(self, 'estimator_weights_'):
+            if hasattr(self, "estimator_weights_"):
                 norm = self.estimator_weights_.sum()
                 return (
                     sum(
@@ -589,28 +589,28 @@ class ResampleBoostClassifier(
                 "feature_importances_ attribute"
             ) from e
 
-    @FuncGlossarySubstitution(_super.decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.decision_function, "classes_")
     def decision_function(self, X):
         return super().decision_function(X)
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-    @FuncGlossarySubstitution(_super.staged_decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_decision_function, "classes_")
     def staged_decision_function(self, X):
         return super().staged_decision_function(X)
 
-    @FuncGlossarySubstitution(_super.staged_predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_predict_proba, "classes_")
     def staged_predict_proba(self, X):
         return super().staged_predict_proba(X)
 
 
-SET_COST_MATRIX_HOW = ('uniform', 'inverse', 'log1p-inverse')
+SET_COST_MATRIX_HOW = ("uniform", "inverse", "log1p-inverse")
 
 
 class ReweightBoostClassifier(
@@ -622,14 +622,14 @@ class ReweightBoostClassifier(
     instead.
     """
 
-    _ensemble_type = 'boosting'
-    _solution_type = 'reweighting'
-    _training_type = 'iterative'
+    _ensemble_type = "boosting"
+    _solution_type = "reweighting"
+    _training_type = "iterative"
 
     _properties = {
-        'solution_type': _solution_type,
-        'ensemble_type': _ensemble_type,
-        'training_type': _training_type,
+        "solution_type": _solution_type,
+        "ensemble_type": _ensemble_type,
+        "training_type": _training_type,
     }
 
     def __init__(
@@ -637,7 +637,7 @@ class ReweightBoostClassifier(
         estimator,
         n_estimators: int,
         learning_rate: float = 1.0,
-        algorithm: str = 'SAMME.R',
+        algorithm: str = "SAMME",
         early_termination: bool = False,
         random_state=None,
     ):
@@ -681,7 +681,7 @@ class ReweightBoostClassifier(
         """
         return sample_weight
 
-    def _set_cost_matrix(self, how: str = 'inverse'):
+    def _set_cost_matrix(self, how: str = "inverse"):
         """Set the cost matrix according to the 'how' parameter."""
         classes, origin_distr = self._encode_map.values(), self.origin_distr_
         cost_matrix = []
@@ -691,11 +691,11 @@ class ReweightBoostClassifier(
             ]
             cost_c[c_pred] = 1
             cost_matrix.append(cost_c)
-        if how == 'uniform':
+        if how == "uniform":
             return np.ones_like(cost_matrix)
-        elif how == 'inverse':
+        elif how == "inverse":
             return cost_matrix
-        elif how == 'log1p-inverse':
+        elif how == "log1p-inverse":
             return np.log1p(cost_matrix)
         else:
             raise ValueError(
@@ -868,11 +868,11 @@ class ReweightBoostClassifier(
     ):
 
         early_termination_ = check_type(
-            self.early_termination, 'early_termination', bool
+            self.early_termination, "early_termination", bool
         )
 
         # Check that algorithm is supported.
-        if self.algorithm not in ('SAMME', 'SAMME.R'):
+        if self.algorithm not in ("SAMME", "SAMME.R"):
             raise ValueError("algorithm %s is not supported" % self.algorithm)
 
         # Check parameters.
@@ -884,17 +884,17 @@ class ReweightBoostClassifier(
         ):
             DTYPE = np.float64  # from fast_dict.pxd
             dtype = DTYPE
-            accept_sparse = 'csc'
+            accept_sparse = "csc"
         else:
             dtype = None
-            accept_sparse = ['csr', 'csc']
+            accept_sparse = ["csr", "csc"]
 
         check_x_y_args = {
-            'accept_sparse': accept_sparse,
-            'ensure_2d': True,
-            'allow_nd': True,
-            'dtype': dtype,
-            'y_numeric': False,
+            "accept_sparse": accept_sparse,
+            "ensure_2d": True,
+            "allow_nd": True,
+            "dtype": dtype,
+            "y_numeric": False,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
 
@@ -1029,7 +1029,7 @@ class ReweightBoostClassifier(
             )
 
         try:
-            if hasattr(self, 'estimator_weights_'):
+            if hasattr(self, "estimator_weights_"):
                 norm = self.estimator_weights_.sum()
                 return (
                     sum(
@@ -1052,22 +1052,22 @@ class ReweightBoostClassifier(
                 "feature_importances_ attribute"
             ) from e
 
-    @FuncGlossarySubstitution(_super.decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.decision_function, "classes_")
     def decision_function(self, X):
         return super().decision_function(X)
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-    @FuncGlossarySubstitution(_super.staged_decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_decision_function, "classes_")
     def staged_decision_function(self, X):
         return super().staged_decision_function(X)
 
-    @FuncGlossarySubstitution(_super.staged_predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_predict_proba, "classes_")
     def staged_predict_proba(self, X):
         return super().staged_predict_proba(X)

@@ -50,18 +50,18 @@ from sklearn.utils import check_random_state
 from sklearn.utils.validation import _check_sample_weight
 
 # Properties
-_method_name = 'CompatibleAdaBoostClassifier'
+_method_name = "CompatibleAdaBoostClassifier"
 
 _properties = {
-    'ensemble_type': 'boosting',
-    'training_type': 'iterative',
+    "ensemble_type": "boosting",
+    "training_type": "iterative",
 }
 
 _super = AdaBoostClassifier
 
 
 @Substitution(
-    early_termination=_get_parameter_docstring('early_termination', **_properties),
+    early_termination=_get_parameter_docstring("early_termination", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class CompatibleAdaBoostClassifier(
@@ -94,7 +94,7 @@ class CompatibleAdaBoostClassifier(
         ``learning_rate``. There is a trade-off between ``learning_rate`` and
         ``n_estimators``.
 
-    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME.R'
+    algorithm : {{'SAMME', 'SAMME.R'}}, default='SAMME'
         If 'SAMME.R' then use the SAMME.R real boosting algorithm.
         ``estimator`` must support calculation of class probabilities.
         If 'SAMME' then use the SAMME discrete boosting algorithm.
@@ -163,7 +163,7 @@ class CompatibleAdaBoostClassifier(
         estimator=None,
         n_estimators: int = 50,
         learning_rate: float = 1.0,
-        algorithm: str = 'SAMME.R',
+        algorithm: str = "SAMME",
         early_termination: bool = False,
         random_state=None,
     ):
@@ -183,9 +183,9 @@ class CompatibleAdaBoostClassifier(
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -224,11 +224,11 @@ class CompatibleAdaBoostClassifier(
         """
 
         early_termination_ = check_type(
-            self.early_termination, 'early_termination', bool
+            self.early_termination, "early_termination", bool
         )
 
         # Check that algorithm is supported.
-        if self.algorithm not in ('SAMME', 'SAMME.R'):
+        if self.algorithm not in ("SAMME", "SAMME.R"):
             raise ValueError("algorithm %s is not supported" % self.algorithm)
 
         # Check parameters.
@@ -240,17 +240,17 @@ class CompatibleAdaBoostClassifier(
         ):
             DTYPE = np.float64  # from fast_dict.pxd
             dtype = DTYPE
-            accept_sparse = 'csc'
+            accept_sparse = "csc"
         else:
             dtype = None
-            accept_sparse = ['csr', 'csc']
+            accept_sparse = ["csr", "csc"]
 
         check_x_y_args = {
-            'accept_sparse': accept_sparse,
-            'ensure_2d': True,
-            'allow_nd': True,
-            'dtype': dtype,
-            'y_numeric': False,
+            "accept_sparse": accept_sparse,
+            "ensure_2d": True,
+            "allow_nd": True,
+            "dtype": dtype,
+            "y_numeric": False,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
 
@@ -344,23 +344,23 @@ class CompatibleAdaBoostClassifier(
 
         return self
 
-    @FuncGlossarySubstitution(_super.decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.decision_function, "classes_")
     def decision_function(self, X):
         return super().decision_function(X)
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-    @FuncGlossarySubstitution(_super.staged_decision_function, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_decision_function, "classes_")
     def staged_decision_function(self, X):
         return super().staged_decision_function(X)
 
-    @FuncGlossarySubstitution(_super.staged_predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.staged_predict_proba, "classes_")
     def staged_predict_proba(self, X):
         return super().staged_predict_proba(X)
 
@@ -397,30 +397,30 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     init_kwargs_default = {
-        'estimator': None,
-        'n_estimators': 100,
-        'learning_rate': 1.0,
-        'algorithm': 'SAMME.R',
-        'random_state': 42,
+        "estimator": None,
+        "n_estimators": 100,
+        "learning_rate": 1.0,
+        "algorithm": "SAMME.R",
+        "random_state": 42,
         # 'random_state': None,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'sample_weight': None,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "X": X_train,
+        "y": y_train,
+        "sample_weight": None,
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': {
-            'granularity': 10,
-            'print_distribution': True,
-            'print_metrics': True,
+        "train_verbose": {
+            "granularity": 10,
+            "print_distribution": True,
+            "print_metrics": True,
         },
     }
 
@@ -428,7 +428,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     adaboost_comp = CompatibleAdaBoostClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['adaboost_comp'] = adaboost_comp
+    ensembles["adaboost_comp"] = adaboost_comp
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer
