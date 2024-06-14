@@ -49,20 +49,20 @@ from sklearn.utils.parallel import Parallel, delayed
 from sklearn.utils.validation import _check_sample_weight
 
 # Properties
-_method_name = 'CompatibleBaggingClassifier'
+_method_name = "CompatibleBaggingClassifier"
 
 _properties = {
-    'ensemble_type': 'bagging',
-    'training_type': 'parallel',
+    "ensemble_type": "bagging",
+    "training_type": "parallel",
 }
 
 _super = BaggingClassifier
 
 
 @Substitution(
-    random_state=_get_parameter_docstring('random_state', **_properties),
-    n_jobs=_get_parameter_docstring('n_jobs', **_properties),
-    warm_start=_get_parameter_docstring('warm_start', **_properties),
+    random_state=_get_parameter_docstring("random_state", **_properties),
+    n_jobs=_get_parameter_docstring("n_jobs", **_properties),
+    warm_start=_get_parameter_docstring("warm_start", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClassifier):
@@ -230,9 +230,9 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -281,10 +281,10 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
         # Convert data (X is required to be 2d and indexable)
         check_x_y_args = {
-            'accept_sparse': ['csr', 'csc'],
-            'dtype': None,
-            'force_all_finite': False,
-            'multi_output': True,
+            "accept_sparse": ["csr", "csc"],
+            "dtype": None,
+            "force_all_finite": False,
+            "multi_output": True,
         }
         X, y = self._validate_data(X, y, **check_x_y_args)
 
@@ -309,7 +309,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         y = self._validate_y(y)
 
         # Check parameters
-        self._validate_estimator()
+        self._validate_estimator(self._get_estimator())
 
         # Validate max_samples
         if max_samples is None:
@@ -353,7 +353,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         if hasattr(self, "oob_score_") and self.warm_start:
             del self.oob_score_
 
-        if not self.warm_start or not hasattr(self, 'estimators_'):
+        if not self.warm_start or not hasattr(self, "estimators_"):
             # Free allocated memory, if any
             self.estimators_ = []
             self.estimators_features_ = []
@@ -363,8 +363,8 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
         if n_more_estimators < 0:
             raise ValueError(
-                'n_estimators=%d must be larger or equal to '
-                'len(estimators_)=%d when warm_start==True'
+                "n_estimators=%d must be larger or equal to "
+                "len(estimators_)=%d when warm_start==True"
                 % (self.n_estimators, len(self.estimators_))
             )
 
@@ -424,11 +424,11 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
         return self
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 
@@ -468,41 +468,41 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
-        'estimator': None,
-        'n_estimators': 100,
-        'max_samples': 1.0,
-        'max_features': 1.0,
-        'bootstrap': True,
-        'bootstrap_features': False,
-        'oob_score': False,
-        'warm_start': False,
-        'n_jobs': None,
-        'random_state': 42,
+        "estimator": None,
+        "n_estimators": 100,
+        "max_samples": 1.0,
+        "max_features": 1.0,
+        "bootstrap": True,
+        "bootstrap_features": False,
+        "oob_score": False,
+        "warm_start": False,
+        "n_jobs": None,
+        "random_state": 42,
         # 'random_state': None,
-        'verbose': 1,
+        "verbose": 1,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "X": X_train,
+        "y": y_train,
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': True,
+        "train_verbose": True,
     }
 
     ensembles = {}
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     bagging_comp = CompatibleBaggingClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['bagging_comp'] = bagging_comp
+    ensembles["bagging_comp"] = bagging_comp
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer

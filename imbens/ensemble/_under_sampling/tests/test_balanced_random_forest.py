@@ -1,4 +1,5 @@
 """Test BalancedRandomForestClassifier."""
+
 # Authors: Guillaume Lemaitre
 #          Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
@@ -176,14 +177,3 @@ def test_balanced_random_forest_oob_binomial(ratio):
     erf = BalancedRandomForestClassifier(oob_score=True, random_state=42)
     erf.fit(X, y)
     assert np.abs(erf.oob_score_ - 0.5) < 0.15
-
-
-@pytest.mark.skipif(
-    sklearn_version < parse_version("1.2"), reason="requires scikit-learn>=1.2"
-)
-def test_balanced_bagging_classifier_base_estimator():
-    """Check that we raise a FutureWarning when accessing `base_estimator_`."""
-    X, y = load_iris(return_X_y=True)
-    estimator = BalancedRandomForestClassifier().fit(X, y)
-    with pytest.warns(FutureWarning, match="`base_estimator_` was deprecated"):
-        estimator.base_estimator_

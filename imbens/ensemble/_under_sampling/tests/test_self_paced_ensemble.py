@@ -54,9 +54,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 def test_estimator_init(estimator, params):
     """Check classification for various parameter settings."""
     if (
-        params['k_bins'] == 5
+        params["k_bins"] == 5
         and type(estimator) is not DummyClassifier
-        and (not params['replacement'] and not params['soft_resample_flag'])
+        and (not params["replacement"] and not params["soft_resample_flag"])
     ):
         with pytest.raises(RuntimeError, match="bin with insufficient number of data"):
             spe = SelfPacedEnsembleClassifier(
@@ -79,7 +79,7 @@ def test_estimator_init(estimator, params):
         {
             "sample_weight": [None, np.ones(71)],
             "target_label": [0, 1, 2, -1, 42],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -90,11 +90,11 @@ def test_fit_target_label(fit_params):
         1: {1: 19, 2: 19, 0: 14},
         2: {1: 19, 2: 38, 0: 14},
     }
-    if fit_params['target_label'] in [0, 1, 2]:
+    if fit_params["target_label"] in [0, 1, 2]:
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train, y_train, **fit_params
         )
-        expect_target_distr = expect_target_distrs[fit_params['target_label']]
+        expect_target_distr = expect_target_distrs[fit_params["target_label"]]
         assert spe.target_distr_ == expect_target_distr
         spe.predict(X_test)
         spe.predict_proba(X_test)
@@ -112,7 +112,7 @@ def test_fit_target_label(fit_params):
         {
             "sample_weight": [None, np.ones(71)],
             "n_target_samples": [10, 20, 50, -5],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -123,14 +123,14 @@ def test_fit_target_samples_int(fit_params):
         20: {1: 19, 2: 20, 0: 14},
     }
 
-    if fit_params['n_target_samples'] > 38:
+    if fit_params["n_target_samples"] > 38:
         with pytest.raises(
             ValueError, match="'n_target_samples' > the number of samples"
         ):
             spe = SelfPacedEnsembleClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
-    elif fit_params['n_target_samples'] <= 0:
+    elif fit_params["n_target_samples"] <= 0:
         with pytest.raises(ValueError, match="'n_target_samples' must be positive"):
             spe = SelfPacedEnsembleClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
@@ -139,7 +139,7 @@ def test_fit_target_samples_int(fit_params):
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train, y_train, **fit_params
         )
-        expect_target_distr = expect_target_distrs[fit_params['n_target_samples']]
+        expect_target_distr = expect_target_distrs[fit_params["n_target_samples"]]
         assert spe.target_distr_ == expect_target_distr
         spe.predict(X_test)
         spe.predict_proba(X_test)
@@ -152,7 +152,7 @@ def test_fit_target_samples_int(fit_params):
     ParameterGrid(
         {
             "sample_weight": [None, np.ones(71)],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -169,7 +169,7 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
         0: {1: 5, 2: 10, 0: 14},
         1: {0: 5, 1: 5, 2: 10},
     }
-    fit_params['n_target_samples'] = input_n_target_samples_dict[n_target_samples_idx]
+    fit_params["n_target_samples"] = input_n_target_samples_dict[n_target_samples_idx]
 
     if n_target_samples_idx in [0, 1]:
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
@@ -194,10 +194,10 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
             )
 
 
-@pytest.mark.parametrize("n_target_samples", [10, {2: 10}], ids=['int', 'dict'])
+@pytest.mark.parametrize("n_target_samples", [10, {2: 10}], ids=["int", "dict"])
 def test_fit_target_label_target_samples_error(n_target_samples):
     """Ensure we raise an error when set both target_label and n_target_samples"""
-    with pytest.raises(ValueError, match='cannot be specified at the same time'):
+    with pytest.raises(ValueError, match="cannot be specified at the same time"):
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train,
             y_train,
@@ -208,7 +208,7 @@ def test_fit_target_label_target_samples_error(n_target_samples):
 
 def test_sparse_y_error():
     """Ensure we raise an error when given sparse y"""
-    with pytest.raises(TypeError, match='A sparse matrix was passed'):
+    with pytest.raises(TypeError, match="Sparse data was passed for"):
         spe = SelfPacedEnsembleClassifier(random_state=0).fit(
             X_train, sparse.csr_array(y_train)
         )

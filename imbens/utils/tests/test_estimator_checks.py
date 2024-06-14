@@ -106,7 +106,7 @@ mapping_estimator_error = {
     "BaseBadSampler": (AssertionError, "ValueError not raised by fit"),
     "SamplerSingleClass": (AssertionError, "Sampler can't balance when only"),
     "NotFittedSampler": (AssertionError, "No fitted attribute"),
-    "NoAcceptingSparseSampler": (TypeError, "A sparse matrix was passed"),
+    "NoAcceptingSparseSampler": (TypeError, "Sparse data was passed"),
     "NotPreservingDtypeSampler": (AssertionError, "X dtype is not preserved"),
 }
 
@@ -128,16 +128,16 @@ def test_all_checks():
 
 
 def test_all_samplers():
-    all_samplers = all_estimators(type_filter='sampler')
+    all_samplers = all_estimators(type_filter="sampler")
     for name, SamplerClass in all_samplers:
         print(name)
         if name in [
-            'BalanceCascadeUnderSampler',
-            'SelfPacedUnderSampler',
-            'CondensedNearestNeighbour',
-            'InstanceHardnessThreshold',
-            'ClusterCentroids',
-            'KMeansSMOTE',
+            "BalanceCascadeUnderSampler",
+            "SelfPacedUnderSampler",
+            "CondensedNearestNeighbour",
+            "InstanceHardnessThreshold",
+            "ClusterCentroids",
+            "KMeansSMOTE",
         ]:  # for speed up test
             continue
         try:
@@ -149,7 +149,7 @@ def test_all_samplers():
 
 
 def test_all_classifiers():
-    all_ensembles = all_estimators(type_filter='ensemble')
+    all_ensembles = all_estimators(type_filter="ensemble")
     for name, EnsembleClass in all_ensembles:
         print(name)
         try:

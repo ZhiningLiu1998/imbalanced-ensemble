@@ -67,7 +67,7 @@ def test_estimator_init(estimator, params):
         {
             "sample_weight": [None, np.ones(71)],
             "target_label": [0, 1, 2, -1, 42],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -78,22 +78,22 @@ def test_fit_target_label(fit_params):
         1: {1: 19, 2: 19, 0: 14},
         2: {1: 19, 2: 38, 0: 14},
     }
-    if fit_params['target_label'] in [0, 1, 2]:
+    if fit_params["target_label"] in [0, 1, 2]:
         if (
-            fit_params['balancing_schedule'] == 'uniform'
-            or fit_params['target_label'] == 2
+            fit_params["balancing_schedule"] == "uniform"
+            or fit_params["target_label"] == 2
         ):
             bcc = BalanceCascadeClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
-            expect_target_distr = expect_target_distrs[fit_params['target_label']]
+            expect_target_distr = expect_target_distrs[fit_params["target_label"]]
             assert bcc.target_distr_ == expect_target_distr
             bcc.predict(X_test)
             bcc.predict_proba(X_test)
             bcc.score(X_test, y_test)
         else:
             with pytest.raises(
-                ValueError, match='only support static target sample distribution'
+                ValueError, match="only support static target sample distribution"
             ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
@@ -111,7 +111,7 @@ def test_fit_target_label(fit_params):
         {
             "sample_weight": [None, np.ones(71)],
             "n_target_samples": [10, 20, 50, -5],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -122,15 +122,15 @@ def test_fit_target_samples_int(fit_params):
         20: {1: 19, 2: 20, 0: 14},
     }
 
-    if fit_params['balancing_schedule'] == 'uniform':
-        if fit_params['n_target_samples'] > 38:
+    if fit_params["balancing_schedule"] == "uniform":
+        if fit_params["n_target_samples"] > 38:
             with pytest.raises(
                 ValueError, match="'n_target_samples' > the number of samples"
             ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
-        elif fit_params['n_target_samples'] <= 0:
+        elif fit_params["n_target_samples"] <= 0:
             with pytest.raises(ValueError, match="'n_target_samples' must be positive"):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
@@ -139,27 +139,27 @@ def test_fit_target_samples_int(fit_params):
             bcc = BalanceCascadeClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
             )
-            expect_target_distr = expect_target_distrs[fit_params['n_target_samples']]
+            expect_target_distr = expect_target_distrs[fit_params["n_target_samples"]]
             assert bcc.target_distr_ == expect_target_distr
             bcc.predict(X_test)
             bcc.predict_proba(X_test)
             bcc.score(X_test, y_test)
     else:
-        if fit_params['n_target_samples'] > 38:
+        if fit_params["n_target_samples"] > 38:
             with pytest.raises(
                 ValueError, match="'n_target_samples' > the number of samples"
             ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
-        elif fit_params['n_target_samples'] <= 0:
+        elif fit_params["n_target_samples"] <= 0:
             with pytest.raises(ValueError, match="'n_target_samples' must be positive"):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
                 )
         else:
             with pytest.raises(
-                ValueError, match='only support static target sample distribution'
+                ValueError, match="only support static target sample distribution"
             ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
@@ -172,7 +172,7 @@ def test_fit_target_samples_int(fit_params):
     ParameterGrid(
         {
             "sample_weight": [None, np.ones(71)],
-            "balancing_schedule": ['uniform', 'progressive'],
+            "balancing_schedule": ["uniform", "progressive"],
         }
     ),
 )
@@ -189,9 +189,9 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
         0: {1: 5, 2: 10, 0: 14},
         1: {0: 5, 1: 5, 2: 10},
     }
-    fit_params['n_target_samples'] = input_n_target_samples_dict[n_target_samples_idx]
+    fit_params["n_target_samples"] = input_n_target_samples_dict[n_target_samples_idx]
 
-    if fit_params['balancing_schedule'] == 'uniform':
+    if fit_params["balancing_schedule"] == "uniform":
         if n_target_samples_idx in [0, 1]:
             bcc = BalanceCascadeClassifier(random_state=0).fit(
                 X_train, y_train, **fit_params
@@ -218,7 +218,7 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
     else:
         if n_target_samples_idx in [0, 1]:
             with pytest.raises(
-                ValueError, match='only support static target sample distribution'
+                ValueError, match="only support static target sample distribution"
             ):
                 bcc = BalanceCascadeClassifier(random_state=0).fit(
                     X_train, y_train, **fit_params
@@ -239,10 +239,10 @@ def test_fit_target_samples_dict(n_target_samples_idx, fit_params):
                 )
 
 
-@pytest.mark.parametrize("n_target_samples", [10, {2: 10}], ids=['int', 'dict'])
+@pytest.mark.parametrize("n_target_samples", [10, {2: 10}], ids=["int", "dict"])
 def test_fit_target_label_target_samples_error(n_target_samples):
     """Ensure we raise an error when set both target_label and n_target_samples"""
-    with pytest.raises(ValueError, match='cannot be specified at the same time'):
+    with pytest.raises(ValueError, match="cannot be specified at the same time"):
         bcc = BalanceCascadeClassifier(random_state=0).fit(
             X_train,
             y_train,
@@ -253,7 +253,7 @@ def test_fit_target_label_target_samples_error(n_target_samples):
 
 def test_sparse_y_error():
     """Ensure we raise an error when given sparse y"""
-    with pytest.raises(TypeError, match='A sparse matrix was passed'):
+    with pytest.raises(TypeError, match="Sparse data was passed for"):
         bcc = BalanceCascadeClassifier(random_state=0).fit(
             X_train, sparse.csr_array(y_train)
         )
