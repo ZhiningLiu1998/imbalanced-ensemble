@@ -1,6 +1,15 @@
 Release History
 ***************
 
+
+Version 0.2.2 (2024.06)
+=========================
+
+Maintenance:
+
+- Bump dependency version: scikit-learn to ``1.5.0``, pandas to ``2.1.1``, seaborn to ``0.13.2``.
+- Fix numerous Errors and Warnings appeared in the CI.
+
 Version 0.2.1 (2023.07)
 =========================
 

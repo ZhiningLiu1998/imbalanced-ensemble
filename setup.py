@@ -26,8 +26,8 @@ DESCRIPTION = "Toolbox for ensemble learning on class-imbalanced dataset."
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
 here = os.path.abspath(os.path.dirname(__file__))
 try:
-    with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
-        LONG_DESCRIPTION = '\n' + f.read()
+    with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+        LONG_DESCRIPTION = "\n" + f.read()
 except FileNotFoundError:
     LONG_DESCRIPTION = DESCRIPTION
 
@@ -37,11 +37,11 @@ MAINTAINER = "Zhining Liu"
 MAINTAINER_EMAIL = "zhining.liu@outlook.com"
 URL = "https://github.com/ZhiningLiu1998/imbalanced-ensemble"
 PROJECT_URLS = {
-    'Documentation': 'https://imbalanced-ensemble.readthedocs.io/',
-    'Source': 'https://github.com/ZhiningLiu1998/imbalanced-ensemble',
-    'Tracker': 'https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues',
-    'Changelog': 'https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html',
-    'Download': 'https://pypi.org/project/imbalanced-ensemble/#files',
+    "Documentation": "https://imbalanced-ensemble.readthedocs.io/",
+    "Source": "https://github.com/ZhiningLiu1998/imbalanced-ensemble",
+    "Tracker": "https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues",
+    "Changelog": "https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html",
+    "Download": "https://pypi.org/project/imbalanced-ensemble/#files",
 }
 LICENSE = "MIT"
 VERSION = __version__
@@ -57,7 +57,6 @@ CLASSIFIERS = [
     "Operating System :: POSIX",
     "Operating System :: Unix",
     "Operating System :: MacOS",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -97,7 +96,7 @@ setup(
     version=VERSION,
     project_urls=PROJECT_URLS,
     long_description=LONG_DESCRIPTION,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     zip_safe=False,  # the package can run out of an .egg file
     classifiers=CLASSIFIERS,
     packages=find_packages(),
