@@ -4,9 +4,9 @@ orbs:
   codecov: codecov/codecov@3.2.4
 
 jobs:
-  test38: &test-template
+  test39: &test-template
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9
     # parallelism: 10
     steps:
       - checkout
@@ -23,11 +23,6 @@ jobs:
       - codecov/upload:
           file: coverage.xml
 
-  test39:
-    <<: *test-template
-    docker:
-      - image: cimg/python:3.9
-
   test310:
     <<: *test-template
     docker:
@@ -42,7 +37,6 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - test38
       - test39
       - test310
       - test311
