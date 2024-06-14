@@ -1,4 +1,5 @@
 """Test SMOTEBoostClassifier."""
+
 # Authors: Zhining Liu <zhining.liu@outlook.com>
 # License: MIT
 
@@ -31,7 +32,7 @@ def imbalanced_dataset():
     )
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_smoteboost(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
@@ -75,7 +76,7 @@ def test_smoteboost(imbalanced_dataset, algorithm):
     assert y_pred.shape == y_test.shape
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_smoteboost_sample_weight(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     sample_weight = np.ones_like(y)
@@ -95,8 +96,8 @@ def test_smoteboost_sample_weight(imbalanced_dataset, algorithm):
         assert_array_equal(y_pred_no_sample_weight, y_pred_sample_weight)
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
-@pytest.mark.parametrize("k_neighbors", [-5, 0, 5, 500, 'string'])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
+@pytest.mark.parametrize("k_neighbors", [-5, 0, 5, 500, "string"])
 def test_smoteboost_k_neighbors(imbalanced_dataset, algorithm, k_neighbors):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(

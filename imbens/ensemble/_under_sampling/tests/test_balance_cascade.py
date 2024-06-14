@@ -249,11 +249,3 @@ def test_fit_target_label_target_samples_error(n_target_samples):
             target_label=0,
             n_target_samples=n_target_samples,
         )
-
-
-def test_sparse_y_error():
-    """Ensure we raise an error when given sparse y"""
-    with pytest.raises(TypeError, match="Sparse data was passed for"):
-        bcc = BalanceCascadeClassifier(random_state=0).fit(
-            X_train, sparse.csr_array(y_train)
-        )

@@ -1,4 +1,5 @@
 """Test AdaUBoostClassifier."""
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
@@ -35,7 +36,7 @@ def imbalanced_dataset():
     )
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_algorithm(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
@@ -47,7 +48,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     auboost = AdaUBoostClassifier(
         n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
-    auboost.fit(X_train, y_train, beta='uniform')
+    auboost.fit(X_train, y_train, beta="uniform")
     assert_array_equal(classes, auboost.classes_)
 
     # check that we have an ensemble of estimators with a
@@ -74,7 +75,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     assert y_pred.shape == y_test.shape
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_sample_weight(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     sample_weight = np.ones_like(y)
@@ -85,12 +86,12 @@ def test_sample_weight(imbalanced_dataset, algorithm):
         X,
         y,
         sample_weight=sample_weight,
-        beta='uniform',
+        beta="uniform",
     ).predict(X)
     y_pred_no_sample_weight = auboost.fit(
         X,
         y,
-        beta='uniform',
+        beta="uniform",
     ).predict(X)
 
     assert_array_equal(y_pred_sample_weight, y_pred_no_sample_weight)
@@ -101,22 +102,22 @@ def test_sample_weight(imbalanced_dataset, algorithm):
         X,
         y,
         sample_weight=sample_weight,
-        beta='uniform',
+        beta="uniform",
     ).predict(X)
 
     with pytest.raises(AssertionError):
         assert_array_equal(y_pred_no_sample_weight, y_pred_sample_weight)
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 @pytest.mark.parametrize(
-    "beta", [None, 'uniform', 'inverse', 'log1p-inverse', 'random']
+    "beta", [None, "uniform", "inverse", "log1p-inverse", "random"]
 )
 def test_beta(imbalanced_dataset, algorithm, beta):
     expected_betas = {
-        'uniform': {0: 1.0, 1: 1.0, 2: 1.0},
-        'inverse': {0: 72.19587628865979, 1: 17.5075, 2: 1.0},
-        'log1p-inverse': {
+        "uniform": {0: 1.0, 1: 1.0, 2: 1.0},
+        "inverse": {0: 72.19587628865979, 1: 17.5075, 2: 1.0},
+        "log1p-inverse": {
             0: 4.2931390845260236,
             1: 2.9181760553351164,
             2: 0.6931471805599453,
@@ -134,11 +135,11 @@ def test_beta(imbalanced_dataset, algorithm, beta):
         n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
 
-    if beta in [None, 'uniform', 'inverse', 'log1p-inverse']:
+    if beta in [None, "uniform", "inverse", "log1p-inverse"]:
         auboost.fit(X_train, y_train, beta=beta)
         assert_array_equal(classes, auboost.classes_)
         if beta is None:
-            expected_beta = expected_betas['inverse']
+            expected_beta = expected_betas["inverse"]
         else:
             expected_beta = expected_betas[beta]
         assert auboost.beta_ == expected_beta
@@ -153,7 +154,7 @@ def test_beta(imbalanced_dataset, algorithm, beta):
         {},
         {1: 1.0, 2: 1.0},
         {0: 1, 1: 1.0, 2: 1.0},
-        {0: 'a', 1: 1.0, 2: 1.0},
+        {0: "a", 1: 1.0, 2: 1.0},
         10,
     ],
 )

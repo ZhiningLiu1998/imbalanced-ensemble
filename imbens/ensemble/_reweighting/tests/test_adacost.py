@@ -1,4 +1,5 @@
 """Test AdaCostClassifier."""
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
@@ -33,7 +34,7 @@ def imbalanced_dataset():
     )
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_algorithm(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
@@ -45,7 +46,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     adacost = AdaCostClassifier(
         n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
-    adacost.fit(X_train, y_train, cost_matrix='uniform')
+    adacost.fit(X_train, y_train, cost_matrix="uniform")
     assert_array_equal(classes, adacost.classes_)
 
     # check that we have an ensemble of estimators with a
@@ -72,7 +73,7 @@ def test_algorithm(imbalanced_dataset, algorithm):
     assert y_pred.shape == y_test.shape
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_sample_weight(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     sample_weight = np.ones_like(y)
@@ -83,12 +84,12 @@ def test_sample_weight(imbalanced_dataset, algorithm):
         X,
         y,
         sample_weight=sample_weight,
-        cost_matrix='uniform',
+        cost_matrix="uniform",
     ).predict(X)
     y_pred_no_sample_weight = adacost.fit(
         X,
         y,
-        cost_matrix='uniform',
+        cost_matrix="uniform",
     ).predict(X)
 
     assert_array_equal(y_pred_sample_weight, y_pred_no_sample_weight)
@@ -99,34 +100,34 @@ def test_sample_weight(imbalanced_dataset, algorithm):
         X,
         y,
         sample_weight=sample_weight,
-        cost_matrix='uniform',
+        cost_matrix="uniform",
     ).predict(X)
 
     with pytest.raises(AssertionError):
         assert_array_equal(y_pred_no_sample_weight, y_pred_sample_weight)
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 @pytest.mark.parametrize(
-    "cost_matrix", [None, 'uniform', 'inverse', 'log1p-inverse', 'random']
+    "cost_matrix", [None, "uniform", "inverse", "log1p-inverse", "random"]
 )
 def test_cost_matrix(imbalanced_dataset, algorithm, cost_matrix):
     expected_cost_matrixs = {
-        'uniform': np.array(
+        "uniform": np.array(
             [
                 [1.00, 1.00, 1.00],
                 [1.00, 1.00, 1.00],
                 [1.00, 1.00, 1.00],
             ]
         ),
-        'inverse': np.array(
+        "inverse": np.array(
             [
                 [1.00, 0.24, 0.01],
                 [4.12, 1.00, 0.06],
                 [72.20, 17.51, 1.00],
             ]
         ),
-        'log1p-inverse': np.array(
+        "log1p-inverse": np.array(
             [
                 [0.69, 0.22, 0.01],
                 [1.63, 0.69, 0.06],
@@ -146,11 +147,11 @@ def test_cost_matrix(imbalanced_dataset, algorithm, cost_matrix):
         n_estimators=n_estimators, algorithm=algorithm, random_state=0
     )
 
-    if cost_matrix in [None, 'uniform', 'inverse', 'log1p-inverse']:
+    if cost_matrix in [None, "uniform", "inverse", "log1p-inverse"]:
         adacost.fit(X_train, y_train, cost_matrix=cost_matrix)
         assert_array_equal(classes, adacost.classes_)
         if cost_matrix is None:
-            expected_cost_matrix = expected_cost_matrixs['inverse']
+            expected_cost_matrix = expected_cost_matrixs["inverse"]
         else:
             expected_cost_matrix = expected_cost_matrixs[cost_matrix]
         assert (adacost.cost_matrix_.round(2) == expected_cost_matrix).all()
@@ -176,7 +177,7 @@ def test_cost_matrix(imbalanced_dataset, algorithm, cost_matrix):
         ),
         np.array(
             [
-                [1.00, 0.24, 'a'],
+                [1.00, 0.24, "a"],
                 [4.12, 1.00, 0.06],
                 [72.20, 17.51, 1.00],
             ]

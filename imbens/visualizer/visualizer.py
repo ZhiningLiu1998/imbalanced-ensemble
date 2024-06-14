@@ -761,6 +761,8 @@ class ImbalancedEnsembleVisualizer:
         for (key, _), ax in zip(vis_df_grp.groups.items(), axes.flatten()):
             metric_name = key if len(split_by) == 0 else key[-1]
             # Use seaborn.lineplot for visualization
+            if isinstance(key, str):
+                key = (key,)
             kwargs = {
                 "data": vis_df_grp.get_group(key).reset_index(drop=True),
                 "x": x_column,

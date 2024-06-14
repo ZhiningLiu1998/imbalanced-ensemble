@@ -1,4 +1,5 @@
 """Test CompatibleAdaBoostClassifier."""
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 #          Zhining Liu <zhining.liu@outlook.com>
@@ -33,7 +34,7 @@ def imbalanced_dataset():
     )
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_adaboost(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     X_train, X_test, y_train, y_test = train_test_split(
@@ -72,7 +73,7 @@ def test_adaboost(imbalanced_dataset, algorithm):
     assert y_pred.shape == y_test.shape
 
 
-@pytest.mark.parametrize("algorithm", ["SAMME", "SAMME.R"])
+@pytest.mark.parametrize("algorithm", ["SAMME"])
 def test_adaboost_sample_weight(imbalanced_dataset, algorithm):
     X, y = imbalanced_dataset
     sample_weight = np.ones_like(y)

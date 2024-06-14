@@ -183,13 +183,14 @@ def test_oob_score_classification():
 
         # Test with few estimators
         with pytest.warns(UserWarning):
-            SMOTEBaggingClassifier(
-                estimator=estimator,
-                n_estimators=1,
-                bootstrap=True,
-                oob_score=True,
-                random_state=0,
-            ).fit(X_train, y_train)
+            with pytest.warns(RuntimeWarning):
+                SMOTEBaggingClassifier(
+                    estimator=estimator,
+                    n_estimators=1,
+                    bootstrap=True,
+                    oob_score=True,
+                    random_state=0,
+                ).fit(X_train, y_train)
 
 
 def test_single_estimator():
