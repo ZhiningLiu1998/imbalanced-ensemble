@@ -8,63 +8,55 @@ Welcome to imbalanced-ensemble documentation!
 
 .. image:: https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/imbens-logo.png
 
-**Date**: |today| **Version**: |version|
+**Date**: |today| **Version**: |version| **Github**: `imbalanced-ensemble <https://github.com/ZhiningLiu1998/imbalanced-ensemble>`_
 
 .. raw:: html
+   
+   <h3 align="center">
+   ⏳Quick Start with our <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#5-min-quick-start-with-imbens">5-minute Guide</a> & <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Detailed Examples</a>
+   </h3>
 
    <table>
       <tr>
          <td>Status</td>
          <td>
                <a href="https://codecov.io/gh/ZhiningLiu1998/imbalanced-ensemble">
-                  <img src="https://codecov.io/gh/ZhiningLiu1998/imbalanced-ensemble/branch/main/graph/badge.svg?token=46Y73QPA68">
-               </a>
+                  <img src="https://codecov.io/gh/ZhiningLiu1998/imbalanced-ensemble/branch/main/graph/badge.svg?token=46Y73QPA68"></a>
                <a href='https://dl.circleci.com/status-badge/redirect/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main'>
-                  <img src='https://dl.circleci.com/status-badge/img/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main.svg?style=shield'>
-               </a>
+                  <img src='https://dl.circleci.com/status-badge/img/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main.svg?style=shield' alt='CircleCI Status'></a>
                <a href='https://imbalanced-ensemble.readthedocs.io/en/latest/?badge=latest'>
-                  <img src='https://readthedocs.org/projects/imbalanced-ensemble/badge/?version=latest'>
-               </a>
+                  <img alt="Read the Docs" src="https://img.shields.io/readthedocs/imbalanced-ensemble"></a>
+                  <!-- <img src='https://readthedocs.org/projects/imbalanced-ensemble/badge/?version=latest'></a> -->
                <a href="https://github.com/psf/black">
-                  <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
-               </a>
+                  <img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/master/LICENSE">
-                  <img src="https://img.shields.io/github/license/ZhiningLiu1998/imbalanced-ensemble">
-               </a>
+                  <img src="https://img.shields.io/github/license/ZhiningLiu1998/imbalanced-ensemble"></a>
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/issues">
-                  <img src="https://img.shields.io/github/issues/ZhiningLiu1998/imbalanced-ensemble?logo=github">
-               </a>
+                  <img src="https://img.shields.io/github/issues/ZhiningLiu1998/imbalanced-ensemble?logo=github"></a>
          </td>
       </tr>
       <tr>
          <td>PyPI</td>
          <td>
                <a href="https://pypi.org/project/imbalanced-ensemble/">
-                  <img src="https://img.shields.io/badge/PyPi-imbalanced--ensemble-3775A9?logo=pypi&labelColor=white">
-               </a>
-               <a href="https://www.python.org/">
-                  <img src="https://img.shields.io/pypi/pyversions/imbalanced-ensemble.svg?logo=python">
-               </a>
+                  <img src="https://img.shields.io/badge/PyPi-imbalanced--ensemble-3775A9?logo=pypi&labelColor=white"></a>
                <a href="https://pypi.org/project/imbalanced-ensemble/">
-                  <img src="https://badge.fury.io/py/imbalanced-ensemble.svg">
-               </a>
+                  <img src="https://img.shields.io/pypi/v/imbalanced-ensemble?logo=pypi&label=version&labelColor=white&color=3775A9"></a>
+               <a href="https://www.python.org/">
+                  <img src="https://img.shields.io/pypi/pyversions/imbalanced-ensemble.svg?logo=python&labelColor=white"></a>
          </td>
       </tr>
       <tr>
          <td>Traffic</td>
          <td>
                <a href="https://pepy.tech/project/imbalanced-ensemble">
-                  <img src="https://img.shields.io/github/stars/ZhiningLiu1998/imbalanced-ensemble">
-               </a>
+                  <img src="https://img.shields.io/github/stars/ZhiningLiu1998/imbalanced-ensemble"></a>
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/network/members">
-                  <img src="https://img.shields.io/github/forks/ZhiningLiu1998/imbalanced-ensemble">
-               </a>
+                  <img src="https://img.shields.io/github/forks/ZhiningLiu1998/imbalanced-ensemble"></a>
                <a href="https://pepy.tech/project/imbalanced-ensemble">
-                  <img src="https://pepy.tech/badge/imbalanced-ensemble">
-               </a>
+                  <img src="https://pepy.tech/badge/imbalanced-ensemble"></a>
                <a href="https://pepy.tech/project/imbalanced-ensemble">
-                  <img src="https://pepy.tech/badge/imbalanced-ensemble/month">
-               </a>
+                  <img src="https://pepy.tech/badge/imbalanced-ensemble/month"></a>
                <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg"></a>
                <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -74,48 +66,39 @@ Welcome to imbalanced-ensemble documentation!
          <td>Documentation</td>
          <td>
                <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/">
-                  <img src="https://img.shields.io/badge/ReadTheDoc-Latest-green?logo=readthedocs&labelColor=376681">
-               </a>
+                  <img src="https://img.shields.io/badge/ReadTheDoc-Latest-green?logo=readthedocs&labelColor=376681"></a>
                <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">
-                  <img src="https://img.shields.io/badge/Doc-Changelog-blue?logo=readthedocs">
-               </a>
+                  <img src="https://img.shields.io/badge/Doc-Changelog-blue?logo=readthedocs"></a>
                <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">
-                  <img src="https://img.shields.io/badge/Doc-Examples & Gallery-blue?logo=readthedocs">
-               </a>
+                  <img src="https://img.shields.io/badge/Doc-Examples & Gallery-blue?logo=readthedocs"></a>
                <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/api.html">
-                  <img src="https://img.shields.io/badge/Doc-API Reference-blue?logo=readthedocs">
-               </a>
+                  <img src="https://img.shields.io/badge/Doc-API Reference-blue?logo=readthedocs"></a>
          </td>
       </tr>
       <tr>
          <td>Paper & Citation</td>
          <td>
                <a href="https://arxiv.org/abs/2111.12776">
-                  <img src="https://img.shields.io/badge/arXiv-2111.12776-B31B1B?logo=arXiv">
-               </a>
+                  <img src="https://img.shields.io/badge/arXiv-2111.12776-B31B1B?logo=arXiv"></a>
                <a href="https://arxiv.org/pdf/2111.12776">
-                  <img src="https://img.shields.io/badge/arXiv-PDF-B31B1B?logo=arXiv">
-               </a>
+                  <img src="https://img.shields.io/badge/arXiv-PDF-B31B1B?logo=arXiv"></a>
                <a href="https://zhuanlan.zhihu.com/p/376572330">
-                  <img src="https://img.shields.io/badge/Blog-知乎/Zhihu-0084ff?logo=Zhihu&labelColor=white">
-               </a>
+                  <img src="https://img.shields.io/badge/Blog-知乎/Zhihu-0084ff?logo=Zhihu&labelColor=white"></a>
                <a href="https://scholar.google.com/scholar?q=IMBENS%3A+Ensemble+class-imbalanced+learning+in+Python">
-                  <img src="https://img.shields.io/badge/Citation-Bibtex-4285F4?logo=googlescholar&labelColor=white">
-               </a>
+                  <img src="https://img.shields.io/badge/Citation-Bibtex-4285F4?logo=googlescholar&labelColor=white"></a>
          </td>
       </tr>
       <tr>
          <td>Language</td>
          <td>
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">
-                  <img src="https://img.shields.io/badge/README-English-blue?logo=github&labelColor=black">
-               </a>
+                  <img src="https://img.shields.io/badge/README-English-blue?logo=github&labelColor=black"></a>
                <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">
-                  <img src="https://img.shields.io/badge/README-中文-blue?logo=github&labelColor=black">
-               </a>
+                  <img src="https://img.shields.io/badge/README-中文-blue?logo=github&labelColor=black"></a>
          </td>
       </tr>
    </table>
+   <br>
 
 .. .. raw:: html
 
@@ -129,12 +112,6 @@ Welcome to imbalanced-ensemble documentation!
 ..       [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/main/docs/README_CN.md">中文README</a>]
 ..       [<a href="https://arxiv.org/abs/2111.12776">arXiv</a>]
 ..    </h3>
-
-.. raw:: html
-
-   <h3 align="center">
-   ⏳Quick Start with our <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#5-min-quick-start-with-imbens">5-minute Guide</a> & <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Detailed Examples</a>
-   </h3>
 
 **IMBENS** (imported as ``imbens``) is a Python library for quick implementation, modification, evaluation, and visualization of ensemble `learning from class-imbalanced data <https://github.com/ZhiningLiu1998/awesome-imbalanced-learning>`_. 
 Currently, IMBENS includes `over 15 ensemble imbalanced learning algorithms <#list-of-implemented-methods>`_ (SMOTEBoost, SMOTEBagging, RUSBoost, EasyEnsemble, SelfPacedEnsemble, etc) and `19 over-/under-sampling methods <https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/api.html>`_ (SMOTE, ADASYN, TomekLinks, etc) from `imbalance-learn <https://imbalanced-learn.org/stable/references/index.html#api>`_.
