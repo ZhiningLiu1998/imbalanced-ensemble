@@ -2,8 +2,18 @@
 <!-- ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png) -->
 
 <h1 align="center">
-  IMBENS: Class-imbalanced Ensemble Learning in Python
+    IMBENS: Class-imbalanced Ensemble Learning in Python
 </h1>
+
+<h3 align="center">
+    <!-- [<a href="https://arxiv.org/pdf/2111.12776.pdf">Paper</a>] -->
+    [<a href="https://imbalanced-ensemble.readthedocs.io">Documentation</a>]
+    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
+    [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
+    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
+    [<a href="https://zhuanlan.zhihu.com/p/376572330">Zhihu/知乎</a>]
+</h3>
+
 
 <table align="center">
     <tr>
@@ -200,7 +210,7 @@ Ensemble imbalanced learning (EIL) is known to effectively improve typical IL so
 
 ## List of implemented methods
 
-**Currently (v0.1.3, 2021/06), *16* ensemble imbalanced learning methods were implemented:  
+***16* ensemble imbalanced learning methods were implemented:  
 (Click to jump to the document page)**
 
 - **Resampling-based**
