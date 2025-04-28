@@ -1,5 +1,6 @@
 """Utilities for input validation
 """
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -367,7 +368,7 @@ def _sampling_strategy_float(sampling_strategy, y, sampling_type):
     type_y = type_of_target(y)
     if type_y != "binary":
         raise ValueError(
-            '"sampling_strategy" can be a float only when the type '
+            '"sampling_strategy" can be a float ONLY when the type '
             "of target is binary. For multi-class, use a dict."
         )
     target_stats = _count_class_sample(y)
@@ -380,11 +381,14 @@ def _sampling_strategy_float(sampling_strategy, y, sampling_type):
             if key != class_majority
         }
         if any([n_samples <= 0 for n_samples in sampling_strategy_.values()]):
-            raise ValueError(
-                "The specified ratio required to remove samples "
-                "from the minority class while trying to "
-                "generate new samples. Please increase the "
-                "ratio."
+            # set the number of generated samples to 1 and warn the user
+            for k, v in sampling_strategy_.items():
+                if v <= 0:
+                    sampling_strategy_[k] = 1
+            warnings.warn(
+                "The specified ratio required to remvoe samples "
+                "from the minority class in over-sampling. "
+                "Please increase the ratio to avoid this warning."
             )
     elif sampling_type == "under-sampling":
         n_sample_minority = min(target_stats.values())
@@ -400,10 +404,15 @@ def _sampling_strategy_float(sampling_strategy, y, sampling_type):
                 for target, n_samples in sampling_strategy_.items()
             ]
         ):
-            raise ValueError(
-                "The specified ratio required to generate new "
-                "sample in the majority class while trying to "
-                "remove samples. Please increase the ratio."
+            # set the target number to original number of samples
+            # and warn the user
+            for k, v in sampling_strategy_.items():
+                if v > target_stats[k]:
+                    sampling_strategy_[k] = target_stats[k]
+            warnings.warn(
+                "The specified ratio required to generate samples "
+                "from the majority class in undersampling. "
+                "Please increase the ratio to avoid this warning."
             )
     else:
         raise ValueError(
