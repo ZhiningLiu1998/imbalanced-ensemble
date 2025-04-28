@@ -1,5 +1,6 @@
 """Utils to check the samplers and compatibility with scikit-learn
 """
+
 # Adapted from imbalanced-learn
 
 # Adapated from scikit-learn
@@ -27,7 +28,6 @@ from sklearn.preprocessing import label_binarize
 from sklearn.utils._testing import (
     assert_allclose,
     assert_array_equal,
-    assert_raises_regex,
 )
 from sklearn.utils.estimator_checks import _get_check_estimator_ids, _maybe_mark_xfail
 from sklearn.utils.multiclass import type_of_target
@@ -132,24 +132,14 @@ def check_target_type(name, estimator_orig):
     X = np.random.random((20, 2))
     y = np.linspace(0, 1, 20)
     msg = "Unknown label type: continuous"
-    assert_raises_regex(
-        ValueError,
-        msg,
-        estimator.fit_resample,
-        X,
-        y,
-    )
+    with pytest.raises(ValueError, match=msg):
+        estimator.fit_resample(X, y)
     # if the target is multilabel then we should raise an error
     rng = np.random.RandomState(42)
     y = rng.randint(2, size=(20, 3))
     msg = "Multilabel and multioutput targets are not supported."
-    assert_raises_regex(
-        ValueError,
-        msg,
-        estimator.fit_resample,
-        X,
-        y,
-    )
+    with pytest.raises(ValueError, match=msg):
+        estimator.fit_resample(X, y)
 
 
 def check_samplers_one_label(name, sampler_orig):

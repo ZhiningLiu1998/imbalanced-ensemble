@@ -23,7 +23,6 @@ from sklearn.preprocessing import label_binarize
 from sklearn.utils._testing import (
     assert_allclose,
     assert_array_equal,
-    assert_no_warnings,
 )
 from sklearn.utils.validation import check_random_state
 
@@ -105,10 +104,12 @@ def test_sensitivity_specificity_score_binary():
     # binary class case the score is the value of the measure for the positive
     # class (e.g. label == 1). This is deprecated for average != 'binary'.
     for kwargs in ({}, {"average": "binary"}):
-        sen = assert_no_warnings(sensitivity_score, y_true, y_pred, **kwargs)
+        with pytest.warns(None):  # no warnings
+            sen = sensitivity_score(y_true, y_pred, **kwargs)
         assert sen == pytest.approx(0.68, rel=R_TOL)
 
-        spe = assert_no_warnings(specificity_score, y_true, y_pred, **kwargs)
+        with pytest.warns(None):
+            spe = specificity_score(y_true, y_pred, **kwargs)
         assert spe == pytest.approx(0.88, rel=R_TOL)
 
 
@@ -486,7 +487,7 @@ def test_classification_report_imbalanced_dict():
         "avg_iba",
         "total_support",
     }
-    expected_inner_keys = {'spe', 'f1', 'sup', 'rec', 'geo', 'iba', 'pre'}
+    expected_inner_keys = {"spe", "f1", "sup", "rec", "geo", "iba", "pre"}
 
     assert outer_keys == expected_outer_keys
     assert inner_keys == expected_inner_keys
