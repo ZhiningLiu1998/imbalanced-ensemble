@@ -29,7 +29,6 @@ from sklearn.utils._testing import (
     assert_allclose,
     assert_array_equal,
 )
-from sklearn.utils.estimator_checks import _get_check_estimator_ids, _maybe_mark_xfail
 from sklearn.utils.multiclass import type_of_target
 
 from imbens.datasets import make_imbalance
@@ -119,11 +118,21 @@ def parametrize_with_checks(estimators):
             name = type(estimator).__name__
             for check in _yield_all_checks(estimator):
                 check = partial(check, name)
-                yield _maybe_mark_xfail(estimator, check, pytest)
+                yield estimator, check
 
     return pytest.mark.parametrize(
-        "estimator, check", checks_generator(), ids=_get_check_estimator_ids
+        ("estimator", "check"),
+        list(checks_generator()),
+        ids=_generate_check_ids,
     )
+
+
+def _generate_check_ids(values):
+    """Helper to generate readable test ids for pytest."""
+    estimator, check = values
+    estimator_name = type(estimator).__name__
+    check_name = check.func.__name__
+    return f"{estimator_name}-{check_name}"
 
 
 def check_target_type(name, estimator_orig):
