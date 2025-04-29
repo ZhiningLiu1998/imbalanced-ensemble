@@ -104,12 +104,10 @@ def test_sensitivity_specificity_score_binary():
     # binary class case the score is the value of the measure for the positive
     # class (e.g. label == 1). This is deprecated for average != 'binary'.
     for kwargs in ({}, {"average": "binary"}):
-        with pytest.warns(None):  # no warnings
-            sen = sensitivity_score(y_true, y_pred, **kwargs)
+        sen = sensitivity_score(y_true, y_pred, **kwargs)
         assert sen == pytest.approx(0.68, rel=R_TOL)
 
-        with pytest.warns(None):
-            spe = specificity_score(y_true, y_pred, **kwargs)
+        spe = specificity_score(y_true, y_pred, **kwargs)
         assert spe == pytest.approx(0.88, rel=R_TOL)
 
 
