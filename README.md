@@ -10,7 +10,7 @@
     <!-- [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">🗂GitHub</a>] -->
     [<a href="https://imbalanced-ensemble.readthedocs.io">📕Documentation</a>]
     [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">🖼️Gallery</a>]
-    [<a href="#installation">🛠Installation</a>]
+    [<a href="#installation">🔧Installation</a>]
     [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">📜Changelog</a>]
     <!-- [<a href="https://zhuanlan.zhihu.com/p/376572330">Zhihu/知乎</a>] -->
 </h3>

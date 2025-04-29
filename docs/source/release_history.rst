@@ -1,6 +1,20 @@
 Release History
 ***************
 
+Version 0.2.3 (2025.04)
+=========================
+
+Enhancement:
+- Add :func:`imbens.datasets.fetch_openml_datasets` to fetch benchmark datasets from OpenML.
+  
+  - datasets can be filtered with parameter ``target_type`` and ``imalance_type``.
+  - categorical feature encoding can be controlled with parameter ``cat_preprocess``.
+  - processed dataset are cached locally in the user home directory.
+
+Maintenance:
+
+- Bump dependency version: scikit-learn to ``1.6.0``.
+- Fix numerous Errors and Warnings in the CI with sklearn 1.6.x and pytest 8.x.
 
 Version 0.2.2 (2024.06)
 =========================
