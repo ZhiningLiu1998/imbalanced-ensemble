@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.000** total execution time for 18 files **from all galleries**:
+**00:02.812** total execution time for 18 files **from all galleries**:
 
 .. container::
 
@@ -32,6 +32,9 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
+   * - :ref:`sphx_glr_auto_examples_classification_plot_torch.py` (``..\..\examples\classification\plot_torch.py``)
+     - 00:02.812
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_basic_plot_basic_example.py` (``..\..\examples\basic\plot_basic_example.py``)
      - 00:00.000
      - 0.0
@@ -57,9 +60,6 @@ Computation times
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_classification_plot_sampling_schedule.py` (``..\..\examples\classification\plot_sampling_schedule.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_classification_plot_torch.py` (``..\..\examples\classification\plot_torch.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_datasets_plot_generate_imbalance.py` (``..\..\examples\datasets\plot_generate_imbalance.py``)

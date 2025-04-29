@@ -7,3 +7,4 @@ matplotlib>=3.3.2
 seaborn>=0.13.2
 tqdm>=4.50.2
 openml>=0.14.0
+platformdirs>=3.0.0
