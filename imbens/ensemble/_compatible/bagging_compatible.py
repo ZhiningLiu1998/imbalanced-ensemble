@@ -46,7 +46,7 @@ from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble._base import _partition_estimators
 from sklearn.utils import check_random_state
 from sklearn.utils.parallel import Parallel, delayed
-from sklearn.utils.validation import _check_sample_weight
+from sklearn.utils.validation import _check_sample_weight, validate_data
 
 # Properties
 _method_name = "CompatibleBaggingClassifier"
@@ -283,10 +283,10 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         check_x_y_args = {
             "accept_sparse": ["csr", "csc"],
             "dtype": None,
-            "force_all_finite": False,
+            "ensure_all_finite": False,
             "multi_output": True,
         }
-        X, y = self._validate_data(X, y, **check_x_y_args)
+        X, y = validate_data(self, X, y, **check_x_y_args)
 
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)

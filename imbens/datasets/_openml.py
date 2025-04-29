@@ -1,4 +1,14 @@
 # %%
+"""Collection of imbalanced datasets from OpenML.
+
+This module provides functions to fetch and preprocess datasets from OpenML,
+including handling categorical features and saving/loading datasets locally.
+The datasets are preprocessed to handle missing values, categorical features,
+and standardize numerical features.
+"""
+
+# Author: Zhining Liu
+# License: MIT
 
 import pandas as pd
 import numpy as np

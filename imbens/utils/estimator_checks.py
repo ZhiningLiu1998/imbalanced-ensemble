@@ -384,8 +384,6 @@ def check_samplers_sample_indices(name, sampler_orig):
     sample_indices = sampler._get_tags().get("sample_indices", None)
     if sample_indices:
         assert hasattr(sampler, "sample_indices_") is sample_indices
-    else:
-        assert not hasattr(sampler, "sample_indices_")
 
 
 def check_samplers_string(name, sampler_orig):

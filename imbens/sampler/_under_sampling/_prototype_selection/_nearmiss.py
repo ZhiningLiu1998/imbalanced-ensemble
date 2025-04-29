@@ -1,4 +1,5 @@
 """Class to perform under-sampling based on nearmiss methods."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -307,6 +308,11 @@ NearMiss # doctest: +NORMALIZE_WHITESPACE
         }
     # fmt: on
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        # tags.sample_indices = True
+        return tags
+
 
 # %%
 
@@ -327,7 +333,7 @@ if __name__ == "__main__":  # pragma: no cover
         n_samples=1000,
         random_state=10,
     )
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -335,7 +341,7 @@ if __name__ == "__main__":  # pragma: no cover
     undersampler = NearMiss(sampling_strategy=target_distr)
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
 
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
 # %%

@@ -62,22 +62,22 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import _safe_indexing, check_random_state
 from sklearn.utils.multiclass import type_of_target
 from sklearn.utils.parallel import Parallel, delayed
-from sklearn.utils.validation import _check_sample_weight
+from sklearn.utils.validation import _check_sample_weight, validate_data
 
 # Properties
-_method_name = 'BalancedRandomForestClassifier'
+_method_name = "BalancedRandomForestClassifier"
 _sampler_class = RandomUnderSampler
 
-_solution_type = 'resampling'
-_sampling_type = 'under-sampling'
-_ensemble_type = 'random-forest'
-_training_type = 'parallel'
+_solution_type = "resampling"
+_sampling_type = "under-sampling"
+_ensemble_type = "random-forest"
+_training_type = "parallel"
 
 _properties = {
-    'sampling_type': _sampling_type,
-    'solution_type': _solution_type,
-    'ensemble_type': _ensemble_type,
-    'training_type': _training_type,
+    "sampling_type": _sampling_type,
+    "solution_type": _solution_type,
+    "ensemble_type": _ensemble_type,
+    "training_type": _training_type,
 }
 
 _super = RandomForestClassifier
@@ -119,8 +119,8 @@ def _local_parallel_build_trees(
 
 
 @Substitution(
-    random_state=_get_parameter_docstring('random_state', **_properties),
-    n_jobs=_get_parameter_docstring('n_jobs', **_properties),
+    random_state=_get_parameter_docstring("random_state", **_properties),
+    n_jobs=_get_parameter_docstring("n_jobs", **_properties),
     example=_get_example_docstring(_method_name),
 )
 class BalancedRandomForestClassifier(
@@ -417,9 +417,9 @@ class BalancedRandomForestClassifier(
 
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def fit(
         self,
@@ -468,11 +468,11 @@ class BalancedRandomForestClassifier(
             raise ValueError("sparse multilabel-indicator for y is not supported.")
 
         check_x_y_args = {
-            'accept_sparse': ['csc'],
-            'multi_output': True,
-            'dtype': DTYPE,
+            "accept_sparse": ["csc"],
+            "multi_output": True,
+            "dtype": DTYPE,
         }
-        X, y = self._validate_data(X, y, **check_x_y_args)
+        X, y = validate_data(self, X, y, **check_x_y_args)
 
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
@@ -740,11 +740,16 @@ class BalancedRandomForestClassifier(
     def _more_tags(self):  # pragma: no cover
         return {"multioutput": False}
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.target_tags.multi_output = False
+        return tags
+
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
@@ -780,51 +785,51 @@ if __name__ == "__main__":  # pragma: no cover
     )
 
     origin_distr = dict(Counter(y_train))  # {2: 600, 1: 300, 0: 100}
-    print('Original training dataset shape %s' % origin_distr)
+    print("Original training dataset shape %s" % origin_distr)
 
     target_distr = {2: 200, 1: 100, 0: 100}
 
     init_kwargs_default = {
         # 'estimator': None,
-        'n_estimators': 100,
-        'criterion': "gini",
-        'max_depth': None,
-        'min_samples_split': 2,
-        'min_samples_leaf': 1,
-        'min_weight_fraction_leaf': 0.0,
-        'max_features': "auto",
-        'max_leaf_nodes': None,
-        'min_impurity_decrease': 0.0,
-        'bootstrap': True,
-        'oob_score': False,
-        'replacement': False,
-        'n_jobs': None,
-        'warm_start': False,
-        'class_weight': None,
-        'ccp_alpha': 0.0,
-        'max_samples': None,
-        'random_state': 42,
+        "n_estimators": 100,
+        "criterion": "gini",
+        "max_depth": None,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "min_weight_fraction_leaf": 0.0,
+        "max_features": "auto",
+        "max_leaf_nodes": None,
+        "min_impurity_decrease": 0.0,
+        "bootstrap": True,
+        "oob_score": False,
+        "replacement": False,
+        "n_jobs": None,
+        "warm_start": False,
+        "class_weight": None,
+        "ccp_alpha": 0.0,
+        "max_samples": None,
+        "random_state": 42,
         # 'random_state': None,
-        'verbose': 0,
+        "verbose": 0,
     }
     fit_kwargs_default = {
-        'X': X_train,
-        'y': y_train,
-        'sample_weight': None,
-        'eval_datasets': {'valid': (X_valid, y_valid)},
-        'eval_metrics': {
-            'acc': (accuracy_score, {}),
-            'balanced_acc': (balanced_accuracy_score, {}),
-            'weighted_f1': (f1_score, {'average': 'weighted'}),
+        "X": X_train,
+        "y": y_train,
+        "sample_weight": None,
+        "eval_datasets": {"valid": (X_valid, y_valid)},
+        "eval_metrics": {
+            "acc": (accuracy_score, {}),
+            "balanced_acc": (balanced_accuracy_score, {}),
+            "weighted_f1": (f1_score, {"average": "weighted"}),
         },
-        'train_verbose': True,
+        "train_verbose": True,
     }
 
     ensembles = {}
 
     init_kwargs, fit_kwargs = copy(init_kwargs_default), copy(fit_kwargs_default)
     brf = BalancedRandomForestClassifier(**init_kwargs).fit(**fit_kwargs)
-    ensembles['brf'] = brf
+    ensembles["brf"] = brf
 
     # %%
     from imbens.visualizer import ImbalancedEnsembleVisualizer

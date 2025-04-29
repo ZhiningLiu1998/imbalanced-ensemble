@@ -33,6 +33,7 @@ import sklearn
 from sklearn.datasets import make_moons
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils.validation import validate_data
 from imbens.datasets import make_imbalance
 
 # Import plot utilities
@@ -84,7 +85,8 @@ class TorchMLPClassifier(sklearn.base.BaseEstimator, sklearn.base.ClassifierMixi
         self.model = MLP(input_size, hidden_size, output_size)
 
     def _validate_input(self, X, y):
-        X, y = self._validate_data(
+        X, y = validate_data(
+            self,
             X,
             y,
             accept_sparse=["csr", "csc"],
@@ -175,7 +177,7 @@ torch_spe = imbens.ensemble.SelfPacedEnsembleClassifier(
 
 def plot_classification_result(dataset, clf, **axset_kwargs):
     h = 0.01  # step size in the mesh
-    cm_bright = ListedColormap(['#FF0000', '#0000FF'])
+    cm_bright = ListedColormap(["#FF0000", "#0000FF"])
 
     # Normalize and split the dataset
     X, y = dataset
@@ -202,14 +204,14 @@ def plot_classification_result(dataset, clf, **axset_kwargs):
     Z = Z.reshape(xx.shape)
     ax = plt.gca()
     ax.imshow(
-        -Z, extent=(xx.min(), xx.max(), yy.max(), yy.min()), cmap='bwr', alpha=0.8
+        -Z, extent=(xx.min(), xx.max(), yy.max(), yy.min()), cmap="bwr", alpha=0.8
     )
 
     # Plot the training points
-    ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright, edgecolors='k')
+    ax.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright, edgecolors="k")
     # Plot the testing points
     ax.scatter(
-        X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, edgecolors='k', alpha=0.6
+        X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, edgecolors="k", alpha=0.6
     )
 
     ax.set_xlim(xx.min(), xx.max())
@@ -219,11 +221,11 @@ def plot_classification_result(dataset, clf, **axset_kwargs):
     ax.text(
         0.95,
         0.06,
-        ('%.2f' % score).lstrip('0'),
+        ("%.2f" % score).lstrip("0"),
         size=15,
-        bbox=dict(boxstyle='round', alpha=0.8, facecolor='white'),
+        bbox=dict(boxstyle="round", alpha=0.8, facecolor="white"),
         transform=ax.transAxes,
-        horizontalalignment='right',
+        horizontalalignment="right",
     )
     ax.set(**axset_kwargs)
     return ax
@@ -233,5 +235,5 @@ def plot_classification_result(dataset, clf, **axset_kwargs):
 # **Visualize the classification result.**
 
 ax = plot_classification_result(
-    imb_moons_dataset, torch_spe, title='SPE with PyTorch MLP base classifier'
+    imb_moons_dataset, torch_spe, title="SPE with PyTorch MLP base classifier"
 )

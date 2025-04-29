@@ -1,4 +1,5 @@
 ﻿"""Class to perform random over-sampling."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -13,16 +14,15 @@ if not LOCAL_DEBUG:
     from .base import BaseOverSampler
     from ...utils._docstring import Substitution
     from ...utils._docstring import _random_state_docstring
-    from ...utils._validation import (_deprecate_positional_args, 
-                                      check_target_type)
-else:           # pragma: no cover
+    from ...utils._validation import _deprecate_positional_args, check_target_type
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from sampler._over_sampling.base import BaseOverSampler
     from utils._docstring import Substitution
     from utils._docstring import _random_state_docstring
-    from utils._validation import (_deprecate_positional_args, 
-                                   check_target_type)
+    from utils._validation import _deprecate_positional_args, check_target_type
 
 from collections.abc import Mapping
 from numbers import Real
@@ -33,6 +33,7 @@ from sklearn.utils import check_array, check_random_state
 from sklearn.utils import _safe_indexing
 from sklearn.utils.sparsefuncs import mean_variance_axis
 from sklearn.preprocessing import normalize
+from sklearn.utils.validation import validate_data
 
 
 @Substitution(
@@ -141,13 +142,14 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
 
     def _check_X_y(self, X, y):
         y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(
+        X, y = validate_data(
+            self,
             X,
             y,
             reset=True,
             accept_sparse=["csr", "csc"],
             dtype=None,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
         return X, y, binarize_y
 
@@ -200,7 +202,7 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
         y_resampled = [y.copy()]
 
         sample_weight_flag = sample_weight is not None
-        
+
         if sample_weight_flag:
             sample_weight_resampled = [sample_weight.copy()]
 
@@ -240,9 +242,11 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
                 X_resampled.append(_safe_indexing(X, bootstrap_indices))
 
             y_resampled.append(_safe_indexing(y, bootstrap_indices))
-            
+
             if sample_weight_flag:
-                sample_weight_resampled.append(_safe_indexing(sample_weight, bootstrap_indices))
+                sample_weight_resampled.append(
+                    _safe_indexing(sample_weight, bootstrap_indices)
+                )
 
         self.sample_indices_ = np.array(sample_indices)
 
@@ -251,23 +255,34 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
         else:
             X_resampled = np.vstack(X_resampled)
         y_resampled = np.hstack(y_resampled)
-        
+
         # If given sample_weight
         if sample_weight_flag:
             # sample_weight is already validated in self.fit_resample()
-            sample_weight_new = \
-                np.empty(y_resampled.shape[0] - y.shape[0], dtype=np.float64)
+            sample_weight_new = np.empty(
+                y_resampled.shape[0] - y.shape[0], dtype=np.float64
+            )
             sample_weight_new[:] = np.mean(sample_weight)
-            sample_weight_resampled = np.hstack([sample_weight, sample_weight_new]).reshape(-1, 1)
-            sample_weight_resampled = \
-                np.squeeze(normalize(sample_weight_resampled, axis=0, norm='l1'))
+            sample_weight_resampled = np.hstack(
+                [sample_weight, sample_weight_new]
+            ).reshape(-1, 1)
+            sample_weight_resampled = np.squeeze(
+                normalize(sample_weight_resampled, axis=0, norm="l1")
+            )
             return X_resampled, y_resampled, sample_weight_resampled
-        else: return X_resampled, y_resampled
+        else:
+            return X_resampled, y_resampled
 
-
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {
             "X_types": ["2darray", "string", "sparse", "dataframe"],
             "sample_indices": True,
             "allow_nan": True,
         }
+
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        tags.input_tags.allow_nan = True
+        # tags.sample_indices = True
+        return tags

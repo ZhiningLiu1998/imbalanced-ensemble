@@ -182,15 +182,19 @@ def test_oob_score_classification():
         assert abs(test_score - clf.oob_score_) < 0.1
 
         # Test with few estimators
-        with pytest.warns(UserWarning):
-            with pytest.warns(RuntimeWarning):
-                SMOTEBaggingClassifier(
-                    estimator=estimator,
-                    n_estimators=1,
-                    bootstrap=True,
-                    oob_score=True,
-                    random_state=0,
-                ).fit(X_train, y_train)
+        warn_msg = (
+            "Some inputs do not have OOB scores. This probably means too few "
+            "estimators were used to compute any reliable oob estimates."
+        )
+        with pytest.warns(UserWarning, match=warn_msg):
+            clf = SMOTEBaggingClassifier(
+                estimator=estimator,
+                n_estimators=1,
+                bootstrap=True,
+                oob_score=True,
+                random_state=0,
+            )
+            clf.fit(X_train, y_train)
 
 
 def test_single_estimator():

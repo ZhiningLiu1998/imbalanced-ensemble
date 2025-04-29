@@ -1,5 +1,6 @@
 ﻿"""Base class for sampling
 """
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -34,7 +35,7 @@ import numpy as np
 from sklearn.base import BaseEstimator
 from sklearn.preprocessing import label_binarize
 from sklearn.utils.multiclass import check_classification_targets
-from sklearn.utils.validation import _check_sample_weight
+from sklearn.utils.validation import _check_sample_weight, validate_data
 
 
 class SamplerMixin(BaseEstimator, metaclass=ABCMeta):
@@ -182,11 +183,17 @@ class BaseSampler(SamplerMixin):
         if accept_sparse is None:
             accept_sparse = ["csr", "csc"]
         y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(X, y, reset=True, accept_sparse=accept_sparse)
+        X, y = validate_data(self, X, y, reset=True, accept_sparse=accept_sparse)
         return X, y, binarize_y
 
     def _more_tags(self):  # pragma: no cover
         return {"X_types": ["2darray", "sparse", "dataframe"]}
+
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        tags.input_tags.sparse = True
+        return tags
 
 
 def _identity(X, y):  # pragma: no cover

@@ -42,13 +42,14 @@ from sklearn.utils.validation import (
     check_random_state,
     column_or_1d,
     has_fit_parameter,
+    validate_data,
 )
 
 TRAINING_LOG_HEAD_TITLES = {
-    'iter': '#Estimators',
-    'class_distr': 'Class Distribution',
-    'datasets': 'Datasets',
-    'metrics': 'Metrics',
+    "iter": "#Estimators",
+    "class_distr": "Class Distribution",
+    "datasets": "Datasets",
+    "metrics": "Metrics",
 }
 
 MAX_INT = np.iinfo(np.int32).max
@@ -96,7 +97,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         verbose_format_ = self.train_verbose_format_
 
         # Temporarily disable verbose
-        support_verbose = hasattr(self, 'verbose')
+        support_verbose = hasattr(self, "verbose")
         if support_verbose:
             verbose, self.verbose = self.verbose, 0
 
@@ -117,7 +118,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     ac_labels,
                 ) in eval_metrics.items():
                     if ac_labels:
-                        kwargs['labels'] = classes_
+                        kwargs["labels"] = classes_
                     if ac_proba:  # If the metric take predict probabilities
                         score = metric_func(y_eval, y_predict_proba, **kwargs)
                     else:  # If the metric do not take predict probabilities
@@ -140,7 +141,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                         "",
                         "",
                         " ",
-                        verbose_format_['len_metrics'][metric_name],
+                        verbose_format_["len_metrics"][metric_name],
                         strip=False,
                     )
             else:
@@ -153,7 +154,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     ac_labels,
                 ) in eval_metrics.items():
                     if ac_labels:
-                        kwargs['labels'] = classes_
+                        kwargs["labels"] = classes_
                     if ac_proba:  # If the metric take predict probabilities
                         score = metric_func(y_eval, y_predict_proba, **kwargs)
                     else:  # If the metric do not take predict probabilities
@@ -167,7 +168,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                         "",
                         "",
                         " ",
-                        verbose_format_['len_metrics'][metric_name],
+                        verbose_format_["len_metrics"][metric_name],
                         strip=False,
                     )
             out = eval_info[:-1]
@@ -183,15 +184,15 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
 
         if self.train_verbose_:
             len_iter = (
-                max(len(str(self.n_estimators)), len(TRAINING_LOG_HEAD_TITLES['iter']))
+                max(len(str(self.n_estimators)), len(TRAINING_LOG_HEAD_TITLES["iter"]))
                 + 2
             )
-            if self.train_verbose_['print_distribution']:
+            if self.train_verbose_["print_distribution"]:
                 len_class_distr = (
                     max(
                         len(str(self.target_distr_)),
                         len(str(self.origin_distr_)),
-                        len(TRAINING_LOG_HEAD_TITLES['class_distr']),
+                        len(TRAINING_LOG_HEAD_TITLES["class_distr"]),
                     )
                     + 2
                 )
@@ -209,10 +210,10 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                 for dataset_name in self.eval_datasets_.keys()
             }
             self.train_verbose_format_ = {
-                'len_iter': len_iter,
-                'len_class_distr': len_class_distr,
-                'len_metrics': len_metrics,
-                'len_datasets': len_datasets,
+                "len_iter": len_iter,
+                "len_class_distr": len_class_distr,
+                "len_metrics": len_metrics,
+                "len_datasets": len_datasets,
             }
 
         return
@@ -240,15 +241,15 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
             tabs = ("┃", "┃", "┃", " ")
         if widths == None:
             widths = (
-                self.train_verbose_format_['len_iter'],
-                self.train_verbose_format_['len_class_distr'],
-                tuple(self.train_verbose_format_['len_datasets'].values()),
+                self.train_verbose_format_["len_iter"],
+                self.train_verbose_format_["len_class_distr"],
+                tuple(self.train_verbose_format_["len_datasets"].values()),
             )
         if flags == None:
             flags = (
                 True,
-                self.train_verbose_['print_distribution'],
-                self.train_verbose_['print_metrics'],
+                self.train_verbose_["print_distribution"],
+                self.train_verbose_["print_metrics"],
             )
         (sta_char, mid_char, end_char, fill_char) = tabs
         (flag_iter, flag_distr, flag_metric) = flags
@@ -299,8 +300,8 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
             self._training_log_add_line(
                 info,
                 texts=(
-                    TRAINING_LOG_HEAD_TITLES['iter'],
-                    TRAINING_LOG_HEAD_TITLES['class_distr'],
+                    TRAINING_LOG_HEAD_TITLES["iter"],
+                    TRAINING_LOG_HEAD_TITLES["class_distr"],
                     tuple("Metric" for data_name in self.eval_datasets_.keys()),
                 ),
             )
@@ -314,7 +315,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     "",
                     "",
                     tuple(
-                        self._evaluate('', return_header=True)
+                        self._evaluate("", return_header=True)
                         for data_name in self.eval_datasets_.keys()
                     ),
                 ),
@@ -331,7 +332,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
 
         if self.train_verbose_:
 
-            if not hasattr(self, '_properties'):
+            if not hasattr(self, "_properties"):
                 raise AttributeError(
                     f"All imbalanced-ensemble estimators should"
                     + f" have a `_properties` attribute to specify"
@@ -339,13 +340,13 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                 )
 
             # already validated in check_trian_verbose
-            training_type = self._properties['training_type']
+            training_type = self._properties["training_type"]
 
             if training_type not in TRAINING_TYPES:
                 raise ValueError(f"'training_type' should be in {TRAINING_TYPES}")
-            if training_type == 'iterative':
+            if training_type == "iterative":
                 self._training_log_to_console_iterative(i_iter, y)
-            elif training_type == 'parallel':
+            elif training_type == "parallel":
                 self._training_log_to_console_parallel()
             else:
                 raise NotImplementedError(
@@ -362,7 +363,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
 
         eval_data_names = self.eval_datasets_.keys()
 
-        if (i_iter + 1) % self.train_verbose_['granularity'] == 0 or i_iter == 0:
+        if (i_iter + 1) % self.train_verbose_["granularity"] == 0 or i_iter == 0:
             print(
                 self._training_log_add_line(
                     texts=(
@@ -409,7 +410,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
 
 
 _properties = {
-    'ensemble_type': 'general',
+    "ensemble_type": "general",
 }
 
 
@@ -439,8 +440,8 @@ def _parallel_decision_function(estimators, estimators_features, X):
 
 
 @Substitution(
-    random_state=_get_parameter_docstring('random_state'),
-    n_jobs=_get_parameter_docstring('n_jobs', **_properties),
+    random_state=_get_parameter_docstring("random_state"),
+    n_jobs=_get_parameter_docstring("n_jobs", **_properties),
 )
 class BaseImbalancedEnsemble(
     ImbalancedEnsembleClassifierMixin, BaseEnsemble, metaclass=ABCMeta
@@ -494,9 +495,9 @@ class BaseImbalancedEnsemble(
         self.n_jobs = n_jobs
         self.verbose = verbose
         self.check_x_y_args = {
-            'accept_sparse': ['csr', 'csc'],
-            'force_all_finite': False,
-            'dtype': None,
+            "accept_sparse": ["csr", "csc"],
+            "ensure_all_finite": False,
+            "dtype": None,
         }
 
         super(BaseImbalancedEnsemble, self).__init__(
@@ -525,7 +526,7 @@ class BaseImbalancedEnsemble(
         # sklearn.ensemble.BaseEnsemble._validate_estimator
         super()._validate_estimator(default=default)
 
-        if hasattr(self, 'sampler'):
+        if hasattr(self, "sampler"):
             # validate sampler and sampler_kwargs
             # validated sampler stored in self.sampler_
             try:
@@ -548,7 +549,7 @@ class BaseImbalancedEnsemble(
         """
 
         sampler = clone(self.sampler_)
-        if hasattr(self, 'sampler_kwargs_'):
+        if hasattr(self, "sampler_kwargs_"):
             sampler.set_params(**self.sampler_kwargs_)
 
         # Arguments passed to _make_sampler function have higher priority,
@@ -571,7 +572,7 @@ class BaseImbalancedEnsemble(
         self.random_state = check_random_state(self.random_state)
 
         # Convert data (X is required to be 2d and indexable)
-        X, y = self._validate_data(X, y, **self.check_x_y_args)
+        X, y = validate_data(self, X, y, **self.check_x_y_args)
         if sample_weight is not None:
             sample_weight = _check_sample_weight(sample_weight, X, dtype=np.float64)
             sample_weight /= sample_weight.sum()
@@ -630,7 +631,7 @@ class BaseImbalancedEnsemble(
         check_is_fitted(self)
         # Check data
         X = check_array(
-            X, accept_sparse=['csr', 'csc'], dtype=None, force_all_finite=False
+            X, accept_sparse=["csr", "csc"], dtype=None, ensure_all_finite=False
         )
         if self.n_features_in_ != X.shape[1]:
             raise ValueError(
@@ -703,11 +704,12 @@ class BaseImbalancedEnsemble(
         check_is_fitted(self)
 
         # Check data
-        X = self._validate_data(
+        X = validate_data(
+            self,
             X,
             accept_sparse=["csr", "csc"],
             dtype=None,
-            force_all_finite=False,
+            ensure_all_finite=False,
             reset=False,
         )
 
@@ -750,7 +752,7 @@ class BaseImbalancedEnsemble(
             )
 
         try:
-            if hasattr(self, 'estimator_weights_'):
+            if hasattr(self, "estimator_weights_"):
                 norm = self.estimator_weights_.sum()
                 return (
                     sum(

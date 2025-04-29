@@ -1,4 +1,5 @@
 """Class to perform random under-sampling."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -24,6 +25,7 @@ else:  # pragma: no cover
 
 import numpy as np
 from sklearn.utils import _safe_indexing, check_random_state
+from sklearn.utils.validation import validate_data
 
 
 @Substitution(
@@ -89,13 +91,14 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
 
     def _check_X_y(self, X, y):
         y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(
+        X, y = validate_data(
+            self,
             X,
             y,
             reset=True,
             accept_sparse=["csr", "csc"],
             dtype=None,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
         return X, y, binarize_y
 
@@ -175,6 +178,14 @@ RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
             "allow_nan": True,
         }
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        tags.input_tags.sparse = True
+        tags.input_tags.allow_nan = True
+        # tags.sample_indices = True
+        return tags
+
 
 # %%
 
@@ -195,7 +206,7 @@ if __name__ == "__main__":  # pragma: no cover
         n_samples=1000,
         random_state=10,
     )
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -203,7 +214,7 @@ if __name__ == "__main__":  # pragma: no cover
     undersampler = RandomUnderSampler(random_state=42, sampling_strategy=target_distr)
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
 
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
 # %%

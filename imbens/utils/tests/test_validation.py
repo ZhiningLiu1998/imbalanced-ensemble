@@ -1,4 +1,5 @@
 """Test for the validation helper"""
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 # License: MIT
@@ -87,19 +88,23 @@ def test_check_sampling_strategy_warning():
             0.1,
             np.array([0] * 10 + [1] * 20),
             "over-sampling",
-            "remove samples from the minority class while trying to generate new",  # noqa
+            "The specified ratio required to",  # noqa
         ),
         (
             0.1,
             np.array([0] * 10 + [1] * 20),
             "under-sampling",
-            "generate new sample in the majority class while trying to remove",
+            "The specified ratio required to",  # noqa
         ),
     ],
 )
 def test_check_sampling_strategy_float_error(ratio, y, type, err_msg):
-    with pytest.raises(ValueError, match=err_msg):
-        check_sampling_strategy(ratio, y, type)
+    if type == "clean-sampling":
+        with pytest.raises(ValueError, match=err_msg):
+            check_sampling_strategy(ratio, y, type)
+    else:
+        with pytest.warns(UserWarning, match=err_msg):
+            check_sampling_strategy(ratio, y, type)
 
 
 def test_check_sampling_strategy_error():

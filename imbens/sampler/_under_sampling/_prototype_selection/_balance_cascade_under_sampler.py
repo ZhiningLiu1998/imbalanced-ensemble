@@ -22,6 +22,7 @@ else:  # pragma: no cover
 
 import numpy as np
 from sklearn.utils import _safe_indexing, check_random_state
+from sklearn.utils.validation import validate_data
 
 
 @Substitution(
@@ -78,17 +79,18 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
         self.random_state = random_state
 
         # Check parameters
-        self.replacement = check_type(replacement, 'replacement', bool)
+        self.replacement = check_type(replacement, "replacement", bool)
 
     def _check_X_y(self, X, y):
         y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(
+        X, y = validate_data(
+            self,
             X,
             y,
             reset=True,
             accept_sparse=["csr", "csc"],
             dtype=None,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
         return X, y, binarize_y
 
@@ -284,6 +286,13 @@ class BalanceCascadeUnderSampler(BaseUnderSampler):
             "allow_nan": True,
         }
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        tags.input_tags.sparse = True
+        tags.input_tags.allow_nan = True
+        return tags
+
 
 # %%
 
@@ -384,7 +393,7 @@ if __name__ == "__main__":  # pragma: no cover
     # X, y = make_classification(n_classes=3, class_sep=2,
     #     weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     bcus = BalanceCascadeUnderSampler(
         # sampling_strategy=sampling_strategy_org,
@@ -403,7 +412,7 @@ if __name__ == "__main__":  # pragma: no cover
         dropped_index=dropped_index,
         keep_populations=sampling_strategy_org,
     )
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Kept dataset shape %s' % Counter(y[~new_dropped_index]))
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Kept dataset shape %s" % Counter(y[~new_dropped_index]))
 
 # %%

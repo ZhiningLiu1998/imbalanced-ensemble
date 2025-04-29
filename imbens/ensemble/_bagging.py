@@ -66,7 +66,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import check_random_state
 from sklearn.utils.parallel import Parallel, delayed
 from sklearn.utils.random import sample_without_replacement
-from sklearn.utils.validation import _check_sample_weight, has_fit_parameter
+from sklearn.utils.validation import (
+    _check_sample_weight,
+    has_fit_parameter,
+    validate_data,
+)
 
 
 def _generate_indices(random_state, bootstrap, n_population, n_samples):
@@ -162,8 +166,8 @@ def _parallel_build_estimators(
         else:
             estimator.fit((X[indices])[:, features], y[indices])
 
-        if hasattr(estimator, 'n_training_samples_'):
-            n_training_samples = getattr(estimator, 'n_training_samples_')
+        if hasattr(estimator, "n_training_samples_"):
+            n_training_samples = getattr(estimator, "n_training_samples_")
         else:
             n_training_samples = len(indices)
 
@@ -186,14 +190,14 @@ class ResampleBaggingClassifier(
     instead.
     """
 
-    _ensemble_type = 'bagging'
-    _solution_type = 'resampling'
-    _training_type = 'parallel'
+    _ensemble_type = "bagging"
+    _solution_type = "resampling"
+    _training_type = "parallel"
 
     _properties = {
-        'ensemble_type': _ensemble_type,
-        'solution_type': _solution_type,
-        'training_type': _training_type,
+        "ensemble_type": _ensemble_type,
+        "solution_type": _solution_type,
+        "training_type": _training_type,
     }
 
     @_deprecate_positional_args
@@ -296,22 +300,11 @@ class ResampleBaggingClassifier(
         except AttributeError:
             pass
 
-    def _more_tags(self):  # pragma: no cover
-        tags = super()._more_tags()
-        tags_key = "_xfail_checks"
-        failing_test = "check_estimators_nan_inf"
-        reason = "Fails because the sampler removed infinity and NaN values"
-        if tags_key in tags:
-            tags[tags_key][failing_test] = reason
-        else:
-            tags[tags_key] = {failing_test: reason}
-        return tags
-
     @_deprecate_positional_args
     @FuncSubstitution(
-        eval_datasets=_get_parameter_docstring('eval_datasets'),
-        eval_metrics=_get_parameter_docstring('eval_metrics'),
-        train_verbose=_get_parameter_docstring('train_verbose', **_properties),
+        eval_datasets=_get_parameter_docstring("eval_datasets"),
+        eval_metrics=_get_parameter_docstring("eval_metrics"),
+        train_verbose=_get_parameter_docstring("train_verbose", **_properties),
     )
     def _fit(
         self,
@@ -363,18 +356,18 @@ class ResampleBaggingClassifier(
         # Check data, sampler_kwargs and random_state
         check_target_type(y)
 
-        self.sampler_kwargs_ = check_type(sampler_kwargs, 'sampler_kwargs', dict)
+        self.sampler_kwargs_ = check_type(sampler_kwargs, "sampler_kwargs", dict)
 
         random_state = check_random_state(self.random_state)
 
         # Convert data (X is required to be 2d and indexable)
         check_x_y_args = {
-            'accept_sparse': ['csr', 'csc'],
-            'dtype': None,
-            'force_all_finite': False,
-            'multi_output': True,
+            "accept_sparse": ["csr", "csc"],
+            "dtype": None,
+            "ensure_all_finite": False,
+            "multi_output": True,
         }
-        X, y = self._validate_data(X, y, **check_x_y_args)
+        X, y = validate_data(self, X, y, **check_x_y_args)
 
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
@@ -441,7 +434,7 @@ class ResampleBaggingClassifier(
         if hasattr(self, "oob_score_") and self.warm_start:
             del self.oob_score_
 
-        if not self.warm_start or not hasattr(self, 'estimators_'):
+        if not self.warm_start or not hasattr(self, "estimators_"):
             # Free allocated memory, if any
             self.estimators_ = []
             self.estimators_features_ = []
@@ -451,8 +444,8 @@ class ResampleBaggingClassifier(
 
         if n_more_estimators < 0:
             raise ValueError(
-                'n_estimators=%d must be larger or equal to '
-                'len(estimators_)=%d when warm_start==True'
+                "n_estimators=%d must be larger or equal to "
+                "len(estimators_)=%d when warm_start==True"
                 % (self.n_estimators, len(self.estimators_))
             )
 
@@ -517,11 +510,11 @@ class ResampleBaggingClassifier(
         """Needs to be implemented in the derived class"""
         pass
 
-    @FuncGlossarySubstitution(_super.predict_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):
         return super().predict_proba(X)
 
-    @FuncGlossarySubstitution(_super.predict_log_proba, 'classes_')
+    @FuncGlossarySubstitution(_super.predict_log_proba, "classes_")
     def predict_log_proba(self, X):
         return super().predict_log_proba(X)
 

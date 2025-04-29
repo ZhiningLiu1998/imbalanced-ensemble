@@ -1,4 +1,5 @@
 """Metrics to perform pairwise computation."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -9,7 +10,7 @@ from scipy.spatial import distance_matrix
 from sklearn.base import BaseEstimator
 from sklearn.utils import check_consistent_length
 from sklearn.utils.multiclass import unique_labels
-from sklearn.utils.validation import check_is_fitted
+from sklearn.utils.validation import check_is_fitted, validate_data
 
 
 class ValueDifferenceMetric(BaseEstimator):
@@ -120,7 +121,7 @@ class ValueDifferenceMetric(BaseEstimator):
         self
         """
         check_consistent_length(X, y)
-        X, y = self._validate_data(X, y, reset=True, dtype=np.int32)
+        X, y = validate_data(self, X, y, reset=True, dtype=np.int32)
 
         if isinstance(self.n_categories, str) and self.n_categories == "auto":
             # categories are expected to be encoded from 0 to n_categories - 1
@@ -179,11 +180,11 @@ class ValueDifferenceMetric(BaseEstimator):
             The VDM pairwise distance.
         """
         check_is_fitted(self)
-        X = self._validate_data(X, reset=False, dtype=np.int32)
+        X = validate_data(self, X, reset=False, dtype=np.int32)
         n_samples_X = X.shape[0]
 
         if Y is not None:
-            Y = self._validate_data(Y, reset=False, dtype=np.int32)
+            Y = validate_data(self, Y, reset=False, dtype=np.int32)
             n_samples_Y = Y.shape[0]
         else:
             n_samples_Y = n_samples_X

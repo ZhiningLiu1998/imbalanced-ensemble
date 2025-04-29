@@ -1,5 +1,6 @@
 """Class to perform under-sampling based on the edited nearest neighbour
 method."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -183,6 +184,11 @@ EditedNearestNeighbours # doctest: +NORMALIZE_WHITESPACE
     def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        # tags.sample_indices = True
+        return tags
+
 
 @Substitution(
     sampling_strategy=BaseCleaningSampler._sampling_strategy_docstring,
@@ -339,7 +345,10 @@ RepeatedEditedNearestNeighbours # doctest : +NORMALIZE_WHITESPACE
             # Case 3
             b_remove_maj_class = len(stats_enn) < len(target_stats)
 
-            X_, y_, = (
+            (
+                X_,
+                y_,
+            ) = (
                 X_enn,
                 y_enn,
             )
@@ -347,7 +356,10 @@ RepeatedEditedNearestNeighbours # doctest : +NORMALIZE_WHITESPACE
 
             if b_conv or b_min_bec_maj or b_remove_maj_class:
                 if b_conv:
-                    X_, y_, = (
+                    (
+                        X_,
+                        y_,
+                    ) = (
                         X_enn,
                         y_enn,
                     )
@@ -369,6 +381,11 @@ RepeatedEditedNearestNeighbours # doctest : +NORMALIZE_WHITESPACE
 
     def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
+
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        # tags.sample_indices = True
+        return tags
 
 
 @Substitution(
@@ -521,7 +538,10 @@ AllKNN # doctest: +NORMALIZE_WHITESPACE
             # Case 2
             b_remove_maj_class = len(stats_enn) < len(target_stats)
 
-            X_, y_, = (
+            (
+                X_,
+                y_,
+            ) = (
                 X_enn,
                 y_enn,
             )
@@ -543,6 +563,11 @@ AllKNN # doctest: +NORMALIZE_WHITESPACE
     def _more_tags(self):  # pragma: no cover
         return {"sample_indices": True}
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        # tags.sample_indices = True
+        return tags
+
 
 # %%
 
@@ -563,27 +588,27 @@ if __name__ == "__main__":  # pragma: no cover
         n_samples=1000,
         random_state=10,
     )
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = [1, 2]
 
     undersampler = EditedNearestNeighbours(sampling_strategy=target_distr)
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-    print('ENN')
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("ENN")
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
     undersampler = RepeatedEditedNearestNeighbours(sampling_strategy=target_distr)
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-    print('RENN')
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("RENN")
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
     undersampler = AllKNN(sampling_strategy=target_distr)
     X_res, y_res, weight_res = undersampler.fit_resample(X, y, sample_weight=y)
-    print('AllKNN')
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("AllKNN")
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
 # %%

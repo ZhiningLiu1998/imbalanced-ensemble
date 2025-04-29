@@ -1,4 +1,5 @@
 ﻿"""Class to perform over-sampling using ADASYN."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -13,16 +14,15 @@ if not LOCAL_DEBUG:
     from .base import BaseOverSampler
     from ...utils._docstring import _n_jobs_docstring, Substitution
     from ...utils._docstring import _random_state_docstring
-    from ...utils._validation import (_deprecate_positional_args,
-                                      check_neighbors_object)
-else:           # pragma: no cover
+    from ...utils._validation import _deprecate_positional_args, check_neighbors_object
+else:  # pragma: no cover
     import sys  # For local test
+
     sys.path.append("../..")
     from sampler._over_sampling.base import BaseOverSampler
     from utils._docstring import _n_jobs_docstring, Substitution
     from utils._docstring import _random_state_docstring
-    from utils._validation import (_deprecate_positional_args,
-                                   check_neighbors_object)
+    from utils._validation import _deprecate_positional_args, check_neighbors_object
 
 import numpy as np
 from scipy import sparse
@@ -185,23 +185,36 @@ ADASYN # doctest: +NORMALIZE_WHITESPACE
         else:
             X_resampled = np.vstack(X_resampled)
         y_resampled = np.hstack(y_resampled)
-        
+
         # If given sample_weight
         if sample_weight is not None:
             # sample_weight is already validated in self.fit_resample()
-            sample_weight_new = \
-                np.empty(y_resampled.shape[0] - y.shape[0], dtype=np.float64)
+            sample_weight_new = np.empty(
+                y_resampled.shape[0] - y.shape[0], dtype=np.float64
+            )
             sample_weight_new[:] = np.mean(sample_weight)
-            sample_weight_resampled = np.hstack([sample_weight, sample_weight_new]).reshape(-1, 1)
-            sample_weight_resampled = \
-                np.squeeze(normalize(sample_weight_resampled, axis=0, norm='l1'))
+            sample_weight_resampled = np.hstack(
+                [sample_weight, sample_weight_new]
+            ).reshape(-1, 1)
+            sample_weight_resampled = np.squeeze(
+                normalize(sample_weight_resampled, axis=0, norm="l1")
+            )
             return X_resampled, y_resampled, sample_weight_resampled
-        else: return X_resampled, y_resampled
+        else:
+            return X_resampled, y_resampled
 
-    def _more_tags(self):   # pragma: no cover
+    def _more_tags(self):  # pragma: no cover
         return {
             "X_types": ["2darray"],
+            "sample_indices": True,
         }
+
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        # tags.sample_indices = True
+        return tags
+
 
 # %%
 
@@ -209,21 +222,29 @@ if __name__ == "__main__":  # pragma: no cover
     from collections import Counter
     from sklearn.datasets import make_classification
 
-    X, y = make_classification(n_classes=3, class_sep=2,
-        weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
-        n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    print('Original dataset shape %s' % Counter(y))
+    X, y = make_classification(
+        n_classes=3,
+        class_sep=2,
+        weights=[0.1, 0.3, 0.6],
+        n_informative=3,
+        n_redundant=1,
+        flip_y=0,
+        n_features=20,
+        n_clusters_per_class=1,
+        n_samples=1000,
+        random_state=10,
+    )
+    print("Original dataset shape %s" % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 600, 1: 400, 0: 300}
-    
-    print ('ADASYN Resampling ...')
+
+    print("ADASYN Resampling ...")
     smote = ADASYN(random_state=42, sampling_strategy=target_distr)
     X_res, y_res, weight_res = smote.fit_resample(X, y, sample_weight=y)
     # X_res, y_res, weight_res = smote.fit_resample(X, y, sample_weight='a')
 
-    print('Resampled dataset shape %s' % Counter(y_res))
-    print('Test resampled weight shape %s' % Counter(weight_res))
+    print("Resampled dataset shape %s" % Counter(y_res))
+    print("Test resampled weight shape %s" % Counter(weight_res))
 
 # %%
-

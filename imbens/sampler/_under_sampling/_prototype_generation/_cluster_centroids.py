@@ -1,6 +1,7 @@
 """Class to perform under-sampling by generating centroids based on
 clustering.
 """
+
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -117,7 +118,7 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
     def _validate_estimator(self):
         """Private function to create the KMeans estimator"""
         if self.estimator is None:
-            self.estimator_ = KMeans(n_init='auto', random_state=self.random_state)
+            self.estimator_ = KMeans(n_init="auto", random_state=self.random_state)
         elif isinstance(self.estimator, KMeans):
             self.estimator_ = clone(self.estimator)
         else:
@@ -202,6 +203,11 @@ ClusterCentroids # doctest: +NORMALIZE_WHITESPACE
     def _more_tags(self):  # pragma: no cover
         return {"sample_indices": False}
 
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        # tags.sample_indices = False
+        return tags
+
 
 # %%
 
@@ -222,7 +228,7 @@ if __name__ == "__main__":  # pragma: no cover
         n_samples=1000,
         random_state=10,
     )
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     origin_distr = Counter(y)
     target_distr = {2: 200, 1: 100, 0: 100}
@@ -234,6 +240,6 @@ if __name__ == "__main__":  # pragma: no cover
     )
     X_res, y_res = rus.fit_resample(X, y)
 
-    print('Resampled dataset shape %s' % Counter(y_res))
+    print("Resampled dataset shape %s" % Counter(y_res))
 
 # %%

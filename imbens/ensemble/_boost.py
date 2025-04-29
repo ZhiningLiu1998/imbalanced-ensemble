@@ -53,7 +53,7 @@ from sklearn.ensemble._base import _set_random_states
 from sklearn.ensemble._forest import BaseForest
 from sklearn.tree import BaseDecisionTree
 from sklearn.utils import check_array, check_random_state
-from sklearn.utils.validation import _check_sample_weight
+from sklearn.utils.validation import _check_sample_weight, validate_data
 
 _super = AdaBoostClassifier
 
@@ -398,7 +398,7 @@ class ResampleBoostClassifier(
             "dtype": dtype,
             "y_numeric": False,
         }
-        X, y = self._validate_data(X, y, **check_x_y_args)
+        X, y = validate_data(self, X, y, **check_x_y_args)
 
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
@@ -707,7 +707,7 @@ class ReweightBoostClassifier(
     def _validate_cost_matrix(cost_matrix, n_classes):
         """validate the cost matrix."""
         cost_matrix = check_array(
-            cost_matrix, ensure_2d=True, allow_nd=False, force_all_finite=True
+            cost_matrix, ensure_2d=True, allow_nd=False, ensure_all_finite=True
         )
         if cost_matrix.shape != (n_classes, n_classes):
             raise ValueError(
@@ -896,7 +896,7 @@ class ReweightBoostClassifier(
             "dtype": dtype,
             "y_numeric": False,
         }
-        X, y = self._validate_data(X, y, **check_x_y_args)
+        X, y = validate_data(self, X, y, **check_x_y_args)
 
         # Check evaluation data
         self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)

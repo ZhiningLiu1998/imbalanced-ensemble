@@ -25,6 +25,7 @@ import numbers
 
 import numpy as np
 from sklearn.utils import _safe_indexing, check_random_state
+from sklearn.utils.validation import validate_data
 
 
 @Substitution(
@@ -97,23 +98,24 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         self.random_state = random_state
 
         # Check parameters
-        self.k_bins = check_type(k_bins, 'k_bins', numbers.Integral)
-        self.replacement = check_type(replacement, 'replacement', bool)
+        self.k_bins = check_type(k_bins, "k_bins", numbers.Integral)
+        self.replacement = check_type(replacement, "replacement", bool)
         self.soft_resample_flag = check_type(
-            soft_resample_flag, 'soft_resample_flag', bool
+            soft_resample_flag, "soft_resample_flag", bool
         )
         if self.k_bins <= 0:
             raise ValueError(f"'k_bins' should be > 0, got k_bins={self.k_bins}.")
 
     def _check_X_y(self, X, y):
         y, binarize_y = check_target_type(y, indicate_one_vs_all=True)
-        X, y = self._validate_data(
+        X, y = validate_data(
+            self,
             X,
             y,
             reset=True,
             accept_sparse=["csr", "csc"],
             dtype=None,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
         return X, y, binarize_y
 
@@ -182,7 +184,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
             raise ValueError(f"'k_bins' should be > 0, got k_bins={self.k_bins}.")
 
         # Check the self-paced factor alpha
-        alpha = check_type(alpha, 'alpha', numbers.Number)
+        alpha = check_type(alpha, "alpha", numbers.Number)
         if alpha < 0:
             raise ValueError("'alpha' must not be negative.")
 
@@ -266,7 +268,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
                 index_c, size=n_target_samples_c, replace=replacement
             )
 
-        with np.errstate(divide='ignore', invalid='ignore'):
+        with np.errstate(divide="ignore", invalid="ignore"):
             # compute population & hardness contribution of each bin
             populations, edges = np.histogram(hardness_c, bins=k_bins)
             contributions = np.zeros(k_bins)
@@ -304,7 +306,7 @@ class SelfPacedUnderSampler(BaseUnderSampler):
             assert n_target_samples_c == n_target_samples_bins.sum()
 
         if soft_resample_flag:
-            with np.errstate(divide='ignore', invalid='ignore'):
+            with np.errstate(divide="ignore", invalid="ignore"):
                 # perform soft (weighted) self-paced under-sampling
                 soft_spu_bin_weights = n_target_samples_bins / populations
                 soft_spu_bin_weights[~np.isfinite(soft_spu_bin_weights)] = 0
@@ -357,6 +359,14 @@ class SelfPacedUnderSampler(BaseUnderSampler):
             "sample_indices": True,
             "allow_nan": True,
         }
+
+    def __sklearn_tags__(self):  # pragma: no cover
+        tags = super().__sklearn_tags__()
+        tags.input_tags.two_d_array = True
+        tags.input_tags.sparse = True
+        tags.input_tags.allow_nan = True
+        # tags.sample_indices = True
+        return tags
 
 
 # %%
@@ -451,7 +461,7 @@ if __name__ == "__main__":  # pragma: no cover
     # X, y = make_classification(n_classes=3, class_sep=2,
     #     weights=[0.1, 0.3, 0.6], n_informative=3, n_redundant=1, flip_y=0,
     #     n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    print('Original dataset shape %s' % Counter(y))
+    print("Original dataset shape %s" % Counter(y))
 
     spu = SelfPacedUnderSampler(
         sampling_strategy=sampling_strategy_normal,
@@ -470,6 +480,6 @@ if __name__ == "__main__":  # pragma: no cover
         classes_=classes_,
         encode_map=encode_map,
     )
-    print('Resampled dataset shape %s' % Counter(y_res))
+    print("Resampled dataset shape %s" % Counter(y_res))
 
 # %%

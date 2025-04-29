@@ -2,6 +2,7 @@
 
 Skipped if datasets is not already downloaded to data_home.
 """
+
 # Authors: Guillaume Lemaitre
 #          Christos Aridas
 # License: MIT
@@ -9,7 +10,7 @@ Skipped if datasets is not already downloaded to data_home.
 import pytest
 from sklearn.utils._testing import SkipTest
 
-from imbens.datasets import fetch_datasets
+from imbens.datasets import fetch_zenodo_datasets
 
 DATASET_SHAPE = {
     "ecoli": (336, 7),
@@ -43,7 +44,7 @@ DATASET_SHAPE = {
 
 
 def fetch(*args, **kwargs):
-    return fetch_datasets(*args, download_if_missing=True, **kwargs)
+    return fetch_zenodo_datasets(*args, download_if_missing=True, **kwargs)
 
 
 @pytest.mark.xfail
@@ -96,4 +97,4 @@ def test_fetch_filter():
 )
 def test_fetch_error(filter_data, err_msg):
     with pytest.raises(ValueError, match=err_msg):
-        fetch_datasets(filter_data=filter_data)
+        fetch_zenodo_datasets(filter_data=filter_data)
