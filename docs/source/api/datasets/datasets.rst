@@ -15,4 +15,5 @@ Datasets
 
    make_imbalance
    generate_imbalance_data
-   fetch_datasets
+   fetch_zenodo_datasets
+   fetch_openml_datasets
