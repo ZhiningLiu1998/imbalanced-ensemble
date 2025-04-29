@@ -40,6 +40,7 @@ References
    Dissertation, Georgia State University, (2011).
 
 """
+
 # Adapted from imbalanced-learn
 
 # Author: Guillaume Lemaitre
@@ -100,7 +101,7 @@ for v, k in enumerate(MAP_NAME_ID_KEYS):
 
 
 @_deprecate_positional_args
-def fetch_datasets(
+def fetch_zenodo_datasets(
     *,
     data_home=None,
     filter_data=None,
@@ -110,8 +111,6 @@ def fetch_datasets(
     verbose=False,
 ):
     """Load the benchmark datasets from Zenodo, downloading it if necessary.
-
-    .. versionadded:: 0.3
 
     Parameters
     ----------

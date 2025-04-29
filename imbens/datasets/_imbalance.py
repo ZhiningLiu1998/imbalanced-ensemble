@@ -1,4 +1,5 @@
 """Transform a dataset into an imbalanced dataset."""
+
 # Adapted from imbalanced-learn
 
 # Authors: Dayvid Oliveira
