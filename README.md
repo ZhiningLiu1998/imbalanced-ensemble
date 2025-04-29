@@ -2,18 +2,22 @@
 <!-- ![](https://raw.githubusercontent.com/ZhiningLiu1998/figures/master/imbalanced-ensemble/example_gallery_snapshot_horizontal.png) -->
 
 <h1 align="center">
-    IMBENS: Class-imbalanced Ensemble Learning in Python
+    IMBENS: Class-Imbalance Benchmark and Solutions <br>
 </h1>
 
 <h3 align="center">
     <!-- [<a href="https://arxiv.org/pdf/2111.12776.pdf">Paper</a>] -->
-    [<a href="https://imbalanced-ensemble.readthedocs.io">Documentation</a>]
-    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Gallery</a>]
-    [<a href="https://pypi.org/project/imbalanced-ensemble/">PyPI</a>]
-    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">Changelog</a>]
-    [<a href="https://zhuanlan.zhihu.com/p/376572330">Zhihu/知乎</a>]
+    <!-- [<a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble">🗂GitHub</a>] -->
+    [<a href="https://imbalanced-ensemble.readthedocs.io">📕Documentation</a>]
+    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">🖼️Gallery</a>]
+    [<a href="#installation">🛠Installation</a>]
+    [<a href="https://imbalanced-ensemble.readthedocs.io/en/latest/release_history.html">📜Changelog</a>]
+    <!-- [<a href="https://zhuanlan.zhihu.com/p/376572330">Zhihu/知乎</a>] -->
 </h3>
 
+<h3 align="center">
+⏳Quick Start with our <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#5-min-quick-start-with-imbens">5-minute Guide</a> & <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Detailed Examples</a>
+</h3>
 
 <table align="center">
     <tr>
@@ -25,7 +29,6 @@
                 <img src='https://dl.circleci.com/status-badge/img/gh/ZhiningLiu1998/imbalanced-ensemble/tree/main.svg?style=shield' alt='CircleCI Status'></a>
             <a href='https://imbalanced-ensemble.readthedocs.io/en/latest/?badge=latest'>
                 <img alt="Read the Docs" src="https://img.shields.io/readthedocs/imbalanced-ensemble"></a>
-                <!-- <img src='https://readthedocs.org/projects/imbalanced-ensemble/badge/?version=latest'></a> -->
             <a href="https://github.com/psf/black">
                 <img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
             <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble/blob/master/LICENSE">
@@ -35,7 +38,7 @@
         </td>
     </tr>
     <tr>
-        <td>PyPI</td>
+        <td>Releases</td>
         <td>
             <a href="https://pypi.org/project/imbalanced-ensemble/">
                 <img src="https://img.shields.io/badge/PyPi-imbalanced--ensemble-3775A9?logo=pypi&labelColor=white"></a>
@@ -75,12 +78,12 @@
         </td>
     </tr>
     <tr>
-        <td>Paper & Citation</td>
+        <td>Articles</td>
         <td>
-            <a href="https://arxiv.org/abs/2111.12776">
-                <img src="https://img.shields.io/badge/arXiv-2111.12776-B31B1B?logo=arXiv"></a>
+            <!-- <a href="https://arxiv.org/abs/2111.12776">
+                <img src="https://img.shields.io/badge/arXiv-2111.12776-B31B1B?logo=arXiv"></a> -->
             <a href="https://arxiv.org/pdf/2111.12776">
-                <img src="https://img.shields.io/badge/arXiv-PDF-B31B1B?logo=arXiv"></a>
+                <img src="https://img.shields.io/badge/arXiv-Package-B31B1B?logo=arXiv"></a>
             <a href="https://zhuanlan.zhihu.com/p/376572330">
                 <img src="https://img.shields.io/badge/Blog-知乎/Zhihu-0084ff?logo=Zhihu&labelColor=white"></a>
             <a href="https://scholar.google.com/scholar?q=IMBENS%3A+Ensemble+class-imbalanced+learning+in+Python">
@@ -98,21 +101,22 @@
     </tr>
 </table>
 
-<h3 align="center">
-⏳Quick Start with our <a href="https://github.com/ZhiningLiu1998/imbalanced-ensemble#5-min-quick-start-with-imbens">5-minute Guide</a> & <a href="https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#">Detailed Examples</a>
-</h3>
 
-***IMBENS* (imported as `imbens`) is a Python library for quick implementation, modification, evaluation, and visualization of ensemble [learning from class-imbalanced data](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
-Currently, IMBENS includes **[over 15 ensemble imbalanced learning algorithms](#list-of-implemented-methods) (SMOTEBoost, SMOTEBagging, RUSBoost, EasyEnsemble, SelfPacedEnsemble, etc)** and **[19 over-/under-sampling methods](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/api.html) (SMOTE, ADASYN, TomekLinks, etc)** from [imbalance-learn](https://imbalanced-learn.org/stable/references/index.html#api).
+***IMBENS* (imported as `imbens`) is an extensible Python library for quick implementation, evaluation, and comparison for [general class-imbalanced learning solutions](https://github.com/ZhiningLiu1998/awesome-imbalanced-learning)**. 
+Currently, IMBENS includes **30+** algorithms for class-imbalanced classification, including under-sampling (selection or generation-based), over-sampling (e.g., SMOTE and its variants), cost-sensitive learning (e.g., AdaCost), and ensemble methods that integrate these techniques (SMOTEBagging, RUSBoost, SelfPacedEnsemble, etc).
+
+IMBENS is built on top of [scikit-learn](https://scikit-learn.org/stable/) design principles and was initially built based on [imbalanced-learn](https://imbalanced-learn.org/stable/), but has since evolved independently and no longer depends on it. Users can take advantage of various utilities from the sklearn community for data processing/cross-validation/hyper-parameter tuning, etc.
 
 <h2 align="left">🌈 IMBENS Highlights</h2>
 
-- 🧑‍💻 **Ease-of-use:** Unified, easy-to-use APIs with [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).
-- 🚀 **Performance:** Optimized performance with parallelization using [joblib](https://github.com/joblib/joblib).
+- 🧑‍💻 **Ease-of-use:** Unified user-friendly scikit-learn-style [APIs](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/api.html).
+- 📒 **Documentation:** Detailed [documentation](https://imbalanced-ensemble.readthedocs.io/) and [examples](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/index.html#).
+- 🚀 **Efficiency:** Optimized efficiency with parallelization using [joblib](https://github.com/joblib/joblib).
 - 📊 **Benchmarking:** Running & comparing multiple models with our [visualizer](#visualize-ensemble-classifiers).
 - 📺 **Monitoring:** Powerful, customizable, interactive training [logging]((#customizing-training-log)).
-- 🪐 **Versatility:** Full compatibility with [scikit-learn](https://scikit-learn.org/stable/) and [imbalanced-learn](https://imbalanced-learn.org/stable/).
-- 📈 **Functionality:** Extending existing techniques from binary to ***multi-class*** setting.
+- 🍻 **Compatibility:** Work seamlessly with [scikit-learn](https://scikit-learn.org/stable/) and other tools for sklearn community.
+- 📈 **Functionality:** Extended existing binary techniques to multi-class setting.
+- 👯 **Extensibility:** Implement new methods via well-designed inheritance and polymorphism.
 
 ### ✂️ **Use IMBENS for class-imbalanced classification with <5 lines of code:**
 
@@ -126,18 +130,27 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
 
-### 🤗 Citing IMBENS
+### 🤗 Citing IMBENS Package
 
-🍻 We appreciate your citation if you find our work helpful! The BibTeX entry:
+We appreciate your citation if you find our work helpful! The BibTeX entry:
 
 ```bib
+@misc{liu2022imbens,
+  author       = {Zhining Liu},
+  title        = {IMBENS: Python Toolbox for Class-Imbalanced Ensemble Learning},
+  howpublished = {\url{https://github.com/ZhiningLiu1998/imbalanced-ensemble}},
+  year         = {2025},
+}
+```
+
+<!-- ```bib
 @article{liu2023imbens,
   title={IMBENS: Ensemble Class-imbalanced Learning in Python},
   author={Liu, Zhining and Kang, Jian and Tong, Hanghang and Chang, Yi},
   journal={arXiv preprint arXiv:2111.12776},
   year={2023}
 }
-```
+``` -->
 
 ### 👯‍♂️ Contribute to IMBENS
 
@@ -147,14 +160,13 @@ Please refer to the [contributing guidelines](https://github.com/ZhiningLiu1998/
 <h2 align="left">📚 Table of Contents</h2>
 
 - [Installation](#installation)
-- [List of implemented methods](#list-of-implemented-methods)
 - [5-min Quick Start with IMBENS](#5-min-quick-start-with-imbens)
   - [A minimal working example](#a-minimal-working-example)
   - [Visualize ensemble classifiers](#visualize-ensemble-classifiers)
   - [Customizing training log](#customizing-training-log)
 - [About imbalanced learning](#about-imbalanced-learning)
 - [Acknowledgements](#acknowledgements)
-- [References](#references)
+- [List of Methods and References](#list-of-methods-and-references)
 - [Related Projects](#related-projects)
 - [Contributors ✨](#contributors-)
 
@@ -186,57 +198,7 @@ imbalanced-ensemble requires following dependencies:
 - [matplotlib](https://matplotlib.org/) (>=3.3.2)
 - [seaborn](https://seaborn.pydata.org/) (>=0.11.0)
 - [tqdm](https://tqdm.github.io/) (>=4.50.2)
-
-
-<!-- ## Highlights
-
-- &#x1F34E; ***Unified, easy-to-use API design.***  
-All ensemble learning methods implemented in IMBENS share a unified API design. 
-Similar to sklearn, all methods have functions (e.g., `fit()`, `predict()`, `predict_proba()`) that allow users to deploy them with only a few lines of code.
-- &#x1F34E; ***Extended functionalities, wider application scenarios.***  
-*All methods in IMBENS are ready for **multi-class imbalanced classification**.* We extend binary ensemble imbalanced learning methods to get them to work under the multi-class scenario. Additionally, for supported methods, we provide more training options like class-wise resampling control, balancing scheduler during the ensemble training process, etc.
-- &#x1F34E; ***Detailed training log, quick intuitive visualization.***   
-We provide additional parameters (e.g., `eval_datasets`, `eval_metrics`, `training_verbose`) in `fit()` for users to control the information they want to monitor during the ensemble training. We also implement an [`EnsembleVisualizer`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/visualizer/_autosummary/imbens.visualizer.ImbalancedEnsembleVisualizer.html) to quickly visualize the ensemble estimator(s) for providing further information/conducting comparison. See an example [here](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/basic/plot_basic_example.html#sphx-glr-auto-examples-basic-plot-basic-example-py).
-- &#x1F34E; ***Wide compatiblilty.***   
-IMBENS is designed to be compatible with [scikit-learn](https://scikit-learn.org/stable/) (sklearn) and also other compatible projects like [imbalanced-learn](https://imbalanced-learn.org/stable/). Therefore, users can take advantage of various utilities from the sklearn community for data processing/cross-validation/hyper-parameter tuning, etc. -->
-
-<!-- ## Background
-
-Class-imbalance (also known as the long-tail problem in multi-class) is the fact that the classes are not represented equally in a classification problem, which is quite common in practice. For instance, fraud detection, prediction of rare adverse drug reactions and prediction gene families. Failure to account for the class imbalance often causes inaccurate and decreased predictive performance of many classification algorithms.
-
-Imbalanced learning (IL) aims to tackle the class imbalance problem to learn an unbiased model from imbalanced data. This is usually achieved by changing the training data distribution by resampling or reweighting. However, naive resampling or reweighting may introduce bias/variance to the training data, especially when the data has class-overlapping or contains noise.
-
-Ensemble imbalanced learning (EIL) is known to effectively improve typical IL solutions by combining the outputs of multiple classifiers, thereby reducing the variance introduce by resampling/reweighting. -->
-
-## List of implemented methods
-
-***16* ensemble imbalanced learning methods were implemented:  
-(Click to jump to the document page)**
-
-- **Resampling-based**
-  - *Under-sampling + Ensemble*
-    1. **[`SelfPacedEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SelfPacedEnsembleClassifier.html) [1] ([in Github](https://github.com/ZhiningLiu1998/self-paced-ensemble))**
-    2. **[`BalanceCascadeClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.BalanceCascadeClassifier.html) [2]**
-    3. **[`BalancedRandomForestClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.BalancedRandomForestClassifier.html) [3] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedRandomForestClassifier.html))**
-    4. **[`EasyEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.EasyEnsembleClassifier.html) [2] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.EasyEnsembleClassifier.html))**
-    5. **[`RUSBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.RUSBoostClassifier.html) [4] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.RUSBoostClassifier.html))**
-    6. **[`UnderBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.UnderBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
-  - *Over-sampling + Ensemble*
-    1. **[`OverBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.OverBoostClassifier.html)**
-    2. **[`SMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SMOTEBoostClassifier.html) [6]**
-    3. **[`KmeansSMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.KmeansSMOTEBoostClassifier.html)**
-    4. **[`OverBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.OverBaggingClassifier.html) [5] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
-    5. **[`SMOTEBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SMOTEBaggingClassifier.html) [7] ([imblearn version](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.BalancedBaggingClassifier.html))**
-- **Reweighting-based**
-  - *Cost-sensitive Learning*
-    1. **[`AdaCostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AdaCostClassifier.html) [8]**
-    2. **[`AdaUBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AdaUBoostClassifier.html) [9]**
-    3. **[`AsymBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AsymBoostClassifier.html) [10]**
-- **Compatible**
-  - **[`CompatibleAdaBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.CompatibleAdaBoostClassifier.html) [11]**
-  - **[`CompatibleBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.CompatibleBaggingClassifier.html) [12]**
-
-> **Note: `imbalanced-ensemble` is still under development, please see [API reference](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/api.html) for the latest list.**
+- [openml](https://www.openml.org/) (>=0.14.0)
 
 ## 5-min Quick Start with IMBENS
 
@@ -435,26 +397,56 @@ For more resources on imbalanced learning, please refer to [**awesome-imbalanced
 
 ## Acknowledgements
 
-IMBENS was initially developed on top of [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn), but has undergone heavy developments to implement many important imbalanced ensemble techniques.
+IMBENS was initially developed on top of the awesome [imbalanced-learn](https://github.com/scikit-learn-contrib/imbalanced-learn), but has undergone heavy developments to implement many important techniques and features.
 The infrastructure also underwent significant refactoring to support advanced ensemble learning features that are essential to practical usability (fine-grained training control, parallel computing, multi-class support, training logs, visualization, etc).
 
-## References
+## List of Methods and References
 
-| #    | Reference                                                                                                                                                                                                                                                         |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [1]  | Zhining Liu, Wei Cao, Zhifeng Gao, Jiang Bian, Hechang Chen, Yi Chang, and Tie-Yan Liu. 2019. Self-paced Ensemble for Highly Imbalanced Massive Data Classification. 2020 IEEE 36th International Conference on Data Engineering (ICDE). IEEE, 2020, pp. 841-852. |
-| [2]  | X.-Y. Liu, J. Wu, and Z.-H. Zhou, Exploratory undersampling for class-imbalance learning. IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics), vol. 39, no. 2, pp. 539–550, 2009.                                                            |
-| [3]  | Chen, Chao, Andy Liaw, and Leo Breiman. “Using random forest to learn imbalanced data.” University of California, Berkeley 110 (2004): 1-12.                                                                                                                      |
-| [4]  | C. Seiffert, T. M. Khoshgoftaar, J. Van Hulse, and A. Napolitano, Rusboost: A hybrid approach to alleviating class imbalance. IEEE Transactions on Systems, Man, and Cybernetics-Part A: Systems and Humans, vol. 40, no. 1, pp. 185–197, 2010.                   |
-| [5]  | Maclin, R., & Opitz, D. (1997). An empirical evaluation of bagging and boosting. AAAI/IAAI, 1997, 546-551.                                                                                                                                                        |
-| [6]  | N. V. Chawla, A. Lazarevic, L. O. Hall, and K. W. Bowyer, Smoteboost: Improving prediction of the minority class in boosting. in European conference on principles of data mining and knowledge discovery. Springer, 2003, pp. 107–119                            |
-| [7]  | S. Wang and X. Yao, Diversity analysis on imbalanced data sets by using ensemble models. in 2009 IEEE Symposium on Computational Intelligence and Data Mining. IEEE, 2009, pp. 324–331.                                                                           |
-| [8]  | Fan, W., Stolfo, S. J., Zhang, J., & Chan, P. K. (1999, June). AdaCost: misclassification cost-sensitive boosting. In Icml (Vol. 99, pp. 97-105).                                                                                                                 |
-| [9]  | Shawe-Taylor, G. K. J., & Karakoulas, G. (1999). Optimizing classifiers for imbalanced training sets. Advances in neural information processing systems, 11(11), 253.                                                                                             |
-| [10] | Viola, P., & Jones, M. (2001). Fast and robust classification using asymmetric adaboost and a detector cascade. Advances in Neural Information Processing System, 14.                                                                                             |
-| [11] | Freund, Y., & Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of computer and system sciences, 55(1), 119-139.                                                                            |
-| [12] | Breiman, L. (1996). Bagging predictors. Machine learning, 24(2), 123-140.                                                                                                                                                                                         |
-| [13] | Guillaume Lemaître, Fernando Nogueira, and Christos K. Aridas. Imbalanced-learn: A python toolbox to tackle the curse of imbalanced datasets in machine learning. Journal of Machine Learning Research, 18(17):1–5, 2017.                                         |
+***(Click to jump to the API reference page)**
+
+- **Under-sampling**
+  - *Selection-based*
+    1. **[`RandomUnderSampler`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.RandomUnderSampler.html)**
+    2. **[`NearMiss`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.NearMiss.html)** Mani, I., & Zhang, I. (2003, August). kNN approach to unbalanced data distributions: a case study involving information extraction. In Proceedings of workshop on learning from imbalanced datasets (Vol. 126, No. 1, pp. 1-7). United States: ICML.
+    3. **[`InstanceHardnessThreshold`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.InstanceHardnessThreshold.html)** Smith, M. R., Martinez, T., & Giraud-Carrier, C. (2014). An instance level analysis of data complexity. Machine learning, 95, 225-256.
+  - *Generation-based*
+    1. **[`ClusterCentroids`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.ClusterCentroids.html)** Lin, W. C., Tsai, C. F., Hu, Y. H., & Jhang, J. S. (2017). Clustering-based undersampling in class-imbalanced data. Information Sciences, 409, 17-26.
+- **Cleaning**
+  - *Distance-based*
+    1. **[`TomekLinks`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.TomekLinks.html)** Tomek, I. (1976). Two modifications of CNN.
+    2. **[`EditedNearestNeighbours`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.CondensedNearestNeighbour.html)** Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics, (3), 408-421.
+    3. **[`RepeatedEditedNearestNeighbours`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.RepeatedEditedNearestNeighbours.html)** Tomek, I. (1976). An experiment with the edited nearest-nieghbor rule
+    4. **[`AllKNN`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.AllKNN.html)** Tomek, I. (1976). An experiment with the edited nearest-nieghbor rule.
+    5. **[`OneSidedSelection`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.OneSidedSelection.html)** Kubat, M., & Matwin, S. (1997, July). Addressing the curse of imbalanced training sets: one-sided selection. In Icml (Vol. 97, No. 1, p. 179).
+    6. **[`NeighbourhoodCleaningRule`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.NeighbourhoodCleaningRule.html)** Laurikkala, J. (2001). Improving identification of difficult small classes by balancing class distribution. In Artificial Intelligence in Medicine: 8th Conference on Artificial Intelligence in Medicine in Europe, AIME 2001 Cascais, Portugal, July 1–4, 2001, Proceedings 8 (pp. 63-66). Springer Berlin Heidelberg.
+- **Oversamping**
+  - *Generation-based*
+    1. **[`RandomOverSampler`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.RandomOverSampler.html)**
+    2. **[`SMOTE`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.SMOTE.html)** Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: synthetic minority over-sampling technique. Journal of artificial intelligence research, 16, 321-357.
+    3. **[`BorderlineSMOTE`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.BorderlineSMOTE.html)** Han, H., Wang, W. Y., & Mao, B. H. (2005, August). Borderline-SMOTE: a new over-sampling method in imbalanced data sets learning. In International conference on intelligent computing (pp. 878-887). Berlin, Heidelberg: Springer Berlin Heidelberg.
+    4. **[`SVMSMOTE`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.SVMSMOTE.html)** Nguyen, H. M., Cooper, E. W., & Kamei, K. (2011). Borderline over-sampling for imbalanced data classification. International Journal of Knowledge Engineering and Soft Data Paradigms, 3(1), 4-21.
+    5. **[`ADASYN`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/sampler/_autosummary/imbens.sampler.ADASYN.html)** He, H., Bai, Y., Garcia, E. A., & Li, S. (2008, June). ADASYN: Adaptive synthetic sampling approach for imbalanced learning. In 2008 IEEE international joint conference on neural networks (IEEE world congress on computational intelligence) (pp. 1322-1328). Ieee.
+- **Ensemble Modeling**
+  - *Under-sampling + Ensemble*
+    1. **[`SelfPacedEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SelfPacedEnsembleClassifier.html)** Liu, Z., Cao, W., Gao, Z., Bian, J., Chen, H., Chang, Y., & Liu, T. Y. (2020, April). Self-paced ensemble for highly imbalanced massive data classification. In 2020 IEEE 36th international conference on data engineering (ICDE) (pp. 841-852). IEEE.
+    2. **[`BalanceCascadeClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.BalanceCascadeClassifier.html)** Liu, X. Y., Wu, J., & Zhou, Z. H. (2008). Exploratory undersampling for class-imbalance learning. IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics), 39(2), 539-550.
+    3. **[`BalancedRandomForestClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.BalancedRandomForestClassifier.html)** Khoshgoftaar, T. M., Golawala, M., & Van Hulse, J. (2007, October). An empirical study of learning from imbalanced data using random forest. In 19th IEEE international conference on tools with artificial intelligence (ICTAI 2007) (Vol. 2, pp. 310-317). IEEE.
+    4. **[`EasyEnsembleClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.EasyEnsembleClassifier.html)** Liu, X. Y., Wu, J., & Zhou, Z. H. (2008). Exploratory undersampling for class-imbalance learning. IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics), 39(2), 539-550.
+    5. **[`RUSBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.RUSBoostClassifier.html)** Seiffert, C., Khoshgoftaar, T. M., Van Hulse, J., & Napolitano, A. (2009). RUSBoost: A hybrid approach to alleviating class imbalance. IEEE transactions on systems, man, and cybernetics-part A: systems and humans, 40(1), 185-197.
+    6. **[`UnderBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.UnderBaggingClassifier.html)** Barandela, R., Valdovinos, R. M., & Sánchez, J. S. (2003). New applications of ensembles of classifiers. Pattern Analysis & Applications, 6, 245-256.
+  - *Over-sampling + Ensemble*
+    1. **[`OverBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.OverBoostClassifier.html)** Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W. (2003, September). SMOTEBoost: Improving prediction of the minority class in boosting. In European conference on principles of data mining and knowledge discovery (pp. 107-119). Berlin, Heidelberg: Springer Berlin Heidelberg.
+    2. **[`SMOTEBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SMOTEBoostClassifier.html)** Chawla, N. V., Lazarevic, A., Hall, L. O., & Bowyer, K. W. (2003, September). SMOTEBoost: Improving prediction of the minority class in boosting. In European conference on principles of data mining and knowledge discovery (pp. 107-119). Berlin, Heidelberg: Springer Berlin Heidelberg.
+    3. **[`OverBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.OverBaggingClassifier.html)** Wang, S., & Yao, X. (2009, March). Diversity analysis on imbalanced data sets by using ensemble models. In 2009 IEEE symposium on computational intelligence and data mining (pp. 324-331). IEEE.
+    4. **[`SMOTEBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.SMOTEBaggingClassifier.html)** Wang, S., & Yao, X. (2009, March). Diversity analysis on imbalanced data sets by using ensemble models. In 2009 IEEE symposium on computational intelligence and data mining (pp. 324-331). IEEE.
+- **Reweighting-based**
+  - *Cost-sensitive Learning*
+    1. **[`AdaCostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AdaCostClassifier.html)** Fan, W., Stolfo, S. J., Zhang, J., & Chan, P. K. (1999, June). AdaCost: misclassification cost-sensitive boosting. In Icml (Vol. 99, pp. 97-105).
+    2. **[`AdaUBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AdaUBoostClassifier.html)** Karakoulas, G., & Shawe-Taylor, J. (1998). Optimizing classifers for imbalanced training sets. Advances in neural information processing systems, 11.
+    3. **[`AsymBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.AsymBoostClassifier.html)** Viola, P., & Jones, M. (2001). Fast and robust classification using asymmetric adaboost and a detector cascade. Advances in neural information processing systems, 14.
+- **Compatible**
+  - **[`CompatibleAdaBoostClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.CompatibleAdaBoostClassifier.html)** Freund, Y., & Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of computer and system sciences, 55(1), 119-139.
+  - **[`CompatibleBaggingClassifier`](https://imbalanced-ensemble.readthedocs.io/en/latest/api/ensemble/_autosummary/imbens.ensemble.CompatibleBaggingClassifier.html)** Guillaume Lemaître, Fernando Nogueira, and Christos K. Aridas. Imbalanced-learn: A python toolbox to tackle the curse of imbalanced datasets in machine learning. Journal of Machine Learning Research, 18(17):1–5, 2017.
 
 ## Related Projects
 
