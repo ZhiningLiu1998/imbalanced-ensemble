@@ -132,25 +132,26 @@ y_pred = clf.predict(X_test)
 
 ### 🤗 Citing IMBENS Package
 
-We appreciate your citation if you find our work helpful! The BibTeX entry:
+Please consider citing relevant papers if you find this work helpful!
 
+Benchmark (NeurIPS 2025):
 ```bib
-@misc{liu2022imbens,
-  author       = {Zhining Liu},
-  title        = {IMBENS: Python Toolbox for Class-Imbalanced Ensemble Learning},
-  howpublished = {\url{https://github.com/ZhiningLiu1998/imbalanced-ensemble}},
-  year         = {2025},
+@inproceedings{liu2025climb,
+  title     = {CLIMB: Class-imbalanced Learning Benchmark on Tabular Data},
+  author    = {Liu, Zhining and Li, Zihao and Yang, Ze and Wei, Tianxin and Kang, Jian and Zhu, Yada and Hamann, Hendrik and He, Jingrui and Tong, Hanghang},
+  booktitle = {The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track}
+  year      = {2025},
 }
 ```
-
-<!-- ```bib
-@article{liu2023imbens,
-  title={IMBENS: Ensemble Class-imbalanced Learning in Python},
+Package:
+```bib
+@article{liu2021imbens,
+  title={IMBENS: Ensemble class-imbalanced learning in Python},
   author={Liu, Zhining and Kang, Jian and Tong, Hanghang and Chang, Yi},
   journal={arXiv preprint arXiv:2111.12776},
-  year={2023}
+  year={2021}
 }
-``` -->
+```
 
 ### 👯‍♂️ Contribute to IMBENS
 
