@@ -95,6 +95,20 @@ sampling_strategy_default = {2: 2, 1: 2, 0: 2}
 sampling_strategy_normal = {2: 6, 1: 4, 0: 2}
 sampling_strategy_error = {2: 200, 1: 100, 0: 90}
 
+_SAMPLING_STRATEGY_MAP = {
+    'org': sampling_strategy_org,
+    'auto': 'auto',
+    'default': sampling_strategy_default,
+    'normal': sampling_strategy_normal,
+    'error': sampling_strategy_error,
+}
+
+_KEEP_POP_MAP = {
+    'org': sampling_strategy_org,
+    'default': sampling_strategy_default,
+    'normal': sampling_strategy_normal,
+}
+
 
 @pytest.mark.parametrize("as_frame", [True, False], ids=["dataframe", "array"])
 @pytest.mark.parametrize("proba_det", [True, False], ids=["det", "normal"])
@@ -113,70 +127,41 @@ def test_spus_fit_resample(as_frame, proba_det, sampling, keep_pop):
     else:
         X_ = X
 
-    # prepare y_pred_proba
-    if proba_det:
-        y_pred_proba = pred_proba_det
-    else:
-        y_pred_proba = pred_proba_normal
+    y_pred_proba = pred_proba_det if proba_det else pred_proba_normal
+    sampling_strategy = _SAMPLING_STRATEGY_MAP[sampling]
+    keep_populations = _KEEP_POP_MAP[keep_pop]
 
-    if sampling == 'org':
-        sampling_strategy = sampling_strategy_org
-    elif sampling == 'auto':
-        sampling_strategy = "auto"
-    elif sampling == 'default':
-        sampling_strategy = sampling_strategy_default
-    elif sampling == 'normal':
-        sampling_strategy = sampling_strategy_normal
-    elif sampling == 'error':
-        sampling_strategy = sampling_strategy_error
-
-    if keep_pop == 'org':
-        keep_populations = sampling_strategy_org
-    elif keep_pop == 'default':
-        keep_populations = sampling_strategy_default
-    elif keep_pop == 'normal':
-        keep_populations = sampling_strategy_normal
-
-    # init resampler
     bcus = BalanceCascadeUnderSampler(
         sampling_strategy=sampling_strategy,
         replacement=False,
         random_state=RND_SEED,
     )
 
-    # resampling
     if sampling == 'error':
         with pytest.raises(ValueError, match="With under-sampling methods"):
-            X_resampled, y_resampled, new_dropped_index = bcus.fit_resample(
-                X_,
-                y,
-                y_pred_proba=y_pred_proba,
-                classes_=classes_,
-                encode_map=encode_map,
-                dropped_index=dropped_index,
+            bcus.fit_resample(
+                X_, y, y_pred_proba=y_pred_proba, classes_=classes_,
+                encode_map=encode_map, dropped_index=dropped_index,
                 keep_populations=keep_populations,
             )
-    else:
-        X_resampled, y_resampled, new_dropped_index = bcus.fit_resample(
-            X_,
-            y,
-            y_pred_proba=y_pred_proba,
-            classes_=classes_,
-            encode_map=encode_map,
-            dropped_index=dropped_index,
-            keep_populations=keep_populations,
-        )
+        return
 
-        if as_frame:
-            if hasattr(X_resampled, "loc"):
-                X_resampled = X_resampled.to_numpy()
+    X_resampled, y_resampled, new_dropped_index = bcus.fit_resample(
+        X_, y, y_pred_proba=y_pred_proba, classes_=classes_,
+        encode_map=encode_map, dropped_index=dropped_index,
+        keep_populations=keep_populations,
+    )
 
-        if sampling == 'auto':
-            sampling_strategy = sampling_strategy_default
-        assert X_resampled.shape == (sum(sampling_strategy.values()), 2)
-        assert y_resampled.shape == (sum(sampling_strategy.values()),)
-        assert dict(Counter(y_resampled)) == sampling_strategy
-        assert dict(Counter(y[~new_dropped_index])) == keep_populations
+    if as_frame and hasattr(X_resampled, "loc"):
+        X_resampled = X_resampled.to_numpy()
+
+    if sampling == 'auto':
+        sampling_strategy = sampling_strategy_default
+
+    assert X_resampled.shape == (sum(sampling_strategy.values()), 2)
+    assert y_resampled.shape == (sum(sampling_strategy.values()),)
+    assert dict(Counter(y_resampled)) == sampling_strategy
+    assert dict(Counter(y[~new_dropped_index])) == keep_populations
 
 
 def test_bcus_no_sufficient_data():

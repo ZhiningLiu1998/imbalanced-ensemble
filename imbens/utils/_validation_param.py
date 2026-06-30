@@ -99,9 +99,64 @@ def _check_n_target_samples_int(y, n_target_samples, sampling_type):
         raise SamplingKindError
 
 
+def _check_n_target_samples_dict_under(target_stats, n_target_samples):
+    target_distr = copy(target_stats)
+    for class_label, n_target_sample in n_target_samples.items():
+        n_origin_sample = target_stats[class_label]
+        if n_target_sample > n_origin_sample:
+            raise ValueError(
+                f" The target number of samples of class {class_label}"
+                f" should be < {n_origin_sample} (number of samples"
+                f" in class {class_label}) to perform under-sampling,"
+                f" got {n_target_sample}."
+            )
+        else:
+            target_distr[class_label] = n_target_sample
+    return target_distr
+
+
+def _check_n_target_samples_dict_over(target_stats, n_target_samples):
+    target_distr = copy(target_stats)
+    for class_label, n_target_sample in n_target_samples.items():
+        n_origin_sample = target_stats[class_label]
+        if n_target_sample < n_origin_sample:
+            raise ValueError(
+                f" The target number of samples of class {class_label}"
+                f" should be > {n_origin_sample} (number of samples"
+                f" in class {class_label}) to perform over-sampling,"
+                f" got {n_target_sample}."
+            )
+        else:
+            target_distr[class_label] = n_target_sample
+    return target_distr
+
+
+def _check_n_target_samples_dict_hybrid(target_stats, n_target_samples):
+    target_distr = copy(target_stats)
+    if all(
+        n_target_samples[label] <= target_stats[label]
+        for label in n_target_samples.keys()
+    ):
+        raise Warning(
+            f"The target number of samples is smaller than the number"
+            f" of original samples for all classes. ONLY under-sampling"
+            f" will be carried out."
+        )
+    elif all(
+        n_target_samples[label] >= target_stats[label]
+        for label in n_target_samples.keys()
+    ):
+        raise Warning(
+            f"The target number of samples is greater than the number"
+            f" of original samples for all classes. ONLY over-sampling"
+            f" will be carried out."
+        )
+    target_distr.update(n_target_samples)
+    return target_distr
+
+
 def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
     target_stats = dict(Counter(y))
-    # check that all keys in n_target_samples are also in y
     set_diff_sampling_strategy_target = set(n_target_samples.keys()) - set(
         target_stats.keys()
     )
@@ -110,7 +165,6 @@ def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
             f"The {set_diff_sampling_strategy_target} target class is/are not "
             f"present in the data."
         )
-    # check that there is no negative number
     if any(n_samples <= 0 for n_samples in n_target_samples.values()):
         raise ValueError(
             f"The number of samples in a class must > 0. "
@@ -118,58 +172,11 @@ def _check_n_target_samples_dict(y, n_target_samples, sampling_type):
         )
 
     if sampling_type == 'under-sampling':
-        target_distr = copy(target_stats)
-        for class_label, n_target_sample in n_target_samples.items():
-            n_origin_sample = target_stats[class_label]
-            if n_target_sample > n_origin_sample:
-                raise ValueError(
-                    f" The target number of samples of class {class_label}"
-                    f" should be < {n_origin_sample} (number of samples"
-                    f" in class {class_label}) to perform under-sampling,"
-                    f" got {n_target_sample}."
-                )
-            else:
-                target_distr[class_label] = n_target_sample
-        return target_distr
-
+        return _check_n_target_samples_dict_under(target_stats, n_target_samples)
     elif sampling_type == 'over-sampling':
-        target_distr = copy(target_stats)
-        for class_label, n_target_sample in n_target_samples.items():
-            n_origin_sample = target_stats[class_label]
-            if n_target_sample < n_origin_sample:
-                raise ValueError(
-                    f" The target number of samples of class {class_label}"
-                    f" should be > {n_origin_sample} (number of samples"
-                    f" in class {class_label}) to perform over-sampling,"
-                    f" got {n_target_sample}."
-                )
-            else:
-                target_distr[class_label] = n_target_sample
-        return target_distr
-
+        return _check_n_target_samples_dict_over(target_stats, n_target_samples)
     elif sampling_type == "multi-class-hybrid-sampling":
-        target_distr = copy(target_stats)
-        if all(
-            n_target_samples[label] <= target_stats[label]
-            for label in n_target_samples.keys()
-        ):
-            raise Warning(
-                f"The target number of samples is smaller than the number"
-                f" of original samples for all classes. ONLY under-sampling"
-                f" will be carried out."
-            )
-        elif all(
-            n_target_samples[label] >= target_stats[label]
-            for label in n_target_samples.keys()
-        ):
-            raise Warning(
-                f"The target number of samples is greater than the number"
-                f" of original samples for all classes. ONLY over-sampling"
-                f" will be carried out."
-            )
-        target_distr.update(n_target_samples)
-        return target_distr
-
+        return _check_n_target_samples_dict_hybrid(target_stats, n_target_samples)
     else:
         raise SamplingKindError
 
@@ -490,76 +497,71 @@ TRAIN_VERBOSE_DICT_INFO = (
 )
 
 
+def _check_train_verbose_parallel(train_verbose, n_estimators_ensemble):
+    if isinstance(train_verbose, bool):
+        if train_verbose:
+            train_verbose_ = copy(TRAIN_VERBOSE_DEFAULT)
+            train_verbose_.update({'granularity': max(1, int(n_estimators_ensemble / 10))})
+            train_verbose_['print_distribution'] = False
+            return train_verbose_
+        return False
+    raise TypeError(
+        f"'train_verbose' can only be of type `bool`"
+        f" for ensemble classifiers trained in parallel,"
+        f" gor {type(train_verbose)}."
+    )
+
+
+def _check_train_verbose_iterative(train_verbose, train_verbose_):
+    if isinstance(train_verbose, bool):
+        if train_verbose:
+            return train_verbose_
+        return False
+
+    if isinstance(train_verbose, numbers.Integral):
+        train_verbose_.update({'granularity': train_verbose})
+        return train_verbose_
+
+    if isinstance(train_verbose, dict):
+        set_diff_verbose_keys = set(train_verbose.keys()) - set(TRAIN_VERBOSE_TYPE.keys())
+        if set_diff_verbose_keys:
+            raise ValueError(
+                f"'train_verbose' keys {set_diff_verbose_keys} are not supported."
+                + TRAIN_VERBOSE_DICT_INFO
+            )
+        for key, value in train_verbose.items():
+            if not isinstance(value, TRAIN_VERBOSE_TYPE[key]):
+                raise TypeError(
+                    f"train_verbose['{key}'] has wrong data type, should be {TRAIN_VERBOSE_TYPE[key]}."
+                    + TRAIN_VERBOSE_DICT_INFO
+                )
+        train_verbose_.update(train_verbose)
+        return train_verbose_
+
+    raise TypeError(
+        f"'train_verbose' should be of type `bool`, `int`, or `dict`, got {type(train_verbose)} instead."
+        + TRAIN_VERBOSE_DICT_INFO
+    )
+
+
 def check_train_verbose(
     train_verbose: bool or numbers.Integral or dict,
     n_estimators_ensemble: int,
     training_type: str,
     **ignored_properties,
 ):
-    # n_estimators_ensemble:int,):
-
-    train_verbose_ = copy(TRAIN_VERBOSE_DEFAULT)
-    train_verbose_.update({'granularity': max(1, int(n_estimators_ensemble / 10))})
-
     if training_type == 'parallel':
-        # For ensemble classifiers trained in parallel
-        # train_verbose can only be of type bool
-        if isinstance(train_verbose, bool):
-            if train_verbose == True:
-                train_verbose_['print_distribution'] = False
-                return train_verbose_
-            if train_verbose == False:
-                return False
-        else:
-            raise TypeError(
-                f"'train_verbose' can only be of type `bool`"
-                f" for ensemble classifiers trained in parallel,"
-                f" gor {type(train_verbose)}."
-            )
+        return _check_train_verbose_parallel(train_verbose, n_estimators_ensemble)
 
-    elif training_type == 'iterative':
-        # For ensemble classifiers trained in iterative manner
-        # train_verbose can be of type bool / int / dict
-        if isinstance(train_verbose, bool):
-            if train_verbose == True:
-                return train_verbose_
-            if train_verbose == False:
-                return False
+    if training_type == 'iterative':
+        train_verbose_ = copy(TRAIN_VERBOSE_DEFAULT)
+        train_verbose_.update({'granularity': max(1, int(n_estimators_ensemble / 10))})
+        return _check_train_verbose_iterative(train_verbose, train_verbose_)
 
-        if isinstance(train_verbose, numbers.Integral):
-            train_verbose_.update({'granularity': train_verbose})
-            return train_verbose_
-
-        if isinstance(train_verbose, dict):
-            # check key value type
-            set_diff_verbose_keys = set(train_verbose.keys()) - set(
-                TRAIN_VERBOSE_TYPE.keys()
-            )
-            if len(set_diff_verbose_keys) > 0:
-                raise ValueError(
-                    f"'train_verbose' keys {set_diff_verbose_keys} are not supported."
-                    + TRAIN_VERBOSE_DICT_INFO
-                )
-            for key, value in train_verbose.items():
-                if not isinstance(value, TRAIN_VERBOSE_TYPE[key]):
-                    raise TypeError(
-                        f"train_verbose['{key}'] has wrong data type, should be {TRAIN_VERBOSE_TYPE[key]}."
-                        + TRAIN_VERBOSE_DICT_INFO
-                    )
-            train_verbose_.update(train_verbose)
-            return train_verbose_
-
-        else:
-            raise TypeError(
-                f"'train_verbose' should be of type `bool`, `int`, or `dict`, got {type(train_verbose)} instead."
-                + TRAIN_VERBOSE_DICT_INFO
-            )
-
-    else:
-        raise NotImplementedError(
-            f"'check_train_verbose' for 'training_type' = {training_type}"
-            f" needs to be implemented."
-        )
+    raise NotImplementedError(
+        f"'check_train_verbose' for 'training_type' = {training_type}"
+        f" needs to be implemented."
+    )
 
 
 VISUALIZER_ENSEMBLES_EXAMPLE_INFO = " Example: {..., ensemble_name: ensemble, ...}"

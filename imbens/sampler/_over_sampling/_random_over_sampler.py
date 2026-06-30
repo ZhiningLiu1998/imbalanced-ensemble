@@ -1,4 +1,4 @@
-﻿"""Class to perform random over-sampling."""
+"""Class to perform random over-sampling."""
 
 # Adapted from imbalanced-learn
 
@@ -153,9 +153,7 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
         )
         return X, y, binarize_y
 
-    def _fit_resample(self, X, y, sample_weight=None):
-        random_state = check_random_state(self.random_state)
-
+    def _validate_shrinkage(self, X):
         if isinstance(self.shrinkage, Real):
             self.shrinkage_ = {
                 klass: self.shrinkage for klass in self.sampling_strategy_
@@ -169,34 +167,86 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
                 f"Got {repr(self.shrinkage)} instead."
             )
 
-        if self.shrinkage_ is not None:
-            missing_shrinkage_keys = (
-                self.sampling_strategy_.keys() - self.shrinkage_.keys()
+        if self.shrinkage_ is None:
+            return X
+
+        missing_shrinkage_keys = (
+            self.sampling_strategy_.keys() - self.shrinkage_.keys()
+        )
+        if missing_shrinkage_keys:
+            raise ValueError(
+                f"`shrinkage` should contain a shrinkage factor for "
+                f"each class that will be resampled. The missing "
+                f"classes are: {repr(missing_shrinkage_keys)}"
             )
-            if missing_shrinkage_keys:
+
+        for klass, shrink_factor in self.shrinkage_.items():
+            if shrink_factor < 0:
                 raise ValueError(
-                    f"`shrinkage` should contain a shrinkage factor for "
-                    f"each class that will be resampled. The missing "
-                    f"classes are: {repr(missing_shrinkage_keys)}"
+                    f"The shrinkage factor needs to be >= 0. "
+                    f"Got {shrink_factor} for class {klass}."
                 )
 
-            for klass, shrink_factor in self.shrinkage_.items():
-                if shrink_factor < 0:
-                    raise ValueError(
-                        f"The shrinkage factor needs to be >= 0. "
-                        f"Got {shrink_factor} for class {klass}."
-                    )
+        try:
+            X = check_array(X, accept_sparse=["csr", "csc"], dtype="numeric")
+        except ValueError as exc:
+            raise ValueError(
+                "When shrinkage is not None, X needs to contain only "
+                "numerical data to later generate a smoothed bootstrap "
+                "sample."
+            ) from exc
+        return X
 
-            # smoothed bootstrap imposes to make numerical operation; we need
-            # to be sure to have only numerical data in X
-            try:
-                X = check_array(X, accept_sparse=["csr", "csc"], dtype="numeric")
-            except ValueError as exc:
-                raise ValueError(
-                    "When shrinkage is not None, X needs to contain only "
-                    "numerical data to later generate a smoothed bootstrap "
-                    "sample."
-                ) from exc
+    def _make_smoothed_bootstrap(self, X, target_class_indices, bootstrap_indices, num_samples, class_sample, random_state):
+        n_samples, n_features = X.shape
+        smoothing_constant = (4 / ((n_features + 2) * n_samples)) ** (
+            1 / (n_features + 4)
+        )
+        if sparse.issparse(X):
+            _, X_class_variance = mean_variance_axis(
+                X[target_class_indices, :],
+                axis=0,
+            )
+            X_class_scale = np.sqrt(X_class_variance, out=X_class_variance)
+        else:
+            X_class_scale = np.std(X[target_class_indices, :], axis=0)
+        smoothing_matrix = np.diagflat(
+            self.shrinkage_[class_sample] * smoothing_constant * X_class_scale
+        )
+        X_new = random_state.randn(num_samples, n_features)
+        X_new = X_new.dot(smoothing_matrix) + X[bootstrap_indices, :]
+        if sparse.issparse(X):
+            X_new = sparse.csr_matrix(X_new, dtype=X.dtype)
+        return X_new
+
+    def _init_resampling(self, X):
+        random_state = check_random_state(self.random_state)
+        X = self._validate_shrinkage(X)
+        return random_state, X
+
+    def _concatenate_resampled(self, X_resampled, y_resampled, X):
+        if sparse.issparse(X):
+            X_resampled = sparse.vstack(X_resampled, format=X.format)
+        else:
+            X_resampled = np.vstack(X_resampled)
+        y_resampled = np.hstack(y_resampled)
+        return X_resampled, y_resampled
+
+    def _build_sample_weight_result(self, sample_weight, y_resampled, y):
+        sample_weight_new = np.empty(
+            y_resampled.shape[0] - y.shape[0], dtype=np.float64
+        )
+        sample_weight_new[:] = np.mean(sample_weight)
+        sample_weight_resampled = np.hstack(
+            [sample_weight, sample_weight_new]
+        ).reshape(-1, 1)
+        sample_weight_resampled = np.squeeze(
+            normalize(sample_weight_resampled, axis=0, norm="l1")
+        )
+        return sample_weight_resampled
+
+    def _fit_resample(self, X, y, sample_weight=None):
+        random_state, X = self._init_resampling(X)
 
         X_resampled = [X.copy()]
         y_resampled = [y.copy()]
@@ -216,29 +266,13 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
             )
             sample_indices = np.append(sample_indices, bootstrap_indices)
             if self.shrinkage_ is not None:
-                # generate a smoothed bootstrap with a perturbation
-                n_samples, n_features = X.shape
-                smoothing_constant = (4 / ((n_features + 2) * n_samples)) ** (
-                    1 / (n_features + 4)
-                )
-                if sparse.issparse(X):
-                    _, X_class_variance = mean_variance_axis(
-                        X[target_class_indices, :],
-                        axis=0,
+                X_resampled.append(
+                    self._make_smoothed_bootstrap(
+                        X, target_class_indices, bootstrap_indices,
+                        num_samples, class_sample, random_state,
                     )
-                    X_class_scale = np.sqrt(X_class_variance, out=X_class_variance)
-                else:
-                    X_class_scale = np.std(X[target_class_indices, :], axis=0)
-                smoothing_matrix = np.diagflat(
-                    self.shrinkage_[class_sample] * smoothing_constant * X_class_scale
                 )
-                X_new = random_state.randn(num_samples, n_features)
-                X_new = X_new.dot(smoothing_matrix) + X[bootstrap_indices, :]
-                if sparse.issparse(X):
-                    X_new = sparse.csr_matrix(X_new, dtype=X.dtype)
-                X_resampled.append(X_new)
             else:
-                # generate a bootstrap
                 X_resampled.append(_safe_indexing(X, bootstrap_indices))
 
             y_resampled.append(_safe_indexing(y, bootstrap_indices))
@@ -249,29 +283,16 @@ RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
                 )
 
         self.sample_indices_ = np.array(sample_indices)
+        X_resampled, y_resampled = self._concatenate_resampled(
+            X_resampled, y_resampled, X
+        )
 
-        if sparse.issparse(X):
-            X_resampled = sparse.vstack(X_resampled, format=X.format)
-        else:
-            X_resampled = np.vstack(X_resampled)
-        y_resampled = np.hstack(y_resampled)
-
-        # If given sample_weight
         if sample_weight_flag:
-            # sample_weight is already validated in self.fit_resample()
-            sample_weight_new = np.empty(
-                y_resampled.shape[0] - y.shape[0], dtype=np.float64
-            )
-            sample_weight_new[:] = np.mean(sample_weight)
-            sample_weight_resampled = np.hstack(
-                [sample_weight, sample_weight_new]
-            ).reshape(-1, 1)
-            sample_weight_resampled = np.squeeze(
-                normalize(sample_weight_resampled, axis=0, norm="l1")
+            sample_weight_resampled = self._build_sample_weight_result(
+                sample_weight, y_resampled, y
             )
             return X_resampled, y_resampled, sample_weight_resampled
-        else:
-            return X_resampled, y_resampled
+        return X_resampled, y_resampled
 
     def _more_tags(self):  # pragma: no cover
         return {

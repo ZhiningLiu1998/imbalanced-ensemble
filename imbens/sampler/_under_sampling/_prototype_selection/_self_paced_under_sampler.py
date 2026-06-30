@@ -252,24 +252,9 @@ class SelfPacedUnderSampler(BaseUnderSampler):
         else:
             return _safe_indexing(X, index_spu), _safe_indexing(y, index_spu)
 
-    def _undersample_single_class(
-        self, hardness_c, n_target_samples_c, index_c, alpha, random_state
-    ):
-        """Perform self-paced under-sampling in a single class"""
+    def _compute_bin_info(self, hardness_c, n_target_samples_c, alpha):
         k_bins = self.k_bins
-        soft_resample_flag = self.soft_resample_flag
-        replacement = self.replacement
-        n_samples_c = hardness_c.shape[0]
-
-        # if hardness is not distinguishable or no sample will be dropped
-        if hardness_c.max() == hardness_c.min() or n_target_samples_c == n_samples_c:
-            # perform random under-sampling
-            return random_state.choice(
-                index_c, size=n_target_samples_c, replace=replacement
-            )
-
         with np.errstate(divide="ignore", invalid="ignore"):
-            # compute population & hardness contribution of each bin
             populations, edges = np.histogram(hardness_c, bins=k_bins)
             contributions = np.zeros(k_bins)
             index_bins = []
@@ -283,11 +268,11 @@ class SelfPacedUnderSampler(BaseUnderSampler):
                 if populations[i_bin] > 0:
                     contributions[i_bin] = hardness_c[index_bin].mean()
 
-            # compute the expected number of samples to be sampled from each bin
             bin_weights = 1.0 / (contributions + alpha)
             bin_weights[np.isnan(bin_weights) | np.isinf(bin_weights)] = 0
-            n_target_samples_bins = n_target_samples_c * bin_weights / bin_weights.sum()
-            # check whether exists empty bins
+            n_target_samples_bins = (
+                n_target_samples_c * bin_weights / bin_weights.sum()
+            )
             n_invalid_samples = sum(n_target_samples_bins[populations == 0])
             if n_invalid_samples > 0:
                 n_valid_samples = n_target_samples_c - n_invalid_samples
@@ -296,62 +281,108 @@ class SelfPacedUnderSampler(BaseUnderSampler):
             n_target_samples_bins = n_target_samples_bins.astype(int)
             while True:
                 for i in np.flip(np.argsort(populations)):
-                    n_target_diff = n_target_samples_c - n_target_samples_bins.sum()
+                    n_target_diff = (
+                        n_target_samples_c - n_target_samples_bins.sum()
+                    )
                     if n_target_diff == 0:
                         break
                     elif populations[i] > 0:
                         n_target_samples_bins[i] += 1
                 if n_target_diff == 0:
                     break
-            assert n_target_samples_c == n_target_samples_bins.sum()
 
-        if soft_resample_flag:
-            with np.errstate(divide="ignore", invalid="ignore"):
-                # perform soft (weighted) self-paced under-sampling
-                soft_spu_bin_weights = n_target_samples_bins / populations
-                soft_spu_bin_weights[~np.isfinite(soft_spu_bin_weights)] = 0
-                # print ('soft_spu_bin_weights: ', soft_spu_bin_weights)
-            # compute sampling probabilities
-            soft_spu_sample_proba = np.zeros_like(hardness_c)
-            for i_bin in range(k_bins):
-                soft_spu_sample_proba[index_bins[i_bin]] = soft_spu_bin_weights[i_bin]
-            soft_spu_sample_proba /= soft_spu_sample_proba.sum()
-            # sample with respect to the sampling probabilities
+        return index_bins, populations, n_target_samples_bins
+
+    def _soft_resample_single_class(
+        self,
+        hardness_c,
+        index_bins,
+        n_target_samples_bins,
+        populations,
+        index_c,
+        n_target_samples_c,
+        random_state,
+    ):
+        k_bins = self.k_bins
+        with np.errstate(divide="ignore", invalid="ignore"):
+            soft_spu_bin_weights = n_target_samples_bins / populations
+            soft_spu_bin_weights[~np.isfinite(soft_spu_bin_weights)] = 0
+        soft_spu_sample_proba = np.zeros_like(hardness_c)
+        for i_bin in range(k_bins):
+            soft_spu_sample_proba[index_bins[i_bin]] = soft_spu_bin_weights[i_bin]
+        soft_spu_sample_proba /= soft_spu_sample_proba.sum()
+        return random_state.choice(
+            index_c,
+            size=n_target_samples_c,
+            replace=self.replacement,
+            p=soft_spu_sample_proba,
+        )
+
+    def _hard_resample_single_class(
+        self,
+        index_bins,
+        n_target_samples_bins,
+        populations,
+        index_c,
+        random_state,
+    ):
+        k_bins = self.k_bins
+        index_c_results = []
+        for i_bin in range(k_bins):
+            if (
+                populations[i_bin] < n_target_samples_bins[i_bin]
+                and not self.replacement
+            ):
+                raise RuntimeError(
+                    f"Met {i_bin}-th bin with insufficient number of data samples"
+                    f" ({populations[i_bin]}, expected"
+                    f" >= {n_target_samples_bins[i_bin]})."
+                    f" Set 'soft_resample_flag' or 'replacement' to `True` to."
+                    f" avoid this issue."
+                )
+            index_c_bin = index_c[index_bins[i_bin]]
+            if len(index_c_bin) > 0:
+                index_c_results.append(
+                    random_state.choice(
+                        index_c_bin,
+                        size=n_target_samples_bins[i_bin],
+                        replace=self.replacement,
+                    )
+                )
+        return np.hstack(index_c_results)
+
+    def _undersample_single_class(
+        self, hardness_c, n_target_samples_c, index_c, alpha, random_state
+    ):
+        n_samples_c = hardness_c.shape[0]
+
+        if hardness_c.max() == hardness_c.min() or n_target_samples_c == n_samples_c:
             return random_state.choice(
+                index_c, size=n_target_samples_c, replace=self.replacement
+            )
+
+        index_bins, populations, n_target_samples_bins = self._compute_bin_info(
+            hardness_c, n_target_samples_c, alpha
+        )
+
+        if self.soft_resample_flag:
+            return self._soft_resample_single_class(
+                hardness_c,
+                index_bins,
+                n_target_samples_bins,
+                populations,
                 index_c,
-                size=n_target_samples_c,
-                replace=replacement,
-                p=soft_spu_sample_proba,
+                n_target_samples_c,
+                random_state,
             )
         else:
-            # perform hard self-paced under-sampling
-            index_c_results = []
-            for i_bin in range(k_bins):
-                # if no sufficient data in bin for resampling, raise an RuntimeError
-                if (
-                    populations[i_bin] < n_target_samples_bins[i_bin]
-                    and not replacement
-                ):
-                    raise RuntimeError(
-                        f"Met {i_bin}-th bin with insufficient number of data samples"
-                        f" ({populations[i_bin]}, expected"
-                        f" >= {n_target_samples_bins[i_bin]})."
-                        f" Set 'soft_resample_flag' or 'replacement' to `True` to."
-                        f" avoid this issue."
-                    )
-                index_c_bin = index_c[index_bins[i_bin]]
-                # random sample from each bin
-                if len(index_c_bin) > 0:
-                    index_c_results.append(
-                        random_state.choice(
-                            index_c_bin,
-                            size=n_target_samples_bins[i_bin],
-                            replace=replacement,
-                        )
-                    )
-            # concatenate and return the result
-            index_c_result = np.hstack(index_c_results)
-            return index_c_result
+            return self._hard_resample_single_class(
+                index_bins,
+                n_target_samples_bins,
+                populations,
+                index_c,
+                random_state,
+            )
 
     def _more_tags(self):  # pragma: no cover
         return {

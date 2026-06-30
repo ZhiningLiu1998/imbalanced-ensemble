@@ -24,12 +24,12 @@ if not LOCAL_DEBUG:
         check_target_label_and_n_target_samples,
         check_train_verbose,
     )
-    from ..base import MAX_INT, BaseImbalancedEnsemble
+    from ..base import MAX_INT, BaseImbalancedEnsemble, _TrainingState
 else:  # pragma: no cover
     import sys  # For local test
 
     sys.path.append("../..")
-    from ensemble.base import BaseImbalancedEnsemble, MAX_INT
+    from ensemble.base import BaseImbalancedEnsemble, MAX_INT, _TrainingState
     from sampler._under_sampling import SelfPacedUnderSampler
     from utils._validation_data import check_eval_datasets
     from utils._validation_param import (
@@ -66,13 +66,21 @@ _properties = {
     'training_type': _training_type,
 }
 
+# Attributes stored in _TrainingState for backward-compatible delegation
+_TRAIN_STATE_ATTRS = frozenset({
+    'eval_datasets_', 'origin_distr_', 'target_label_', 'target_distr_',
+    'balancing_schedule_', 'eval_metrics_', 'train_verbose_',
+    'train_verbose_format_', '_seeds',
+    'y_pred_proba_latest', 'estimators_n_training_samples_',
+})
+
 
 @Substitution(
     random_state=_get_parameter_docstring('random_state', **_properties),
     n_jobs=_get_parameter_docstring('n_jobs', **_properties),
     example=_get_example_docstring(_method_name),
 )
-class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
+class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):  # pylint: disable=too-many-instance-attributes
     """A self-paced ensemble (SPE) Classifier for class-imbalanced learning.
 
     Self-paced Ensemble (SPE) [1]_ is an ensemble learning framework for massive highly
@@ -201,6 +209,13 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
         self.soft_resample_flag = soft_resample_flag
         self.replacement = replacement
 
+    def __getattr__(self, name):
+        if '_train_state_' in self.__dict__ and name in _TRAIN_STATE_ATTRS:
+            return getattr(self._train_state_, name)
+        raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
+
     @_deprecate_positional_args
     @FuncSubstitution(
         target_label=_get_parameter_docstring('target_label', **_properties),
@@ -277,16 +292,20 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
             self.classes_,
         )
 
+        # Initialize training state container
+        self._train_state_ = _TrainingState()
+        ts = self._train_state_
+
         # Check evaluation data
         check_x_y_args = self.check_x_y_args
-        self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
+        ts.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
 
         # Check target sample strategy
         origin_distr_ = dict(Counter(y))
         target_label_, target_distr_ = check_target_label_and_n_target_samples(
             y, target_label, n_target_samples, self._sampling_type
         )
-        self.origin_distr_, self.target_label_, self.target_distr_ = (
+        ts.origin_distr_, ts.target_label_, ts.target_distr_ = (
             origin_distr_,
             target_label_,
             target_distr_,
@@ -294,13 +313,13 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
 
         # Check balancing schedule
         balancing_schedule_ = check_balancing_schedule(balancing_schedule)
-        self.balancing_schedule_ = balancing_schedule_
+        ts.balancing_schedule_ = balancing_schedule_
 
         # Check evaluation metrics
-        self.eval_metrics_ = check_eval_metrics(eval_metrics)
+        ts.eval_metrics_ = check_eval_metrics(eval_metrics)
 
         # Check training train_verbose format
-        self.train_verbose_ = check_train_verbose(
+        ts.train_verbose_ = check_train_verbose(
             train_verbose, self.n_estimators, **self._properties
         )
 
@@ -310,12 +329,12 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
         # Clear any previous fit results.
         self.estimators_ = []
         self.estimators_features_ = []
-        self.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=int)
+        ts.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=int)
         self.samplers_ = []
 
         # Genrate random seeds array
         seeds = random_state.randint(MAX_INT, size=n_estimators)
-        self._seeds = seeds
+        ts._seeds = seeds
 
         # Check if sample_weight is specified
         specified_sample_weight = sample_weight is not None
@@ -348,10 +367,10 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
             resample_out = sampler.fit_resample(
                 X,
                 y,
-                y_pred_proba=self.y_pred_proba_latest,
+                y_pred_proba=ts.y_pred_proba_latest,
                 alpha=alpha,
                 classes_=classes_,
-                encode_map=self._encode_map,
+                encode_map=self._internal_state_['encode_map'],
                 sample_weight=sample_weight,
             )
 
@@ -367,8 +386,8 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
                 (X_resampled, y_resampled) = resample_out
                 estimator.fit(X_resampled, y_resampled)
 
-            self.estimators_features_.append(self.features_)
-            self.estimators_n_training_samples_[i_iter] = y_resampled.shape[0]
+            self.estimators_features_.append(self._internal_state_['features'])
+            ts.estimators_n_training_samples_[i_iter] = y_resampled.shape[0]
 
             # Print training infomation to console.
             self._training_log_to_console(i_iter, y_resampled)
@@ -380,14 +399,15 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
         data during ensemble training. Must be called in each iteration before fit the
         estimator."""
 
+        ts = self._train_state_
         if i_iter == 0:
-            self.y_pred_proba_latest = np.zeros(
-                (self._n_samples, self.n_classes_), dtype=np.float64
+            ts.y_pred_proba_latest = np.zeros(
+                (self._internal_state_['n_samples'], self.n_classes_), dtype=np.float64
             )
         else:
-            y_pred_proba_latest = self.y_pred_proba_latest
+            y_pred_proba_latest = ts.y_pred_proba_latest
             y_pred_proba_new = self.estimators_[-1].predict_proba(X)
-            self.y_pred_proba_latest = (
+            ts.y_pred_proba_latest = (
                 y_pred_proba_latest * i_iter + y_pred_proba_new
             ) / (i_iter + 1)
         return

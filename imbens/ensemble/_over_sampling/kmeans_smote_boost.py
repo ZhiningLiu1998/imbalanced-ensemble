@@ -211,10 +211,12 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
 
         self.k_neighbors = k_neighbors
         self.k_neighbors_ = check_type(k_neighbors, "k_neighbors", numbers.Integral)
-        self.n_jobs_sampler = n_jobs_sampler
-        self.kmeans_estimator = kmeans_estimator
-        self.cluster_balance_threshold = cluster_balance_threshold
-        self.density_exponent = density_exponent
+        self.kmeans_smote_kwargs = {
+            "n_jobs": n_jobs_sampler,
+            "kmeans_estimator": kmeans_estimator,
+            "cluster_balance_threshold": cluster_balance_threshold,
+            "density_exponent": density_exponent,
+        }
         if self.k_neighbors_ < 1:
             raise ValueError(
                 f"The 'k_neighbors' parameter of NearestNeighbors must be"
@@ -277,10 +279,7 @@ class KmeansSMOTEBoostClassifier(ResampleBoostClassifier):
 
         kmeans_smote_sampler_kwargs = {
             "k_neighbors": self.k_neighbors_,
-            "n_jobs": self.n_jobs_sampler,
-            "kmeans_estimator": self.kmeans_estimator,
-            "cluster_balance_threshold": self.cluster_balance_threshold,
-            "density_exponent": self.density_exponent,
+            **self.kmeans_smote_kwargs,
         }
         update_x_y_after_resample = True
 

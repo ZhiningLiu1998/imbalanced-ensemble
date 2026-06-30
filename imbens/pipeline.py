@@ -1,4 +1,4 @@
-﻿"""
+"""
 The :mod:`imbens.pipeline` module implements utilities to build a
 composite estimator, as a chain of transforms, samples and estimators.
 """

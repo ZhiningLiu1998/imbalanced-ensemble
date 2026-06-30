@@ -234,7 +234,10 @@ class AdaUBoostClassifier(ReweightBoostClassifier):
     def _set_beta(self, how: str = "inverse") -> dict:
         """Set the self.beta_ by 'how'."""
 
-        classes, origin_distr = self._encode_map.values(), self.origin_distr_
+        classes, origin_distr = (
+            self._train_state_._encode_map.values(),
+            self._train_state_.origin_distr_,
+        )
         c_maj = max(origin_distr.keys(), key=(lambda x: origin_distr[x]))
         beta = [origin_distr[c_maj] / origin_distr[c_min] for c_min in classes]
         if how == "uniform":

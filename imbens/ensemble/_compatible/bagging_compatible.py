@@ -19,13 +19,13 @@ if not LOCAL_DEBUG:
     from ...utils._validation_data import check_eval_datasets
     from ...utils._validation_param import check_eval_metrics, check_train_verbose
     from .._bagging import _parallel_build_estimators
-    from ..base import MAX_INT, ImbalancedEnsembleClassifierMixin
+    from ..base import _TrainingState, MAX_INT, ImbalancedEnsembleClassifierMixin
 else:  # pragma: no cover
     import sys  # For local test
 
     sys.path.append("../..")
-    from ensemble.base import ImbalancedEnsembleClassifierMixin, MAX_INT
     from ensemble._bagging import _parallel_build_estimators
+    from ensemble.base import _TrainingState, ImbalancedEnsembleClassifierMixin, MAX_INT
     from utils._validation_data import check_eval_datasets
     from utils._validation_param import check_train_verbose, check_eval_metrics
     from utils._validation import _deprecate_positional_args, check_target_type
@@ -194,6 +194,37 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
     {example}
     """
 
+    __name__ = _method_name
+    _properties = _properties
+
+    @property
+    def _max_samples(self):
+        if hasattr(self, '_train_state_'):
+            return self._train_state_._max_samples
+        return self.max_samples
+
+    @property
+    def _max_features(self):
+        if hasattr(self, '_train_state_'):
+            return self._train_state_._max_features
+        return self.max_features
+
+    @property
+    def _n_samples(self):
+        if hasattr(self, '_train_state_'):
+            return self._train_state_._n_samples
+        return 0
+
+    @property
+    def _seeds(self):
+        if hasattr(self, '_train_state_'):
+            return self._train_state_._seeds
+        return None
+
+    @_seeds.setter
+    def _seeds(self, value):
+        self._train_state_._seeds = value
+
     @_deprecate_positional_args
     def __init__(
         self,
@@ -225,8 +256,7 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
             verbose=verbose,
         )
 
-        self.__name__ = _method_name
-        self._properties = _properties
+        self._train_state_ = _TrainingState()
 
     @_deprecate_positional_args
     @FuncSubstitution(
@@ -279,7 +309,6 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
         random_state = check_random_state(self.random_state)
 
-        # Convert data (X is required to be 2d and indexable)
         check_x_y_args = {
             "accept_sparse": ["csr", "csc"],
             "dtype": None,
@@ -288,30 +317,93 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         }
         X, y = validate_data(self, X, y, **check_x_y_args)
 
-        # Check evaluation data
-        self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
-
-        # Check evaluation metrics
-        self.eval_metrics_ = check_eval_metrics(eval_metrics)
-
-        # Check verbose
-        self.train_verbose_ = check_train_verbose(
-            train_verbose, self.n_estimators, **self._properties
+        self._pre_fit_setup(
+            eval_datasets, eval_metrics, train_verbose, check_x_y_args, X, y
         )
-        self._init_training_log_format()
 
         if sample_weight is not None:
             sample_weight = _check_sample_weight(sample_weight, X, dtype=None)
 
-        # Remap output
         n_samples, self.n_features_in_ = X.shape
-        self._n_samples = n_samples
+        self._train_state_._n_samples = n_samples
         y = self._validate_y(y)
 
-        # Check parameters
         self._validate_estimator(self._get_estimator())
 
-        # Validate max_samples
+        max_samples = self._validate_max_samples(max_samples, X)
+        max_features = self._validate_max_features()
+
+        self._validate_common_checks()
+
+        n_more_estimators = self._initialize_warm_start()
+        if n_more_estimators == 0:
+            return self
+
+        self._parallel_fit(n_more_estimators, X, y, sample_weight, random_state)
+
+        self._post_fit_process(X, y)
+
+        return self
+
+    def _pre_fit_setup(
+        self, eval_datasets, eval_metrics, train_verbose, check_x_y_args, X, y
+    ):
+        self._train_state_.eval_datasets_ = check_eval_datasets(
+            eval_datasets, X, y, **check_x_y_args
+        )
+        self._train_state_.eval_metrics_ = check_eval_metrics(eval_metrics)
+        self._train_state_.train_verbose_ = check_train_verbose(
+            train_verbose, self.n_estimators, **self._properties
+        )
+        self._init_training_log_format()
+
+    def _parallel_fit(
+        self, n_more_estimators, X, y, sample_weight, random_state
+    ):
+        n_jobs, n_estimators, starts = _partition_estimators(
+            n_more_estimators, self.n_jobs
+        )
+        total_n_estimators = sum(n_estimators)
+
+        if self.warm_start and len(self.estimators_) > 0:
+            random_state.randint(MAX_INT, size=len(self.estimators_))
+
+        seeds = random_state.randint(MAX_INT, size=n_more_estimators)
+        self._train_state_._seeds = seeds
+
+        all_results = Parallel(
+            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
+        )(
+            delayed(_parallel_build_estimators)(
+                n_estimators[i],
+                self,
+                X,
+                y,
+                sample_weight,
+                seeds[starts[i] : starts[i + 1]],
+                total_n_estimators,
+                verbose=self.verbose,
+            )
+            for i in range(n_jobs)
+        )
+
+        self.estimators_ += list(
+            itertools.chain.from_iterable(t[0] for t in all_results)
+        )
+        self.estimators_features_ += list(
+            itertools.chain.from_iterable(t[1] for t in all_results)
+        )
+        self.estimators_n_training_samples_ += list(
+            itertools.chain.from_iterable(t[2] for t in all_results)
+        )
+
+    def _post_fit_process(self, X, y):
+        if self.oob_score:
+            self._set_oob_score(X, y)
+
+        self._training_log_to_console()
+
+    def _validate_max_samples(self, max_samples, X):
         if max_samples is None:
             max_samples = self.max_samples
         if not isinstance(max_samples, numbers.Integral):
@@ -320,10 +412,10 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         if not (0 < max_samples <= X.shape[0]):
             raise ValueError("max_samples must be in (0, n_samples]")
 
-        # Store validated integer row sampling value
-        self._max_samples = max_samples
+        self._train_state_._max_samples = max_samples
+        return max_samples
 
-        # Validate max_features
+    def _validate_max_features(self):
         if isinstance(self.max_features, numbers.Integral):
             max_features = self.max_features
         elif isinstance(self.max_features, float):
@@ -336,10 +428,10 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
 
         max_features = max(1, int(max_features))
 
-        # Store validated integer feature sampling value
-        self._max_features = max_features
+        self._train_state_._max_features = max_features
+        return max_features
 
-        # Other checks
+    def _validate_common_checks(self):
         if not self.bootstrap and self.oob_score:
             raise ValueError(
                 "Out of bag estimation only available" " if bootstrap=True"
@@ -353,8 +445,8 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
         if hasattr(self, "oob_score_") and self.warm_start:
             del self.oob_score_
 
+    def _initialize_warm_start(self):
         if not self.warm_start or not hasattr(self, "estimators_"):
-            # Free allocated memory, if any
             self.estimators_ = []
             self.estimators_features_ = []
             self.estimators_n_training_samples_ = []
@@ -373,56 +465,8 @@ class CompatibleBaggingClassifier(ImbalancedEnsembleClassifierMixin, BaggingClas
                 "Warm-start fitting without increasing n_estimators does not "
                 "fit new trees."
             )
-            return self
 
-        # Parallel loop
-        n_jobs, n_estimators, starts = _partition_estimators(
-            n_more_estimators, self.n_jobs
-        )
-        total_n_estimators = sum(n_estimators)
-
-        # Advance random state to state after training
-        # the first n_estimators
-        if self.warm_start and len(self.estimators_) > 0:
-            random_state.randint(MAX_INT, size=len(self.estimators_))
-
-        seeds = random_state.randint(MAX_INT, size=n_more_estimators)
-        self._seeds = seeds
-
-        all_results = Parallel(
-            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
-        )(
-            delayed(_parallel_build_estimators)(
-                n_estimators[i],
-                self,
-                X,
-                y,
-                sample_weight,
-                seeds[starts[i] : starts[i + 1]],
-                total_n_estimators,
-                verbose=self.verbose,
-            )
-            for i in range(n_jobs)
-        )
-
-        # Reduce
-        self.estimators_ += list(
-            itertools.chain.from_iterable(t[0] for t in all_results)
-        )
-        self.estimators_features_ += list(
-            itertools.chain.from_iterable(t[1] for t in all_results)
-        )
-        self.estimators_n_training_samples_ += list(
-            itertools.chain.from_iterable(t[2] for t in all_results)
-        )
-
-        if self.oob_score:
-            self._set_oob_score(X, y)
-
-        # Print training infomation to console.
-        self._training_log_to_console()
-
-        return self
+        return n_more_estimators
 
     @FuncGlossarySubstitution(_super.predict_proba, "classes_")
     def predict_proba(self, X):

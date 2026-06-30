@@ -1,4 +1,4 @@
-﻿"""Class to perform over-sampling using ADASYN."""
+"""Class to perform over-sampling using ADASYN."""
 
 # Adapted from imbalanced-learn
 

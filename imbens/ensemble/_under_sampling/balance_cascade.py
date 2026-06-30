@@ -24,12 +24,12 @@ if not LOCAL_DEBUG:
         check_target_label_and_n_target_samples,
         check_train_verbose,
     )
-    from ..base import MAX_INT, BaseImbalancedEnsemble
+    from ..base import MAX_INT, BaseImbalancedEnsemble, _TrainingState
 else:  # pragma: no cover
     import sys  # For local test
 
     sys.path.append("../..")
-    from ensemble.base import BaseImbalancedEnsemble, MAX_INT
+    from ensemble.base import BaseImbalancedEnsemble, MAX_INT, _TrainingState
     from sampler._under_sampling import BalanceCascadeUnderSampler
     from utils._validation_data import check_eval_datasets
     from utils._validation_param import (
@@ -49,6 +49,15 @@ else:  # pragma: no cover
 from collections import Counter
 
 import numpy as np
+
+# Attributes stored in _TrainingState for backward-compatible delegation
+_TRAIN_STATE_ATTRS = frozenset({
+    'eval_datasets_', 'origin_distr_', 'target_label_', 'target_distr_',
+    'balancing_schedule_', 'eval_metrics_', 'train_verbose_',
+    'train_verbose_format_', 'keep_ratios_', '_seeds',
+    'y_pred_proba_latest', 'estimators_n_training_samples_',
+    'sample_weights_',
+})
 
 # Properties
 _method_name = 'BalanceCascadeClassifier'
@@ -186,6 +195,13 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
 
         self.replacement = replacement
 
+    def __getattr__(self, name):
+        if '_train_state_' in self.__dict__ and name in _TRAIN_STATE_ATTRS:
+            return getattr(self._train_state_, name)
+        raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
+
     @_deprecate_positional_args
     @FuncSubstitution(
         target_label=_get_parameter_docstring('target_label', **_properties),
@@ -254,16 +270,20 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             self.replacement,
         )
 
+        # Initialize training state container
+        self._train_state_ = _TrainingState()
+
         # Check evaluation data
         check_x_y_args = self.check_x_y_args
-        self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
+        self._train_state_.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
 
         # Check target sample strategy
         origin_distr_ = dict(Counter(y))
         target_label_, target_distr_ = check_target_label_and_n_target_samples(
             y, target_label, n_target_samples, self._sampling_type
         )
-        self.origin_distr_, self.target_label_, self.target_distr_ = (
+        ts = self._train_state_
+        ts.origin_distr_, ts.target_label_, ts.target_distr_ = (
             origin_distr_,
             target_label_,
             target_distr_,
@@ -271,13 +291,13 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
 
         # Check balancing schedule
         balancing_schedule_ = check_balancing_schedule(balancing_schedule)
-        self.balancing_schedule_ = balancing_schedule_
+        ts.balancing_schedule_ = balancing_schedule_
 
         # Check evaluation metrics
-        self.eval_metrics_ = check_eval_metrics(eval_metrics)
+        ts.eval_metrics_ = check_eval_metrics(eval_metrics)
 
         # Check training train_verbose format
-        self.train_verbose_ = check_train_verbose(
+        ts.train_verbose_ = check_train_verbose(
             train_verbose, self.n_estimators, **self._properties
         )
 
@@ -287,13 +307,13 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         # Clear any previous fit results.
         self.estimators_ = []
         self.estimators_features_ = []
-        self.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=int)
+        ts.estimators_n_training_samples_ = np.zeros(n_estimators, dtype=int)
         self.samplers_ = []
-        self.sample_weights_ = []
+        ts.sample_weights_ = []
 
         # Genrate random seeds array
         seeds = random_state.randint(MAX_INT, size=n_estimators)
-        self._seeds = seeds
+        ts._seeds = seeds
 
         # Initialize the keep_ratios and dropped_index
         keep_ratios = {
@@ -302,7 +322,7 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             )
             for label in classes_
         }
-        self.keep_ratios_ = keep_ratios
+        ts.keep_ratios_ = keep_ratios
         dropped_index = np.full_like(y, fill_value=False, dtype=bool)
 
         # Check if sample_weight is specified
@@ -348,11 +368,11 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
             resample_out = sampler.fit_resample(
                 X,
                 y,
-                y_pred_proba=self.y_pred_proba_latest,
+                y_pred_proba=ts.y_pred_proba_latest,
                 dropped_index=dropped_index,
                 keep_populations=keep_populations,
                 classes_=classes_,
-                encode_map=self._encode_map,
+                encode_map=self._internal_state_['encode_map'],
                 sample_weight=sample_weight,
             )
 
@@ -373,8 +393,8 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
                 (X_resampled, y_resampled, dropped_index) = resample_out
                 estimator.fit(X_resampled, y_resampled)
 
-            self.estimators_features_.append(self.features_)
-            self.estimators_n_training_samples_[i_iter] = y_resampled.shape[0]
+            self.estimators_features_.append(self._internal_state_['features'])
+            ts.estimators_n_training_samples_[i_iter] = y_resampled.shape[0]
 
             # Print training infomation to console.
             self._training_log_to_console(i_iter, y_resampled)
@@ -386,14 +406,15 @@ class BalanceCascadeClassifier(BaseImbalancedEnsemble):
         data during ensemble training. Must be called in each iteration before fit the
         estimator."""
 
+        ts = self._train_state_
         if i_iter == 0:
-            self.y_pred_proba_latest = np.zeros(
-                (self._n_samples, self.n_classes_), dtype=np.float64
+            ts.y_pred_proba_latest = np.zeros(
+                (self._internal_state_['n_samples'], self.n_classes_), dtype=np.float64
             )
         else:
-            y_pred_proba_latest = self.y_pred_proba_latest
+            y_pred_proba_latest = ts.y_pred_proba_latest
             y_pred_proba_new = self.estimators_[-1].predict_proba(X)
-            self.y_pred_proba_latest = (
+            ts.y_pred_proba_latest = (
                 y_pred_proba_latest * i_iter + y_pred_proba_new
             ) / (i_iter + 1)
         return

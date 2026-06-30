@@ -55,6 +55,87 @@ TRAINING_LOG_HEAD_TITLES = {
 MAX_INT = np.iinfo(np.int32).max
 
 
+class _TrainingState:  # pylint: disable=too-many-instance-attributes
+    """Container for internal training state attributes.
+
+    Groups fit-time internal attributes to reduce the number of
+    top-level instance attributes on the ensemble classes.
+    """
+
+    __slots__ = (
+        '_y_encoded',
+        '_seeds',
+        '_n_samples',
+        '_max_samples',
+        '_max_features',
+        'raw_sample_weight_',
+        'sampler_kwargs_',
+        'balancing_schedule_',
+        '_encode_map',
+        'origin_distr_',
+        'target_distr_',
+        'target_label_',
+        'eval_datasets_',
+        'eval_metrics_',
+        'train_verbose_',
+        'train_verbose_format_',
+        'cost_matrix_',
+        'estimators_n_training_samples_',
+        'sample_weights_',
+        'keep_ratios_',
+        'y_pred_proba_latest',
+        'early_termination',
+    )
+
+    def __init__(
+        self,
+        _y_encoded=None,
+        _seeds=None,
+        _n_samples=None,
+        _max_samples=None,
+        _max_features=None,
+        raw_sample_weight_=None,
+        sampler_kwargs_=None,
+        balancing_schedule_=None,
+        _encode_map=None,
+        origin_distr_=None,
+        target_distr_=None,
+        target_label_=None,
+        eval_datasets_=None,
+        eval_metrics_=None,
+        train_verbose_=None,
+        train_verbose_format_=None,
+        cost_matrix_=None,
+        estimators_n_training_samples_=None,
+        sample_weights_=None,
+        keep_ratios_=None,
+        y_pred_proba_latest=None,
+        early_termination=None,
+    ):
+        self._y_encoded = _y_encoded
+        self._seeds = _seeds
+        self._n_samples = _n_samples
+        self._max_samples = _max_samples
+        self._max_features = _max_features
+        self.raw_sample_weight_ = raw_sample_weight_
+        self.sampler_kwargs_ = sampler_kwargs_
+        self.balancing_schedule_ = balancing_schedule_
+        self._encode_map = _encode_map
+        self.origin_distr_ = origin_distr_
+        self.target_distr_ = target_distr_
+        self.target_label_ = target_label_
+        self.eval_datasets_ = eval_datasets_
+        self.eval_metrics_ = eval_metrics_
+        self.train_verbose_ = train_verbose_
+        self.train_verbose_format_ = train_verbose_format_
+        self.cost_matrix_ = cost_matrix_
+        self.estimators_n_training_samples_ = estimators_n_training_samples_
+        self.sample_weights_ = sample_weights_
+        self.keep_ratios_ = keep_ratios_
+        self.y_pred_proba_latest = y_pred_proba_latest
+        self.early_termination = early_termination
+
+
 def sort_dict_by_key(d):
     """Sort a dict by key, return sorted dict."""
     return dict(sorted(d.items(), key=lambda k: k[0]))
@@ -81,6 +162,28 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
 
     _estimator_ensemble_type = "imbens_classifier"
 
+    def _get_ts(self):
+        """Return the training state container if available, else self.
+
+        Allows the mixin methods to work with classes that use
+        _TrainingState (ReweightBoostClassifier hierarchy) and those
+        that store attributes directly on self.
+        """
+        return self._train_state_ if hasattr(self, '_train_state_') else self
+
+    def _compute_metrics(self, y_eval, y_predict_proba, eval_metrics, classes_):
+        scores = {}
+        for metric_name, (metric_func, kwargs, ac_proba, ac_labels) in eval_metrics.items():
+            if ac_labels:
+                kwargs["labels"] = classes_
+            if ac_proba:
+                score = metric_func(y_eval, y_predict_proba, **kwargs)
+            else:
+                y_predict = classes_.take(np.argmax(y_predict_proba, axis=1), axis=0)
+                score = metric_func(y_eval, y_predict, **kwargs)
+            scores[metric_name] = score
+        return scores
+
     def _evaluate(
         self,
         dataset_name: str,
@@ -92,48 +195,25 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         ensemble training process.
         """
 
-        eval_datasets_ = self.eval_datasets_
-        classes_ = self.classes_
-        verbose_format_ = self.train_verbose_format_
-
-        # Temporarily disable verbose
+        ts = self._get_ts()
         support_verbose = hasattr(self, "verbose")
         if support_verbose:
             verbose, self.verbose = self.verbose, 0
 
-        # If no eval_metrics is given, use self.eval_metrics_
-        if eval_metrics == None:
-            eval_metrics = self.eval_metrics_
+        if eval_metrics is None:
+            eval_metrics = ts.eval_metrics_
 
-        # If return numerical results
-        if return_value_dict == True:
+        if return_value_dict:
             value_dict = {}
-            for data_name, (X_eval, y_eval) in eval_datasets_.items():
+            for data_name, (X_eval, y_eval) in ts.eval_datasets_.items():
                 y_predict_proba = self.predict_proba(X_eval)
-                data_value_dict = {}
-                for metric_name, (
-                    metric_func,
-                    kwargs,
-                    ac_proba,
-                    ac_labels,
-                ) in eval_metrics.items():
-                    if ac_labels:
-                        kwargs["labels"] = classes_
-                    if ac_proba:  # If the metric take predict probabilities
-                        score = metric_func(y_eval, y_predict_proba, **kwargs)
-                    else:  # If the metric do not take predict probabilities
-                        y_predict = classes_.take(
-                            np.argmax(y_predict_proba, axis=1), axis=0
-                        )
-                        score = metric_func(y_eval, y_predict, **kwargs)
-                    data_value_dict[metric_name] = score
-                value_dict[data_name] = data_value_dict
+                value_dict[data_name] = self._compute_metrics(
+                    y_eval, y_predict_proba, eval_metrics, self.classes_
+                )
             out = value_dict
-
-        # If return string
         else:
             eval_info = ""
-            if return_header == True:
+            if return_header:
                 for metric_name in eval_metrics.keys():
                     eval_info = self._training_log_add_block(
                         eval_info,
@@ -141,39 +221,27 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                         "",
                         "",
                         " ",
-                        verbose_format_["len_metrics"][metric_name],
+                        ts.train_verbose_format_["len_metrics"][metric_name],
                         strip=False,
                     )
             else:
-                (X_eval, y_eval) = eval_datasets_[dataset_name]
+                X_eval, y_eval = ts.eval_datasets_[dataset_name]
                 y_predict_proba = self.predict_proba(X_eval)
-                for metric_name, (
-                    metric_func,
-                    kwargs,
-                    ac_proba,
-                    ac_labels,
-                ) in eval_metrics.items():
-                    if ac_labels:
-                        kwargs["labels"] = classes_
-                    if ac_proba:  # If the metric take predict probabilities
-                        score = metric_func(y_eval, y_predict_proba, **kwargs)
-                    else:  # If the metric do not take predict probabilities
-                        y_predict = classes_.take(
-                            np.argmax(y_predict_proba, axis=1), axis=0
-                        )
-                        score = metric_func(y_eval, y_predict, **kwargs)
+                metrics = self._compute_metrics(
+                    y_eval, y_predict_proba, eval_metrics, self.classes_
+                )
+                for metric_name in eval_metrics.keys():
                     eval_info = self._training_log_add_block(
                         eval_info,
-                        "{:.3f}".format(score),
+                        "{:.3f}".format(metrics[metric_name]),
                         "",
                         "",
                         " ",
-                        verbose_format_["len_metrics"][metric_name],
+                        ts.train_verbose_format_["len_metrics"][metric_name],
                         strip=False,
                     )
             out = eval_info[:-1]
 
-        # Recover verbose state
         if support_verbose:
             self.verbose = verbose
 
@@ -182,16 +250,17 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
     def _init_training_log_format(self):
         """Private function for initialization of the training verbose format"""
 
-        if self.train_verbose_:
+        ts = self._get_ts()
+        if ts.train_verbose_:
             len_iter = (
                 max(len(str(self.n_estimators)), len(TRAINING_LOG_HEAD_TITLES["iter"]))
                 + 2
             )
-            if self.train_verbose_["print_distribution"]:
+            if ts.train_verbose_["print_distribution"]:
                 len_class_distr = (
                     max(
-                        len(str(self.target_distr_)),
-                        len(str(self.origin_distr_)),
+                        len(str(ts.target_distr_)),
+                        len(str(ts.origin_distr_)),
                         len(TRAINING_LOG_HEAD_TITLES["class_distr"]),
                     )
                     + 2
@@ -200,16 +269,16 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                 len_class_distr = 0
             len_metrics = {
                 metric_name: max(len(metric_name), 5) + 2
-                for metric_name in self.eval_metrics_.keys()
+                for metric_name in ts.eval_metrics_.keys()
             }
             metrics_total_length = sum(len_metrics.values()) + len(len_metrics) - 1
             len_datasets = {
                 dataset_name: max(
                     metrics_total_length, len("Data: " + dataset_name) + 2
                 )
-                for dataset_name in self.eval_datasets_.keys()
+                for dataset_name in ts.eval_datasets_.keys()
             }
-            self.train_verbose_format_ = {
+            ts.train_verbose_format_ = {
                 "len_iter": len_iter,
                 "len_class_distr": len_class_distr,
                 "len_metrics": len_metrics,
@@ -235,21 +304,26 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
     ):
         """Private function for adding a line to training log."""
 
+        ts = self._get_ts()
         if texts == None:
-            texts = ("", "", tuple("" for _ in self.eval_datasets_.keys()))
+            texts = (
+                "",
+                "",
+                tuple("" for _ in ts.eval_datasets_.keys()),
+            )
         if tabs == None:
             tabs = ("┃", "┃", "┃", " ")
         if widths == None:
             widths = (
-                self.train_verbose_format_["len_iter"],
-                self.train_verbose_format_["len_class_distr"],
-                tuple(self.train_verbose_format_["len_datasets"].values()),
+                ts.train_verbose_format_["len_iter"],
+                ts.train_verbose_format_["len_class_distr"],
+                tuple(ts.train_verbose_format_["len_datasets"].values()),
             )
         if flags == None:
             flags = (
                 True,
-                self.train_verbose_["print_distribution"],
-                self.train_verbose_["print_metrics"],
+                ts.train_verbose_["print_distribution"],
+                ts.train_verbose_["print_metrics"],
             )
         (sta_char, mid_char, end_char, fill_char) = tabs
         (flag_iter, flag_distr, flag_metric) = flags
@@ -274,6 +348,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
     def _training_log_to_console_head(self):
         """Private function for printing a table header."""
 
+        ts = self._get_ts()
         # line 1
         info = (
             self._training_log_add_line(
@@ -289,7 +364,8 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     "",
                     "",
                     tuple(
-                        "Data: " + data_name for data_name in self.eval_datasets_.keys()
+                        "Data: " + data_name
+                        for data_name in ts.eval_datasets_.keys()
                     ),
                 ),
             )
@@ -302,7 +378,9 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                 texts=(
                     TRAINING_LOG_HEAD_TITLES["iter"],
                     TRAINING_LOG_HEAD_TITLES["class_distr"],
-                    tuple("Metric" for data_name in self.eval_datasets_.keys()),
+                    tuple(
+                        "Metric" for data_name in ts.eval_datasets_.keys()
+                    ),
                 ),
             )
             + "\n"
@@ -316,7 +394,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
                     "",
                     tuple(
                         self._evaluate("", return_header=True)
-                        for data_name in self.eval_datasets_.keys()
+                        for data_name in ts.eval_datasets_.keys()
                     ),
                 ),
             )
@@ -330,7 +408,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
     def _training_log_to_console(self, i_iter=None, y=None):
         """Private function for printing training log to sys.stdout."""
 
-        if self.train_verbose_:
+        if self._get_ts().train_verbose_:
 
             if not hasattr(self, "_properties"):
                 raise AttributeError(
@@ -361,9 +439,10 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         if i_iter == 0:
             print(self._training_log_to_console_head())
 
-        eval_data_names = self.eval_datasets_.keys()
+        ts = self._get_ts()
+        eval_data_names = ts.eval_datasets_.keys()
 
-        if (i_iter + 1) % self.train_verbose_["granularity"] == 0 or i_iter == 0:
+        if (i_iter + 1) % ts.train_verbose_["granularity"] == 0 or i_iter == 0:
             print(
                 self._training_log_add_line(
                     texts=(
@@ -395,7 +474,7 @@ class ImbalancedEnsembleClassifierMixin(ClassifierMixin):
         """Private function for printing training log to sys.stdout.
         (for ensemble classifiers that train in a parallel manner)"""
 
-        eval_data_names = self.eval_datasets_.keys()
+        eval_data_names = self._get_ts().eval_datasets_.keys()
         print(self._training_log_to_console_head())
         print(
             self._training_log_add_line(
@@ -443,7 +522,7 @@ def _parallel_decision_function(estimators, estimators_features, X):
     random_state=_get_parameter_docstring("random_state"),
     n_jobs=_get_parameter_docstring("n_jobs", **_properties),
 )
-class BaseImbalancedEnsemble(
+class BaseImbalancedEnsemble(  # pylint: disable=too-many-instance-attributes
     ImbalancedEnsembleClassifierMixin, BaseEnsemble, metaclass=ABCMeta
 ):
     """Base class for all imbalanced-ensemble classes that are
@@ -481,6 +560,38 @@ class BaseImbalancedEnsemble(
         The collection of fitted base estimators.
     """
 
+    @property
+    def random_state(self):
+        return self._config['random_state']
+
+    @random_state.setter
+    def random_state(self, value):
+        self._config['random_state'] = value
+
+    @property
+    def n_jobs(self):
+        return self._config['n_jobs']
+
+    @n_jobs.setter
+    def n_jobs(self, value):
+        self._config['n_jobs'] = value
+
+    @property
+    def verbose(self):
+        return self._config['verbose']
+
+    @verbose.setter
+    def verbose(self, value):
+        self._config['verbose'] = value
+
+    @property
+    def check_x_y_args(self):
+        return self._config['check_x_y_args']
+
+    @check_x_y_args.setter
+    def check_x_y_args(self, value):
+        self._config['check_x_y_args'] = value
+
     def __init__(
         self,
         estimator,
@@ -491,13 +602,15 @@ class BaseImbalancedEnsemble(
         verbose=0,
     ):
 
-        self.random_state = random_state
-        self.n_jobs = n_jobs
-        self.verbose = verbose
-        self.check_x_y_args = {
-            "accept_sparse": ["csr", "csc"],
-            "ensure_all_finite": False,
-            "dtype": None,
+        self._config = {
+            'random_state': random_state,
+            'n_jobs': n_jobs,
+            'verbose': verbose,
+            'check_x_y_args': {
+                "accept_sparse": ["csr", "csc"],
+                "ensure_all_finite": False,
+                "dtype": None,
+            },
         }
 
         super(BaseImbalancedEnsemble, self).__init__(
@@ -581,10 +694,12 @@ class BaseImbalancedEnsemble(
 
         # Remap output
         n_samples, self.n_features_in_ = X.shape
-        self.features_ = np.arange(self.n_features_in_)
-        self._n_samples = n_samples
+        self._internal_state_ = {
+            'features': np.arange(self.n_features_in_),
+            'n_samples': n_samples,
+        }
         y = self._validate_y(y)
-        self._encode_map = {
+        self._internal_state_['encode_map'] = {
             c: np.where(self.classes_ == c)[0][0] for c in self.classes_
         }
 

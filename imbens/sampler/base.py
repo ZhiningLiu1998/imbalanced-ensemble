@@ -1,4 +1,4 @@
-﻿"""Base class for sampling
+"""Base class for sampling
 """
 
 # Adapted from imbalanced-learn

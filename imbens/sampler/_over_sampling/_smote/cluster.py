@@ -211,6 +211,87 @@ class KMeansSMOTE(BaseSMOTE):
         )
         return (mean_distance ** exponent) / X.shape[0]
 
+    def _get_valid_clusters_and_sparsities(
+        self, X, y, X_clusters, class_sample, n_samples, total_inp_samples
+    ):
+        valid_clusters = []
+        cluster_sparsities = []
+
+        for cluster_idx in range(self.kmeans_estimator_.n_clusters):
+            cluster_mask = np.flatnonzero(X_clusters == cluster_idx)
+            X_cluster = _safe_indexing(X, cluster_mask)
+            y_cluster = _safe_indexing(y, cluster_mask)
+
+            if cluster_mask.sum() == 0:
+                continue
+
+            cluster_class_mean = (y_cluster == class_sample).mean()
+            balance_threshold = (
+                n_samples / total_inp_samples / 2
+                if self.cluster_balance_threshold_ == "auto"
+                else self.cluster_balance_threshold_
+            )
+
+            if cluster_class_mean < balance_threshold:
+                continue
+
+            anticipated_samples = cluster_class_mean * X_cluster.shape[0]
+            if anticipated_samples < self.nn_k_.n_neighbors:
+                continue
+
+            X_cluster_class = _safe_indexing(
+                X_cluster, np.flatnonzero(y_cluster == class_sample)
+            )
+            valid_clusters.append(cluster_mask)
+            cluster_sparsities.append(
+                self._find_cluster_sparsity(X_cluster_class)
+            )
+
+        return valid_clusters, np.array(cluster_sparsities)
+
+    def _sample_from_cluster(
+        self, X, y, valid_cluster_idx, valid_cluster, class_sample,
+        n_samples, cluster_n_samples_list, cluster_weights,
+        X_resampled, y_resampled
+    ):
+        X_cluster = _safe_indexing(X, valid_cluster)
+        y_cluster = _safe_indexing(y, valid_cluster)
+
+        X_cluster_class = _safe_indexing(
+            X_cluster, np.flatnonzero(y_cluster == class_sample)
+        )
+
+        self.nn_k_.fit(X_cluster_class)
+        nns = self.nn_k_.kneighbors(X_cluster_class, return_distance=False)[
+            :, 1:
+        ]
+
+        cluster_n_samples = (
+            int(n_samples - sum(cluster_n_samples_list))
+            if valid_cluster_idx == self.kmeans_estimator_.n_clusters - 1
+            else math.floor(
+                n_samples * cluster_weights[valid_cluster_idx]
+            )
+        )
+
+        cluster_n_samples_list[valid_cluster_idx] = cluster_n_samples
+
+        X_new, y_new = self._make_samples(
+            X_cluster_class,
+            y.dtype,
+            class_sample,
+            X_cluster_class,
+            nns,
+            cluster_n_samples,
+            1.0,
+        )
+
+        stack = [np.vstack, sparse.vstack][int(sparse.issparse(X_new))]
+        X_resampled = stack((X_resampled, X_new))
+        y_resampled = np.hstack((y_resampled, y_new))
+
+        return X_resampled, y_resampled
+
     def _fit_resample(self, X, y, sample_weight=None):
         self._validate_estimator()
         X_resampled = X.copy()
@@ -222,44 +303,12 @@ class KMeansSMOTE(BaseSMOTE):
                 continue
 
             X_clusters = self.kmeans_estimator_.fit_predict(X)
-            valid_clusters = []
-            cluster_sparsities = []
-
-            # identify cluster which are answering the requirements
-            for cluster_idx in range(self.kmeans_estimator_.n_clusters):
-
-                cluster_mask = np.flatnonzero(X_clusters == cluster_idx)
-                X_cluster = _safe_indexing(X, cluster_mask)
-                y_cluster = _safe_indexing(y, cluster_mask)
-                
-                # empty cluster
-                if cluster_mask.sum() == 0:
-                    continue
-
-                cluster_class_mean = (y_cluster == class_sample).mean()
-
-                if self.cluster_balance_threshold_ == "auto":
-                    balance_threshold = n_samples / total_inp_samples / 2
-                else:
-                    balance_threshold = self.cluster_balance_threshold_
-
-                # the cluster is already considered balanced
-                if cluster_class_mean < balance_threshold:
-                    continue
-
-                # not enough samples to apply SMOTE
-                anticipated_samples = cluster_class_mean * X_cluster.shape[0]
-                if anticipated_samples < self.nn_k_.n_neighbors:
-                    continue
-
-                X_cluster_class = _safe_indexing(
-                    X_cluster, np.flatnonzero(y_cluster == class_sample)
+            valid_clusters, cluster_sparsities = (
+                self._get_valid_clusters_and_sparsities(
+                    X, y, X_clusters, class_sample, n_samples, total_inp_samples
                 )
+            )
 
-                valid_clusters.append(cluster_mask)
-                cluster_sparsities.append(self._find_cluster_sparsity(X_cluster_class))
-
-            cluster_sparsities = np.array(cluster_sparsities)
             cluster_weights = cluster_sparsities / cluster_sparsities.sum()
             cluster_n_samples_list = np.zeros_like(cluster_weights)
 
@@ -272,51 +321,29 @@ class KMeansSMOTE(BaseSMOTE):
                 )
 
             for valid_cluster_idx, valid_cluster in enumerate(valid_clusters):
-                X_cluster = _safe_indexing(X, valid_cluster)
-                y_cluster = _safe_indexing(y, valid_cluster)
-
-                X_cluster_class = _safe_indexing(
-                    X_cluster, np.flatnonzero(y_cluster == class_sample)
+                X_resampled, y_resampled = self._sample_from_cluster(
+                    X, y, valid_cluster_idx, valid_cluster, class_sample,
+                    n_samples, cluster_n_samples_list, cluster_weights,
+                    X_resampled, y_resampled
                 )
 
-                self.nn_k_.fit(X_cluster_class)
-                nns = self.nn_k_.kneighbors(X_cluster_class, return_distance=False)[
-                    :, 1:
-                ]
+        return self._handle_sample_weight(
+            sample_weight, X_resampled, y_resampled, y
+        )
 
-                if valid_cluster_idx == self.kmeans_estimator_.n_clusters - 1:
-                    cluster_n_samples = int(n_samples - sum(cluster_n_samples_list))
-                else:
-                    cluster_n_samples = math.floor(
-                        n_samples * cluster_weights[valid_cluster_idx]
-                    )
-                cluster_n_samples_list[valid_cluster_idx] = cluster_n_samples
-
-                X_new, y_new = self._make_samples(
-                    X_cluster_class,
-                    y.dtype,
-                    class_sample,
-                    X_cluster_class,
-                    nns,
-                    cluster_n_samples,
-                    1.0,
-                )
-
-                stack = [np.vstack, sparse.vstack][int(sparse.issparse(X_new))]
-                X_resampled = stack((X_resampled, X_new))
-                y_resampled = np.hstack((y_resampled, y_new))
-        
-        # If given sample_weight
+    def _handle_sample_weight(self, sample_weight, X_resampled, y_resampled, y):
         if sample_weight is not None:
-            # sample_weight is already validated in self.fit_resample()
             sample_weight_new = \
                 np.empty(y_resampled.shape[0] - y.shape[0], dtype=np.float64)
             sample_weight_new[:] = np.mean(sample_weight)
-            sample_weight_resampled = np.hstack([sample_weight, sample_weight_new]).reshape(-1, 1)
+            sample_weight_resampled = np.hstack(
+                [sample_weight, sample_weight_new]
+            ).reshape(-1, 1)
             sample_weight_resampled = \
                 np.squeeze(normalize(sample_weight_resampled, axis=0, norm='l1'))
             return X_resampled, y_resampled, sample_weight_resampled
-        else: return X_resampled, y_resampled
+
+        return X_resampled, y_resampled
 
 
 # %%

@@ -1,4 +1,4 @@
-﻿"""SMOTE variant applying some filtering before the generation process."""
+"""SMOTE variant applying some filtering before the generation process."""
 # Adapted from imbalanced-learn
 
 # Authors: Guillaume Lemaitre
@@ -397,13 +397,16 @@ SVMSMOTE # doctest: +NORMALIZE_WHITESPACE
             self.nn_k_.fit(X_class)
             fractions = random_state.beta(10, 10)
             n_generated_samples = int(fractions * (n_samples + 1))
+            X_new_list = []
+            y_new_list = []
+
             if np.count_nonzero(danger_bool) > 0:
                 nns = self.nn_k_.kneighbors(
                     _safe_indexing(support_vector, np.flatnonzero(danger_bool)),
                     return_distance=False,
                 )[:, 1:]
 
-                X_new_1, y_new_1 = self._make_samples(
+                X_new, y_new = self._make_samples(
                     _safe_indexing(support_vector, np.flatnonzero(danger_bool)),
                     y.dtype,
                     class_sample,
@@ -412,6 +415,8 @@ SVMSMOTE # doctest: +NORMALIZE_WHITESPACE
                     n_generated_samples,
                     step_size=1.0,
                 )
+                X_new_list.append(X_new)
+                y_new_list.append(y_new)
 
             if np.count_nonzero(safety_bool) > 0:
                 nns = self.nn_k_.kneighbors(
@@ -419,7 +424,7 @@ SVMSMOTE # doctest: +NORMALIZE_WHITESPACE
                     return_distance=False,
                 )[:, 1:]
 
-                X_new_2, y_new_2 = self._make_samples(
+                X_new, y_new = self._make_samples(
                     _safe_indexing(support_vector, np.flatnonzero(safety_bool)),
                     y.dtype,
                     class_sample,
@@ -428,25 +433,15 @@ SVMSMOTE # doctest: +NORMALIZE_WHITESPACE
                     n_samples - n_generated_samples,
                     step_size=-self.out_step,
                 )
+                X_new_list.append(X_new)
+                y_new_list.append(y_new)
 
-            if np.count_nonzero(danger_bool) > 0 and np.count_nonzero(safety_bool) > 0:
+            if X_new_list:
                 if sparse.issparse(X_resampled):
-                    X_resampled = sparse.vstack([X_resampled, X_new_1, X_new_2])
+                    X_resampled = sparse.vstack([X_resampled] + X_new_list)
                 else:
-                    X_resampled = np.vstack((X_resampled, X_new_1, X_new_2))
-                y_resampled = np.concatenate((y_resampled, y_new_1, y_new_2), axis=0)
-            elif np.count_nonzero(danger_bool) == 0:
-                if sparse.issparse(X_resampled):
-                    X_resampled = sparse.vstack([X_resampled, X_new_2])
-                else:
-                    X_resampled = np.vstack((X_resampled, X_new_2))
-                y_resampled = np.concatenate((y_resampled, y_new_2), axis=0)
-            elif np.count_nonzero(safety_bool) == 0:
-                if sparse.issparse(X_resampled):
-                    X_resampled = sparse.vstack([X_resampled, X_new_1])
-                else:
-                    X_resampled = np.vstack((X_resampled, X_new_1))
-                y_resampled = np.concatenate((y_resampled, y_new_1), axis=0)
+                    X_resampled = np.vstack([X_resampled] + X_new_list)
+                y_resampled = np.concatenate([y_resampled] + y_new_list, axis=0)
 
         # If given sample_weight
         if sample_weight is not None:

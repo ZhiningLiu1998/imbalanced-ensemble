@@ -298,13 +298,13 @@ RepeatedEditedNearestNeighbours # doctest : +NORMALIZE_WHITESPACE
                 f" Got {type(self.max_iter)} instead."
             )
 
-        self.nn_ = check_neighbors_object(
+        nn = check_neighbors_object(
             "n_neighbors", self.n_neighbors, additional_neighbor=1
         )
 
         self.enn_ = EditedNearestNeighbours(
             sampling_strategy=self.sampling_strategy,
-            n_neighbors=self.nn_,
+            n_neighbors=nn,
             kind_sel=self.kind_sel,
             n_jobs=self.n_jobs,
         )

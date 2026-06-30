@@ -98,6 +98,19 @@ def set_ax_border(ax, border_color="black", border_width=2):
     return ax
 
 
+class _FitData:
+    """Container for data produced during ImbalancedEnsembleVisualizer.fit()."""
+
+    def __init__(self):
+        self.ensembles_ = None
+        self.vis_format_ = None
+        self.ensembles_n_training_samples_ = None
+        self.ensembles_has_n_training_samples_ = None
+        self.granularity_ = None
+        self.perf_dataframe_ = None
+        self.conf_matrices_ = None
+
+
 class ImbalancedEnsembleVisualizer:
     """A visualizer, providing several utilities to visualize:
 
@@ -218,29 +231,34 @@ class ImbalancedEnsembleVisualizer:
             )
 
         # Default styles of different titles
-        self.suptitle_style = {
-            "size": "x-large",
-            "stretch": "expanded",
-            "style": "italic",
-            "variant": "small-caps",
-            "weight": "black",
-        }
-        self.row_col_title_style = {
-            "size": "large",
-            "weight": "bold",
-            "bbox": {
-                "boxstyle": "round",
-                "pad": 0.25,
-                "fc": "white",
-                "ec": "black",
-                "lw": 1,
-                "alpha": 0.5,
+        self._title_styles = {
+            'suptitle': {
+                "size": "x-large",
+                "stretch": "expanded",
+                "style": "italic",
+                "variant": "small-caps",
+                "weight": "black",
+            },
+            'row_col': {
+                "size": "large",
+                "weight": "bold",
+                "bbox": {
+                    "boxstyle": "round",
+                    "pad": 0.25,
+                    "fc": "white",
+                    "ec": "black",
+                    "lw": 1,
+                    "alpha": 0.5,
+                },
+            },
+            'axis': {
+                "size": "medium",
+                "weight": "bold",
             },
         }
-        self.axis_title_style = {
-            "size": "medium",
-            "weight": "bold",
-        }
+
+        # Container for data produced during fit
+        self._fit_data = _FitData()
 
     def fit(
         self,
@@ -284,13 +302,13 @@ class ImbalancedEnsembleVisualizer:
         eval_datasets_, eval_metrics_ = self.eval_datasets_, self.eval_metrics_
         # eval_datasets_ needs to be further validated in check_visualizer_ensembles
         (
-            self.ensembles_,
+            self._fit_data.ensembles_,
             self.eval_datasets_,
-            self.vis_format_,
+            self._fit_data.vis_format_,
         ) = check_visualizer_ensembles(ensembles, eval_datasets_, eval_metrics_)
         (
-            self.ensembles_n_training_samples_,
-            self.ensembles_has_n_training_samples_,
+            self._fit_data.ensembles_n_training_samples_,
+            self._fit_data.ensembles_has_n_training_samples_,
         ) = self._check_ensembles_stored_n_training_samples()
 
         # Check granularity
@@ -298,14 +316,14 @@ class ImbalancedEnsembleVisualizer:
             granularity_ = check_type(granularity, "granularity", numbers.Integral)
         else:
             max_n_estimators = max(
-                [len(ens.estimators_) for ens in self.ensembles_.values()]
+                [len(ens.estimators_) for ens in self._fit_data.ensembles_.values()]
             )
             granularity_ = max(int(max_n_estimators / 5), 1)
-        self.granularity_ = granularity_
+        self._fit_data.granularity_ = granularity_
 
         # Collect data for visualization
-        self.perf_dataframe_ = self._collect_all_ensemble_performance_data()
-        self.conf_matrices_ = self._collect_all_ensemble_confusion_matrix()
+        self._fit_data.perf_dataframe_ = self._collect_all_ensemble_performance_data()
+        self._fit_data.conf_matrices_ = self._collect_all_ensemble_confusion_matrix()
 
         self._fitted = True
 
@@ -330,7 +348,7 @@ class ImbalancedEnsembleVisualizer:
 
         ensembles_has_n_training_samples = {}
         ensembles_n_training_samples = {}
-        for name, ensemble in self.ensembles_.items():
+        for name, ensemble in self._fit_data.ensembles_.items():
             (
                 estimators_n_training_samples_,
                 flag,
@@ -472,14 +490,14 @@ class ImbalancedEnsembleVisualizer:
         """Private function for collecting performance data of a single ensemble model."""
 
         # Set local variables
-        granularity = self.granularity_
+        granularity = self._fit_data.granularity_
         eval_metrics = self.eval_metrics_
         classes_ = ensemble.classes_
         max_n_estimators = len(ensemble.estimators_)
-        estimators_n_training_samples_ = self.ensembles_n_training_samples_[
+        estimators_n_training_samples_ = self._fit_data.ensembles_n_training_samples_[
             ensemble_name
         ]
-        has_n_training_samples_ = self.ensembles_has_n_training_samples_[ensemble_name]
+        has_n_training_samples_ = self._fit_data.ensembles_has_n_training_samples_[ensemble_name]
 
         results = []
         # For each evaluation dataset
@@ -537,15 +555,15 @@ class ImbalancedEnsembleVisualizer:
         """Private function for collecting performance data of all ensemble models."""
 
         # max_len_xxx_name was used to format the verbose
-        max_len_ensemble_name = max([len(_) for _ in self.ensembles_.keys()])
-        max_len_dataset_name = max([len(_) for _ in self.vis_format_["dataset_names"]])
+        max_len_ensemble_name = max([len(_) for _ in self._fit_data.ensembles_.keys()])
+        max_len_dataset_name = max([len(_) for _ in self._fit_data.vis_format_["dataset_names"]])
 
         return pd.concat(
             [
                 self._collect_ensemble_performance_data(
                     ensemble_name, ensemble, max_len_ensemble_name, max_len_dataset_name
                 )
-                for ensemble_name, ensemble in self.ensembles_.items()
+                for ensemble_name, ensemble in self._fit_data.ensembles_.items()
             ]
         )
 
@@ -554,7 +572,7 @@ class ImbalancedEnsembleVisualizer:
         the array of numbers of training samples of each base estimator.
         """
 
-        ensembles_has_n_training_samples = self.ensembles_has_n_training_samples_
+        ensembles_has_n_training_samples = self._fit_data.ensembles_has_n_training_samples_
         positives, negatives = [], []
         for ensemble_name in on_ensembles_:
             if ensembles_has_n_training_samples[ensemble_name]:
@@ -563,6 +581,191 @@ class ImbalancedEnsembleVisualizer:
                 negatives.append(ensemble_name)
 
         return tuple(positives), tuple(negatives)
+
+    def _validate_performance_lineplot_params(
+        self, on_ensembles, on_datasets, on_metrics, split_by,
+        n_samples_as_x_axis, sub_figsize, sup_title, lineplot_kwargs
+    ):
+        vis_perf_dataframe = self._fit_data.perf_dataframe_.copy()
+
+        if not self._fitted:
+            raise NotFittedError(
+                f"This visualizer is not fitted yet."
+                f" Call 'fit' with appropriate arguments before calling"
+                f" 'performance_lineplot'."
+            )
+
+        on_ensembles = self._check_is_subset(
+            on_ensembles, "on_ensembles", self._fit_data.vis_format_["ensemble_names"]
+        )
+        on_datasets = self._check_is_subset(
+            on_datasets, "on_datasets", self._fit_data.vis_format_["dataset_names"]
+        )
+        on_metrics = self._check_is_subset(
+            on_metrics, "on_metrics", self._fit_data.vis_format_["metric_names"]
+        )
+        n_datasets, n_metrics = len(on_datasets), len(on_metrics)
+
+        if not isinstance(split_by, list):
+            raise TypeError(
+                f"'split_by' should be a `list` of `string`, got {type(split_by)}."
+                f" Elements should be one of {SPLIT_BY}."
+            )
+        check_has_diff_elements(
+            split_by,
+            SPLIT_BY,
+            msg=f"Got unsupported value %(diff_set)s in 'split_by'."
+            f" Elements should be one of {SPLIT_BY}.",
+        )
+
+        n_samples_as_x_axis_ = check_type(
+            n_samples_as_x_axis, "n_samples_as_x_axis_", bool
+        )
+
+        (sub_fig_width, sub_fig_height) = check_plot_figsize(sub_figsize)
+
+        sup_title_ = check_type(sup_title, "sup_title", (bool, str))
+
+        lineplot_kwargs_ = copy(LINEPLOT_KWARGS_DEFAULT)
+        lineplot_kwargs_.update(lineplot_kwargs)
+        for kw in ["ax", "data", "x", "y", "hue", "style"]:
+            if kw in lineplot_kwargs_.keys():
+                raise ValueError(
+                    f"Cannot set parameter '{kw}' for"
+                    f" performance_lineplot function."
+                )
+
+        on_ensembles_mask = vis_perf_dataframe["method"].map(
+            {k: k in on_ensembles for k in self._fit_data.vis_format_["ensemble_names"]}
+        )
+        on_datasets_mask = vis_perf_dataframe["dataset"].map(
+            {k: k in on_datasets for k in self._fit_data.vis_format_["dataset_names"]}
+        )
+        on_metrics_mask = vis_perf_dataframe["metric"].map(
+            {k: k in on_metrics for k in self._fit_data.vis_format_["metric_names"]}
+        )
+        final_mask = on_ensembles_mask & on_datasets_mask & on_metrics_mask
+        vis_perf_dataframe = vis_perf_dataframe.loc[final_mask]
+
+        return (vis_perf_dataframe, on_ensembles, on_metrics, n_datasets,
+                n_metrics, n_samples_as_x_axis_, sub_fig_width,
+                sub_fig_height, sup_title_, lineplot_kwargs_)
+
+    def _configure_x_axis(
+        self, vis_perf_dataframe, on_ensembles, n_samples_as_x_axis_
+    ):
+        n_ensembles = len(on_ensembles)
+
+        if n_samples_as_x_axis_:
+            (
+                include_ensembles,
+                exclude_ensembles,
+            ) = self._split_ensembles_by_has_n_training_samples_(on_ensembles)
+            if len(exclude_ensembles) > 0:
+                warn(
+                    f"scikit-learn ensemble estimator(s) with name"
+                    + f" {exclude_ensembles} does not record the number"
+                    + f" training samples, they will be excluded from the"
+                    + f" figure when `n_samples_as_x_axis` = `True`."
+                )
+                n_ensembles = len(include_ensembles)
+                has_n_samples_mask = vis_perf_dataframe["method"].map(
+                    self._fit_data.ensembles_has_n_training_samples_
+                )
+                vis_perf_dataframe = vis_perf_dataframe.loc[has_n_samples_mask]
+            x_column = "n_samples"
+            x_label = "# Training Samples"
+        else:
+            x_column = "n_estimators"
+            x_label = "# Base Estimators"
+
+        return x_column, x_label, vis_perf_dataframe, n_ensembles
+
+    def _setup_figure_layout(
+        self, n_ensembles, n_datasets, n_metrics, split_by,
+        sub_fig_width, sub_fig_height, sup_title_, on_metrics
+    ):
+        n_rows_fig, n_columns_fig = 1, n_metrics
+        if "method" in split_by:
+            n_rows_fig *= n_ensembles
+        if "dataset" in split_by:
+            n_rows_fig *= n_datasets
+
+        total_width, total_height = (
+            sub_fig_width * n_columns_fig,
+            sub_fig_height * n_rows_fig,
+        )
+        total_height += RESERVED_SUPTITLE_INCHES if sup_title_ else 0
+        figsize = (total_width, total_height)
+        fig, axes = plt.subplots(n_rows_fig, n_columns_fig, figsize=figsize)
+        axes = np.array(axes).reshape(n_rows_fig, n_columns_fig)
+
+        self._annotate_column_titles(axes, on_metrics)
+
+        return fig, axes, n_rows_fig, n_columns_fig, total_height
+
+    def _annotate_column_titles(self, axes, on_metrics):
+        pad = 10
+        col_titles = ["Metric: <{}>".format(metric) for metric in on_metrics]
+        for ax, col_title in zip(axes[0], col_titles):
+            ax.annotate(
+                col_title,
+                xy=(0.5, 1),
+                xytext=(0, pad),
+                xycoords="axes fraction",
+                textcoords="offset points",
+                ha="center",
+                va="baseline",
+                **self._title_styles['row_col'],
+            )
+
+    @staticmethod
+    def _set_figure_suptitle(
+        fig, sup_title_, singular_text, plural_text, is_single, suptitle_style
+    ):
+        if sup_title_ is True:
+            fig.suptitle(
+                singular_text if is_single else plural_text, **suptitle_style
+            )
+        elif isinstance(sup_title_, str):
+            fig.suptitle(sup_title_, **suptitle_style)
+
+    def _plot_single_performance_curve(
+        self, ax, data, x_column, x_label, metric_name, lineplot_kwargs
+    ):
+        kwargs = {
+            "data": data,
+            "x": x_column,
+            "y": "score",
+            "hue": "method",
+            "style": "dataset",
+            "ax": ax,
+        }
+        kwargs.update(lineplot_kwargs)
+        ax = sns.lineplot(**kwargs)
+        ax.legend(
+            columnspacing=0.3,
+            borderaxespad=0.3,
+            handletextpad=0.3,
+            labelspacing=0.1,
+            handlelength=None,
+            borderpad=0.4,
+        )
+        ax = set_ax_border(ax, border_color="black", border_width=2)
+        ax.set_xlabel(x_label, **self._title_styles['axis'])
+        ax.set_ylabel(f"{metric_name}", **self._title_styles['axis'])
+        ax.grid(color="black", linestyle="-.", alpha=0.3)
+
+    def _finalize_performance_figure(
+        self, fig, total_height, sup_title_, n_rows_fig, n_columns_fig
+    ):
+        height_rect = (total_height - RESERVED_SUPTITLE_INCHES) / total_height
+        plt.tight_layout(rect=(0, 0, 1, height_rect))
+
+        ImbalancedEnsembleVisualizer._set_figure_suptitle(
+            fig, sup_title_, "Performance Curve", "Performance Curves",
+            n_rows_fig == n_columns_fig == 1, self._title_styles['suptitle']
+        )
 
     def performance_lineplot(
         self,
@@ -581,7 +784,7 @@ class ImbalancedEnsembleVisualizer:
         ----------
         on_ensembles : list of strings, default=None
             The names of ensembles to include in the plot. It should be a
-            subset of ``self.ensembles_.keys()``. if ``None``, all ensembles
+            subset of ``self._fit_data.ensembles_.keys()``. if ``None``, all ensembles
             fitted by the visualizer will be included.
 
         on_datasets : list of strings, default=None
@@ -626,179 +829,39 @@ class ImbalancedEnsembleVisualizer:
         self : object
         """
 
-        vis_perf_dataframe = self.perf_dataframe_.copy()
-
-        # Check if the visualizer is fitted
-        if not self._fitted:
-            raise NotFittedError(
-                f"This visualizer is not fitted yet."
-                f" Call 'fit' with appropriate arguments before calling"
-                f" 'performance_lineplot'."
+        (vis_perf_dataframe, on_ensembles, on_metrics, n_datasets,
+         n_metrics, n_samples_as_x_axis_, sub_fig_width,
+         sub_fig_height, sup_title_, lineplot_kwargs_) = (
+            self._validate_performance_lineplot_params(
+                on_ensembles, on_datasets, on_metrics, split_by,
+                n_samples_as_x_axis, sub_figsize, sup_title, lineplot_kwargs
             )
-
-        # Check parameters
-        on_ensembles = self._check_is_subset(
-            on_ensembles, "on_ensembles", self.vis_format_["ensemble_names"]
-        )
-        on_datasets = self._check_is_subset(
-            on_datasets, "on_datasets", self.vis_format_["dataset_names"]
-        )
-        on_metrics = self._check_is_subset(
-            on_metrics, "on_metrics", self.vis_format_["metric_names"]
-        )
-        n_ensembles, n_datasets, n_metrics = (
-            len(on_ensembles),
-            len(on_datasets),
-            len(on_metrics),
         )
 
-        if not isinstance(split_by, list):
-            raise TypeError(
-                f"'split_by' should be a `list` of `string`, got {type(split_by)}."
-                f" Elements should be one of {SPLIT_BY}."
+        x_column, x_label, vis_perf_dataframe, n_ensembles = (
+            self._configure_x_axis(
+                vis_perf_dataframe, on_ensembles, n_samples_as_x_axis_
             )
-        check_has_diff_elements(
-            split_by,
-            SPLIT_BY,
-            msg=f"Got unsupported value %(diff_set)s in 'split_by'."
-            f" Elements should be one of {SPLIT_BY}.",
         )
 
-        n_samples_as_x_axis_ = check_type(
-            n_samples_as_x_axis, "n_samples_as_x_axis_", bool
-        )
-
-        (sub_fig_width, sub_fig_height) = check_plot_figsize(sub_figsize)
-
-        sup_title_ = check_type(sup_title, "sup_title", (bool, str))
-
-        lineplot_kwargs_ = copy(LINEPLOT_KWARGS_DEFAULT)
-        lineplot_kwargs_.update(lineplot_kwargs)
-        for kw in ["ax", "data", "x", "y", "hue", "style"]:
-            if kw in lineplot_kwargs_.keys():
-                raise ValueError(
-                    f"Cannot set parameter '{kw}' for"
-                    f" performance_lineplot function."
-                )
-
-        # Select data for visualization
-        on_ensembles_mask = vis_perf_dataframe["method"].map(
-            {k: k in on_ensembles for k in self.vis_format_["ensemble_names"]}
-        )
-        on_datasets_mask = vis_perf_dataframe["dataset"].map(
-            {k: k in on_datasets for k in self.vis_format_["dataset_names"]}
-        )
-        on_metrics_mask = vis_perf_dataframe["metric"].map(
-            {k: k in on_metrics for k in self.vis_format_["metric_names"]}
-        )
-        final_mask = on_ensembles_mask & on_datasets_mask & on_metrics_mask
-        vis_perf_dataframe = vis_perf_dataframe.loc[final_mask]
-
-        # Set subfigure x-axis (# estimators or # training samples)
-        if n_samples_as_x_axis_:
-            (
-                include_ensembles,
-                exclude_ensembles,
-            ) = self._split_ensembles_by_has_n_training_samples_(on_ensembles)
-            # If any estimator does not have `estimators_n_training_samples_` attribute
-            if len(exclude_ensembles) > 0:
-                # Raise a warning of excluding some methods from visualization
-                warn(
-                    f"scikit-learn ensemble estimator(s) with name"
-                    + f" {exclude_ensembles} does not record the number"
-                    + f" training samples, they will be excluded from the"
-                    + f" figure when `n_samples_as_x_axis` = `True`."
-                )
-                # Update the number of included ensemble methods
-                n_ensembles = len(include_ensembles)
-                # Select data
-                has_n_samples_mask = vis_perf_dataframe["method"].map(
-                    self.ensembles_has_n_training_samples_
-                )
-                vis_perf_dataframe = vis_perf_dataframe.loc[has_n_samples_mask]
-            # Set x-axis to number of samples
-            x_column = "n_samples"
-            x_label = "# Training Samples"
-        else:
-            # Set x-axis to number of base estimators
-            x_column = "n_estimators"
-            x_label = "# Base Estimators"
-
-        # Set figure size and layout
-        n_rows_fig, n_columns_fig = 1, n_metrics
-        if "method" in split_by:
-            n_rows_fig *= n_ensembles
-        if "dataset" in split_by:
-            n_rows_fig *= n_datasets
-
-        total_width, total_height = (
-            sub_fig_width * n_columns_fig,
-            sub_fig_height * n_rows_fig,
-        )
-        # If has sup_title, add reserved space
-        total_height += RESERVED_SUPTITLE_INCHES if sup_title_ else 0
-        figsize = (total_width, total_height)
-        fig, axes = plt.subplots(n_rows_fig, n_columns_fig, figsize=figsize)
-        axes = np.array(axes).reshape(n_rows_fig, n_columns_fig)
-
-        # Set column titles
-        pad = 10
-        col_titles = ["Metric: <{}>".format(metric) for metric in on_metrics]
-        for ax, col_title in zip(axes[0], col_titles):
-            ax.annotate(
-                col_title,
-                xy=(0.5, 1),
-                xytext=(0, pad),
-                xycoords="axes fraction",
-                textcoords="offset points",
-                ha="center",
-                va="baseline",
-                **self.row_col_title_style,
+        fig, axes, n_rows_fig, n_columns_fig, total_height = (
+            self._setup_figure_layout(
+                n_ensembles, n_datasets, n_metrics, split_by,
+                sub_fig_width, sub_fig_height, sup_title_, on_metrics
             )
+        )
 
-        # Plot performances on each ax
         vis_df_grp = vis_perf_dataframe.groupby(by=split_by + ["metric"])
         for (key, _), ax in zip(vis_df_grp.groups.items(), axes.flatten()):
             metric_name = key if len(split_by) == 0 else key[-1]
-            # Use seaborn.lineplot for visualization
-            kwargs = {
-                "data": vis_df_grp.get_group(key).reset_index(drop=True),
-                "x": x_column,
-                "y": "score",
-                "hue": "method",
-                "style": "dataset",
-                "ax": ax,
-            }
-            kwargs.update(lineplot_kwargs_)
-            ax = sns.lineplot(**kwargs)
-            # Set legend, border, x_label, y_label, and grid properties
-            ax.legend(
-                columnspacing=0.3,
-                borderaxespad=0.3,
-                handletextpad=0.3,
-                labelspacing=0.1,
-                handlelength=None,
-                borderpad=0.4,
+            data = vis_df_grp.get_group(key).reset_index(drop=True)
+            self._plot_single_performance_curve(
+                ax, data, x_column, x_label, metric_name, lineplot_kwargs_
             )
-            ax = set_ax_border(ax, border_color="black", border_width=2)
-            ax.set_xlabel(x_label, **self.axis_title_style)
-            ax.set_ylabel(f"{metric_name}", **self.axis_title_style)
-            ax.grid(color="black", linestyle="-.", alpha=0.3)
 
-        # Use tight layout
-        height_rect = (total_height - RESERVED_SUPTITLE_INCHES) / total_height
-        plt.tight_layout(rect=(0, 0, 1, height_rect))
-
-        # Set super title
-        if sup_title_ == True:
-            if n_rows_fig == n_columns_fig == 1:
-                fig.suptitle("Performance Curve", **self.suptitle_style)
-            else:
-                fig.suptitle("Performance Curves", **self.suptitle_style)
-        elif sup_title_ == False:
-            pass
-        else:
-            fig.suptitle(sup_title_, **self.suptitle_style)
+        self._finalize_performance_figure(
+            fig, total_height, sup_title_, n_rows_fig, n_columns_fig
+        )
 
         return fig, axes
 
@@ -809,7 +872,7 @@ class ImbalancedEnsembleVisualizer:
 
         print("Visualizer computing confusion matrices", end="")
         conf_matrices = {}
-        for ensemble_name, ensemble in self.ensembles_.items():
+        for ensemble_name, ensemble in self._fit_data.ensembles_.items():
             conf_matrices_ensemble = {}
             # Check whether the ensemble has verbose attribute
             has_verbose = hasattr(ensemble, "verbose")
@@ -854,6 +917,57 @@ class ImbalancedEnsembleVisualizer:
                 f" The possible values are {universal_set}."
             )
 
+    def _set_heatmap_titles(self, axes, on_datasets, on_ensembles):
+        pad = 10
+        row_titles = ["On dataset: <{}>".format(col) for col in on_datasets]
+        col_titles = ["Method: <{}>".format(row) for row in on_ensembles]
+        for ax, col_title in zip(axes[0], col_titles):
+            ax.annotate(
+                col_title,
+                xy=(0.5, 1),
+                xytext=(0, pad),
+                xycoords="axes fraction",
+                textcoords="offset points",
+                ha="center",
+                va="baseline",
+                **self._title_styles['row_col'],
+            )
+        for ax, row_title in zip(axes[:, 0], row_titles):
+            ax.annotate(
+                row_title,
+                xy=(0, 0.5),
+                xytext=(-ax.yaxis.labelpad - pad, 0),
+                xycoords=ax.yaxis.label,
+                textcoords="offset points",
+                ha="right",
+                va="center",
+                rotation=90,
+                **self._title_styles['row_col'],
+            )
+
+    def _plot_heatmap_subplots(
+        self, axes, on_datasets, on_ensembles, heatmap_kwargs, false_pred_only
+    ):
+        conf_matrices = self._fit_data.conf_matrices_
+        n_rows_fig, n_columns_fig = axes.shape
+        for dataset_name, i_row in zip(on_datasets, range(n_rows_fig)):
+            for ensemble_name, i_col in zip(on_ensembles, range(n_columns_fig)):
+                ax = axes[i_row, i_col]
+                conf_matrix_df = conf_matrices[ensemble_name][dataset_name]
+                kwargs = {
+                    "data": conf_matrix_df,
+                    "annot": True,
+                    "fmt": "d",
+                    "linewidths": 0.5,
+                    "ax": ax,
+                }
+                kwargs.update(heatmap_kwargs)
+                if false_pred_only:
+                    kwargs["mask"] = np.identity(conf_matrix_df.shape[0])
+                sns.heatmap(**kwargs)
+                ax.set_xlabel("Predicted Label", **self._title_styles['axis'])
+                ax.set_ylabel("Ground Truth", **self._title_styles['axis'])
+
     def confusion_matrix_heatmap(
         self,
         on_ensembles: list = None,
@@ -869,7 +983,7 @@ class ImbalancedEnsembleVisualizer:
         ----------
         on_ensembles : list of strings, default=None
             The names of ensembles to include in the plot. It should be a
-            subset of ``self.ensembles_.keys()``. if ``None``, all ensembles
+            subset of ``self._fit_data.ensembles_.keys()``. if ``None``, all ensembles
             fitted by the visualizer will be included.
 
         on_datasets : list of strings, default=None
@@ -911,10 +1025,10 @@ class ImbalancedEnsembleVisualizer:
             )
 
         on_ensembles = self._check_is_subset(
-            on_ensembles, "on_ensembles", self.vis_format_["ensemble_names"]
+            on_ensembles, "on_ensembles", self._fit_data.vis_format_["ensemble_names"]
         )
         on_datasets = self._check_is_subset(
-            on_datasets, "on_datasets", self.vis_format_["dataset_names"]
+            on_datasets, "on_datasets", self._fit_data.vis_format_["dataset_names"]
         )
         n_ensembles, n_datasets = len(on_ensembles), len(on_datasets)
 
@@ -945,73 +1059,18 @@ class ImbalancedEnsembleVisualizer:
         fig, axes = plt.subplots(n_rows_fig, n_columns_fig, figsize=figsize)
         axes = np.array(axes).reshape(n_rows_fig, n_columns_fig)
 
-        # Set titles for each column and row
-        pad = 10
-        row_titles = ["On dataset: <{}>".format(col) for col in on_datasets]
-        col_titles = ["Method: <{}>".format(row) for row in on_ensembles]
-        # Set column titles
-        for ax, col_title in zip(axes[0], col_titles):
-            ax.annotate(
-                col_title,
-                xy=(0.5, 1),
-                xytext=(0, pad),
-                xycoords="axes fraction",
-                textcoords="offset points",
-                ha="center",
-                va="baseline",
-                **self.row_col_title_style,
-            )
-
-        # Set row titles
-        for ax, row_title in zip(axes[:, 0], row_titles):
-            ax.annotate(
-                row_title,
-                xy=(0, 0.5),
-                xytext=(-ax.yaxis.labelpad - pad, 0),
-                xycoords=ax.yaxis.label,
-                textcoords="offset points",
-                ha="right",
-                va="center",
-                rotation=90,
-                **self.row_col_title_style,
-            )
-
-        # Plot confusion matrix heatmap on each ax
-        conf_matrices = self.conf_matrices_
-        for dataset_name, i_row in zip(on_datasets, range(n_rows_fig)):
-            for ensemble_name, i_col in zip(on_ensembles, range(n_columns_fig)):
-                ax = axes[i_row, i_col]
-                conf_matrix_df = conf_matrices[ensemble_name][dataset_name]
-                # Use seaborn.heatmap for visualization
-                kwargs = {
-                    "data": conf_matrix_df,
-                    "annot": True,
-                    "fmt": "d",
-                    "linewidths": 0.5,
-                    "ax": ax,
-                }
-                kwargs.update(heatmap_kwargs_)
-                # if false_pred_only, set mask to the heatmap
-                if false_pred_only:
-                    kwargs["mask"] = np.identity(conf_matrix_df.shape[0])
-                ax = sns.heatmap(**kwargs)
-                # Set x_label and y_label properties
-                ax.set_xlabel("Predicted Label", **self.axis_title_style)
-                ax.set_ylabel("Ground Truth", **self.axis_title_style)
+        self._set_heatmap_titles(axes, on_datasets, on_ensembles)
+        self._plot_heatmap_subplots(
+            axes, on_datasets, on_ensembles, heatmap_kwargs_, false_pred_only
+        )
 
         # Use tight layout
         height_rect = (total_height - RESERVED_SUPTITLE_INCHES * 1.3) / total_height
         plt.tight_layout(rect=(0, 0, 1, height_rect))
 
-        # Set super title
-        if sup_title_ == True:
-            if n_rows_fig == n_columns_fig == 1:
-                fig.suptitle("Confusion Matrix", **self.suptitle_style)
-            else:
-                fig.suptitle("Confusion Matrices", **self.suptitle_style)
-        elif sup_title_ == False:
-            pass
-        else:
-            fig.suptitle(sup_title_, **self.suptitle_style)
+        ImbalancedEnsembleVisualizer._set_figure_suptitle(
+            fig, sup_title_, "Confusion Matrix", "Confusion Matrices",
+            n_rows_fig == n_columns_fig == 1, self._title_styles['suptitle']
+        )
 
         return fig, axes

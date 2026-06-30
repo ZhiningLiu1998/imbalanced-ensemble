@@ -55,6 +55,7 @@ else:  # pragma: no cover
 import itertools
 import numbers
 from abc import ABCMeta, abstractmethod
+from types import SimpleNamespace
 from warnings import warn
 
 import numpy as np
@@ -200,6 +201,69 @@ class ResampleBaggingClassifier(
         "training_type": _training_type,
     }
 
+    # --- Properties for backward compatibility ---
+    # (store data internally in _sampler_cfg / _train_state)
+
+    @property
+    def sampling_strategy(self):
+        return self._sampler_cfg.sampling_strategy
+
+    @sampling_strategy.setter
+    def sampling_strategy(self, value):
+        self._sampler_cfg.sampling_strategy = value
+
+    @property
+    def _sampling_type(self):
+        return self._sampler_cfg.sampling_type
+
+    @_sampling_type.setter
+    def _sampling_type(self, value):
+        self._sampler_cfg.sampling_type = value
+
+    @property
+    def _max_samples(self):
+        if hasattr(self, '_train_state'):
+            return self._train_state.max_samples
+        return None
+
+    @property
+    def _max_features(self):
+        if hasattr(self, '_train_state'):
+            return self._train_state.max_features
+        return None
+
+    @property
+    def _n_samples(self):
+        if hasattr(self, '_train_state'):
+            return self._train_state.n_samples
+        return None
+
+    @property
+    def _seeds(self):
+        return self._train_state.seeds
+
+    @_seeds.setter
+    def _seeds(self, value):
+        self._train_state.seeds = value
+
+    @property
+    def eval_datasets_(self):
+        if not hasattr(self, '_train_state'):
+            return {}
+        return self._train_state.eval_datasets
+
+    @property
+    def eval_metrics_(self):
+        if not hasattr(self, '_train_state'):
+            return {}
+        return self._train_state.eval_metrics
+
+    @property
+    def train_verbose_(self):
+        if not hasattr(self, '_train_state'):
+            return None
+        return self._train_state.train_verbose
+
     @_deprecate_positional_args
     def __init__(
         self,
@@ -220,9 +284,11 @@ class ResampleBaggingClassifier(
         verbose=0,
     ):
 
-        self.sampling_strategy = sampling_strategy
-        self._sampling_type = sampling_type
-        self.sampler = sampler
+        self._sampler_cfg = SimpleNamespace(
+            sampler=sampler,
+            sampling_type=sampling_type,
+            sampling_strategy=sampling_strategy,
+        )
 
         super().__init__(
             estimator=estimator,
@@ -242,19 +308,19 @@ class ResampleBaggingClassifier(
         """Validate the label vector."""
         y_encoded = super()._validate_y(y)
         if (
-            isinstance(self.sampling_strategy, dict)
-            and self.sampler_._sampling_type != "bypass"
+            isinstance(self._sampler_cfg.sampling_strategy, dict)
+            and self._sampler_cfg.sampler_._sampling_type != "bypass"
         ):
-            self._sampling_strategy = {
+            self._sampler_cfg.internal_sampling_strategy = {
                 np.where(self.classes_ == key)[0][0]: value
                 for key, value in check_sampling_strategy(
-                    self.sampling_strategy,
+                    self._sampler_cfg.sampling_strategy,
                     y,
-                    self.sampler_._sampling_type,
+                    self._sampler_cfg.sampler_._sampling_type,
                 ).items()
             }
         else:
-            self._sampling_strategy = self.sampling_strategy
+            self._sampler_cfg.internal_sampling_strategy = self._sampler_cfg.sampling_strategy
         return y_encoded
 
     def _validate_estimator(self, default=DecisionTreeClassifier()):
@@ -276,9 +342,9 @@ class ResampleBaggingClassifier(
             estimator = clone(default)
 
         # validate sampler and sampler_kwargs
-        # validated sampler stored in self.sampler_
+        # validated sampler stored in _sampler_cfg.sampler_
         try:
-            self.sampler_ = clone(self.sampler)
+            self._sampler_cfg.sampler_ = clone(self._sampler_cfg.sampler)
         except Exception as e:
             e_args = list(e.args)
             e_args[0] = (
@@ -287,18 +353,156 @@ class ResampleBaggingClassifier(
             e.args = tuple(e_args)
             raise e
 
-        if self.sampler_._sampling_type != "bypass":
-            self.sampler_.set_params(sampling_strategy=self._sampling_strategy)
-            self.sampler_.set_params(**self.sampler_kwargs_)
+        if self._sampler_cfg.sampler_._sampling_type != "bypass":
+            self._sampler_cfg.sampler_.set_params(
+                sampling_strategy=self._sampler_cfg.internal_sampling_strategy
+            )
+            self._sampler_cfg.sampler_.set_params(**self._sampler_cfg.sampler_kwargs)
 
         self._estimator = Pipeline(
-            [("sampler", self.sampler_), ("classifier", estimator)]
+            [("sampler", self._sampler_cfg.sampler_), ("classifier", estimator)]
         )
         try:
             # scikit-learn < 1.2
             self.estimator_ = self._estimator
         except AttributeError:
             pass
+
+    def _validate_input_data(
+        self, X, y, sample_weight, sampler_kwargs, eval_datasets, eval_metrics, train_verbose
+    ):
+        check_target_type(y)
+
+        self._train_state = SimpleNamespace()
+        self._sampler_cfg.sampler_kwargs = check_type(
+            sampler_kwargs, "sampler_kwargs", dict
+        )
+
+        random_state = check_random_state(self.random_state)
+
+        check_x_y_args = {
+            "accept_sparse": ["csr", "csc"],
+            "dtype": None,
+            "ensure_all_finite": False,
+            "multi_output": True,
+        }
+        X, y = validate_data(self, X, y, **check_x_y_args)
+
+        self._train_state.eval_datasets = check_eval_datasets(
+            eval_datasets, X, y, **check_x_y_args
+        )
+
+        self._train_state.eval_metrics = check_eval_metrics(eval_metrics)
+
+        self._train_state.train_verbose = check_train_verbose(
+            train_verbose, self.n_estimators, **self._properties
+        )
+        self._init_training_log_format()
+
+        if sample_weight is not None:
+            sample_weight = _check_sample_weight(sample_weight, X, dtype=None)
+
+        n_samples = X.shape[0]
+        self._train_state.n_samples = n_samples
+        y = self._validate_y(y)
+
+        self._validate_estimator()
+
+        return X, y, random_state, sample_weight
+
+    def _validate_params(self, X, max_samples):
+        if max_samples is None:
+            max_samples = self.max_samples
+        if not isinstance(max_samples, numbers.Integral):
+            max_samples = int(max_samples * X.shape[0])
+
+        if not (0 < max_samples <= X.shape[0]):
+            raise ValueError("max_samples must be in (0, n_samples]")
+
+        self._train_state.max_samples = max_samples
+
+        if isinstance(self.max_features, numbers.Integral):
+            max_features = self.max_features
+        elif isinstance(self.max_features, float):
+            max_features = self.max_features * self.n_features_in_
+        else:
+            raise ValueError("max_features must be int or float")
+
+        if not (0 < max_features <= self.n_features_in_):
+            raise ValueError("max_features must be in (0, n_features]")
+
+        max_features = max(1, int(max_features))
+        self._train_state.max_features = max_features
+
+    def _check_bootstrap_oob_warm_start(self):
+        if not self.bootstrap and self.oob_score:
+            raise ValueError(
+                "Out of bag estimation only available" " if bootstrap=True"
+            )
+
+        if self.warm_start and self.oob_score:
+            raise ValueError(
+                "Out of bag estimate only available" " if warm_start=False"
+            )
+
+        if hasattr(self, "oob_score_") and self.warm_start:
+            del self.oob_score_
+
+        if not self.warm_start or not hasattr(self, "estimators_"):
+            self.estimators_ = []
+            self.estimators_features_ = []
+            self.estimators_n_training_samples_ = []
+
+        n_more_estimators = self.n_estimators - len(self.estimators_)
+
+        if n_more_estimators < 0:
+            raise ValueError(
+                "n_estimators=%d must be larger or equal to "
+                "len(estimators_)=%d when warm_start==True"
+                % (self.n_estimators, len(self.estimators_))
+            )
+
+        return n_more_estimators
+
+    def _parallel_fit_estimators(
+        self, X, y, sample_weight, n_more_estimators, random_state
+    ):
+        n_jobs, n_estimators, starts = _partition_estimators(
+            n_more_estimators, self.n_jobs
+        )
+        total_n_estimators = sum(n_estimators)
+
+        if self.warm_start and len(self.estimators_) > 0:
+            random_state.randint(MAX_INT, size=len(self.estimators_))
+
+        seeds = random_state.randint(MAX_INT, size=n_more_estimators)
+        self._train_state.seeds = seeds
+
+        all_results = Parallel(
+            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
+        )(
+            delayed(_parallel_build_estimators)(
+                n_estimators[i],
+                self,
+                X,
+                y,
+                sample_weight,
+                seeds[starts[i] : starts[i + 1]],
+                total_n_estimators,
+                verbose=self.verbose,
+            )
+            for i in range(n_jobs)
+        )
+
+        self.estimators_ += list(
+            itertools.chain.from_iterable(t[0] for t in all_results)
+        )
+        self.estimators_features_ += list(
+            itertools.chain.from_iterable(t[1] for t in all_results)
+        )
+        self.estimators_n_training_samples_ += list(
+            itertools.chain.from_iterable(t[2] for t in all_results)
+        )
 
     @_deprecate_positional_args
     @FuncSubstitution(
@@ -353,154 +557,25 @@ class ResampleBaggingClassifier(
         self : object
         """
 
-        # Check data, sampler_kwargs and random_state
-        check_target_type(y)
-
-        self.sampler_kwargs_ = check_type(sampler_kwargs, "sampler_kwargs", dict)
-
-        random_state = check_random_state(self.random_state)
-
-        # Convert data (X is required to be 2d and indexable)
-        check_x_y_args = {
-            "accept_sparse": ["csr", "csc"],
-            "dtype": None,
-            "ensure_all_finite": False,
-            "multi_output": True,
-        }
-        X, y = validate_data(self, X, y, **check_x_y_args)
-
-        # Check evaluation data
-        self.eval_datasets_ = check_eval_datasets(eval_datasets, X, y, **check_x_y_args)
-
-        # Check evaluation metrics
-        self.eval_metrics_ = check_eval_metrics(eval_metrics)
-
-        # Check verbose
-        self.train_verbose_ = check_train_verbose(
-            train_verbose, self.n_estimators, **self._properties
+        X, y, random_state, sample_weight = self._validate_input_data(
+            X, y, sample_weight, sampler_kwargs, eval_datasets, eval_metrics,
+            train_verbose
         )
-        self._init_training_log_format()
-
-        if sample_weight is not None:
-            sample_weight = _check_sample_weight(sample_weight, X, dtype=None)
-
-        # Remap output
-        n_samples, self.n_features_in_ = X.shape
-        self._n_samples = n_samples
-        y = self._validate_y(y)
-
-        # Check parameters
-        self._validate_estimator()
-
-        # Validate max_samples
-        if max_samples is None:
-            max_samples = self.max_samples
-        if not isinstance(max_samples, numbers.Integral):
-            max_samples = int(max_samples * X.shape[0])
-
-        if not (0 < max_samples <= X.shape[0]):
-            raise ValueError("max_samples must be in (0, n_samples]")
-
-        # Store validated integer row sampling value
-        self._max_samples = max_samples
-
-        # Validate max_features
-        if isinstance(self.max_features, numbers.Integral):
-            max_features = self.max_features
-        elif isinstance(self.max_features, float):
-            max_features = self.max_features * self.n_features_in_
-        else:
-            raise ValueError("max_features must be int or float")
-
-        if not (0 < max_features <= self.n_features_in_):
-            raise ValueError("max_features must be in (0, n_features]")
-
-        max_features = max(1, int(max_features))
-
-        # Store validated integer feature sampling value
-        self._max_features = max_features
-
-        # Other checks
-        if not self.bootstrap and self.oob_score:
-            raise ValueError(
-                "Out of bag estimation only available" " if bootstrap=True"
-            )
-
-        if self.warm_start and self.oob_score:
-            raise ValueError(
-                "Out of bag estimate only available" " if warm_start=False"
-            )
-
-        if hasattr(self, "oob_score_") and self.warm_start:
-            del self.oob_score_
-
-        if not self.warm_start or not hasattr(self, "estimators_"):
-            # Free allocated memory, if any
-            self.estimators_ = []
-            self.estimators_features_ = []
-            self.estimators_n_training_samples_ = []
-
-        n_more_estimators = self.n_estimators - len(self.estimators_)
-
-        if n_more_estimators < 0:
-            raise ValueError(
-                "n_estimators=%d must be larger or equal to "
-                "len(estimators_)=%d when warm_start==True"
-                % (self.n_estimators, len(self.estimators_))
-            )
-
-        elif n_more_estimators == 0:
+        self._validate_params(X, max_samples)
+        n_more_estimators = self._check_bootstrap_oob_warm_start()
+        if n_more_estimators == 0:
             warn(
                 "Warm-start fitting without increasing n_estimators does not "
                 "fit new trees."
             )
             return self
-
-        # Parallel loop
-        n_jobs, n_estimators, starts = _partition_estimators(
-            n_more_estimators, self.n_jobs
-        )
-        total_n_estimators = sum(n_estimators)
-
-        # Advance random state to state after training
-        # the first n_estimators
-        if self.warm_start and len(self.estimators_) > 0:
-            random_state.randint(MAX_INT, size=len(self.estimators_))
-
-        seeds = random_state.randint(MAX_INT, size=n_more_estimators)
-        self._seeds = seeds
-
-        all_results = Parallel(
-            n_jobs=n_jobs, verbose=self.verbose, **self._parallel_args()
-        )(
-            delayed(_parallel_build_estimators)(
-                n_estimators[i],
-                self,
-                X,
-                y,
-                sample_weight,
-                seeds[starts[i] : starts[i + 1]],
-                total_n_estimators,
-                verbose=self.verbose,
-            )
-            for i in range(n_jobs)
-        )
-
-        # Reduce
-        self.estimators_ += list(
-            itertools.chain.from_iterable(t[0] for t in all_results)
-        )
-        self.estimators_features_ += list(
-            itertools.chain.from_iterable(t[1] for t in all_results)
-        )
-        self.estimators_n_training_samples_ += list(
-            itertools.chain.from_iterable(t[2] for t in all_results)
+        self._parallel_fit_estimators(
+            X, y, sample_weight, n_more_estimators, random_state
         )
 
         if self.oob_score:
             self._set_oob_score(X, y)
 
-        # Print training infomation to console.
         self._training_log_to_console()
 
         return self

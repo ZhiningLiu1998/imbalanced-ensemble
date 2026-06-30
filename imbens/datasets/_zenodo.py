@@ -100,6 +100,57 @@ for v, k in enumerate(MAP_NAME_ID_KEYS):
     MAP_ID_NAME[v + 1] = k
 
 
+def _resolve_filter_data(filter_data):
+    """Validate and resolve filter_data into a list of dataset names."""
+    if filter_data is None:
+        return list(MAP_NAME_ID.keys())
+
+    list_data = MAP_NAME_ID.keys()
+    filter_data_ = []
+    for it in filter_data:
+        if isinstance(it, str):
+            if it not in list_data:
+                raise ValueError(
+                    f"{it} is not a dataset available. "
+                    f"The available datasets are {list_data}"
+                )
+            filter_data_.append(it)
+        elif isinstance(it, int):
+            if it < 1 or it > 27:
+                raise ValueError(
+                    f"The dataset with the ID={it} is not an "
+                    f"available dataset. The IDs are "
+                    f"{range(1, 28)}"
+                )
+            filter_data_.append(MAP_ID_NAME[it])
+        else:
+            raise ValueError(
+                f"The value in the tuple should be str or int."
+                f" Got {type(it)} instead."
+            )
+    return filter_data_
+
+
+def _load_dataset(dataset_name, zenodo_dir, download_if_missing, verbose):
+    """Load a single dataset from disk, downloading if necessary."""
+    filename = PRE_FILENAME + str(MAP_NAME_ID[dataset_name]) + POST_FILENAME
+    filepath = join(zenodo_dir, filename)
+    available = isfile(filepath)
+
+    if download_if_missing and not available:
+        makedirs(zenodo_dir, exist_ok=True)
+        if verbose:
+            print("Downloading %s" % URL)
+        f = BytesIO(urlopen(URL).read())
+        tar = tarfile.open(fileobj=f)
+        tar.extractall(path=zenodo_dir)
+    elif not download_if_missing and not available:
+        raise IOError("Data not found and `download_if_missing` is False")
+
+    data = np.load(filepath)
+    return data["data"], data["label"]
+
+
 @_deprecate_positional_args
 def fetch_zenodo_datasets(
     *,
@@ -165,11 +216,11 @@ def fetch_zenodo_datasets(
     +--+--------------+-------------------------------+-------+---------+-----+
     |2 |optical_digits| UCI, target: 8                | 9.1:1 | 5,620   | 64  |
     +--+--------------+-------------------------------+-------+---------+-----+
-    |3 |satimage      | UCI, target: 4                | 9.3:1 | 6,435   | 36  |
+    |3 |satimage      | UCI, target: 4                | 9.4:1 | 6,435   | 36  |
     +--+--------------+-------------------------------+-------+---------+-----+
     |4 |pen_digits    | UCI, target: 5                | 9.4:1 | 10,992  | 16  |
     +--+--------------+-------------------------------+-------+---------+-----+
-    |5 |abalone       | UCI, target: 7                | 9.7:1 | 4,177   | 10  |
+    |5 |abalone       | UCI, target: 7                | 9.4:1 | 4,177   | 10  |
     +--+--------------+-------------------------------+-------+---------+-----+
     |6 |sick_euthyroid| UCI, target: sick euthyroid   | 9.8:1 | 3,163   | 42  |
     +--+--------------+-------------------------------+-------+---------+-----+
@@ -227,55 +278,10 @@ def fetch_zenodo_datasets(
     zenodo_dir = join(data_home, "zenodo")
     datasets = OrderedDict()
 
-    if filter_data is None:
-        filter_data_ = MAP_NAME_ID.keys()
-    else:
-        list_data = MAP_NAME_ID.keys()
-        filter_data_ = []
-        for it in filter_data:
-            if isinstance(it, str):
-                if it not in list_data:
-                    raise ValueError(
-                        f"{it} is not a dataset available. "
-                        f"The available datasets are {list_data}"
-                    )
-                else:
-                    filter_data_.append(it)
-            elif isinstance(it, int):
-                if it < 1 or it > 27:
-                    raise ValueError(
-                        f"The dataset with the ID={it} is not an "
-                        f"available dataset. The IDs are "
-                        f"{range(1, 28)}"
-                    )
-                else:
-                    # The index start at one, then we need to remove one
-                    # to not have issue with the indexing.
-                    filter_data_.append(MAP_ID_NAME[it])
-            else:
-                raise ValueError(
-                    f"The value in the tuple should be str or int."
-                    f" Got {type(it)} instead."
-                )
+    filter_data_ = _resolve_filter_data(filter_data)
 
-    # go through the list and check if the data are available
     for it in filter_data_:
-        filename = PRE_FILENAME + str(MAP_NAME_ID[it]) + POST_FILENAME
-        filename = join(zenodo_dir, filename)
-        available = isfile(filename)
-
-        if download_if_missing and not available:
-            makedirs(zenodo_dir, exist_ok=True)
-            if verbose:
-                print("Downloading %s" % URL)
-            f = BytesIO(urlopen(URL).read())
-            tar = tarfile.open(fileobj=f)
-            tar.extractall(path=zenodo_dir)
-        elif not download_if_missing and not available:
-            raise IOError("Data not found and `download_if_missing` is False")
-
-        data = np.load(filename)
-        X, y = data["data"], data["label"]
+        X, y = _load_dataset(it, zenodo_dir, download_if_missing, verbose)
 
         if shuffle:
             ind = np.arange(X.shape[0])
