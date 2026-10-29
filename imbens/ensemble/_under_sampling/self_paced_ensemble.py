@@ -49,6 +49,7 @@ else:  # pragma: no cover
 from collections import Counter
 
 import numpy as np
+from sklearn.utils import check_random_state
 
 # Properties
 _method_name = 'SelfPacedEnsembleClassifier'
@@ -260,7 +261,7 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
     ):
 
         # X, y, sample_weight, base_estimators_ (default=DecisionTreeClassifier),
-        # n_estimators, random_state, sample_weight are already validated in super.fit()
+        # n_estimators, sample_weight are already validated in super.fit()
         (
             random_state,
             n_estimators,
@@ -269,7 +270,7 @@ class SelfPacedEnsembleClassifier(BaseImbalancedEnsemble):
             soft_resample_flag,
             classes_,
         ) = (
-            self.random_state,
+            check_random_state(self.random_state),
             self.n_estimators,
             self.replacement,
             self.k_bins,
