@@ -31,7 +31,7 @@ from sklearn.ensemble import BaseEnsemble
 from sklearn.ensemble._bagging import _parallel_predict_proba
 from sklearn.ensemble._base import _partition_estimators, _set_random_states
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.utils import check_array, check_random_state
+from sklearn.utils import check_array
 from sklearn.utils.metaestimators import available_if
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.parallel import Parallel, delayed
@@ -39,7 +39,6 @@ from sklearn.utils.validation import (
     _check_sample_weight,
     check_array,
     check_is_fitted,
-    check_random_state,
     column_or_1d,
     has_fit_parameter,
     validate_data,
@@ -567,9 +566,6 @@ class BaseImbalancedEnsemble(
     @_deprecate_positional_args
     def fit(self, X, y, *, sample_weight=None, **kwargs):
         """Build the ensemble classifier from the training set (X, y)."""
-
-        # Check random state
-        self.random_state = check_random_state(self.random_state)
 
         # Convert data (X is required to be 2d and indexable)
         X, y = validate_data(self, X, y, **self.check_x_y_args)
